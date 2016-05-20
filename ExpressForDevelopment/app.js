@@ -8,10 +8,11 @@ app.get('/', function (req, res) {
   })
 });
 
-app.get('/sf', function(req, res, next){database.getSchadensfaelle(req, res, next);})
+app.get('/sf', database.getSchadensfaelle)
 
-app.get('/versicherungen', function(req, res, next){database.getVersicherungen(req, res, next);})
+app.get('/versicherungen', database.getVersicherungen)
 
+app.get('/versicherung', database.getVersicherung)
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
