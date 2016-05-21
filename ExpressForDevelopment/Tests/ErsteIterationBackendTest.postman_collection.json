@@ -1,0 +1,56 @@
+{
+	"id": "3271a1fb-9139-5fe7-80c8-5d99fc0a099b",
+	"name": "ErsteIterationBackendTest",
+	"description": "",
+	"order": [
+		"b21d50ac-4b49-915c-3eaa-2c7de14ba9fc",
+		"f27320d9-0c13-48e7-c706-1ee159157ca8"
+	],
+	"folders": [],
+	"timestamp": 1463822363331,
+	"owner": "",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "b21d50ac-4b49-915c-3eaa-2c7de14ba9fc",
+			"headers": "Content-Type: application/json\n",
+			"url": "localhost:3000/api/investition",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3271a1fb-9139-5fe7-80c8-5d99fc0a099b",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Zeige meine Investitionen",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1463822491137,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n    versicherungID : 2,\n    investitionswert : '10,00 €'\n}"
+		},
+		{
+			"id": "f27320d9-0c13-48e7-c706-1ee159157ca8",
+			"headers": "Content-Type: application/json\n",
+			"url": "localhost:3000/api/investieren",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1463823489631,
+			"name": "Investieren in Versicherung 2",
+			"description": "",
+			"collectionId": "3271a1fb-9139-5fe7-80c8-5d99fc0a099b",
+			"responses": [],
+			"rawModeData": "{\n    \"versicherungID\":\"2\",\n    \"investitionswert\":\"5,00 €\"\n}"
+		}
+	]
+}
