@@ -25,6 +25,7 @@ app.get('/api/versicherung/:versicherungID/person', logic.getInvestorenVonVersic
 
 app.get('/api/versicherung/:versicherungID/invest', logic.calculateSumOfInvestVersicherung)
 
+app.post('/api/versicherung', logic.erstelleVersicherung)
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
