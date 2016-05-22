@@ -1,0 +1,595 @@
+{
+	"id": "c6931660-45e3-a07d-e139-fc5d4fcee60d",
+	"name": "Versicherung anlegen",
+	"timestamp": 1463929056214,
+	"collection_id": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+	"folder_id": "29c9a825-0db5-c870-b68e-0dfc9397cae1",
+	"target_type": "folder",
+	"environment_id": "0",
+	"count": "48",
+	"delay": 0,
+	"collection": {
+		"id": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+		"name": "Testdaten generieren",
+		"description": "",
+		"order": [],
+		"folders": [
+			{
+				"id": "e31de1cf-bb6d-879d-d313-c4cd1f8eaf2a",
+				"name": "Investieren",
+				"description": "Investition anlegen\n",
+				"write": true,
+				"order": [
+					"6d7b6b42-734a-a277-6ad2-f2599ccc2ce8"
+				],
+				"collection": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+				"owner": "620349",
+				"collection_id": "81d45fb5-7723-8538-5b3d-01f63ff2243a"
+			},
+			{
+				"id": "a5406407-2261-bfe2-2d93-480552981ab2",
+				"name": "User",
+				"description": "Erstellt User aus einer CSV Datei\n",
+				"write": true,
+				"order": [],
+				"collection": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+				"owner": "620349",
+				"collection_id": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+				"collectionId": "81d45fb5-7723-8538-5b3d-01f63ff2243a"
+			},
+			{
+				"id": "29c9a825-0db5-c870-b68e-0dfc9397cae1",
+				"name": "Versicherung anlegen",
+				"description": "Versicherungen anlegen\n",
+				"write": true,
+				"order": [
+					"ac065390-e734-2790-f163-2c8da72f5e7b"
+				],
+				"collection": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+				"owner": "620349",
+				"collection_id": "81d45fb5-7723-8538-5b3d-01f63ff2243a"
+			}
+		],
+		"timestamp": 1463927182881,
+		"synced": false,
+		"remote_id": 0,
+		"owner": "620349",
+		"sharedWithTeam": false,
+		"subscribed": false,
+		"remoteLink": "",
+		"public": false,
+		"createdAt": 1463927182881,
+		"updatedAt": 1463927606732,
+		"write": true,
+		"requests": [
+			{
+				"id": "ac065390-e734-2790-f163-2c8da72f5e7b",
+				"headers": "Content-Type: application/json\n",
+				"url": "localhost:3000/api/smartinsurance/versicherung",
+				"preRequestScript": null,
+				"pathVariables": {},
+				"method": "POST",
+				"data": "{\n    \"name\":\"{{name}}\",\n    \"versicherungshoehe\":\"{{versicherungshoehe}}\",\n    \"beitrag\":\"{{beitrag}}\",\n    \"beschreibung\":\"{{beschreibung}}\"\n}",
+				"dataMode": "raw",
+				"tests": null,
+				"currentHelper": "normal",
+				"helperAttributes": {},
+				"time": 1463927697941,
+				"name": "Versicherung anlegen",
+				"description": "",
+				"collectionId": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+				"responses": []
+			},
+			{
+				"id": "6d7b6b42-734a-a277-6ad2-f2599ccc2ce8",
+				"headers": "Content-Type: application/json\n",
+				"url": "localhost:3000/api/smartinsurance/investieren",
+				"preRequestScript": null,
+				"pathVariables": {},
+				"method": "POST",
+				"data": "{\n    \"versicherungID\":\"{{versicherungid}}\",\n    \"investitionswert\":\"{{investitionswert}}\"\n}",
+				"dataMode": "raw",
+				"version": 2,
+				"tests": null,
+				"currentHelper": "normal",
+				"helperAttributes": {},
+				"time": 1463929534335,
+				"name": "Investitionen anlegen",
+				"description": "",
+				"collectionId": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+				"responses": []
+			}
+		],
+		"syncedFilename": "",
+		"isDeleted": false
+	},
+	"folder": {
+		"id": "29c9a825-0db5-c870-b68e-0dfc9397cae1",
+		"name": "Versicherung anlegen",
+		"description": "Versicherungen anlegen\n",
+		"write": true,
+		"order": [
+			"ac065390-e734-2790-f163-2c8da72f5e7b"
+		],
+		"collection": "81d45fb5-7723-8538-5b3d-01f63ff2243a",
+		"owner": "620349",
+		"collection_id": "81d45fb5-7723-8538-5b3d-01f63ff2243a"
+	},
+	"environment": null,
+	"globals": [],
+	"data": [
+		{
+			"name": "MOQQA Skipper Raspberry",
+			"versicherungshoehe": " 467.36 €",
+			"beitrag": " 46.74 €",
+			"beschreibung": "Das Produkt MOQQA Skipper Raspberry ist in sehr gutem Zustand"
+		},
+		{
+			"name": "MOQQA Dive Straweberry",
+			"versicherungshoehe": " 77.55 €",
+			"beitrag": " 10.86 €",
+			"beschreibung": "Das Produkt MOQQA Dive Straweberry ist in sehr gutem Zustand"
+		},
+		{
+			"name": "MOQQA Glow Strawberry",
+			"versicherungshoehe": " 351.86 €",
+			"beitrag": " 52.78 €",
+			"beschreibung": "Das Produkt MOQQA Glow Strawberry ist in miserablem Zustand"
+		},
+		{
+			"name": "CUPE Finger Fighter",
+			"versicherungshoehe": " 472.46 €",
+			"beitrag": " 23.62 €",
+			"beschreibung": "Das Produkt CUPE Finger Fighter ist in sehr gutem Zustand"
+		},
+		{
+			"name": "CUPE Mister Zoom",
+			"versicherungshoehe": " 56.80 €",
+			"beitrag": " 5.11 €",
+			"beschreibung": "Das Produkt CUPE Mister Zoom ist in gutem Zustand"
+		},
+		{
+			"name": "CUPE Dr. Deep",
+			"versicherungshoehe": " 397.98 €",
+			"beitrag": " 75.62 €",
+			"beschreibung": "Das Produkt CUPE Dr. Deep ist in excellenten Zustand"
+		},
+		{
+			"name": "Je Joue Ami Purple",
+			"versicherungshoehe": " 91.85 €",
+			"beitrag": " 5.51 €",
+			"beschreibung": "Das Produkt Je Joue Ami Purple ist in sehr gutem Zustand"
+		},
+		{
+			"name": "aluna Lalita Lila",
+			"versicherungshoehe": " 179.46 €",
+			"beitrag": " 28.71 €",
+			"beschreibung": "Das Produkt aluna Lalita Lila ist in gutem Zustand"
+		},
+		{
+			"name": "Lelo Hula Beads",
+			"versicherungshoehe": " 266.97 €",
+			"beitrag": " 45.38 €",
+			"beschreibung": "Das Produkt Lelo Hula Beads ist in miserablem Zustand"
+		},
+		{
+			"name": "Nomi Tang Intimate Kegel Set",
+			"versicherungshoehe": " 442.44 €",
+			"beitrag": " 84.06 €",
+			"beschreibung": "Das Produkt Nomi Tang Intimate Kegel Set ist in miserablem Zustand"
+		},
+		{
+			"name": "NJOY Eleven",
+			"versicherungshoehe": " 318.31 €",
+			"beitrag": " 41.38 €",
+			"beschreibung": "Das Produkt NJOY Eleven ist in miserablem Zustand"
+		},
+		{
+			"name": "Crave Leather Cuffs",
+			"versicherungshoehe": " 356.93 €",
+			"beitrag": " 60.68 €",
+			"beschreibung": "Das Produkt Crave Leather Cuffs ist in gutem Zustand"
+		},
+		{
+			"name": "Renault",
+			"versicherungshoehe": " 15.005.09 €",
+			"beitrag": " 750.25 €",
+			"beschreibung": "Das Produkt Renault ist in gutem Zustand"
+		},
+		{
+			"name": "VW",
+			"versicherungshoehe": " 23.939.32 €",
+			"beitrag": " 1.675.75 €",
+			"beschreibung": "Das Produkt VW ist in gutem Zustand"
+		},
+		{
+			"name": "Audi",
+			"versicherungshoehe": " 73.807.79 €",
+			"beitrag": " 14.023.48 €",
+			"beschreibung": "Das Produkt Audi ist in gutem Zustand"
+		},
+		{
+			"name": "BMW",
+			"versicherungshoehe": " 59.403.60 €",
+			"beitrag": " 8.910.54 €",
+			"beschreibung": "Das Produkt BMW ist in sehr gutem Zustand"
+		},
+		{
+			"name": "Mercedes-Benz",
+			"versicherungshoehe": " 56.632.31 €",
+			"beitrag": " 3.964.26 €",
+			"beschreibung": "Das Produkt Mercedes-Benz ist in miserablem Zustand"
+		},
+		{
+			"name": "Opel",
+			"versicherungshoehe": " 12.993.95 €",
+			"beitrag": " 1.169.46 €",
+			"beschreibung": "Das Produkt Opel ist in gutem Zustand"
+		},
+		{
+			"name": "Ford",
+			"versicherungshoehe": " 23.740.76 €",
+			"beitrag": " 3.798.52 €",
+			"beschreibung": "Das Produkt Ford ist in miserablem Zustand"
+		},
+		{
+			"name": "Skoda",
+			"versicherungshoehe": " 5.196.43 €",
+			"beitrag": " 311.79 €",
+			"beschreibung": "Das Produkt Skoda ist in excellenten Zustand"
+		},
+		{
+			"name": "Hyundai",
+			"versicherungshoehe": " 86.599.18 €",
+			"beitrag": " 12.123.89 €",
+			"beschreibung": "Das Produkt Hyundai ist in excellenten Zustand"
+		},
+		{
+			"name": "Toyota",
+			"versicherungshoehe": " 31.004.20 €",
+			"beitrag": " 4.650.63 €",
+			"beschreibung": "Das Produkt Toyota ist in miserablem Zustand"
+		},
+		{
+			"name": "Seat",
+			"versicherungshoehe": " 54.474.62 €",
+			"beitrag": " 5.447.46 €",
+			"beschreibung": "Das Produkt Seat ist in gutem Zustand"
+		},
+		{
+			"name": "Bugatti",
+			"versicherungshoehe": " 10.286.17 €",
+			"beitrag": " 1.645.79 €",
+			"beschreibung": "Das Produkt Bugatti ist in gutem Zustand"
+		},
+		{
+			"name": "Ferrari",
+			"versicherungshoehe": " 41.656.45 €",
+			"beitrag": " 7.498.16 €",
+			"beschreibung": "Das Produkt Ferrari ist in excellenten Zustand"
+		},
+		{
+			"name": "Porsche",
+			"versicherungshoehe": " 218.77 €",
+			"beitrag": " 13.13 €",
+			"beschreibung": "Das Produkt Porsche ist in excellenten Zustand"
+		},
+		{
+			"name": "Lamborghini",
+			"versicherungshoehe": " 12.012.77 €",
+			"beitrag": " 1.081.15 €",
+			"beschreibung": "Das Produkt Lamborghini ist in sehr gutem Zustand"
+		},
+		{
+			"name": "Mazda",
+			"versicherungshoehe": " 1.223.38 €",
+			"beitrag": " 171.27 €",
+			"beschreibung": "Das Produkt Mazda ist in miserablem Zustand"
+		},
+		{
+			"name": "Achille Lauro",
+			"versicherungshoehe": " 812.202.36 €",
+			"beitrag": " 162.440.47 €",
+			"beschreibung": "Das Produkt Achille Lauro ist in miserablem Zustand"
+		},
+		{
+			"name": "Adonia",
+			"versicherungshoehe": " 547.611.85 €",
+			"beitrag": " 76.665.66 €",
+			"beschreibung": "Das Produkt Adonia ist in sehr gutem Zustand"
+		},
+		{
+			"name": "Adriana",
+			"versicherungshoehe": " 647.132.62 €",
+			"beitrag": " 116.483.87 €",
+			"beschreibung": "Das Produkt Adriana ist in gutem Zustand"
+		},
+		{
+			"name": "Adventure of the Seas",
+			"versicherungshoehe": " 792.121.49 €",
+			"beitrag": " 63.369.72 €",
+			"beschreibung": "Das Produkt Adventure of the Seas ist in sehr gutem Zustand"
+		},
+		{
+			"name": "Aegean Odyssey",
+			"versicherungshoehe": " 484.082.90 €",
+			"beitrag": " 77.453.26 €",
+			"beschreibung": "Das Produkt Aegean Odyssey ist in sehr gutem Zustand"
+		},
+		{
+			"name": "Aegean Paradise",
+			"versicherungshoehe": " 568.587.62 €",
+			"beitrag": " 68.230.51 €",
+			"beschreibung": "Das Produkt Aegean Paradise ist in excellenten Zustand"
+		},
+		{
+			"name": "ADIAaura",
+			"versicherungshoehe": " 233.734.37 €",
+			"beitrag": " 30.385.47 €",
+			"beschreibung": "Das Produkt ADIAaura ist in gutem Zustand"
+		},
+		{
+			"name": "AIDAbella",
+			"versicherungshoehe": " 551.534.97 €",
+			"beitrag": " 99.276.29 €",
+			"beschreibung": "Das Produkt AIDAbella ist in gutem Zustand"
+		},
+		{
+			"name": "AIDAblu",
+			"versicherungshoehe": " 991.797.73 €",
+			"beitrag": " 109.097.75 €",
+			"beschreibung": "Das Produkt AIDAblu ist in excellenten Zustand"
+		},
+		{
+			"name": "AIDAcara",
+			"versicherungshoehe": " 523.753.92 €",
+			"beitrag": " 104.750.78 €",
+			"beschreibung": "Das Produkt AIDAcara ist in sehr gutem Zustand"
+		},
+		{
+			"name": "AIDAdiva",
+			"versicherungshoehe": " 991.428.30 €",
+			"beitrag": " 148.714.25 €",
+			"beschreibung": "Das Produkt AIDAdiva ist in miserablem Zustand"
+		},
+		{
+			"name": "AIDAluna",
+			"versicherungshoehe": " 767.421.02 €",
+			"beitrag": " 46.045.26 €",
+			"beschreibung": "Das Produkt AIDAluna ist in sehr gutem Zustand"
+		},
+		{
+			"name": "AIDAmar",
+			"versicherungshoehe": " 974.737.21 €",
+			"beitrag": " 107.221.09 €",
+			"beschreibung": "Das Produkt AIDAmar ist in excellenten Zustand"
+		},
+		{
+			"name": "AIDAprima",
+			"versicherungshoehe": " 413.875.37 €",
+			"beitrag": " 70.358.81 €",
+			"beschreibung": "Das Produkt AIDAprima ist in gutem Zustand"
+		},
+		{
+			"name": "AIDAperla",
+			"versicherungshoehe": " 272.837.14 €",
+			"beitrag": " 46.382.31 €",
+			"beschreibung": "Das Produkt AIDAperla ist in sehr gutem Zustand"
+		},
+		{
+			"name": "AIDAsol",
+			"versicherungshoehe": " 63.846.21 €",
+			"beitrag": " 12.769.24 €",
+			"beschreibung": "Das Produkt AIDAsol ist in miserablem Zustand"
+		},
+		{
+			"name": "Costa Convordia",
+			"versicherungshoehe": " 501.883.13 €",
+			"beitrag": " 50.188.31 €",
+			"beschreibung": "Das Produkt Costa Convordia ist in sehr gutem Zustand"
+		},
+		{
+			"name": "Costa Allegra",
+			"versicherungshoehe": " 551.975.71 €",
+			"beitrag": " 44.158.06 €",
+			"beschreibung": "Das Produkt Costa Allegra ist in gutem Zustand"
+		},
+		{
+			"name": "Costa Fortuna",
+			"versicherungshoehe": " 622.763.39 €",
+			"beitrag": " 99.642.14 €",
+			"beschreibung": "Das Produkt Costa Fortuna ist in sehr gutem Zustand\r"
+		}
+	],
+	"allTests": [],
+	"results": [
+		{
+			"id": "ac065390-e734-2790-f163-2c8da72f5e7b",
+			"name": "Versicherung anlegen",
+			"url": "localhost:3000/api/smartinsurance/versicherung",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": "The request cannot be fulfilled due to bad syntax."
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				299,
+				50,
+				49,
+				50,
+				57,
+				45,
+				43,
+				52,
+				51,
+				42,
+				53,
+				52,
+				49,
+				52,
+				52,
+				50,
+				52,
+				51,
+				52,
+				53,
+				53,
+				51,
+				50,
+				67,
+				66,
+				53,
+				45,
+				55,
+				51,
+				54,
+				55,
+				73,
+				63,
+				53,
+				51,
+				46,
+				54,
+				53,
+				117,
+				69,
+				43,
+				53,
+				52,
+				44,
+				45,
+				44,
+				5,
+				3
+			],
+			"allTests": [
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{}
+			],
+			"time": 299,
+			"totalRequestTime": 2722,
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 0,
+	"totalFail": 0,
+	"totalTime": 2722,
+	"lifecycle": "done",
+	"willStop": false,
+	"requests": [
+		{
+			"name": "Versicherung anlegen",
+			"id": "ac065390-e734-2790-f163-2c8da72f5e7b",
+			"url": "localhost:3000/api/smartinsurance/versicherung",
+			"time": 299,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": "The request cannot be fulfilled due to bad syntax."
+			},
+			"testPassFailCounts": {},
+			"gridTitles": [],
+			"gridData": [
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[]
+			],
+			"tests": {}
+		}
+	],
+	"synced": false
+}
