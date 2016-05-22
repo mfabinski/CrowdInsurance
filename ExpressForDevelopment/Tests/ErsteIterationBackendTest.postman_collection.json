@@ -16,7 +16,7 @@
 		{
 			"id": "0f3de436-0d28-e92e-a064-423ae07853b1",
 			"headers": "Content-Type: application/json\n",
-			"url": "localhost:3000/api/versicherung",
+			"url": "localhost:3000/api/smartinsurance/versicherung",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "POST",
@@ -35,7 +35,7 @@
 		{
 			"id": "24751ef3-8280-b81f-81ef-63a3d9afce95",
 			"headers": "Content-Type: application/json\n",
-			"url": "localhost:3000/api/investition",
+			"url": "localhost:3000/api/smartinsurance/investition",
 			"pathVariables": {},
 			"preRequestScript": null,
 			"method": "GET",
@@ -56,7 +56,7 @@
 		{
 			"id": "80eb9cdf-6624-195b-171a-60e4fed39ad6",
 			"headers": "Content-Type: application/json\n",
-			"url": "localhost:3000/api/investieren",
+			"url": "localhost:3000/api/smartinsurance/investieren",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "POST",

@@ -11,23 +11,23 @@ app.get('/', function (req, res) {
   res.send("Der Sever laeuft! :-)");
 });
 
-app.get('/api/versicherung', logic.getVersicherungOf)
+app.get('/api/smartinsurance/versicherung', logic.getVersicherungOf)
 
-app.get('/api/versicherung/:versicherungID', logic.getVersicherung)
+app.get('/api/smartinsurance/versicherung/:versicherungID', logic.getVersicherung)
 
-app.post('/api/investieren', logic.erstelleInvestition)
+app.post('/api/smartinsurance/investieren', logic.erstelleInvestition)
 
-app.get('/api/investition', logic.getInvestitionOf)
+app.get('/api/smartinsurance/investition', logic.getInvestitionOf)
 
-app.get('/api/investitionVers/:versicherungID', logic.listOfInvestitionen)
+app.get('/api/smartinsurance/investitionVers/:versicherungID', logic.listOfInvestitionen)
 
-app.get('/api/investition/:investitionID', logic.getInvestition)
+app.get('/api/smartinsurance/investition/:investitionID', logic.getInvestition)
 
-app.get('/api/versicherung/:versicherungID/person', logic.getInvestorenVonVersicherung)
+app.get('/api/smartinsurance/versicherung/:versicherungID/person', logic.getInvestorenVonVersicherung)
 
-app.get('/api/versicherung/:versicherungID/invest', logic.calculateSumOfInvestVersicherung)
+app.get('/api/smartinsurance/versicherung/:versicherungID/invest', logic.calculateSumOfInvestVersicherung)
 
-app.post('/api/versicherung', logic.erstelleVersicherung)
+app.post('/api/smartinsurance/versicherung', logic.erstelleVersicherung)
 
 /*
 *    *    *    *    *    *
