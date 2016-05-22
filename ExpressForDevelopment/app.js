@@ -40,7 +40,7 @@ app.post('/api/smartinsurance/versicherung', logic.erstelleVersicherung)
 │    └──────────────────── minute (0 - 59)
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
-var job = schedule.scheduleJob('*/10 * * * * *', logic.periodicSchedule); // run every 10 seconds
+var job = schedule.scheduleJob('0 */10 * * * *', logic.periodicSchedule); // run every 10 minutes
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
