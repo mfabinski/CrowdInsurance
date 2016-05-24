@@ -29,6 +29,10 @@ app.get('/api/smartinsurance/versicherung/:versicherungID/invest', ts.calculateS
 
 app.post('/api/smartinsurance/versicherung', ts.erstelleVersicherung)
 
+app.get('/api/smartinsurance/versicherung/kuendigen/:versicherungID', ts.versicherungKuendigungEinreichen)
+
+app.get('/api/smartinsurance/investition/kuendigen/:investitionID', ts.investitionKuendigungEinreichen)
+
 /*
 *    *    *    *    *    *
 ┬    ┬    ┬    ┬    ┬    ┬
