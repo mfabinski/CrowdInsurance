@@ -26,11 +26,16 @@ prepare database:
   stage: database
   script:
     - cd ./ExpressForDevelopment/
+    - cat ./node_modules/dbconfig.js
+    - npm install pg
+    - npm install fs
     - node dbsetup.js
 
 mochatest:
   stage: test
   script:
     - cd ./ExpressForDevelopment/
+    - cat ./node_modules/dbconfig.js
     - ls -la
+    - npm install mocha -g
     - mocha
