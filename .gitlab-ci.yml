@@ -7,5 +7,5 @@ test:
   script:
     - cd ./ExpressForDevelopment/ && npm install
     - npm --version
-    - nodejs --version
+    - node --version
     - psql --version
