@@ -2,10 +2,15 @@ test:
   image: node:4.2.2
   services:
     - postgres:9.5.0
+  variables:
+    POSTGRES_DB: smartbackendevelopment
+    POSTGRES_USER: smartinsurance
+    POSTGRES_PASSWORD: "123456"
   tags:
     - docker
   script:
     - cd ./ExpressForDevelopment/ && npm install
+    - pwd
     - npm --version
     - node --version
-    - psql --version
+    - node db_setup.js
