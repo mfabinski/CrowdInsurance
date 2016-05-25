@@ -26,6 +26,7 @@ prepare database:
   stage: database
   script:
     - cd ./ExpressForDevelopment/
+    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
     - cat ./node_modules/dbconfig.js
     - npm install pg
     - npm install fs
@@ -35,6 +36,7 @@ mochatest:
   stage: test
   script:
     - cd ./ExpressForDevelopment/
+    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
     - cat ./node_modules/dbconfig.js
     - ls -la
     - npm install mocha -g
