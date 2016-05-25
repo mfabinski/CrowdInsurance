@@ -759,27 +759,6 @@ ALTER TABLE ONLY "Zahlungsstrom"
 
 
 --
--- Name: smartbackend; Type: ACL; Schema: -; Owner: -
---
-
-REVOKE ALL ON SCHEMA smartbackend FROM PUBLIC;
-REVOKE ALL ON SCHEMA smartbackend FROM smartbackenduser;
-GRANT ALL ON SCHEMA smartbackend TO smartbackenduser;
-GRANT ALL ON SCHEMA smartbackend TO smartbackend WITH GRANT OPTION;
-
-
-SET search_path = smartbackend, pg_catalog;
-
---
--- Name: user; Type: ACL; Schema: smartbackend; Owner: -
---
-
-REVOKE ALL ON TABLE "user" FROM PUBLIC;
-REVOKE ALL ON TABLE "user" FROM smartbackend;
-GRANT ALL ON TABLE "user" TO smartbackend;
-
-
---
 -- PostgreSQL database dump complete
 --
 
