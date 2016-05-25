@@ -11,6 +11,7 @@ test:
   script:
     - cd ./ExpressForDevelopment/ && npm install
     - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
+    - cat ./node_modules/dbconfig.js
     - npm install pg
     - npm install fs
     - npm --version
