@@ -1,13 +1,19 @@
-test:
-  image: node:4.2.4
-  services:
-    - postgres:9.5.0
-  variables:
-    POSTGRES_DB: smartbackendevelopment
-    POSTGRES_USER: smartinsurance
-    POSTGRES_PASSWORD: "123456"
-  tags:
-    - docker
+image: node:4.2.4
+services:
+  - postgres:9.5.0
+
+variables:
+  POSTGRES_DB: smartbackendevelopment
+  POSTGRES_USER: smartinsurance
+  POSTGRES_PASSWORD: "123456"
+
+stages:
+  - prepare
+  - database
+  - test
+
+prepare npm:
+  stage: prepare
   script:
     - cd ./ExpressForDevelopment/ && npm install
     - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
@@ -15,8 +21,14 @@ test:
     - npm install pg
     - npm install fs
     - npm install mocha -g
-    - npm --version
-    - node --version
-    - ls -la
+
+prepare database:
+  stage: database
+  script:
     - node dbsetup.js
+
+mochatest:
+  stage: test
+  script:
+    - ls -la
     - mocha
