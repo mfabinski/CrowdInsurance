@@ -25,10 +25,12 @@ prepare npm:
 prepare database:
   stage: database
   script:
+    - cd ./ExpressForDevelopment/
     - node dbsetup.js
 
 mochatest:
   stage: test
   script:
+    - cd ./ExpressForDevelopment/
     - ls -la
     - mocha
