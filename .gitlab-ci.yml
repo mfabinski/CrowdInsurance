@@ -14,4 +14,4 @@ test:
     - npm install fs
     - npm --version
     - node --version
-    - node db_setup.js
+    - node dbsetup.js
