@@ -1,2 +1,1 @@
-ECHO 'Hi kids'
-pause
+node ExpressForDevelopment\app.js
