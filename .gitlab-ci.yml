@@ -4,6 +4,6 @@ test:
     - postgres:9.5.0
   tags:
     - docker
-  scripts:
+  script:
     - cd ./ExpressForDevelopment/ && npm install
     - cat setup.sql
