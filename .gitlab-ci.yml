@@ -14,8 +14,9 @@ test:
     - cat ./node_modules/dbconfig.js
     - npm install pg
     - npm install fs
+    - npm install mocka -g
     - npm --version
     - node --version
     - ls -la
     - node dbsetup.js
-    - node app.js
+    - mocka
