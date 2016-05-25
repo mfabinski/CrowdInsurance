@@ -10,7 +10,8 @@ test:
     - docker
   script:
     - cd ./ExpressForDevelopment/ && npm install
-    - pwd
+    - npm install pg
+    - npm install fs
     - npm --version
     - node --version
     - node db_setup.js
