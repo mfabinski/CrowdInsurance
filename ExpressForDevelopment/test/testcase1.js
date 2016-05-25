@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var ts = require('transactionscript.js');
 
 var ausgangArray = [
   {
@@ -35,8 +34,8 @@ for (var i = 0; i < sollArray.length; i++){
   describe('Objekt' + i, function() {
     describe('Name', function() {
       it('Namen sollten gleich sein.', function() {
-        expect(soll.name).to.be(ist.name);
-        expect(soll.nachname).to.be(ist.nachname);
+        expect(soll.name).to.equal(ist.name);
+        expect(soll.nachname).to.equal(ist.nachname);
       });
     });
   });
@@ -44,6 +43,7 @@ for (var i = 0; i < sollArray.length; i++){
 
 // get the testdata and perform the test
 function prepareTest(ausgang) {
-  ausgang = ausgang + "1";
+  ausgang.name = ausgang.name + "1";
+  ausgang.nachname = ausgang.nachname + "1";
   return ausgang;
 }
