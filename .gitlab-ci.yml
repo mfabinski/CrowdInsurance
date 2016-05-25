@@ -6,7 +6,6 @@ test:
     - docker
   script:
     - cd ./ExpressForDevelopment/ && npm install
-    - pg_dump --help
     - npm --version
     - nodejs --version
     - psql --version
