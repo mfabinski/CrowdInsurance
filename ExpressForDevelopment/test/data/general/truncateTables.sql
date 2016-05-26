@@ -1,0 +1,7 @@
+TRUNCATE TABLE "Investition" CASCADE;
+TRUNCATE TABLE "Kommentar" CASCADE;
+TRUNCATE TABLE "Schadensfall" CASCADE;
+TRUNCATE TABLE "Schadensfall_Bild" CASCADE;
+TRUNCATE TABLE "Versicherung" CASCADE;
+TRUNCATE TABLE "Zahlungsstrom" CASCADE;
+TRUNCATE TABLE smartbackend."user" CASCADE;

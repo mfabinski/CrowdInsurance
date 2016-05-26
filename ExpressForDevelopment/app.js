@@ -44,7 +44,9 @@ app.post('/api/smartinsurance/investition/:investitionID/kuendigen', ts.investit
 │    └──────────────────── minute (0 - 59)
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
-var job = schedule.scheduleJob('0 */10 * * * *', ts.periodicSchedule); // run every 10 minutes
+if (process.argv[2] == undefined){ //wenn kein testmodus aktiv ist
+  var job = schedule.scheduleJob('0 */10 * * * *', ts.periodicSchedule); // run every 10 minutes
+}
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');

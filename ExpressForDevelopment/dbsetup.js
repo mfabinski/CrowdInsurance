@@ -2,7 +2,7 @@ var pg = require('pg');
 var fs = require('fs');
 
 var sql = fs.readFileSync('setup.sql').toString();
-var credentials = require('./node_modules/dbconfig.js');
+var credentials = require('./test/modules/testdbconfig.js');
 
 pg.connect(credentials.url, function(err, client, done){
     if(err){
