@@ -2,6 +2,7 @@ var expect  = require("chai").expect;
 var request = require("request");
 var testdbconfig = require('./modules/testdbconfig.js');
 var fs = require('fs');
+var app = require('../app');
 
 var getDBPromis = function(){
   var credentials = testdbconfig.url;
@@ -25,12 +26,14 @@ describe("Versicherung abfragen", function(){
   beforeEach(function(done){
     var query = fs.readFileSync('test/data/versicherungenEinfuegen.sql').toString();
     db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim Einfuegen der Versicherungen\n"+ err);});
+    app.listen(3000);
   });
 
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
     db.any(query).then(function(){done()}).catch(function(){console.log("Fehler beim leeren der Tabellen")});
+    app.close();
   });
 
   // Drop Schemas nach allen Tests in diesem Block
