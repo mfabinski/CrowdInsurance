@@ -19,7 +19,7 @@ describe("Versicherung abfragen", function(){
   //Erstellen der Schemen vor allen Tests in diesem Block
   before(function(done){
     var query = fs.readFileSync('test/data/general/createSchemas.sql').toString();
-    db.any(query).then(function(){done(); console.log("Schema erstellt");}).catch(function(){console.log("Fehler in der Erstellung der Schemen in der Datenbank")});
+    db.any(query).then(function(){done(); console.log("Schema erstellt");}).catch(function(err){console.log("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err)});
   });
 
   // Lege Testdaten an!
@@ -33,7 +33,7 @@ describe("Versicherung abfragen", function(){
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(){console.log("Fehler beim leeren der Tabellen")});
+    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim leeren der Tabellen\n"+ err)});
     logger.consoleInfo('App stoppt - Test Modus');
     app.close();
   });
@@ -41,7 +41,7 @@ describe("Versicherung abfragen", function(){
   // Drop Schemas nach allen Tests in diesem Block
   after(function(done){
     var query = fs.readFileSync('test/data/general/dropSchemas.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(){console.log("Fehler bei der Verwerfung der Schemen in der Datenbank")});
+    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err});
   });
 
   var url = "http://localhost:3000/api/smartinsurance/versicherung/1";
