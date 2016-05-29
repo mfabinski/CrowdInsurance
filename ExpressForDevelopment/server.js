@@ -1,7 +1,7 @@
 var ts = require('transactionscript.js');
 var schedule = require('node-schedule');
 var logger = require('logger.js');
-var app = require('./app');
+var app = require('./app.js');
 
 /*
 *    *    *    *    *    *

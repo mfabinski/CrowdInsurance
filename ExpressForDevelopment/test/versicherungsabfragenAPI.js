@@ -2,7 +2,7 @@ var expect  = require("chai").expect;
 var request = require("request");
 var testdbconfig = require('./modules/testdbconfig.js');
 var fs = require('fs');
-var app = require('../app');
+var app = require('../app.js');
 
 var getDBPromis = function(){
   var credentials = testdbconfig.url;
@@ -26,6 +26,7 @@ describe("Versicherung abfragen", function(){
   beforeEach(function(done){
     var query = fs.readFileSync('test/data/versicherungenEinfuegen.sql').toString();
     db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim Einfuegen der Versicherungen\n"+ err);});
+    logger.consoleInfo('App hört auf port 3000 - Test Modus');
     app.listen(3000);
   });
 
@@ -33,6 +34,7 @@ describe("Versicherung abfragen", function(){
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
     db.any(query).then(function(){done()}).catch(function(){console.log("Fehler beim leeren der Tabellen")});
+    logger.consoleInfo('App stoppt - Test Modus');
     app.close();
   });
 
