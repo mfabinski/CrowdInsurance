@@ -15,12 +15,14 @@ mochatest:
   script:
     - cd ./ExpressForDevelopment/ && npm install
     - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
+    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
     - cat ./node_modules/dbconfig.js
+    - cat ./test/modules/testdbconfig.js
     - npm install pg
     - npm install fs
     - npm --version
     - node --version
     - ls -la
-    - node dbsetup.js
+#    - node dbsetup.js  # sollte nun im Test integriert sein?
     - npm install mocha -g
     - mocha
