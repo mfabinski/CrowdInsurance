@@ -24,7 +24,7 @@ describe("Versicherung abfragen", function(){
   // Lege Testdaten an!
   beforeEach(function(done){
     var query = fs.readFileSync('test/data/versicherungenEinfuegen.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(){console.log("Fehler beim Einfuegen der Versicherungen")});
+    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim Einfuegen der Versicherungen\n"+ JSON.stringify(err));});
   });
 
   // Leere die Tabellen
