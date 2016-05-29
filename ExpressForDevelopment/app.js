@@ -7,7 +7,7 @@ var logger = require('logger.js');
 
 logger.clearLogFiles();
 
-var app = express();
+var app = module.exports = express();
 app.use( bodyParser.json() );
 
 app.get('/', function (req, res) {
@@ -35,28 +35,3 @@ app.post('/api/smartinsurance/versicherung', ts.erstelleVersicherung);
 app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', ts.versicherungKuendigungEinreichen);
 
 app.post('/api/smartinsurance/investition/:investitionID/kuendigen', ts.investitionKuendigungEinreichen);
-
-/*
-*    *    *    *    *    *
-┬    ┬    ┬    ┬    ┬    ┬
-│    │    │    │    │    |
-│    │    │    │    │    └ day of week (0 - 7) (0 or 7 is Sun)
-│    │    │    │    └───── month (1 - 12)
-│    │    │    └────────── day of month (1 - 31)
-│    │    └─────────────── hour (0 - 23)
-│    └──────────────────── minute (0 - 59)
-└───────────────────────── second (0 - 59, OPTIONAL)
-*/
-if (process.argv[2] == undefined){ //wenn kein testmodus aktiv ist
-  var period = '0 */1 * * * *';
-  var job = schedule.scheduleJob(period, ts.periodicSchedule); // run every 10 minutes
-  logger.consoleInfo('Periodischen Job gestartet - ' + period);
-}
-
-app.listen(3000, function () {
-  if (process.argv[2] == undefined){
-    logger.consoleInfo('App hört auf port 3000 - Produktier Modus');
-  } else{
-    logger.consoleInfo('App hört auf port 3000 - Test Modus');
-  }
-});

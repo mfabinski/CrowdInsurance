@@ -11,7 +11,7 @@ npm install
 
 To start the server (make sure you are in `~/git/CrowdInsurance/ExpressForDevelopment`):
 ```
-node app.js
+npm start
 ```
 
 ## Misc
