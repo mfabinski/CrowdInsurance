@@ -18,7 +18,7 @@ describe("Versicherung abfragen", function(){
   //Erstellen der Schemen vor allen Tests in diesem Block
   before(function(done){
     var query = fs.readFileSync('test/data/general/createSchemas.sql').toString();
-    db.any(query).then(function(){done(); console.log("Schema erstellt";)}).catch(function(){console.log("Fehler in der Erstellung der Schemen in der Datenbank")});
+    db.any(query).then(function(){done(); console.log("Schema erstellt");)}).catch(function(){console.log("Fehler in der Erstellung der Schemen in der Datenbank")});
   });
 
   // Lege Testdaten an!
