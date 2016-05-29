@@ -4,6 +4,7 @@ var ts = require('transactionscript.js');
 var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
 var logger = require('logger.js');
+var validate = require('validator.js');
 
 logger.clearLogFiles();
 
@@ -16,7 +17,7 @@ app.get('/', function (req, res) {
 
 app.get('/api/smartinsurance/versicherung', ts.getVersicherungOf);
 
-app.get('/api/smartinsurance/versicherung/:versicherungID', ts.getVersicherung);
+app.get('/api/smartinsurance/versicherung/:versicherungID', [validate.versicherungID, ts.getVersicherung]);
 
 app.post('/api/smartinsurance/investieren', ts.erstelleInvestition);
 
@@ -48,7 +49,7 @@ app.post('/api/smartinsurance/investition/:investitionID/kuendigen', ts.investit
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 if (process.argv[2] == undefined){ //wenn kein testmodus aktiv ist
-  var period = '0 */1 * * * *';
+  var period = '0 */10 * * * *';
   var job = schedule.scheduleJob(period, ts.periodicSchedule); // run every 10 minutes
   logger.consoleInfo('Periodischen Job gestartet - ' + period);
 }
