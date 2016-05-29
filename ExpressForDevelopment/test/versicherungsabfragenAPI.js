@@ -33,7 +33,7 @@ describe("Versicherung abfragen", function(){
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim leeren der Tabellen\n"+ err)});
+    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim leeren der Tabellen\n"+ err);});
     logger.consoleInfo('App stoppt - Test Modus');
     app.close();
   });
@@ -41,7 +41,7 @@ describe("Versicherung abfragen", function(){
   // Drop Schemas nach allen Tests in diesem Block
   after(function(done){
     var query = fs.readFileSync('test/data/general/dropSchemas.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err});
+    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);});
   });
 
   var url = "http://localhost:3000/api/smartinsurance/versicherung/1";
