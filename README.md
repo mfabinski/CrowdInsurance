@@ -16,4 +16,4 @@ npm start
 
 ## Misc
 
-Hi kids, ich bin carlo.
+Hi Kids, ich bin Carlo.
