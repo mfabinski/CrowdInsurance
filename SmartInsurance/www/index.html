@@ -11,6 +11,28 @@
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
+      
+    <style type="text/css">
+      .platform-ios .manual-ios-statusbar-padding{
+        padding-top:20px;
+      }
+      .manual-remove-top-padding{
+        padding-top:0px; 
+      }
+      .manual-remove-top-padding .scroll{
+        padding-top:0px !important;
+      }
+      ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
+        margin-left:-10px;
+        margin-right:-10px;
+      }
+      ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
+        border-radius:0px;
+        border-left:0px;
+        border-right: 0px;
+      }
+    </style>
+
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -21,7 +43,14 @@
     <!-- your app's js -->
     <script src="app.js"></script> 
       
-    <script src="Module/controllers.js"></script>
+    
+      
+      <!-- Controller -->
+      <script src="Module/controllers.js"></script>
+      
+       <!-- Services  -->
+      <sricpt src=Module/services.js></sricpt>
+      
       <!-- Allgemein -->
       <script src="Module/Allgemein/Controller/uebersichtCtrl.js"></script>
       <!-- Investition_Add -->
@@ -32,6 +61,9 @@
       <!-- Versicherung_Add -->
       <script src="Module/Versicherung_Add/Controller/versicherungAddCtrl.js"></script>
       <!-- Versicherung_Edit -->
+      
+       
+      
       
   </head>
 

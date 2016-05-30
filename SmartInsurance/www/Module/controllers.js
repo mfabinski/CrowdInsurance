@@ -1,5 +1,35 @@
-var app = angular.module('smartInsurance.controllers', []);
+var appController = angular.module('smartInsurance.controllers',  []);
 
+appController.service('moneyParser', [function(){
+       this.moneyparsen = function(betrag) {
+            if(betrag.search(" €") != -1){
+                betrag = betrag.substring(0, (betrag.length -2));
+            }
+            betrag = betrag.replace(/\./g,'');
+            betrag = betrag.replace(',','.');
+            betrag = parseFloat(betrag);
+            return betrag;  
+       }
+}])
+
+appController.service('moneyFormatter', [ function(){
+    this.formatMoney = function(zahl){
+        var n = zahl, 
+        c =  2, 
+        d =  ",", 
+        t = ".", 
+        s = n < 0 ? "-" : "", 
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+        j = (j = i.length) > 3 ? j % 3 : 0;
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "") + " €";
+    }
+}]) 
+
+
+
+
+ 
+//Beispiel-Code für ein Login-Modul kann noch entfernt werden
 
  /*app.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 

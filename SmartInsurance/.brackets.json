@@ -1,5 +1,7 @@
 {
     "jscodehints.detectedExclusions": [
-        "C:/Users/Lars/Desktop/Uni/6. Semester/Projekt/CrowdInsurance/SmartInsurance/platforms/android/cordova/lib/run.js"
+        "C:/Users/Lars/Desktop/Uni/6. Semester/Projekt/CrowdInsurance/SmartInsurance/platforms/android/cordova/lib/run.js",
+        "C:/Users/Lars/Desktop/Uni/6. Semester/Projekt/CrowdInsurance/SmartInsurance/www/Module/controllers.js",
+        "C:/Users/Lars/Desktop/Uni/6. Semester/Projekt/CrowdInsurance/SmartInsurance/platforms/android/cordova/lib/build.js"
     ]
 }

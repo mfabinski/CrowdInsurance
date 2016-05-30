@@ -1,4 +1,4 @@
-app.controller('addInvestitionCtrl',function($scope, $http){
+appController.controller('addInvestitionCtrl',function($scope, $http){
    
 
     
