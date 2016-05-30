@@ -4,6 +4,7 @@ var ts = require('transactionscript.js');
 var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
 var logger = require('logger.js');
+var validate = require('validator.js');
 
 logger.clearLogFiles();
 
@@ -16,22 +17,22 @@ app.get('/', function (req, res) {
 
 app.get('/api/smartinsurance/versicherung', ts.getVersicherungOf);
 
-app.get('/api/smartinsurance/versicherung/:versicherungID', ts.getVersicherung);
+app.get('/api/smartinsurance/versicherung/:versicherungID', [validate.versicherungID, ts.getVersicherung]);
 
 app.post('/api/smartinsurance/investieren', ts.erstelleInvestition);
 
 app.get('/api/smartinsurance/investition', ts.getInvestitionOf);
 
-app.get('/api/smartinsurance/investitionVers/:versicherungID', ts.listOfInvestitionen);
+app.get('/api/smartinsurance/investitionVers/:versicherungID', [validate.versicherungID, ts.listOfInvestitionen]);
 
-app.get('/api/smartinsurance/investition/:investitionID', ts.getInvestition);
+app.get('/api/smartinsurance/investition/:investitionID', [validate.investitionID, ts.getInvestition]);
 
-app.get('/api/smartinsurance/versicherung/:versicherungID/person', ts.getInvestorenVonVersicherung);
+app.get('/api/smartinsurance/versicherung/:versicherungID/person', [validate.versicherungID, ts.getInvestorenVonVersicherung]);
 
-app.get('/api/smartinsurance/versicherung/:versicherungID/invest', ts.calculateSumOfInvestVersicherung);
+app.get('/api/smartinsurance/versicherung/:versicherungID/invest', [validate.versicherungID, ts.calculateSumOfInvestVersicherung]);
 
 app.post('/api/smartinsurance/versicherung', ts.erstelleVersicherung);
 
-app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', ts.versicherungKuendigungEinreichen);
+app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
 
-app.post('/api/smartinsurance/investition/:investitionID/kuendigen', ts.investitionKuendigungEinreichen);
+app.post('/api/smartinsurance/investition/:investitionID/kuendigen', [validate.investitionID, ts.investitionKuendigungEinreichen]);
