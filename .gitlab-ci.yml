@@ -27,3 +27,11 @@ mochatest:
 #    - node dbsetup.js  # sollte nun im Test integriert sein?
     - npm install mocha -g --loglevel warn
     - npm test
+
+frontend:
+  stage: test
+  script:
+    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install
+    - npm install ionic -g
+    - cordova build browser
+    - cordova build android
