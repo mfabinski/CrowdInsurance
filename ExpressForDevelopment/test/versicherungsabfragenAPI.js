@@ -32,7 +32,7 @@ describe("Versicherung abfragen", function(){
       server = app.listen(3000, function () {
         logger.consoleInfo('App hört nun auf port 3000 - Test Modus');
         done();
-      }
+      });
     }).catch(function(err){logger.consoleInfo("Fehler beim Einfuegen der Versicherungen\n"+ err);});
 
   });
