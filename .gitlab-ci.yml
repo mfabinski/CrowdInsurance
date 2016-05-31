@@ -1,6 +1,7 @@
 image: node:4.2.4
 services:
-  - postgres:9.5.0
+   - registry.cloudf.de/matthias/depostgresdocker:latest
+#  - postgres:9.5.0
 
 variables:
   POSTGRES_DB: smartbackendevelopment
@@ -9,6 +10,9 @@ variables:
 
 stages:
   - test
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.de
 
 mochatest:
   stage: test
