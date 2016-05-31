@@ -3,6 +3,7 @@ var request = require("request");
 var testdbconfig = require('./modules/testdbconfig.js');
 var fs = require('fs');
 var app = require('../app.js');
+var logger = require('logger.js');
 
 var getDBPromis = function(){
   var credentials = testdbconfig.url;
