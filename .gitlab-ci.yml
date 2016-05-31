@@ -31,7 +31,7 @@ mochatest:
 frontend:
   stage: test
   script:
-    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install
     - npm install bower ionic -g
-    - cordova build browser
+    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install
     - cordova build android
+#    - cordova build browser
