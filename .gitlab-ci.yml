@@ -1,6 +1,7 @@
 image: node:4.2.4
 services:
-  - postgres:9.5.0
+   - registry.cloudf.de/matthias/depostgresdocker:latest
+#  - postgres:9.5.0
 
 variables:
   POSTGRES_DB: smartbackendevelopment
@@ -14,8 +15,8 @@ mochatest:
   stage: test
   script:
     - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
-    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
-    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
+    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./node_modules/dbconfig.js
+    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
 #    - cat ./node_modules/dbconfig.js
 #    - cat ./test/modules/testdbconfig.js
     - npm install pg --loglevel warn
