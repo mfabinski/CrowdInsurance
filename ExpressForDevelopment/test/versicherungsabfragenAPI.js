@@ -53,12 +53,18 @@ describe("Versicherung abfragen", function(){
 
   var url = "http://localhost:3000/api/smartinsurance/versicherung/1";
 
-  it("returns versicherung 1", function(done){
+  it("Test Rückgabe Versicherung 1", function(done){
     var expectedResponse = fs.readFileSync('test/data/testcase1/1.json').toString();
     expectedResponse = JSON.parse(expectedResponse);
     request(url, function(error, response, body) {
       expect(response.statusCode).to.equal(200);
-      expect(JSON.parse(body)).to.deep.equal(expectedResponse);
+      var responseObject = JSON.parse(body);
+      expect(responseObject).to.have.property('data').with.length(1);
+      expect(responseObject.data[0]).to.have.property('abschlussZeitpunkt');
+      expect(responseObject.data[0]).to.have.property('beitrag').to.equal(expectedResponse.data[0].beitrag);
+      expect(responseObject.data[0]).to.have.property('istGekuendigt').to.equal(expectedResponse.data[0].istGekuendigt);
+      expect(responseObject.data[0]).to.have.property('wirdGekuendigt').to.equal(expectedResponse.data[0].wirdGekuendigt);
+      // expect(JSON.parse(body)).to.deep.equal(expectedResponse);
       done();
     });
   });
