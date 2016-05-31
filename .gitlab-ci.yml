@@ -33,5 +33,5 @@ frontend:
   script:
     - npm install bower ionic -g
     - cd ./SmartInsurance/ && npm install --loglevel warn && bower install --allow-root
-    - cordova build android
+    - ionic build android
 #    - cordova build browser
