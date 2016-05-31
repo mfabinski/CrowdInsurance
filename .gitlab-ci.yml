@@ -10,6 +10,7 @@ variables:
 
 stages:
   - test
+  - build
 
 mochatest:
   stage: test
@@ -27,3 +28,29 @@ mochatest:
 #    - node dbsetup.js  # sollte nun im Test integriert sein?
     - npm install mocha -g --loglevel warn
     - npm test
+
+#frontend:
+#  stage: test
+#  script:
+#    - npm install bower ionic cordova -g
+#    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install --allow-root
+#    - ionic build android
+#    - cordova build browser
+
+build_android:
+  image: tobitheo/ionic-build-android-ci-docker:latest
+  stage: build
+  script:
+    - cd ./SmartInsurance/
+    - cp debug.keystore ~/.android/debug.keystore
+    - npm install
+    - bower install --allow-root
+    - chmod +x hooks/after_prepare/010_add_platform_class.js
+    - ionic config build
+    - ionic state restore
+    - ionic build android
+    - cp /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/crowdinsurance/smartinsurance.apk
+  artifacts:
+    paths:
+#      - /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk
+      - /builds/matthias/crowdinsurance/smartinsurance.apk
