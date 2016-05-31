@@ -25,17 +25,21 @@ describe("Versicherung abfragen", function(){
   // Lege Testdaten an!
   beforeEach(function(done){
     var query = fs.readFileSync('test/data/versicherungenEinfuegen.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim Einfuegen der Versicherungen\n"+ err);});
-    logger.consoleInfo('App hört auf port 3000 - Test Modus');
-    app.listen(3000);
+    db.any(query).then(function(){
+      console.log("Testdaten eingefuegt");
+      app.listen(3000);
+      logger.consoleInfo('App hört auf port 3000 - Test Modus');
+      done();
+    }).catch(function(err){console.log("Fehler beim Einfuegen der Versicherungen\n"+ err);});
+
   });
 
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim leeren der Tabellen\n"+ err);});
-    logger.consoleInfo('App stoppt - Test Modus');
     app.close();
+    logger.consoleInfo('App stoppt - Test Modus');
+    db.any(query).then(function(){done()}).catch(function(err){console.log("Fehler beim leeren der Tabellen\n"+ err);});
   });
 
   // Drop Schemas nach allen Tests in diesem Block
