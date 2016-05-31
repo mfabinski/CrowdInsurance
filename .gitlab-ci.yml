@@ -15,8 +15,8 @@ mochatest:
   stage: test
   script:
     - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
-    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./node_modules/dbconfig.js
-    - echo "exports.url = 'postgres://smartinsurance:123456@postgres/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
+    - echo "exports.url = 'postgres://smartinsurance:123456@depostgresdocker/smartbackendevelopment';" > ./node_modules/dbconfig.js
+    - echo "exports.url = 'postgres://smartinsurance:123456@depostgresdocker/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
 #    - cat ./node_modules/dbconfig.js
 #    - cat ./test/modules/testdbconfig.js
     - npm install pg --loglevel warn
