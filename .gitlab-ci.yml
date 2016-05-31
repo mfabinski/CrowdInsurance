@@ -32,6 +32,6 @@ frontend:
   stage: test
   script:
     - npm install bower ionic -g
-    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install
+    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install --allow-root
     - cordova build android
 #    - cordova build browser
