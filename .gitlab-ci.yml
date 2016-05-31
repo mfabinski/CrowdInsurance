@@ -49,7 +49,8 @@ build_android:
     - ionic config build
     - ionic state restore
     - ionic build android
-    - pwd ; ls ; ls
+    - cp /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/crowdinsurance/smartinsurance.apk
   artifacts:
     paths:
-      - /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk
+#      - /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk
+      - /builds/matthias/crowdinsurance/smartinsurance.apk
