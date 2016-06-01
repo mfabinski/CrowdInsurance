@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.2
+-- Dumped by pg_dump version 9.5.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,7 +12,7 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 -- SET row_security = off;
-set lc_monetary = 'de_DE.UTF-8';
+SET lc_monetary = 'de_DE.UTF-8';
 
 --
 -- Name: smartbackend; Type: SCHEMA; Schema: -; Owner: -
@@ -65,7 +65,52 @@ CREATE TYPE bewertung AS ENUM (
 );
 
 
+--
+-- Name: kategorie; Type: TYPE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TYPE kategorie AS ENUM (
+    'Auto',
+    'Schiff',
+    'Flugzeug',
+    'Haus',
+    'Küchengeräte',
+    'Möbel',
+    'Maschinen',
+    'Uhr'
+);
+
+
 SET search_path = smartbackend, pg_catalog;
+
+--
+-- Name: insert_smartbackend_user(text, text, text); Type: FUNCTION; Schema: smartbackend; Owner: -
+--
+
+CREATE FUNCTION insert_smartbackend_user(email text, prename text, name text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
+$$;
+
 
 --
 -- Name: uuid_generate_v1mc(); Type: FUNCTION; Schema: smartbackend; Owner: -
@@ -113,7 +158,8 @@ CREATE TABLE chat_message (
     roomid uuid NOT NULL,
     senderid uuid NOT NULL,
     "timestamp" timestamp without time zone DEFAULT now(),
-    messagetype messagetype NOT NULL
+    messagetype messagetype NOT NULL,
+    text text
 );
 
 
@@ -133,19 +179,9 @@ CREATE TABLE chat_room (
 --
 
 CREATE TABLE chat_room_user (
-    chat_room_id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
+    roomid uuid DEFAULT uuid_generate_v1mc() NOT NULL,
     user_id uuid NOT NULL,
     "isAdmin" boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: chat_textmessage; Type: TABLE; Schema: smartbackend; Owner: -
---
-
-CREATE TABLE chat_textmessage (
-    messageid uuid NOT NULL,
-    text text
 );
 
 
@@ -392,7 +428,8 @@ CREATE TABLE "Versicherung" (
     "kuendigungsZeitpunkt" timestamp without time zone,
     "istGekuendigt" boolean DEFAULT false,
     "wirdGekuendigt" boolean DEFAULT false,
-    "personID" uuid NOT NULL
+    "personID" uuid NOT NULL,
+    kategorie kategorie
 );
 
 
@@ -574,15 +611,15 @@ ALTER TABLE ONLY chat_room
 --
 
 ALTER TABLE ONLY chat_room_user
-    ADD CONSTRAINT chat_room_user_pkey PRIMARY KEY (chat_room_id, user_id);
+    ADD CONSTRAINT chat_room_user_pkey PRIMARY KEY (roomid, user_id);
 
 
 --
--- Name: chat_textmessage_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+-- Name: user_email_key; Type: CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
-ALTER TABLE ONLY chat_textmessage
-    ADD CONSTRAINT chat_textmessage_pkey PRIMARY KEY (messageid);
+ALTER TABLE ONLY "user"
+    ADD CONSTRAINT user_email_key UNIQUE (email);
 
 
 --
@@ -675,14 +712,6 @@ ALTER TABLE ONLY chat_message
 
 ALTER TABLE ONLY chat_room_user
     ADD CONSTRAINT chat_room_user_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
-
-
---
--- Name: chat_textmessage_messageid_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
---
-
-ALTER TABLE ONLY chat_textmessage
-    ADD CONSTRAINT chat_textmessage_messageid_fkey FOREIGN KEY (messageid) REFERENCES chat_message(id);
 
 
 SET search_path = smartinsurance, pg_catalog;
