@@ -33,7 +33,7 @@ app.get('/api/smartinsurance/versicherung/:versicherungID/person', [validate.ver
 
 app.get('/api/smartinsurance/versicherung/:versicherungID/invest', [validate.versicherungID, ts.calculateSumOfInvestVersicherung]);
 
-app.post('/api/smartinsurance/versicherung', [validate.parameterZurVersicherungsErstellung , ts.erstelleVersicherung]);
+app.post('/api/smartinsurance/versicherung', [validate.parameterZurVersicherungsErstellung, validate.obKategorieExistiert, ts.erstelleVersicherung]);
 
 app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
 
