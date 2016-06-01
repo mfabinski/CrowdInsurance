@@ -15,7 +15,7 @@ var app = require('./app.js');
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 if (process.argv[2] == undefined){ //wenn kein testmodus aktiv ist
-  var period = '*/2 * * * * *';
+  var period = '0 */1 * * * *';
   var job = schedule.scheduleJob(period, ts.periodicSchedule); // run every 10 minutes
   logger.consoleInfo('Periodischen Job gestartet - ' + period);
 }
