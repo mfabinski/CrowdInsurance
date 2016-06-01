@@ -1,39 +1,75 @@
 <ion-view style="" class=" " id="page2" title="Versicherung anlegen">
     <ion-content class="has-header" padding="true">
-        <form class="list " id="versicherungAnlegen-form11" name="versicherungAnlegen">
+     
+      
+        <form class="list " id="versicherungAnlegen-form11" name="versicherungAddForm">
+           
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown4">Bezeichnung:</p>
             <label id="versicherungAnlegen-input6" class="item item-input ">
-                <input name="versicherungName" placeholder="" type="text" ng-model="versicherung.name" required>
+                 <input name="name" placeholder="" type="text" ng-model="versicherung.name" required>
             </label>
-            <span ng-show="versicherungAnlegen.versicherungName.$touched && versicherungAnlegen.versicherungName.$invalid" style="color:red">Bitte geben Sie eine Bezeichnung für die Versicherung an.</span>
+            <div style="color:red">
+                 <span ng-show="isInvalid(versicherungAddForm.name)" >Bitte geben Sie eine Bezeichnung für die Versicherung an.</span>
+            </div>
+            
+            
+            
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown5">Kategorie:</p>
             <label id="versicherungAnlegen-select1" class="item item-select ">
                 <span class="input-label"></span>
-                <select ng-model="selected_category" required>
-                    <option ng-repeat = "x in insurance_category">
+                <select ng-model="selected_category" name="category" required>
+                    <option ng-repeat = "x in insurance_category" >
                         {{x}}
                     </option>
                 </select>
             </label>
+            <div style="color:red">
+                 <span ng-show="isInvalid(versicherungAddForm.category)" >Bitte wählen Sie eine Versicherung aus.</span>
+            </div>
+            
+           
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown6">Versicherungshöhe:</p>
             <label id="versicherungAnlegen-input7" class="item item-input ">
-                <input placeholder="" type="text" ng-model="versicherung.versicherungshoehe">
+                <input placeholder="" type="text" ng-model="versicherung.versicherungshoehe" name="versicherungshoehe" required>
             </label>
-        </form>
-        <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown7">aktueller Wert:</p>
-        <form class="list " id="versicherungAnlegen-form12">
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.versicherungshoehe)" >Bitte geben Sie eine Versicherungshöhe an. </br></span> 
+                <span ng-show="isNull(versicherungAddForm.versicherungshoehe)" >Der Wert muss größer 0 sein.</br></span> 
+                <span ng-show="isNaN(versicherungAddForm.versicherungshoehe)" >Bitte geben Sie eine Zahl ein. </br></span> 
+            </div>
+           
+            
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown7">aktueller Wert:</p>
             <label id="versicherungAnlegen-input8" class="item item-input ">
-                <input placeholder="" type="text">
+                <input placeholder="" type="text" name="wert"   required>
+                <!--<input placeholder="" type="text" name="wert" ng-model="versicherung.wert"  required> -->
             </label>
+<!--
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.wert)" >Bitte geben Sie den aktuellen Wert des/der Versicherungsobjekte an. </br></span> 
+                <span ng-show="isNull(versicherungAddForm.wert)" >Der Wert muss größer 0 sein. </br></span> 
+                <span ng-show="isNaN(versicherungAddForm.wert)" >Bitte geben Sie eine Zahl ein.</span> 
+            </div>            
+-->
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown8">Monatbeitrag:</p>
             <label id="versicherungAnlegen-input9" class="item item-input ">
-                <input type="text" ng-model="versicherung.beitrag">
+                <input type="text" ng-model="versicherung.beitrag" name="beitrag" required>
             </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie einen Monatbeitrag an. </br> </span> 
+                <span ng-show="isNull(versicherungAddForm.beitrag)" >Der Wert muss größer 0 sein. </br> </span> 
+                <span ng-show="isNaN(versicherungAddForm.beitrag)" >Bitte geben Sie eine Zahl ein.</span>
+            </div>            
+
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown9">Beschreibung:</p>
             <label id="versicherungAnlegen-textarea1" class="item item-input ">
-               <!-- <span class="input-label"></span> --><textarea placeholder="" cols="50" rows="10" ng-model="versicherung.beschreibung"></textarea>
+               <!-- <span class="input-label"></span> --><textarea placeholder="" cols="50" rows="10" ng-model="versicherung.beschreibung" name="beschreibung" required></textarea>
             </label>
-            <button class=" button button-positive  button-block " id="versicherungAnlegen-button3" ng-click="versicherungAdd()">Weiter</button>
+            <div style="color:red">
+                 <span ng-show="isInvalid(versicherungAddForm.beschreibung)" >Bitte geben Sie eine Beschreibung an.</span>
+            </div> 
+           
+            <button class=" button button-positive  button-block " id="versicherungAnlegen-button3" ng-click="versicherungAdd(versicherungAddForm)">Weiter</button>
         </form>
         {{msg}}
     </ion-content>
