@@ -19,7 +19,7 @@ app.get('/api/smartinsurance/versicherung', ts.getVersicherungOf);
 
 app.get('/api/smartinsurance/versicherung/:versicherungID', [validate.versicherungID, ts.getVersicherung]);
 
-app.post('/api/smartinsurance/investieren', ts.erstelleInvestition);
+app.post('/api/smartinsurance/investieren', [validate.parameterZurInvestitionsErstellung, validate.obVersicherungGekuendigtIstOderWird, validate.obVersicherungSchonVollIst, ts.erstelleInvestition]);
 
 app.get('/api/smartinsurance/investition', ts.getInvestitionOf);
 
@@ -31,7 +31,7 @@ app.get('/api/smartinsurance/versicherung/:versicherungID/person', [validate.ver
 
 app.get('/api/smartinsurance/versicherung/:versicherungID/invest', [validate.versicherungID, ts.calculateSumOfInvestVersicherung]);
 
-app.post('/api/smartinsurance/versicherung', ts.erstelleVersicherung);
+app.post('/api/smartinsurance/versicherung', [validate.parameterZurVersicherungsErstellung , ts.erstelleVersicherung]);
 
 app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
 
