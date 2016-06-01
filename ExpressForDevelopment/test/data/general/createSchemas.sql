@@ -12,7 +12,6 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 -- SET row_security = off;
-SET lc_monetary = 'de_DE.UTF-8';
 
 --
 -- Name: smartbackend; Type: SCHEMA; Schema: -; Owner: -
@@ -89,26 +88,26 @@ SET search_path = smartbackend, pg_catalog;
 
 CREATE FUNCTION insert_smartbackend_user(email text, prename text, name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    LOOP
-        -- first try to update the key
-        -- note that "a" must be unique
-        UPDATE smartbackend.user SET email = email WHERE email = email;
-        IF found THEN
-            RETURN;
-        END IF;
-        -- not there, so try to insert the key
-        -- if someone else inserts the same key concurrently,
-        -- we could get a unique-key failure
-        BEGIN
-            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
-            RETURN;
-        EXCEPTION WHEN unique_violation THEN
-            -- do nothing, and loop to try the UPDATE again
-        END;
-    END LOOP;
-END;
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
 $$;
 
 
@@ -431,6 +430,123 @@ CREATE TABLE "Versicherung" (
     "personID" uuid NOT NULL,
     kategorie kategorie
 );
+
+
+--
+-- Name: UserDaumen; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "UserDaumen" AS
+ SELECT v.versicherter,
+    (sum(i.daumenhoch) - sum(i.daumenrunter)) AS bewertung
+   FROM (( SELECT "Investition"."versicherungID" AS vid,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenHoch'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenhoch,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenRunter'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenrunter
+           FROM "Investition"
+          GROUP BY "Investition"."versicherungID") i
+     JOIN ( SELECT "Versicherung".id,
+            "Versicherung"."personID" AS versicherter
+           FROM "Versicherung") v ON ((i.vid = v.id)))
+  GROUP BY v.versicherter;
+
+
+--
+-- Name: VersicherungAnzahlInvestoren; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungAnzahlInvestoren" AS
+ SELECT "Investition"."versicherungID" AS id,
+    count("Investition"."personID") AS anzahl_investoren
+   FROM "Investition"
+  WHERE ("Investition"."istGekuendigt" = false)
+  GROUP BY "Investition"."versicherungID";
+
+
+--
+-- Name: VersicherungDaumen; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungDaumen" AS
+ SELECT i.vid AS id,
+    (sum(i.daumenhoch) - sum(i.daumenrunter)) AS bewertung
+   FROM (( SELECT "Investition"."versicherungID" AS vid,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenHoch'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenhoch,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenRunter'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenrunter
+           FROM "Investition"
+          GROUP BY "Investition"."versicherungID") i
+     JOIN ( SELECT "Versicherung".id,
+            "Versicherung"."personID" AS versicherter
+           FROM "Versicherung") v ON ((i.vid = v.id)))
+  GROUP BY i.vid;
+
+
+--
+-- Name: VersicherungRendite; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungRendite" AS
+ SELECT "Versicherung".id,
+    (("Versicherung".beitrag / "Versicherung".versicherungshoehe) * (100)::double precision) AS rendite
+   FROM "Versicherung"
+  WHERE ("Versicherung"."istGekuendigt" = false);
+
+
+--
+-- Name: VersicherungFilter; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungFilter" AS
+ SELECT v.id,
+    v.name,
+    v.versicherungshoehe,
+    v.beitrag,
+    v.beschreibung,
+    v."abschlussZeitpunkt",
+    v."kuendigungsZeitpunkt",
+    v."istGekuendigt",
+    v."wirdGekuendigt",
+    v."personID",
+    v.kategorie,
+    a.anzahl_investoren,
+    b.bewertung,
+    r.rendite
+   FROM (((( SELECT "Versicherung".id,
+            "Versicherung".name,
+            "Versicherung".versicherungshoehe,
+            "Versicherung".beitrag,
+            "Versicherung".beschreibung,
+            "Versicherung"."abschlussZeitpunkt",
+            "Versicherung"."kuendigungsZeitpunkt",
+            "Versicherung"."istGekuendigt",
+            "Versicherung"."wirdGekuendigt",
+            "Versicherung"."personID",
+            "Versicherung".kategorie
+           FROM "Versicherung") v
+     JOIN ( SELECT "VersicherungAnzahlInvestoren".id,
+            "VersicherungAnzahlInvestoren".anzahl_investoren
+           FROM "VersicherungAnzahlInvestoren") a ON ((v.id = a.id)))
+     LEFT JOIN ( SELECT "VersicherungDaumen".id,
+            "VersicherungDaumen".bewertung
+           FROM "VersicherungDaumen") b ON ((a.id = b.id)))
+     LEFT JOIN ( SELECT "VersicherungRendite".id,
+            "VersicherungRendite".rendite
+           FROM "VersicherungRendite") r ON ((a.id = r.id)));
 
 
 --
