@@ -1,4 +1,4 @@
-appController.controller('uebersichtCtrl', function($scope, $http, moneyParser, moneyFormatter){
+appController.controller('uebersichtCtrl', function($scope, $http, $state, moneyParser, moneyFormatter){
     
     
     $scope.versicherungen= [];
@@ -6,21 +6,21 @@ appController.controller('uebersichtCtrl', function($scope, $http, moneyParser, 
     
  
    $http.get('http://localhost:3000/api/smartinsurance/versicherung').success(function(response) {
-         $scope.versicherungen = response.data;
+         $scope.versicherungen = response;
     
    });
     
    $http.get('http://localhost:3000/api/smartinsurance/investition').success(function(response) {
-         $scope.investitionen = response.data;
+         $scope.investitionen = response;
     
    });
     
     $scope.versicherungShow = function() {
-        
+        $state.go("app.versicherungAdd");
     }
     
     $scope.investitionShow = function() {
-        
+        $state.go("app.versicherungAdd");
     }
     
     $scope.versicherungengesamt = function() {

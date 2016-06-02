@@ -54,12 +54,32 @@ app.config(function($stateProvider, $urlRouterProvider) {
   })
 
   
-  .state('app.VersicherungAdd', {
+  .state('app.versicherungAdd', {
     url: '/versicherungAdd',
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Add/Views/versicherungAdd.html',
         controller: 'versicherungAddCtrl'
+      }
+    }
+  })
+  
+  .state('app.versicherungCheck', {
+    url: '/versicherungCheck',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Add/Views/versicherungCheck.html',
+        controller: 'versicherungCheckCtrl'
+      }
+    }
+  })
+  
+  .state('app.versicherungAdded', {
+    url: '/versicherungAdded',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Add/Views/versicherungAdded.html',
+        controller: 'versicherungAddedCtrl'
       }
     }
   })

@@ -25,6 +25,43 @@ appController.service('moneyFormatter', [ function(){
     }
 }]) 
 
+appController.service('versicherungAdd', function () {
+        var versicherung = {
+            name:"", 
+            versicherungshoehe: "", 
+            beitrag: "", 
+            beschreibung: "",
+            kategorie: "" //,
+    //      wert: ""
+        };
+
+        return {
+            getVersicherung: function () {
+                return versicherung;
+            },
+            setVersicherung: function(value) {
+                versicherung = value;
+            },
+            reset: function () {
+                versicherung = {
+                    name:"", 
+                    versicherungshoehe: "", 
+                    beitrag: "", 
+                    beschreibung: "",
+                    kategorie: "" //,
+            //      wert: ""
+                };
+            }
+        };
+    });
+
+
+
+
+appController.factory("checkCurrencyFormat",function(){
+        return /^([1-9]{1}\d{0,2}(\.{0,1}\d{3})*,{0,1}\d{0,2}(€| €){0,1})$/;
+});
+
 
 
 

@@ -1,25 +1,38 @@
-appController.controller('versicherungAddCtrl',function($scope, $http, moneyParser, moneyFormatter){
-   
-    $scope.selected_category ="";
-    $scope.insurance_category = ["Auto", "Haus", "Computer"];
+appController.controller('versicherungAddCtrl',function($scope, $http, $state, moneyParser, moneyFormatter, versicherungAdd, checkCurrencyFormat){
+      
+    $http.get('http://localhost:3000/api/smartinsurance/kategorien').success(function(response) {
+         $scope.kategorien = response;
+    });    
     
-    $scope.versicherung = {
-        name:"",
-//      kategorie: "",
-        versicherungshoehe: "", 
-//      wert: "",
-        beitrag: "", 
-        beschreibung: ""
-    }
-   
     
-    $scope.versicherungAdd = function() {
-    /*    $http.post('http://localhost:3000/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
-            $scope.msg = 'Erfolgreich abgeschlossen.';
-        });  */
-        $scope.versicherung.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.versicherungshoehe));
-        $scope.versicherung.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.beitrag));
-        $scope.msg = 'Data sent: '+ JSON.stringify($scope.versicherung);
-    }
+    $scope.versicherung = versicherungAdd.getVersicherung();
+    
+    
+    $scope.checkCurrency = checkCurrencyFormat;
+     
+    
+    $scope.isInvalid = function(field){
+        return field.$error.required && field.$touched;
+     };
+    
+    
+    $scope.isNaN = function(field) {  
+        return field.$error.pattern && field.$touched;
+    };
+
+    
+    $scope.versicherungAdd = function(form) {
+        
+        if(angular.isDefined($scope.versicherung.versicherungshoehe) && angular.isDefined($scope.versicherung.beitrag) /* && angular.isDefined($scope.versicherung.wert) */ ){ 
+            $scope.versicherung.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.versicherungshoehe));
+            $scope.versicherung.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.beitrag));
+//          $scope.versicherung.wert = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.wert));
+        }
+        
+        if (form.$valid){
+            versicherungAdd.setVersicherung($scope.versicherung);
+            $state.go('app.versicherungCheck');
+        } 
+    };
 });
 
