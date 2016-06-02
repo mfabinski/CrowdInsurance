@@ -1,4 +1,4 @@
-appController.controller('uebersichtCtrl', function($scope, $http, moneyParser, moneyFormatter){
+appController.controller('uebersichtCtrl', function($scope, $http, $state, moneyParser, moneyFormatter){
     
     
     $scope.versicherungen= [];
@@ -16,11 +16,11 @@ appController.controller('uebersichtCtrl', function($scope, $http, moneyParser, 
    });
     
     $scope.versicherungShow = function() {
-        
+        $state.go("app.versicherungAdd");
     }
     
     $scope.investitionShow = function() {
-        
+        $state.go("app.versicherungAdd");
     }
     
     $scope.versicherungengesamt = function() {

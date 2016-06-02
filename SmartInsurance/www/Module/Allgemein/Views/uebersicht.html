@@ -49,22 +49,24 @@
             <ion-item style="" class="  " id="Bersicht-list-item4">Versicherungen</ion-item>
             <div style="" id="Bersicht-list-item-container1" class="item item-body ">
                 <ion-list class=" " id="Bersicht-list6">
-                    <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  "ng-repeat="versicherung in versicherungen">
-                        <i class="icon ion-ionic"></i>
-                        <table>
-                            <tr> 
-                                <td>  <b>Bezeichnung: </b> </td>  
-                                <td>  {{versicherung.name}} </td>
-                            </tr>
-                           <tr> 
-                                <td> <b> Versicherungshöhe: </b> </td>
-                                <td>  {{versicherung.versicherungshoehe}} </td>
-                            </tr>
-                            <tr> 
-                                <td> <b> Monatsbeitrag: </b> </td>
-                                <td>  {{versicherung.beitrag}} </td>
-                            </tr>
-                        </table></ion-item>
+                    <a ng-click="versicherungShow()">
+                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  "ng-repeat="versicherung in versicherungen">
+                            <i class="icon ion-ionic"></i>
+                            <table>
+                                <tr> 
+                                    <td>  <b>Bezeichnung: </b> </td>  
+                                    <td>  {{versicherung.name}} </td>
+                                </tr>
+                               <tr> 
+                                    <td> <b> Versicherungshöhe: </b> </td>
+                                    <td>  {{versicherung.versicherungshoehe}} </td>
+                                </tr>
+                                <tr> 
+                                    <td> <b> Monatsbeitrag: </b> </td>
+                                    <td>  {{versicherung.beitrag}} </td>
+                                </tr>
+                            </table></ion-item>
+                    </a>
                 </ion-list>
             </div>
         </div>
@@ -72,10 +74,12 @@
             <ion-item style="" class="  " id="Bersicht-list-item7">Investition</ion-item>
             <div style="" id="Bersicht-list-item-container2" class="item item-body ">
                 <ion-list class=" " id="Bersicht-list7">
-                    <ion-item style="" id="Bersicht-list-item11" class="item-icon-left  "ng-repeat="investition in investitionen">
-                        <i class="icon ion-ios-baseball-outline"></i>
-                        
-                        {{investition.id}}</ion-item>
+                    <a ng-click="investitionShow()">
+                        <ion-item style="" id="Bersicht-list-item11" class="item-icon-left  "ng-repeat="investition in investitionen">
+                            <i class="icon ion-ios-baseball-outline"></i>
+
+                            {{investition.id}}</ion-item>
+                     </a>
                 </ion-list>
             </div>
         </div>

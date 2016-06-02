@@ -4,38 +4,39 @@
             
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown10">Bezeichnung:</p>
             <label id="versicherungsangebotBerprFen-input11" class="item item-input ">
-                <input placeholder="" type="text" ng-model="versicherung.name">
+                <input placeholder="" type="text" ng-model="versicherung.name" ng-disabled="disable">
             </label>
             
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown13">Kategorie:</p>
             <label id="versicherungsangebotBerprFen-input15" class="item item-input ">
-                <input placeholder="" type="text">
+                <input placeholder="" type="text" ng-model="versicherung.kategorie" ng-disabled="disable">
             </label>
             
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown14">Versicherungshöhe:</p>
             <label id="versicherungsangebotBerprFen-input12" class="item item-input ">
-                <input placeholder="" type="text">
+                <input placeholder="" type="text" ng-model="versicherung.versicherungshoehe" ng-disabled="disable">
             </label>
             
         
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown15">aktueller Wert:</p>
             <label id="versicherungsangebotBerprFen-input13" class="item item-input ">
-                <input placeholder="" type="text">
+                <input placeholder="" type="text"  ng-disabled="disable">
+           <!-- <input placeholder="" type="text" ng-model="versicherung.wert" ng-disabled="disable"> -->
             </label>
             
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown16">Monatbeitrag:</p>
             <label id="versicherungsangebotBerprFen-input14" class="item item-input ">
-                <input placeholder="" type="text">
+                <input placeholder="" type="text" ng-model="versicherung.beitrag" ng-disabled="disable">
             </label>
             
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown17">Beschreibung:</p>
             <label id="versicherungsangebotBerprFen-textarea86" class="item item-input ">
-                <span class="input-label"></span><textarea placeholder=""></textarea>
+                <!--<span class="input-label"></span>--><textarea cols="50" rows="10" placeholder="" ng-model="versicherung.beschreibung" ng-disabled="disable"></textarea>
             </label>
             
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown32">Kosten:</p>
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungsangebotBerprFen-markdown32">Kosten: {{kosten}}</p> 
             
-            <button class=" button button-positive  button-block " id="versicherungsangebotBerprFen-button7">Kostenpflichtiges Angebot erstellen</button>
+            <button class=" button button-positive  button-block " id="versicherungsangebotBerprFen-button7" ng-click="versicherungCheck()">Kostenpflichtiges Angebot erstellen</button>
             
         </form>
     </ion-content>
