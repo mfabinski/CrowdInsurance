@@ -26,6 +26,11 @@ appController.service('moneyFormatter', [ function(){
 }]) 
 
 
+app.factory("versicherungAdd",function(){
+        return {};
+});
+
+
 
 
  

@@ -6,12 +6,12 @@ appController.controller('uebersichtCtrl', function($scope, $http, moneyParser, 
     
  
    $http.get('http://localhost:3000/api/smartinsurance/versicherung').success(function(response) {
-         $scope.versicherungen = response.data;
+         $scope.versicherungen = response;
     
    });
     
    $http.get('http://localhost:3000/api/smartinsurance/investition').success(function(response) {
-         $scope.investitionen = response.data;
+         $scope.investitionen = response;
     
    });
     

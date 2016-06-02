@@ -1,18 +1,24 @@
-appController.controller('versicherungAddCtrl',function($scope, $http, moneyParser, moneyFormatter){
+appController.controller('versicherungAddCtrl',function($scope, $http, $state, moneyParser, moneyFormatter, versicherungAdd){
    
     $scope.selected_category ="";
-    $scope.insurance_category = ["Auto", "Haus", "Computer", "Smartphone", "Sonstiges"];
+        
+    $http.get('http://localhost:3000/api/smartinsurance/kategorien').success(function(response) {
+         $scope.insurance_category = response;
     
-    $scope.versicherung = {
-        name:"",
+    });
+    
+    
+    
+    versicherungAdd = {
+        name:"asd",
 //      kategorie: "",
-        versicherungshoehe: "", 
+        versicherungshoehe: "123", 
 //        wert: "",
-        beitrag: "", 
-        beschreibung: ""
-    }
+        beitrag: "123", 
+        beschreibung: "yxc"
+    };
     
-
+   $scope.versicherung = versicherungAdd;
     
   
     $scope.isInvalid = function(field){
@@ -41,17 +47,17 @@ appController.controller('versicherungAddCtrl',function($scope, $http, moneyPars
 
     
     $scope.versicherungAdd = function(form) {
-    /*    $http.post('http://localhost:3000/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
-            $scope.msg = 'Erfolgreich abgeschlossen.';
-        });  */    
+       
         
         $scope.versicherung.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.versicherungshoehe));
         $scope.versicherung.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.beitrag));
  //     $scope.versicherung.wert = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.wert));
         
-   
+    // überprüfen das kein Wert 0 ist fehlt noch
         if (form.$dirty   && form.$valid){
             $scope.msg = 'Data sent: '+ JSON.stringify($scope.versicherung);
+            
+            $state.go('app.VersicherungCheck');
          } else {
             $scope.msg = 'Die Daten konnten nicht gesendet werden';
         }

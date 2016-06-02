@@ -63,6 +63,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
+  
+  .state('app.VersicherungCheck', {
+    url: '/versicherungCheck',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Add/Views/versicherungsangebotUeberpruefen.html',
+        controller: 'versicherungCheckCtrl'
+      }
+    }
+  })
+  
+  .state('app.VersicherungAdded', {
+    url: '/versicherungAdded',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Add/Views/versicherungsangebotEingestellt.html',
+        controller: 'versicherungAddedCtrl'
+      }
+    }
+  })
 
 
   .state('app.investitionSearch', {
