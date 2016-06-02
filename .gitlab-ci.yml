@@ -56,7 +56,8 @@ mochatest:
     - ls -lah
     - pwd
     - npm install mocha -g --loglevel warn
-    - /bin/bash -c "cd ExpressForDevelopment ; npm test"
+    - cd ExpressForDevelopment && npm install --loglevel warn
+    - npm test
 
 release-image:
   stage: release
