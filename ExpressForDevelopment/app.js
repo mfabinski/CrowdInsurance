@@ -11,13 +11,7 @@ logger.clearLogFiles();
 var app = module.exports = express();
 app.use( bodyParser.json() );
 
-app.get('/', function (req, res) {
-  res.send("Der Sever laeuft! :-)");
-});
-
-app.get('/', function (req, res) {
-  res.send("Der Sever laeuft! :-)");
-});
+app.use(express.static('../SmartInsurance/www/'));
 
 app.all('*', function(req, res, next) {
     // add details of what is allowed in HTTP request headers to the response headers
