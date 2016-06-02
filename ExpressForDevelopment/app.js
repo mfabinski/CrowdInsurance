@@ -34,6 +34,8 @@ app.get('/api/smartinsurance/versicherung', ts.getVersicherungOf);
 
 app.get('/api/smartinsurance/versicherung/:versicherungID', [validate.versicherungID, ts.getVersicherung]);
 
+app.post('/api/smartinsurance/filter', ts.filterVersicherung);
+
 app.get('/api/smartinsurance/kategorien', ts.getKategorien);
 
 app.post('/api/smartinsurance/investieren', [validate.parameterZurInvestitionsErstellung, validate.obVersicherungGekuendigtIstOderWird, validate.obVersicherungSchonVollIst, ts.erstelleInvestition]);
