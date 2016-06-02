@@ -53,7 +53,9 @@ mochatest:
       DB_DATABASENAME: smartbackenddevelopment
 
   script:
-    - docker run $CONTAINER_TEST_IMAGE /bin/bash -c "cd ExpressForDevelopment ; npm test"
+    - ls -lah
+    - pwd
+    - /bin/bash -c "cd ExpressForDevelopment ; npm test"
 
 release-image:
   stage: release
