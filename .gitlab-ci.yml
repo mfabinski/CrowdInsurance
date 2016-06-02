@@ -35,10 +35,10 @@ build_android:
     - ionic config build
     - ionic state restore
     - ionic build android
-    - cp /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/crowdinsurance/smartinsurance.apk
+    - cp /builds/matthias/testci/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/testci/smartinsurance.apk
   artifacts:
     paths:
-      - /builds/matthias/crowdinsurance/smartinsurance.apk
+      - /builds/matthias/testci/smartinsurance.apk
 
 mochatest:
   stage: test
