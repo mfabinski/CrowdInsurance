@@ -11,7 +11,7 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/testci:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/testci:latest
-  POSTGRES_DB: smartbackendevelopment
+  POSTGRES_DB: smartbackenddevelopment
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
 
@@ -51,7 +51,8 @@ mochatest:
       DB_HOST: registry.cloudf.de__matthias__depostgresdocker
       DB_PORT: "5432"
       DB_DATABASENAME: smartbackenddevelopment
-
+      DB_SSL: true
+      
   script:
     - ls -lah
     - pwd
