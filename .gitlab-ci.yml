@@ -11,6 +11,9 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/testci:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/testci:latest
+  POSTGRES_DB: smartbackendevelopment
+  POSTGRES_USER: smartinsurance
+  POSTGRES_PASSWORD: "123456"
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
@@ -20,3 +23,43 @@ build:
   script:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
+
+build_android:
+  image: tobitheo/ionic-build-android-ci-docker:latest
+  stage: build
+  script:
+    - cd ./SmartInsurance/
+    - cp debug.keystore ~/.android/debug.keystore
+    - npm install
+    - bower install --allow-root
+    - chmod +x hooks/after_prepare/010_add_platform_class.js
+    - ionic config build
+    - ionic state restore
+    - ionic build android
+    - cp /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/crowdinsurance/smartinsurance.apk
+  artifacts:
+    paths:
+      - /builds/matthias/crowdinsurance/smartinsurance.apk
+
+mochatest:
+  stage: test
+  services:
+    - registry.cloudf.de/matthias/depostgresdocker:latest
+  variables:
+      DB_USER: smartinsurance
+      DB_PASSWORD: "123456"
+      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
+      DB_PORT: "5432"
+      DB_DATABASENAME: smartbackenddevelopment
+
+  script:
+    - docker run $CONTAINER_TEST_IMAGE /bin/bash -c "cd ExpressForDevelopment ; npm test"
+
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
