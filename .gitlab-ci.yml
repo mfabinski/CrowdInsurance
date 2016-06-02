@@ -43,8 +43,6 @@ build_android:
 mochatest:
   image: $CONTAINER_TEST_IMAGE
   stage: test
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
   services:
     - registry.cloudf.de/matthias/depostgresdocker:latest
   variables:
