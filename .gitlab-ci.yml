@@ -15,11 +15,10 @@ variables:
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
 
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
-
 build:
   stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
   script:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
@@ -43,6 +42,8 @@ build_android:
 
 mochatest:
   stage: test
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
   services:
     - registry.cloudf.de/matthias/depostgresdocker:latest
   variables:
@@ -57,6 +58,8 @@ mochatest:
 
 release-image:
   stage: release
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
