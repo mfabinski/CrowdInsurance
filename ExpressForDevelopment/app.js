@@ -28,6 +28,8 @@ app.get('/api/smartinsurance/versicherung', ts.getVersicherungOf);
 
 app.get('/api/smartinsurance/versicherung/:versicherungID', [validate.versicherungID, ts.getVersicherung]);
 
+app.get('/api/smartinsurance/versicherung/:versicherungID/bewertungen', [validate.versicherungID, ts.getBewertungen]);
+
 app.post('/api/smartinsurance/filter', ts.filterVersicherung);
 
 app.get('/api/smartinsurance/kategorien', ts.getKategorien);
