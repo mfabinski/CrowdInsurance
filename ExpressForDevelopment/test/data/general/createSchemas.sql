@@ -11,7 +11,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
--- SET row_security = off;
+SET row_security = off;
 
 --
 -- Name: smartbackend; Type: SCHEMA; Schema: -; Owner: -
@@ -88,26 +88,26 @@ SET search_path = smartbackend, pg_catalog;
 
 CREATE FUNCTION insert_smartbackend_user(email text, prename text, name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    LOOP
-        -- first try to update the key
-        -- note that "a" must be unique
-        UPDATE smartbackend.user SET email = email WHERE email = email;
-        IF found THEN
-            RETURN;
-        END IF;
-        -- not there, so try to insert the key
-        -- if someone else inserts the same key concurrently,
-        -- we could get a unique-key failure
-        BEGIN
-            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
-            RETURN;
-        EXCEPTION WHEN unique_violation THEN
-            -- do nothing, and loop to try the UPDATE again
-        END;
-    END LOOP;
-END;
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
 $$;
 
 
@@ -120,7 +120,204 @@ CREATE FUNCTION uuid_generate_v1mc() RETURNS uuid
     AS '$libdir/uuid-ossp', 'uuid_generate_v1mc';
 
 
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: user; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE "user" (
+    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
+    name text,
+    prename text,
+    email text
+);
+
+
 SET search_path = smartinsurance, pg_catalog;
+
+--
+-- Name: Investition; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE "Investition" (
+    id integer NOT NULL,
+    "versicherungID" integer NOT NULL,
+    investitionshoehe money,
+    bewertung bewertung DEFAULT 'keine'::bewertung NOT NULL,
+    "abschlussZeitpunkt" timestamp without time zone DEFAULT now(),
+    "kuendigungsZeitpunkt" timestamp without time zone,
+    "istGekuendigt" boolean DEFAULT false NOT NULL,
+    "wirdGekuendigt" boolean DEFAULT false NOT NULL,
+    "personID" uuid NOT NULL
+);
+
+
+--
+-- Name: InvestitionPerson; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "InvestitionPerson" AS
+ SELECT i.id,
+    i."versicherungID",
+    i."personID",
+    p.name AS "personName",
+    p.prename AS "personPrename",
+    i.investitionshoehe,
+    i.bewertung,
+    i."abschlussZeitpunkt",
+    i."kuendigungsZeitpunkt",
+    i."istGekuendigt",
+    i."wirdGekuendigt"
+   FROM ("Investition" i
+     JOIN smartbackend."user" p ON ((i."personID" = p.id)));
+
+
+--
+-- Name: Versicherung; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE "Versicherung" (
+    id integer NOT NULL,
+    name text NOT NULL,
+    versicherungshoehe money NOT NULL,
+    beitrag money NOT NULL,
+    beschreibung text,
+    "abschlussZeitpunkt" timestamp without time zone DEFAULT now(),
+    "kuendigungsZeitpunkt" timestamp without time zone,
+    "istGekuendigt" boolean DEFAULT false,
+    "wirdGekuendigt" boolean DEFAULT false,
+    "personID" uuid NOT NULL,
+    kategorie kategorie
+);
+
+
+--
+-- Name: VersicherungPerson; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungPerson" AS
+ SELECT v.id,
+    v.name,
+    v.versicherungshoehe,
+    v.beitrag,
+    v.beschreibung,
+    v."abschlussZeitpunkt",
+    v."kuendigungsZeitpunkt",
+    v."istGekuendigt",
+    v."wirdGekuendigt",
+    v."personID",
+    v.kategorie,
+    p.name AS "personName",
+    p.prename AS "personPrename"
+   FROM ("Versicherung" v
+     JOIN smartbackend."user" p ON ((v."personID" = p.id)));
+
+
+--
+-- Name: InvestitionKomplett; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "InvestitionKomplett" AS
+ SELECT i.id,
+    i."versicherungID",
+    i."personID" AS "ipersonID",
+    i."personName" AS "ipersonName",
+    i."personPrename" AS "ipersonPrename",
+    i.investitionshoehe,
+    i.bewertung,
+    i."abschlussZeitpunkt" AS "iabschlussZeitpunkt",
+    i."kuendigungsZeitpunkt" AS "ikuendigungsZeitpunkt",
+    i."istGekuendigt" AS "iistGekuendigt",
+    i."wirdGekuendigt" AS "iwirdGekuendigt",
+    v."personID" AS "vpersonID",
+    v."personName" AS "vpersonName",
+    v."personPrename" AS "vpersonPrename",
+    v.name,
+    v.versicherungshoehe,
+    v.beitrag,
+    v.beschreibung,
+    v."abschlussZeitpunkt" AS "vabschlussZeitpunkt",
+    v."kuendigungsZeitpunkt" AS "vkuendigungsZeitpunkt",
+    v."istGekuendigt" AS "vistGekuendigt",
+    v."wirdGekuendigt" AS "vwirdGekuendigt",
+    v.kategorie
+   FROM ("VersicherungPerson" v
+     JOIN "InvestitionPerson" i ON ((i."versicherungID" = v.id)));
+
+
+--
+-- Name: getinvestitionkomplettbyiid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getinvestitionkomplettbyiid(integer) RETURNS "InvestitionKomplett"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
+$_$;
+
+
+--
+-- Name: getinvestitionkomplettbyuid(uuid); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getinvestitionkomplettbyuid(uuid) RETURNS SETOF "InvestitionKomplett"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
+$_$;
+
+
+--
+-- Name: getinvestitionkomplettbyvid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getinvestitionkomplettbyvid(integer) RETURNS SETOF "InvestitionKomplett"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
+$_$;
+
+
+--
+-- Name: getversicherungpersonbyuid(uuid); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getversicherungpersonbyuid(uuid) RETURNS SETOF "VersicherungPerson"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
+$_$;
+
+
+--
+-- Name: getversicherungpersonbyvid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getversicherungpersonbyvid(integer) RETURNS "VersicherungPerson"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
+$_$;
+
+
+--
+-- Name: test_matthias(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION test_matthias(param_id integer) RETURNS SETOF "Versicherung"
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+   RETURN QUERY
+   SELECT *
+   FROM "smartinsurance"."Versicherung"
+   WHERE id = param_id;
+END
+$$;
+
 
 --
 -- Name: uuid_generate_v1mc(); Type: FUNCTION; Schema: smartinsurance; Owner: -
@@ -132,10 +329,6 @@ CREATE FUNCTION uuid_generate_v1mc() RETURNS uuid
 
 
 SET search_path = smartbackend, pg_catalog;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: address; Type: TABLE; Schema: smartbackend; Owner: -
@@ -184,36 +377,7 @@ CREATE TABLE chat_room_user (
 );
 
 
---
--- Name: user; Type: TABLE; Schema: smartbackend; Owner: -
---
-
-CREATE TABLE "user" (
-    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
-    name text,
-    prename text,
-    email text
-);
-
-
 SET search_path = smartinsurance, pg_catalog;
-
---
--- Name: Investition; Type: TABLE; Schema: smartinsurance; Owner: -
---
-
-CREATE TABLE "Investition" (
-    id integer NOT NULL,
-    "versicherungID" integer NOT NULL,
-    investitionshoehe money,
-    bewertung bewertung DEFAULT 'keine'::bewertung NOT NULL,
-    "abschlussZeitpunkt" timestamp without time zone DEFAULT now(),
-    "kuendigungsZeitpunkt" timestamp without time zone,
-    "istGekuendigt" boolean DEFAULT false NOT NULL,
-    "wirdGekuendigt" boolean DEFAULT false NOT NULL,
-    "personID" uuid NOT NULL
-);
-
 
 --
 -- Name: Investition_id_seq; Type: SEQUENCE; Schema: smartinsurance; Owner: -
@@ -411,25 +575,6 @@ CREATE SEQUENCE "Schadensfall_versicherungID_seq"
 --
 
 ALTER SEQUENCE "Schadensfall_versicherungID_seq" OWNED BY "Schadensfall"."versicherungID";
-
-
---
--- Name: Versicherung; Type: TABLE; Schema: smartinsurance; Owner: -
---
-
-CREATE TABLE "Versicherung" (
-    id integer NOT NULL,
-    name text NOT NULL,
-    versicherungshoehe money NOT NULL,
-    beitrag money NOT NULL,
-    beschreibung text,
-    "abschlussZeitpunkt" timestamp without time zone DEFAULT now(),
-    "kuendigungsZeitpunkt" timestamp without time zone,
-    "istGekuendigt" boolean DEFAULT false,
-    "wirdGekuendigt" boolean DEFAULT false,
-    "personID" uuid NOT NULL,
-    kategorie kategorie
-);
 
 
 --
@@ -907,3 +1052,4 @@ ALTER TABLE ONLY "Zahlungsstrom"
 --
 -- PostgreSQL database dump complete
 --
+
