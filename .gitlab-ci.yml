@@ -76,7 +76,7 @@ deploy:
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - ssh-add <(echo "$id_rsa")
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
     - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
 #  only:
