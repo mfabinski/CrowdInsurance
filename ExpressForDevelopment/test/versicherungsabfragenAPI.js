@@ -1,19 +1,13 @@
 var expect  = require("chai").expect;
 var request = require("request");
+var testdbconfig = require('./modules/testdbconfig.js');
 var fs = require('fs');
 var app = require('../app.js');
 var server;
 var logger = require('logger.js');
 
 var getDBPromis = function(){
-  var credentials;
-  try {
-    var testdbconfig = require('./modules/testdbconfig.js');
-    credentials = testdbconfig.url;
-  } catch(err) {
-    credentials = 'postgres://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DATABASENAME + ((process.env.DB_SSL=="true")?'?ssl=true':'');
-  }
-  logger.consoleInfo('Setze die Test Datenbank-URL auf ' + credentials);
+  var credentials = testdbconfig.url;
   var pgp = require('pg-promise')();
   var db = pgp(credentials);
   return db;
