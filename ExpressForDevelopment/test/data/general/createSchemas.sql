@@ -11,7 +11,8 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
+-- SET row_security = off;
+SET lc_monetary = 'de_DE.UTF-8';
 
 --
 -- Name: smartbackend; Type: SCHEMA; Schema: -; Owner: -
@@ -1052,4 +1053,3 @@ ALTER TABLE ONLY "Zahlungsstrom"
 --
 -- PostgreSQL database dump complete
 --
-
