@@ -68,5 +68,15 @@ release-image:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - master
+#  only:
+#    - master
+
+deploy:
+  stage: deploy
+  script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$id_rsa")
+    - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
+#  only:
+#    - master
