@@ -1,7 +1,6 @@
 image: docker:git
 services:
 - docker:dind
-- registry.cloudf.de/matthias/depostgresdocker:latest
 
 stages:
 - build
@@ -44,6 +43,8 @@ build_android:
 mochatest:
   image: $CONTAINER_TEST_IMAGE
   stage: test
+  services:
+    - registry.cloudf.de/matthias/depostgresdocker:latest
   variables:
       DB_USER: smartinsurance
       DB_PASSWORD: "123456"
