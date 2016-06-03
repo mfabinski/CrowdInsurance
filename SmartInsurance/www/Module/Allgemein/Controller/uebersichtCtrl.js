@@ -16,7 +16,7 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
    });
     
     $scope.versicherungShow = function() {
-        $state.go("app.versicherungAdd");
+        $state.go("app.versicherungDetail");
     }
     
     $scope.investitionShow = function() {

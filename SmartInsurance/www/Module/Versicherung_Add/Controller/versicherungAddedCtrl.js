@@ -22,6 +22,6 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state)
                 $state.go('app.uebersicht');
                 break;
         };
-    }
+    };
     
 });

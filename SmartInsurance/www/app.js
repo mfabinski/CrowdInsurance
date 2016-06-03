@@ -53,6 +53,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   })
 
+  .state('app.versicherungDetail', {
+    url: '/versicherungDetail',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Edit/Views/versicherungDetail.html',
+        controller: 'versicherungDetailCtrl'
+      }
+    }
+  })
   
   .state('app.versicherungAdd', {
     url: '/versicherungAdd',
@@ -80,6 +89,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Add/Views/versicherungAdded.html',
         controller: 'versicherungAddedCtrl'
+      }
+    }
+  })
+  
+   .state('app.schadensfaelle', {
+    url: '/schadensfaelle',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Edit/Views/schadensfaelle.html',
+        controller: 'schadensfaelleCtrl'
       }
     }
   })
