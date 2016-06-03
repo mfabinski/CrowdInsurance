@@ -1,27 +1,41 @@
-image: docker:git
+image: node:4.2.4
 services:
-- docker:dind
-
-stages:
-- build
-- test
-- release
-- deploy
+   - registry.cloudf.de/matthias/depostgresdocker:latest
+#  - postgres:9.5.0
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/crowdinsurance:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/crowdinsurance:latest
-  POSTGRES_DB: smartbackenddevelopment
+  POSTGRES_DB: smartbackendevelopment
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
 
-build:
-  stage: build
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+stages:
+  - test
+  - build
+
+mochatest:
+  stage: test
   script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
+    - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
+    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./node_modules/dbconfig.js
+    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
+#    - cat ./node_modules/dbconfig.js
+#    - cat ./test/modules/testdbconfig.js
+    - npm install pg --loglevel warn
+    - npm install fs --loglevel warn
+#    - npm --version
+#    - node --version
+#    - ls -la
+#    - node dbsetup.js  # sollte nun im Test integriert sein?
+    - npm install mocha -g --loglevel warn
+    - npm test
+
+#frontend:
+#  stage: test
+#  script:
+#    - npm install bower ionic cordova -g
+#    - cd ./SmartInsurance/ && npm install --loglevel warn && bower install --allow-root
+#    - ionic build android
+#    - cordova build browser
 
 build_android:
   image: tobitheo/ionic-build-android-ci-docker:latest
@@ -38,46 +52,5 @@ build_android:
     - cp /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/crowdinsurance/smartinsurance.apk
   artifacts:
     paths:
+#      - /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk
       - /builds/matthias/crowdinsurance/smartinsurance.apk
-
-mochatest:
-  image: $CONTAINER_TEST_IMAGE
-  stage: test
-  services:
-    - registry.cloudf.de/matthias/depostgresdocker:latest
-  variables:
-      DB_USER: smartinsurance
-      DB_PASSWORD: "123456"
-      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
-      DB_PORT: "5432"
-      DB_DATABASENAME: smartbackenddevelopment
-      DB_SSL: "false"
-
-  script:
-    - ls -lah
-    - pwd
-    - npm install mocha -g --loglevel warn
-    - cd ExpressForDevelopment && npm install --loglevel warn
-    - npm test
-
-release-image:
-  stage: release
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - master
-
-#deploy:
-#  stage: deploy
-#  before_script:
-#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-#    - eval $(ssh-agent -s)
-#    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-#  script:
-#    - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
-#  only:
-#    - master
