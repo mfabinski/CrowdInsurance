@@ -9,8 +9,8 @@ stages:
 - deploy
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/testci:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/testci:latest
+  CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/crowdinsurance:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/crowdinsurance:latest
   POSTGRES_DB: smartbackenddevelopment
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
@@ -35,10 +35,10 @@ build_android:
     - ionic config build
     - ionic state restore
     - ionic build android
-    - cp /builds/matthias/testci/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/testci/smartinsurance.apk
+    - cp /builds/matthias/crowdinsurance/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/crowdinsurance/smartinsurance.apk
   artifacts:
     paths:
-      - /builds/matthias/testci/smartinsurance.apk
+      - /builds/matthias/crowdinsurance/smartinsurance.apk
 
 mochatest:
   image: $CONTAINER_TEST_IMAGE
@@ -68,16 +68,16 @@ release-image:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
-#  only:
-#    - master
+  only:
+    - master
 
-deploy:
-  stage: deploy
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  script:
-    - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
+#deploy:
+#  stage: deploy
+#  before_script:
+#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#    - eval $(ssh-agent -s)
+#    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+#  script:
+#    - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
 #  only:
 #    - master
