@@ -68,8 +68,8 @@ release-image:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
-  only:
-    - master
+#  only:
+#    - master
 
 deploy:
   stage: deploy
@@ -79,5 +79,5 @@ deploy:
     - ssh-add <(echo "$id_rsa")
   script:
     - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
-  only:
-    - master
+#  only:
+#    - master
