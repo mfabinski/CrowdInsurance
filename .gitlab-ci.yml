@@ -43,6 +43,7 @@ mochatest:
   image: node:4.2.4
   services:
     - registry.cloudf.de/matthias/depostgresdocker:latest
+  stage: test
   variables:
       DB_USER: smartinsurance
       DB_PASSWORD: "123456"
@@ -50,11 +51,10 @@ mochatest:
       DB_PORT: "5432"
       DB_DATABASENAME: smartbackenddevelopment
       DB_SSL: "false"
-  stage: test
   script:
     - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
-    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./node_modules/dbconfig.js
-    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
+#    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./node_modules/dbconfig.js
+#    - echo "exports.url = 'postgres://smartinsurance:123456@registry.cloudf.de__matthias__depostgresdocker/smartbackendevelopment';" > ./test/modules/testdbconfig.js;
     - npm install pg --loglevel warn
     - npm install fs --loglevel warn
     - npm install mocha -g --loglevel warn
@@ -65,6 +65,13 @@ dockertest:
   services:
     - docker:dind
     - registry.cloudf.de/matthias/depostgresdocker:latest
+  variables:
+      DB_USER: smartinsurance
+      DB_PASSWORD: "123456"
+      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
+      DB_PORT: "5432"
+      DB_DATABASENAME: smartbackenddevelopment
+      DB_SSL: "false"
   stage: test
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
