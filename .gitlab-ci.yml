@@ -7,6 +7,7 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/testci:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/testci:latest
+  CONTAINER_RELEASE_IMAGE_TAG: registry.cloudf.de/matthias/testci:$CI_BUILD_TAG
   POSTGRES_DB: smartbackenddevelopment
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
@@ -78,7 +79,7 @@ dockertest:
   script:
     - docker run $CONTAINER_TEST_IMAGE ./npmtest
   only:
-    - master
+    - tags
 
 release-image:
   stage: release
@@ -88,8 +89,10 @@ release-image:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
+    - docker tag $CONTAINER_RELEASE_IMAGE
+    - docker push CONTAINER_RELEASE_IMAGE_TAG
   only:
-    - master
+    - tags
 
 deploy:
   stage: deploy
@@ -103,4 +106,4 @@ deploy:
     - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/ && docker-compose up --force-recreate -d"
     - rm id_rsa
   only:
-    - master
+    - tags
