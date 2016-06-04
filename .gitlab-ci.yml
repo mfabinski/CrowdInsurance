@@ -77,7 +77,7 @@ dockertest:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
   script:
-    - docker run $CONTAINER_TEST_IMAGE ./npmtest
+    - docker run $CONTAINER_TEST_IMAGE /bin/sh npmtest
   only:
     - tags
 
