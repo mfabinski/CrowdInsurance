@@ -76,16 +76,16 @@ deploy:
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - mkdir .ssh
     - touch id_rsa
     - chmod 600 id_rsa
     - ls -lah
     - pwd
     - echo "$SSH_PRIVATE_KEY" > id_rsa
-    - echo "" | ssh-add id_rsa
-    - rm id_rsa
+#    - echo "" | ssh-add id_rsa
+#    - rm id_rsa
   script:
-    - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
+    - ls -lah
+    - ssh deploy@192.168.122.10 -i id_rsa "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
     - rm -r .ssh
 #  only:
 #    - master
