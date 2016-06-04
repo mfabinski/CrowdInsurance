@@ -5,7 +5,7 @@ services:
 stages:
 #- build
 #- test
-- release
+#- release
 - deploy
 
 variables:
@@ -60,14 +60,14 @@ variables:
 #    - cd ExpressForDevelopment && npm install --loglevel warn
 #    - npm test
 
-release-image:
-  stage: release
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
-  script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
+#release-image:
+#  stage: release
+#  before_script:
+#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+#  script:
+#    - docker pull $CONTAINER_TEST_IMAGE
+#    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+#    - docker push $CONTAINER_RELEASE_IMAGE
 #  only:
 #    - master
 
@@ -76,6 +76,7 @@ deploy:
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY"
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
     - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
