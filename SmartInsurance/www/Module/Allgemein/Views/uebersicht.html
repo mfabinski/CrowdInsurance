@@ -2,10 +2,11 @@
     <ion-content class="has-header" padding="true">
         <div id="Bersicht-card23" class="list card ">
             <div style="" id="Bersicht-list-item-container4" class="item item-body ">
-                <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2">Zusammenfassung</h2>
+                <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="!(noInvestition || noVersicherung)" >Zusammenfassung</h2>
+                <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="(noInvestition && noVersicherung)">Es liegen aktuelle weder Versicherungen noch Investitionen vor. </h2>
                 <ion-list class=" " id="Bersicht-list8">
                     <ion-item style="" class="  " id="Bersicht-list-item14">
-                        <div>
+                        <div ng-show="!(noVersicherung)">
                             <h2> Versicherung </h2>
                             <p></p>
                             <table>
@@ -23,7 +24,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div>
+                        <div ng-show="!(noInvestition)">
                             <h2> Investition </h2>
                             <p></p>
                             <table>
@@ -45,12 +46,12 @@
                 </ion-list>
             </div>
         </div>
-        <div id="Bersicht-card21" class="list card ">
+        <div id="Bersicht-card21" class="list card " ng-show="!(noVersicherung)" >
             <ion-item style="" class="  " id="Bersicht-list-item4">Versicherungen</ion-item>
             <div style="" id="Bersicht-list-item-container1" class="item item-body ">
                 <ion-list class=" " id="Bersicht-list6">
-                    <a ng-click="versicherungShow()">
-                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  "ng-repeat="versicherung in versicherungen">
+                    <a ng-click="versicherungShow({{versicherung.id}})" ng-repeat="versicherung in versicherungen">
+                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  ">
                             <i class="icon ion-ionic"></i>
                             <table>
                                 <tr> 
@@ -68,19 +69,34 @@
                             </table>
                         </ion-item>
                     </a>
+                    <p class=" " style="margin-top:0px;color:#000000;" id="Bersicht-markdown26" ng-show="noVersicherung">Es liegen keine Versicherungen vor.</p>
                 </ion-list>
             </div>
         </div>
-        <div id="Bersicht-card22" class="list card ">
+        <div id="Bersicht-card22" class="list card " ng-show="!(noInvestition)">
             <ion-item style="" class="  " id="Bersicht-list-item7">Investition</ion-item>
             <div style="" id="Bersicht-list-item-container2" class="item item-body ">
                 <ion-list class=" " id="Bersicht-list7">
-                    <a ng-click="investitionShow()">
-                        <ion-item style="" id="Bersicht-list-item11" class="item-icon-left  "ng-repeat="investition in investitionen">
+                    <a ng-click="investitionShow({{investition.id}})" ng-show="!(noInvestition)" ng-repeat="investition in investitionen">
+                        <ion-item style="" id="Bersicht-list-item11" class="item-icon-left  ">
                             <i class="icon ion-ios-baseball-outline"></i>
-
-                            {{investition.id}}</ion-item>
-                     </a>
+                                <table>
+                                <tr> 
+                                    <td>  <b>Bezeichnung: </b> </td>  
+                                    <td>  {{investition.name}} </td>
+                                </tr>
+                               <tr> 
+                                    <td> <b> Investitionshöhe: </b> </td>
+                                    <td>  {{investition.investitionshoehe}} </td>
+                                </tr>
+                                <tr> 
+                                    <td> <b> Maximale Rendite: </b> </td>
+                                    <td>  {{calculateRendite(investition)}} </td>
+                                </tr>
+                            </table>
+                        </ion-item>
+                    </a>
+                    <p class=" " style="margin-top:0px;color:#000000;" id="Bersicht-markdown26" ng-show="noInvestition">Es liegen keine Investitionen vor.</p>
                 </ion-list>
             </div>
         </div>

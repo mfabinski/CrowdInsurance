@@ -21,9 +21,17 @@ app.run(function($ionicPlatform) {
     }
   });
 })
-
+/*
+// alter Version
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
+*/
+
+app.config(['$stateProvider', '$urlRouterProvider', configuration]);
+ function configuration ($stateProvider, $stateParams , $urlRouterProvider) {
+   
+     
+ $stateProvider
 
     .state('app', {
     url: '/app',
@@ -49,20 +57,31 @@ app.config(function($stateProvider, $urlRouterProvider) {
     views: {
       'menuContent': {
         templateUrl: 'Module/Sonstiges/Views/profil.html'
+        
       }
     }
   })
 
   .state('app.versicherungDetail', {
-    url: '/versicherungDetail',
+    url: '/versicherungDetail/:id',
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Edit/Views/versicherungDetail.html',
-        controller: 'versicherungDetailCtrl'
+        controller: 'versicherungDetailCtrl'  
       }
     }
   })
-  
+ 
+  .state('app.versicherungEdit', {
+    url: '/versicherungEdit',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Edit/Views/versicherungEdit.html',
+        controller: 'versicherungEditCtrl'  
+      }
+    }
+  })
+ 
   .state('app.versicherungAdd', {
     url: '/versicherungAdd',
     views: {
@@ -75,6 +94,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   
   .state('app.versicherungCheck', {
     url: '/versicherungCheck',
+    params: {versicherung : null},
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Add/Views/versicherungCheck.html',
@@ -85,6 +105,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   
   .state('app.versicherungAdded', {
     url: '/versicherungAdded',
+    params: {id : null},
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Add/Views/versicherungAdded.html',
@@ -95,6 +116,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   
    .state('app.schadensfaelle', {
     url: '/schadensfaelle',
+    params: {id: null},
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Edit/Views/schadensfaelle.html',
@@ -128,7 +150,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: 'Module/Sonstiges/Views/impressum.html'
         }
       }
-    });
+    })
+    
+      
+// otherwise funktioniert nicht mehr 
+ 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/uebersicht');
-});
+  //$urlRouterProvider.otherwise('/app/uebersicht');  
+};
+
+ 
+

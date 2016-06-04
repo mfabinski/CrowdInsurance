@@ -1,15 +1,18 @@
-appController.controller('versicherungDetailCtrl',function($scope, $http, $state, moneyParser, moneyFormatter){
+appController.controller('versicherungDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter){
     
     
-    $scope.versicherungId = '89';
+    $scope.versicherungId = $stateParams.id;
+    
+    $scope.noInvestor = true;
+   
     
     $http.get('http://localhost:3000/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
          $scope.versicherung = response[0];
-    
     });
     
     $http.get('http://localhost:3000/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
-         $scope.investoren = response;
+        $scope.investoren = response;
+        $scope.noInvestor = false;
     
     });
     /*
@@ -19,10 +22,13 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     });
     */
     
-    $http.get('http://localhost:3000/api/smartinsurance/versicherung/' + $scope.versicherungId + '/invest').success(function(response) {
-         $scope.investitionBetrag = response.suminvestition;
-    
-    });
+    $http.get('http://localhost:3000/api/smartinsurance/versicherung/' + $scope.versicherungId + '/invest')
+        .success(function(response) {
+            $scope.investitionBetrag = response[0].suminvestition;
+        })
+        .error(function(response) {
+            $scope.investitionBetrag = "0,00 €";
+        })
     
    /* 
     $scope.gesamtSchaden = function () {
@@ -46,7 +52,7 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     };
     
     $scope.showSchadensfaelle = function() {
-        $state.go("app.schadensfaelle");
+        $state.go("app.schadensfaelle", {id: $scope.versicherung.id});
     };
     
     $scope.addSchadensfall = function () {

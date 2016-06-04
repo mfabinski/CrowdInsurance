@@ -1,12 +1,11 @@
 appController.controller('versicherungAddedCtrl',function($scope, $http, $state) {
     
     // soll beim Versicherung anlegen zurückgesendet werden
-    $scope.versicherungId = 103;
-     
+    $scope.versicherungId = '89';
+ 
     
     $http.get('http://localhost:3000/api/smartinsurance/versicherung/'+$scope.versicherungId).success(function(response) {
-        $scope.versicherung = response;
-        console.log($scope.versicherung);
+        $scope.versicherung = response[0];
     });
     
     
