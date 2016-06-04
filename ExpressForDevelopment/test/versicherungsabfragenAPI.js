@@ -1,6 +1,5 @@
 var expect  = require("chai").expect;
 var request = require("request");
-var testdbconfig = require('./modules/testdbconfig.js');
 var fs = require('fs');
 var app = require('../app.js');
 var server;
