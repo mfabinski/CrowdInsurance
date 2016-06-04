@@ -12,52 +12,54 @@ variables:
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
 
-#build:
-#  image: docker:git
-#  services:
-#    - docker:dind
-#  stage: build
-#  before_script:
-#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
-#  script:
-#    - docker build -t $CONTAINER_TEST_IMAGE .
-#    - docker push $CONTAINER_TEST_IMAGE
-#
-#build_android:
-#  image: tobitheo/ionic-build-android-ci-docker:latest
-#  stage: build
-#  script:
-#    - cd ./SmartInsurance/
-#    - cp debug.keystore ~/.android/debug.keystore
-#    - npm install
-#    - bower install --allow-root
-#    - chmod +x hooks/after_prepare/010_add_platform_class.js
-#    - ionic config build
-#    - ionic state restore
-#    - ionic build android
-#    - cp /builds/matthias/testci/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/testci/smartinsurance.apk
-#  artifacts:
-#    paths:
-#      - /builds/matthias/testci/smartinsurance.apk
-#
-#mochatest:
-#  image: node:4.2.4
-#  services:
-#    - registry.cloudf.de/matthias/depostgresdocker:latest
-#  stage: test
-#  variables:
-#      DB_USER: smartinsurance
-#      DB_PASSWORD: "123456"
-#      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
-#      DB_PORT: "5432"
-#      DB_DATABASENAME: smartbackenddevelopment
-#      DB_SSL: "false"
-#  script:
-#    - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
-#    - npm install pg --loglevel warn
-#    - npm install fs --loglevel warn
-#    - npm install mocha -g --loglevel warn
-#    - npm test
+build:
+  image: docker:git
+  services:
+    - docker:dind
+  stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+  only:
+    - tags
+
+build_android:
+  image: tobitheo/ionic-build-android-ci-docker:latest
+  stage: build
+  script:
+    - cd ./SmartInsurance/
+    - cp debug.keystore ~/.android/debug.keystore
+    - npm install
+    - bower install --allow-root
+    - chmod +x hooks/after_prepare/010_add_platform_class.js
+    - ionic config build
+    - ionic state restore
+    - ionic build android
+    - cp /builds/matthias/testci/SmartInsurance/platforms/android/build/outputs/apk/android-debug.apk /builds/matthias/testci/smartinsurance.apk
+  artifacts:
+    paths:
+      - /builds/matthias/testci/smartinsurance.apk
+
+mochatest:
+  image: node:4.2.4
+  services:
+    - registry.cloudf.de/matthias/depostgresdocker:latest
+  stage: test
+  variables:
+      DB_USER: smartinsurance
+      DB_PASSWORD: "123456"
+      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
+      DB_PORT: "5432"
+      DB_DATABASENAME: smartbackenddevelopment
+      DB_SSL: "false"
+  script:
+    - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
+    - npm install pg --loglevel warn
+    - npm install fs --loglevel warn
+    - npm install mocha -g --loglevel warn
+    - npm test
 
 dockertest:
   image: docker:git
@@ -77,48 +79,39 @@ dockertest:
   script:
     - echo "DB_USER=$DB_USER" > env.list
     - echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
-    - echo "DB_HOST=$DB_HOST" >> env.list
+    - echo "DB_HOST=$(dig +short $DB_HOST | tail --lines=1)" >> env.list
     - echo "DB_PORT=$DB_PORT" >> env.list
     - echo "DB_DATABASENAME=$DB_DATABASENAME" >> env.list
     - echo "DB_SSL=$DB_SSL" >> env.list
-    - echo "POSTGRES_DB"
-    - echo "POSTGRES_DB=$POSTGRES_DB" >> envdb.list
-    - echo "POSTGRES_USER=$POSTGRES_USER" >> envdb.list
-    - echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> envdb.list
-    - ping -c 4 registry.cloudf.de__matthias__depostgresdocker
-    - cat /etc/resolv.conf
-    - cat /etc/hosts
     - nslookup registry.cloudf.de__matthias__depostgresdocker
-#    - docker run -d --env-file=envdb.list --name=pg_test registry.cloudf.de/matthias/depostgresdocker:latest
-#    - docker ps -a
-    - docker run --net=host -v /etc/hosts:/etc/hosts:ro --env-file=env.list registry.cloudf.de/matthias/testci:0.3 /bin/sh npmtest
-#    - docker run --link registry.cloudf.de/matthias/depostgresdocker:latest --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
-#  only:
-#    - tags
+    - docker cp /etc/hosts
+    - docker run --net=host --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
+  only:
+    - tags
 
-#release-image:
-#  stage: release
-#  before_script:
-#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
-#  script:
-#    - docker pull $CONTAINER_TEST_IMAGE
-#    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-#    - docker push $CONTAINER_RELEASE_IMAGE
-#    - docker tag $CONTAINER_RELEASE_IMAGE
-#    - docker push CONTAINER_RELEASE_IMAGE_TAG
-#  only:
-#    - tags
+release-image:
+  stage: release
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker tag $CONTAINER_RELEASE_IMAGE
+    - docker push CONTAINER_RELEASE_IMAGE_TAG
+  only:
+    - tags
 
-#deploy:
-#  stage: deploy
-#  before_script:
-#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-#    - eval $(ssh-agent -s)
-#    - touch id_rsa
-#    - chmod 600 id_rsa
-#    - echo "$SSH_PRIVATE_KEY" > id_rsa
-#  script:
-#    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/crowdinsurance/ && docker-compose up --force-recreate -d"
-#    - rm id_rsa
-#  only:
-#    - tags
+deploy:
+  stage: deploy
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - touch id_rsa
+    - chmod 600 id_rsa
+    - echo "$SSH_PRIVATE_KEY" > id_rsa
+  script:
+    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/crowdinsurance/ && docker-compose up --force-recreate -d"
+    - rm id_rsa
+  only:
+    - tags
