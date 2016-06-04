@@ -7,7 +7,6 @@ stages:
 variables:
   CONTAINER_TEST_IMAGE: registry.cloudf.de/matthias/testci:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.cloudf.de/matthias/testci:latest
-  CONTAINER_RELEASE_IMAGE_TAG: registry.cloudf.de/matthias/testci:$CI_BUILD_TAG
   POSTGRES_DB: smartbackenddevelopment
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
@@ -76,15 +75,15 @@ dockertest:
   stage: test
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+    - apt-get install dnsutils
   script:
     - echo "DB_USER=$DB_USER" > env.list
     - echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
-    - echo "DB_HOST=$(dig +short $DB_HOST | tail --lines=1)" >> env.list
+    - echo "DB_HOST=$(dig +short $DB_HOST | tail -n 1)" >> env.list
     - echo "DB_PORT=$DB_PORT" >> env.list
     - echo "DB_DATABASENAME=$DB_DATABASENAME" >> env.list
     - echo "DB_SSL=$DB_SSL" >> env.list
-    - nslookup registry.cloudf.de__matthias__depostgresdocker
-    - docker cp /etc/hosts
+    - cat env.list
     - docker run --net=host --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
   only:
     - tags
@@ -97,8 +96,6 @@ release-image:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
-    - docker tag $CONTAINER_RELEASE_IMAGE
-    - docker push CONTAINER_RELEASE_IMAGE_TAG
   only:
     - tags
 
