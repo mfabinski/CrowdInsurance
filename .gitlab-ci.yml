@@ -86,6 +86,7 @@ dockertest:
     - echo "POSTGRES_USER=$POSTGRES_USER" >> envdb.list
     - echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> envdb.list
     - ping -c 4 registry.cloudf.de__matthias__depostgresdocker
+    - nslookup registry.cloudf.de__matthias__depostgresdocker
 #    - docker run -d --env-file=envdb.list --name=pg_test registry.cloudf.de/matthias/depostgresdocker:latest
 #    - docker ps -a
     - docker run --net=host --env-file=env.list registry.cloudf.de/matthias/testci:0.3 /bin/sh npmtest
