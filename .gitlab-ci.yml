@@ -81,7 +81,7 @@ deploy:
     - ls -lah
     - pwd
     - echo "$SSH_PRIVATE_KEY" > id_rsa
-    - ssh-add id_rsa
+    - echo "" | ssh-add -p id_rsa
     - rm id_rsa
   script:
     - ssh deploy@192.168.122.10 "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
