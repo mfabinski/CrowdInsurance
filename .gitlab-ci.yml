@@ -3,7 +3,7 @@ services:
 - docker:dind
 
 stages:
-#- build
+- build
 #- test
 #- release
 - deploy
@@ -15,13 +15,13 @@ variables:
   POSTGRES_USER: smartinsurance
   POSTGRES_PASSWORD: "123456"
 
-#build:
-#  stage: build
-#  before_script:
-#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
-#  script:
-#    - docker build -t $CONTAINER_TEST_IMAGE .
-#    - docker push $CONTAINER_TEST_IMAGE
+build:
+  stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
 #
 #build_android:
 #  image: tobitheo/ionic-build-android-ci-docker:latest
@@ -78,14 +78,11 @@ deploy:
     - eval $(ssh-agent -s)
     - touch id_rsa
     - chmod 600 id_rsa
-    - ls -lah
-    - pwd
     - echo "$SSH_PRIVATE_KEY" > id_rsa
 #    - echo "" | ssh-add id_rsa
 #    - rm id_rsa
   script:
-    - ls -lah
-    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
-    - rm -r .ssh
+    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/ && docker-compose up --force-recreate -d"
+    - rm id_rsa
 #  only:
 #    - master
