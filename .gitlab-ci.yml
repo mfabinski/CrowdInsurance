@@ -77,7 +77,7 @@ dockertest:
   script:
     - echo "DB_USER=$DB_USER" > env.list
     - echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
-    - echo "DB_HOST=172.17.0.5" >> env.list
+    - echo "DB_HOST=$DB_HOST" >> env.list
     - echo "DB_PORT=$DB_PORT" >> env.list
     - echo "DB_DATABASENAME=$DB_DATABASENAME" >> env.list
     - echo "DB_SSL=$DB_SSL" >> env.list
@@ -91,7 +91,7 @@ dockertest:
     - nslookup registry.cloudf.de__matthias__depostgresdocker
 #    - docker run -d --env-file=envdb.list --name=pg_test registry.cloudf.de/matthias/depostgresdocker:latest
 #    - docker ps -a
-    - docker run --net=host --dns= --env-file=env.list registry.cloudf.de/matthias/testci:0.3 /bin/sh npmtest
+    - docker run --net=host -v /etc/hosts:/etc/hosts:ro --env-file=env.list registry.cloudf.de/matthias/testci:0.3 /bin/sh npmtest
 #    - docker run --link registry.cloudf.de/matthias/depostgresdocker:latest --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
 #  only:
 #    - tags
