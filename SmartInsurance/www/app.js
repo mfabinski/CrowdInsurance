@@ -32,7 +32,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //controller: 'AppCtrl'
   })
 
-   
+
   .state('app.uebersicht', {
     url: '/uebersicht',
     views: {
@@ -43,7 +43,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   })
 
-  
+
   .state('app.profil', {
     url: '/profil',
     views: {
@@ -53,7 +53,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   })
 
-  
+
   .state('app.versicherungAdd', {
     url: '/versicherungAdd',
     views: {
@@ -63,7 +63,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  
+
   .state('app.versicherungCheck', {
     url: '/versicherungCheck',
     views: {
@@ -73,7 +73,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  
+
   .state('app.versicherungAdded', {
     url: '/versicherungAdded',
     views: {
@@ -94,6 +94,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+
+    .state('app.searchResult', {
+      url: '/searchResult',
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Add/Views/searchResult.html',
+          controller: 'investitionSearchCtrl'
+        }
+      }
+    })
+
    .state('app.faq', {
       url: '/faq',
       views: {
