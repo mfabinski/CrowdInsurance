@@ -77,7 +77,13 @@ dockertest:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
   script:
-    - docker run $CONTAINER_TEST_IMAGE /bin/sh npmtest
+    - echo "DB_USER=$DB_USER" > env.list
+    - echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
+    - echo "DB_HOST=$DB_HOST" >> env.list
+    - echo "DB_PORT=$DB_PORT" >> env.list
+    - echo "DB_DATABASENAME=$DB_DATABASENAME" >> env.list
+    - echo "DB_SSL=$DB_SSL" >> env.list
+    - docker run --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
   only:
     - tags
 
@@ -103,7 +109,7 @@ deploy:
     - chmod 600 id_rsa
     - echo "$SSH_PRIVATE_KEY" > id_rsa
   script:
-    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/ && docker-compose up --force-recreate -d"
+    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/crowdinsurance/ && docker-compose up --force-recreate -d"
     - rm id_rsa
   only:
     - tags
