@@ -85,6 +85,7 @@ dockertest:
     - echo "POSTGRES_USER=$POSTGRES_USER" >> envdb.list
     - echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> envdb.list
     - docker run -d --env-file=envdb.list --name=pg_test registry.cloudf.de/matthias/depostgresdocker:latest
+    - docker ps -a
     - docker run --link pg_test:registry.cloudf.de__matthias__depostgresdocker --env-file=env.list registry.cloudf.de/matthias/testci:0.3 /bin/sh npmtest
 #    - docker run --link registry.cloudf.de/matthias/depostgresdocker:latest --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
 #  only:
