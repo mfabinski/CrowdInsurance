@@ -88,6 +88,9 @@ dockertest:
     - tags
 
 release-image:
+  image: docker:git
+  services:
+    - docker:dind
   stage: release
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
@@ -99,6 +102,9 @@ release-image:
     - tags
 
 deploy:
+  image: docker:git
+  services:
+    - docker:dind
   stage: deploy
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
