@@ -85,7 +85,7 @@ deploy:
 #    - rm id_rsa
   script:
     - ls -lah
-    - ssh deploy@192.168.122.10 -i id_rsa "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
+    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/ && pwd && touch dockercompose.yml"
     - rm -r .ssh
 #  only:
 #    - master
