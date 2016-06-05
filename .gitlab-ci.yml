@@ -117,7 +117,7 @@ deploy:
     - chmod 600 id_rsa
     - echo "$SSH_PRIVATE_KEY" > id_rsa
   script:
-    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/crowdinsurance/ && docker-compose up --force-recreate -d"
+    - ssh deploy@192.168.122.10 -i id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "cd /var/opt/dockercompose/crowdinsurance/ && docker-compose pull && docker-compose up --force-recreate -d"
     - rm id_rsa
   only:
     - tags
