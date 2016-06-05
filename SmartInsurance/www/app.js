@@ -30,7 +30,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.config(['$stateProvider', '$urlRouterProvider', configuration]);
  function configuration ($stateProvider, $stateParams , $urlRouterProvider) {
    
-     
+        
  $stateProvider
 
     .state('app', {
@@ -126,7 +126,6 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
     }
   })
 
-
   .state('app.investitionSearch', {
       url: '/investitionSearch',
       views: {
@@ -136,6 +135,7 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
         }
       }
     })
+ 
    .state('app.faq', {
       url: '/faq',
       views: {
@@ -144,6 +144,7 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
         }
       }
     })
+ 
    .state('app.impressum', {
       url: '/impressum',
       views: {
@@ -151,15 +152,17 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
           templateUrl: 'Module/Sonstiges/Views/impressum.html'
         }
       }
-    })
+    });
+     
+   
     
       
 // otherwise funktioniert nicht mehr 
  
   // if none of the above states are matched, use this as the fallback
-  //$urlRouterProvider.otherwise('/app/uebersicht');  
+   // $urlRouterProvider.otherwise('/app/uebersicht');
   
-    .state("otherwise", { url : '/app/uebersicht'})
+    
 };
 
  
