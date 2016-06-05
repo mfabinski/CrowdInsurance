@@ -1,0 +1,17 @@
+[
+  {
+    "id": 114,
+    "name": "Boot",
+    "versicherungshoehe": "250.000,00 €",
+    "beitrag": "1.000,00 €",
+    "beschreibung": "Guter Rumpf",
+    "abschlussZeitpunkt": "2016-06-01T16:21:24.164Z",
+    "kuendigungsZeitpunkt": null,
+    "istGekuendigt": false,
+    "wirdGekuendigt": false,
+    "personID": "bfa73b02-21f7-11e6-b56d-6ffe69564a95",
+    "kategorie": "Schiff",
+    "personName": "Hardwood",
+    "personPrename": "Lance"
+  }
+]

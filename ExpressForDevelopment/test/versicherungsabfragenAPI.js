@@ -32,7 +32,7 @@ describe("Versicherung abfragen", function(){
 
   // Lege Testdaten an!
   beforeEach(function(done){
-    var query = fs.readFileSync('test/data/versicherungenEinfuegen.sql').toString();
+    var query = fs.readFileSync('test/data/testdatenEinfuegen.sql').toString();
     db.any(query).then(function(){
       logger.consoleInfo("Testdaten eingefuegt");
       server = app.listen(3000, function () {
@@ -57,19 +57,20 @@ describe("Versicherung abfragen", function(){
     db.any(query).then(function(){done()}).catch(function(err){logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);});
   });
 
-  var url = "http://localhost:3000/api/smartinsurance/versicherung/1";
+  var url = "http://localhost:3000/api/smartinsurance/versicherung/114";
 
-  it("Test Rückgabe Versicherung 1", function(done){
-    var expectedResponse = fs.readFileSync('test/data/testcase1/1.json').toString();
+  it("Test Rückgabe Versicherung by id", function(done){
+    var expectedResponse = fs.readFileSync('test/data/versicherungapi/114.json').toString();
     expectedResponse = JSON.parse(expectedResponse);
     request(url, function(error, response, body) {
       expect(response.statusCode).to.equal(200);
       var responseObject = JSON.parse(body);
       logger.consoleInfo(body);
+      logger.consoleInfo(expectedResponse);
       expect(responseObject).to.have.length(1);
-      expect(responseObject[0]).to.have.property('abschlussZeitpunkt');
-      expect(responseObject[0]).to.have.property('beitrag').to.equal(expectedResponse.data[0].beitrag);
-      expect(responseObject[0]).to.have.property('istGekuendigt').to.equal(expectedResponse.data[0].istGekuendigt);
+      expect(responseObject[0]).to.have.property('id').to.equal(expectedResponse[0].id);
+      expect(responseObject[0]).to.have.property('beitrag').to.equal(expectedResponse[0].beitrag);
+      expect(responseObject[0]).to.have.property('istGekuendigt').to.equal(expectedResponse[0].istGekuendigt);
 //      expect(responseObject.data[0]).to.have.property('wirdGekuendigt').to.equal(expectedResponse.data[0].wirdGekuendigt);
       // expect(JSON.parse(body)).to.deep.equal(expectedResponse);
       done();
