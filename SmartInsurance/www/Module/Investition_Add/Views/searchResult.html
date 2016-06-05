@@ -1,12 +1,44 @@
 <ion-view style="" class=" " id="page19" title="Gefundene Investitionen">
   <ion-content class="has-header" padding="true">
-    <ion-list class=" " id="gefundeneInvestitionen-list16">
-      <ion-item style="" id="gefundeneInvestitionen-list-item31" class="item-icon-left  ">
-        <i class="icon ion-ionic"></i>Item</ion-item>
-      <ion-item style="" id="gefundeneInvestitionen-list-item30" class="item-icon-left  ">
-        <i class="icon ion-ionic"></i>Item</ion-item>
-      <ion-item style="" id="gefundeneInvestitionen-list-item29" class="item-icon-left  ">
-        <i class="icon ion-ionic"></i>Item</ion-item>
-    </ion-list>
+    <div id="" class="list card " ng-controller="investitionSearchCtrl">
+      <ion-item style="" class="  " id="1">Suchergebnis</ion-item>
+      <div style="" id="2" class="item item-body ">
+        <ion-list class=" " id="3">
+          <!--<a ng-click="investitionShow()">-->
+            <ion-item ng-repeat="item in results" style="" id="4" class="item-icon-left  ">
+              <i class="icon ion-ionic"></i>
+              <table>
+                <tr>
+                  <td> <b> Bezeichnung: </b> </td>
+                  <td> <b> {{item.name}} </b> </td>
+                </tr>
+                <tr>
+                  <td> <b> Versicherungshöhe: </b> </td>
+                  <td> {{item.versicherungshoehe}} </td>
+                </tr>
+                <tr>
+                  <td> <b> Kategorie: </b> </td>
+                  <td> {{item.kategorie}} </td>
+                </tr>
+                <tr>
+                  <td> <b> Anzahl der Investoren: </b> </td>
+                  <td> {{item.anzahl_investoren}} </td>
+                </tr>
+                <tr>
+                  <td> <b> Bewertung: </b> </td>
+                  <td> {{item.bewertung}} </td>
+                </tr>
+                <tr>
+                  <td> <b> Rendite: </b> </td>
+                  <td> {{item.rendite}} </td>
+                </tr>
+              </table>
+            </ion-item>
+          <!--</a>-->
+        </ion-list>
+      </div>
+    </div>
+
   </ion-content>
 </ion-view>
+

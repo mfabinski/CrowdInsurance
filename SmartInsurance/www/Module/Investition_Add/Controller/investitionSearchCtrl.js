@@ -50,6 +50,41 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
 
   $scope.search = function(dataSorter, dataOrder) {
     console.log($scope.kategorien[0].enabled + " und " + dataSorter.value + " und " + dataOrder.value);
+    var parameter = {
+        kategorie: 'Küchengeräte',
+        orderby: 'rendite',
+        ascending: false
+    };
+
+    $http.post('http://localhost:3000/api/smartinsurance/filter', parameter).then(function(response) {
+
+      /*var arr = [];
+
+      for (var i = 0; i < response.data.length; i++) {
+        arr.push({
+          name: response.data[i].name,
+          versicherungshoehe: response.data[i].versicherungshoehe,
+          kategorie: response.data[i].kategorie,
+          anzahl: response.data[i].anzahl_investoren,
+          bewertung: response.data[i].bewertung,
+          rendite: response.data[i].rendite
+        });*/
+      //}
+      $scope.results = response.data;
+
+      console.log($scope.results[0].name);
+     // $scope.result = JSON.stringify(response);
+     //alert(arr[0].name);
+
+    });
+
+
+
+    /*$http.post('http://localhost:3000/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
+     versicherungAdd.setVersicherung({});
+     $state.go('app.versicherungAdded');
+     });  */
+
   }
 
 
