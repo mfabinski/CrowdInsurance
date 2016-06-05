@@ -32,7 +32,7 @@ describe("Versicherung abfragen", function(){
 
   // Lege Testdaten an!
   beforeEach(function(done){
-    var query = fs.readFileSync('test/data/testdatenEinfuegen.sql').toString();
+    var query = fs.readFileSync('test/data/general/testdatenEinfuegen.sql').toString();
     db.any(query).then(function(){
       logger.consoleInfo("Testdaten eingefuegt");
       server = app.listen(3000, function () {
