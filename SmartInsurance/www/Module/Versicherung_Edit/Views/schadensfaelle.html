@@ -1,0 +1,34 @@
+<ion-view style="" class=" " id="page11" title="Schadensfälle einsehen">
+    <ion-content class="has-header" padding="true">
+        <div id="schadensfLleEinsehen-card27" class="list card ">
+            <ion-item style="" class="  " id="schadensfLleEinsehen-list-item22">
+                <h2> <b>Versicherungsobjekt:</b> {{versicherung.name}} </h2> 
+            </ion-item>
+        </div>
+        <div id="schadensfLleEinsehen-card210" class="list card ">
+            <a ng-click="schadensfallShow()" ng-show="!(noSchaden)">
+                <ion-item style="" class="  " id="schadensfLleEinsehen-list-item23" ng-repeat="schaden in schaeden">
+                    <table>
+                        <tr> 
+                            <td>  <b>Schaden: </b> </td>  
+                            <td>  {{schaden.name}} </td>
+                        </tr>
+                       <tr> 
+                            <td> <b> Schadenshöhe: </b> </td>
+                            <td>  {{schaden.schadenshoehe}} </td>
+                        </tr>
+                        <tr> 
+                            <td> <b> Zeitpunkt: </b> </td>
+                            <td>  {{schaden.zeitpunkt}} </td>
+                        </tr>
+                         <tr> 
+                            <td> <b> Beschreibung: </b> </td>
+                            <td>  {{schaden.beschreibung}} </td>
+                        </tr>
+                    </table>
+                </ion-item>
+            </a>
+            <p class=" " style="margin-top:0px;color:#000000;" id="schadensfLleEinsehen-markdown26" ng-show="noSchaden">Es liegen keine Schadensfälle vor.</p>
+        </div>
+    </ion-content>
+</ion-view>

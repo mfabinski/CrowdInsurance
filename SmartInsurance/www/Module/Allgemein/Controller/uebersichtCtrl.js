@@ -4,23 +4,27 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
     $scope.versicherungen= [];
     $scope.investitionen = [];
     
+    $scope.noVersicherung = true;
+    $scope.noInvestition = true;
+    
  
-   $http.get('http://localhost:3000/api/smartinsurance/versicherung').success(function(response) {
-         $scope.versicherungen = response;
+    $http.get('http://localhost:3000/api/smartinsurance/versicherung').success(function(response) {
+        $scope.versicherungen = response;
+        $scope.noVersicherung = false;   
     
-   });
+    });
     
-   $http.get('http://localhost:3000/api/smartinsurance/investition').success(function(response) {
-         $scope.investitionen = response;
+    $http.get('http://localhost:3000/api/smartinsurance/investition').success(function(response) {
+        $scope.investitionen = response;
+        $scope.noInvestition = false; 
+    });
     
-   });
-    
-    $scope.versicherungShow = function() {
-        $state.go("app.versicherungAdd");
+    $scope.versicherungShow = function(id) {
+        $state.go("app.versicherungDetail",{id: id});
     }
     
     $scope.investitionShow = function() {
-        $state.go("app.versicherungAdd");
+        // Verweis auf Investition Detailansicht
     }
     
     $scope.versicherungengesamt = function() {
@@ -54,14 +58,22 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         var monatsbeitrag = 0;
         var investitionshoehe = 0;
         var versicherungshoehe = 0;
-       // for (var i = 0; i < $scope.investitionen.length; i++){
-       //    monatsbeitrag = moneyParser.moneyparsen($scope.investitionen[i].beitrag);
-       //    investitionshoehe = moneyParser.moneyparsen($scope.investitionen[i].investitionshoehe);
-        //versicherungshoehe = moneyParser.moneyparsen($scope.investitionen[i].versicherungshoehe); 
-         //  gesamtbetrag += monatsbeitrag * investitionshoehe /versicherungshoehe; 
-       // }
+        for (var i = 0; i < $scope.investitionen.length; i++){
+            monatsbeitrag = moneyParser.moneyparsen($scope.investitionen[i].beitrag);
+            investitionshoehe = moneyParser.moneyparsen($scope.investitionen[i].investitionshoehe);
+            versicherungshoehe = moneyParser.moneyparsen($scope.investitionen[i].versicherungshoehe); 
+            gesamtbetrag += monatsbeitrag * investitionshoehe /versicherungshoehe; 
+        }
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
-     
+    
+    $scope.calculateRendite = function (investition) {
+        var monatsbeitrag =  moneyParser.moneyparsen(investition.beitrag);
+        var investitionshoehe = moneyParser.moneyparsen(investition.investitionshoehe);
+        var versicherungshoehe = moneyParser.moneyparsen(investition.versicherungshoehe);
+        
+        return moneyFormatter.formatMoney(monatsbeitrag * investitionshoehe /versicherungshoehe);
+    };
+    
     
 })

@@ -1,18 +1,18 @@
-appController.controller('versicherungCheckCtrl',function($scope, $http, $state, moneyParser, moneyFormatter, versicherungAdd){
+appController.controller('versicherungCheckCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter){
    
-    $scope.versicherung = versicherungAdd.getVersicherung(); 
+    $scope.versicherung = $stateParams.versicherung; 
 
     $scope.disable = true;
     
-    $scope.kosten = "Das Erstellen des Versicherungsangebots beträgt einmalig 5 €";
+    $scope.kosten = "Das Erstellen des Versicherungsangebots kostet einmalig 5 €";
     
     $scope.versicherungCheck = function (){
-        /*$http.post('http://localhost:3000/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
-            versicherungAdd.setVersicherung({});
-            $state.go('app.versicherungAdded');
-        });  */
-        versicherungAdd.reset(); 
-        $state.go('app.versicherungAdded');
+        console.log(JSON.stringify($scope.versicherung));
+        $http.post('http://localhost:3000/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
+            console.log("erfolgreich");
+            // id übergeben
+            $state.go('app.versicherungAdded',{id: data});
+        }); 
     }
     
 });
