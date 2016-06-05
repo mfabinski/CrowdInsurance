@@ -48,7 +48,7 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     };
     
     $scope.editVersicherung = function () {
-        // Verweis auf Versicherung bearbeiten
+        $state.go("app.versicherungEdit", {id: $scope.versicherung.id});
     };
     
     $scope.showSchadensfaelle = function() {

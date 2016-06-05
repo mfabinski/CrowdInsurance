@@ -74,6 +74,7 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
  
   .state('app.versicherungEdit', {
     url: '/versicherungEdit',
+    params: {id : null},
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Edit/Views/versicherungEdit.html',
@@ -157,6 +158,8 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
  
   // if none of the above states are matched, use this as the fallback
   //$urlRouterProvider.otherwise('/app/uebersicht');  
+  
+    .state("otherwise", { url : '/app/uebersicht'})
 };
 
  
