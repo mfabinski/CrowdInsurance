@@ -1,18 +1,18 @@
-appController.controller('investitionSearchCtrl',function($scope, $http){
-    
-    $http.get('http://localhost:3000/api/smartinsurance/investition').success(function(response) {
+appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint){
+
+    $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
          $scope.investitionen = response.data;
-    
+
     });
-    
+
     $scope.investitionShow = function() {
-        
+
     }
-    
+
     $scope.investitionSearch = function() {
-        
+
     }
-    
-    
-    
+
+
+
 })
