@@ -71,8 +71,16 @@ describe("Versicherung abfragen", function(){
       expect(responseObject[0]).to.have.property('id').to.equal(expectedResponse[0].id);
       expect(responseObject[0]).to.have.property('beitrag').to.equal(expectedResponse[0].beitrag);
       expect(responseObject[0]).to.have.property('istGekuendigt').to.equal(expectedResponse[0].istGekuendigt);
-//      expect(responseObject.data[0]).to.have.property('wirdGekuendigt').to.equal(expectedResponse.data[0].wirdGekuendigt);
-      // expect(JSON.parse(body)).to.deep.equal(expectedResponse);
+      expect(responseObject[0]).to.have.property('personID').to.equal(expectedResponse[0].personID);
+      expect(responseObject[0]).to.have.property('name').to.equal(expectedResponse[0].name);
+      expect(responseObject[0]).to.have.property('versicherungshoehe').to.equal(expectedResponse[0].versicherungshoehe);
+      expect(responseObject[0]).to.have.property('beschreibung').to.equal(expectedResponse[0].beschreibung);
+      expect(responseObject[0]).to.have.property('abschlussZeitpunkt').to.equal(expectedResponse[0].abschlussZeitpunkt);
+      expect(responseObject[0]).to.have.property('kuendigungsZeitpunkt').to.equal(expectedResponse[0].kuendigungsZeitpunkt);
+      expect(responseObject[0]).to.have.property('wirdGekuendigt').to.equal(expectedResponse[0].wirdGekuendigt);
+      expect(responseObject[0]).to.have.property('kategorie').to.equal(expectedResponse[0].kategorie);
+      expect(responseObject[0]).to.have.property('personName').to.equal(expectedResponse[0].personName);
+      expect(responseObject[0]).to.have.property('personPrename').to.equal(expectedResponse[0].personPrename);
       done();
     });
   });
