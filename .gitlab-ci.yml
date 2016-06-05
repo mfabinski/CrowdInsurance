@@ -48,7 +48,7 @@ build_android:
 mochatest:
   image: node:4.2.4
   services:
-    - registry.cloudf.de/matthias/depostgresdocker:latest
+    - registry.cloudf.de/matthias/depostgresdocker:9.5
   stage: test
   variables:
       DB_USER: smartinsurance
@@ -68,7 +68,7 @@ dockertest:
   image: docker:git
   services:
     - docker:dind
-    - registry.cloudf.de/matthias/depostgresdocker:latest
+    - registry.cloudf.de/matthias/depostgresdocker:9.5
   variables:
       DB_USER: smartinsurance
       DB_PASSWORD: "123456"

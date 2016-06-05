@@ -11,8 +11,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
--- SET row_security = off;
-SET lc_monetary = 'de_DE.UTF-8';
+SET row_security = off;
 
 --
 -- Name: smartbackend; Type: SCHEMA; Schema: -; Owner: -
@@ -89,26 +88,26 @@ SET search_path = smartbackend, pg_catalog;
 
 CREATE FUNCTION insert_smartbackend_user(email text, prename text, name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    LOOP
-        -- first try to update the key
-        -- note that "a" must be unique
-        UPDATE smartbackend.user SET email = email WHERE email = email;
-        IF found THEN
-            RETURN;
-        END IF;
-        -- not there, so try to insert the key
-        -- if someone else inserts the same key concurrently,
-        -- we could get a unique-key failure
-        BEGIN
-            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
-            RETURN;
-        EXCEPTION WHEN unique_violation THEN
-            -- do nothing, and loop to try the UPDATE again
-        END;
-    END LOOP;
-END;
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
 $$;
 
 
@@ -120,6 +119,69 @@ CREATE FUNCTION uuid_generate_v1mc() RETURNS uuid
     LANGUAGE c STRICT
     AS '$libdir/uuid-ossp', 'uuid_generate_v1mc';
 
+
+SET search_path = smartinsurance, pg_catalog;
+
+--
+-- Name: createinvestition(integer, uuid, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
+    LANGUAGE sql
+    AS $_$
+    INSERT INTO smartinsurance."Zahlungsstrom"
+       ("versicherungID", "personID", betrag)
+       VALUES ($1, $2, $3);
+    INSERT INTO smartinsurance."Investition"
+       (id, "versicherungID", "personID", investitionshoehe) 
+       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
+$_$;
+
+
+--
+-- Name: createversicherung(uuid, text, money, money, text, kategorie); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION createversicherung(uuid, text, money, money, text, kategorie) RETURNS integer
+    LANGUAGE sql
+    AS $_$
+    INSERT INTO smartinsurance."Versicherung"
+    (id, "personID", name, versicherungshoehe, beitrag, beschreibung, kategorie)
+    VALUES ( DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id;
+$_$;
+
+
+--
+-- Name: finalizeinvestitionskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
+    LANGUAGE sql
+    AS $$
+    INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
+      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
+      FROM smartinsurance."Investition" 
+      WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
+    UPDATE smartinsurance."Investition"
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+      WHERE "wirdGekuendigt"=true;
+$$;
+
+
+--
+-- Name: finalizeversicherungskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
+    LANGUAGE sql
+    AS $$
+    UPDATE smartinsurance."Versicherung"
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+    WHERE "wirdGekuendigt"=true;
+$$;
+
+
+SET search_path = smartbackend, pg_catalog;
 
 SET default_tablespace = '';
 
@@ -255,8 +317,8 @@ CREATE VIEW "InvestitionKomplett" AS
 
 CREATE FUNCTION getinvestitionkomplettbyiid(integer) RETURNS "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
 $_$;
 
 
@@ -266,8 +328,8 @@ $_$;
 
 CREATE FUNCTION getinvestitionkomplettbyuid(uuid) RETURNS SETOF "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
 $_$;
 
 
@@ -277,9 +339,35 @@ $_$;
 
 CREATE FUNCTION getinvestitionkomplettbyvid(integer) RETURNS SETOF "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
 $_$;
+
+
+--
+-- Name: getinvestitionssummebyvid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
+    LANGUAGE sql
+    AS $_$
+    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
+     FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     WHERE smartinsurance."Versicherung".id=$1
+     AND smartinsurance."Investition"."istGekuendigt"=false;
+$_$;
+
+
+--
+-- Name: getkategorien(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getkategorien() RETURNS kategorie[]
+    LANGUAGE sql
+    AS $$
+    SELECT enum_range(NULL::kategorie);
+$$;
 
 
 --
@@ -288,8 +376,8 @@ $_$;
 
 CREATE FUNCTION getversicherungpersonbyuid(uuid) RETURNS SETOF "VersicherungPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
 $_$;
 
 
@@ -299,8 +387,32 @@ $_$;
 
 CREATE FUNCTION getversicherungpersonbyvid(integer) RETURNS "VersicherungPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
+$_$;
+
+
+--
+-- Name: Versicherungsbewertungen; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "Versicherungsbewertungen" AS
+ SELECT "Investition"."versicherungID",
+    "Investition".bewertung,
+    count("Investition".bewertung) AS count
+   FROM "Investition"
+  GROUP BY "Investition"."versicherungID", "Investition".bewertung
+  ORDER BY "Investition"."versicherungID", "Investition".bewertung;
+
+
+--
+-- Name: getversicherungsbewertungenbyvid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getversicherungsbewertungenbyvid(integer) RETURNS SETOF "Versicherungsbewertungen"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "Versicherungsbewertungen" as vb WHERE vb."versicherungID" = $1;
 $_$;
 
 
@@ -310,13 +422,13 @@ $_$;
 
 CREATE FUNCTION test_matthias(param_id integer) RETURNS SETOF "Versicherung"
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-   RETURN QUERY
-   SELECT *
-   FROM "smartinsurance"."Versicherung"
-   WHERE id = param_id;
-END
+    AS $$
+BEGIN
+   RETURN QUERY
+   SELECT *
+   FROM "smartinsurance"."Versicherung"
+   WHERE id = param_id;
+END
 $$;
 
 
@@ -374,7 +486,7 @@ CREATE TABLE chat_room (
 CREATE TABLE chat_room_user (
     roomid uuid DEFAULT uuid_generate_v1mc() NOT NULL,
     user_id uuid NOT NULL,
-    "isAdmin" boolean DEFAULT false NOT NULL
+    isadmin boolean DEFAULT false NOT NULL
 );
 
 
@@ -1053,3 +1165,4 @@ ALTER TABLE ONLY "Zahlungsstrom"
 --
 -- PostgreSQL database dump complete
 --
+
