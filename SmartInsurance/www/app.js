@@ -21,17 +21,10 @@ app.run(function($ionicPlatform) {
     }
   });
 })
-/*
-// alter Version
+
+
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-*/
-
-app.config(['$stateProvider', '$urlRouterProvider', configuration]);
- function configuration ($stateProvider, $stateParams , $urlRouterProvider) {
-   
-        
- $stateProvider
 
     .state('app', {
     url: '/app',
@@ -154,16 +147,13 @@ app.config(['$stateProvider', '$urlRouterProvider', configuration]);
       }
     });
      
-   
-    
-      
-// otherwise funktioniert nicht mehr 
  
   // if none of the above states are matched, use this as the fallback
-   // $urlRouterProvider.otherwise('/app/uebersicht');
+   $urlRouterProvider.otherwise('/app/uebersicht');
   
+});
     
-};
+
 
  
 
