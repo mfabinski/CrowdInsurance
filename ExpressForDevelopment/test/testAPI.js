@@ -343,8 +343,8 @@ describe("Test API:", function(){
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
-        expect(responseObject[0]).to.equal("Auto");
-        expect(responseObject[6]).to.equal("Maschinen");
+        expect(responseObject).to.have.length.of.at.least(7);
+        expect(responseObject).to.include.members(["Auto", "Schiff", "Flugzeug", "Haus", "Küchengeräte", "Möbel", "Maschinen"]);
         done();
       });
     });
