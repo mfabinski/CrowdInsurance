@@ -193,7 +193,7 @@ describe("Test API:", function(){
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
         }
-      };
+      });
     });
 
     it('Tets der Sortierung');
