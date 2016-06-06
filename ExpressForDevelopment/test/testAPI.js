@@ -175,7 +175,7 @@ describe("Test API:", function(){
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
-        expect(responseObject).to.have.length(1);
+        expect(responseObject).to.have.length.of.at.least(1);
         var versicherungOf = responseObject[0].personID;
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("personID").to.equal(versicherungOf);
@@ -194,6 +194,7 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/versicherung/89/bewertungen";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
         expect(responseObject).to.have.length(3);
         var versicherungID = responseObject[0].versicherungID;
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
@@ -471,4 +472,12 @@ describe("Test API:", function(){
     });
   });
 
+});
+
+describe("Test Backendroutine", function() {
+  it('Kündigung einer Versicherung');
+  it('Kündigung einer Investition');
+  it('Zahlungsfluss Beiträge');
+  it('Zahlungsfluss Rendite');
+  it('Zahlungsfluss Invesition');
 });
