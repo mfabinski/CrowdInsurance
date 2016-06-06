@@ -198,12 +198,34 @@ describe("Test API:", function(){
       });
     });
 
-    it('Tets der Sortierung');
-
-    it('Tets der Kombination von Kategoriefilter und Sortierung', function(done) {
+    it('Tets der aufsteigenden Sortierung', function(done) {
       var url = "http://localhost:3000/api/smartinsurance/filter";
       var postbody = {
-        "kategorie" : "Auto",
+        "orderby" : "rendite",
+        "ascending" : true
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
+        expect(responseObject).to.have.length.of.at.least(1);
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          if (i>0) {
+            expect(versicherung).to.have.property("rendite").to.be.at.least(responseObject[i-1].rendite); // Test the rendite is higher or equal
+          }
+        }
+        done();
+      });
+    });
+
+
+    it('Tets der absteigenden Sortierung', function(done) {
+      var url = "http://localhost:3000/api/smartinsurance/filter";
+      var postbody = {
         "orderby" : "rendite",
         "ascending" : false
       };
@@ -217,8 +239,35 @@ describe("Test API:", function(){
         var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          if (i>0) {
+            expect(versicherung).to.have.property("rendite").to.be.at.most(responseObject[i-1].rendite); // Test the rendite is higher or equal
+          }
+        }
+        done();
+      });
+    });
+
+    it('Tets der Kombination von Kategoriefilter und Sortierung', function(done) {
+      var url = "http://localhost:3000/api/smartinsurance/filter";
+      var postbody = {
+        "kategorie" : "Auto",
+        "orderby" : "rendite",
+        "ascending" : true
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
+        expect(responseObject).to.have.length.of.at.least(1);
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
-          // TODO Check rendite ascending
+          if (i>0) {
+            expect(versicherung).to.have.property("rendite").to.be.at.most(responseObject[i-1].rendite); // Test the rendite is higher or equal
+          }
         }
         done();
       });
