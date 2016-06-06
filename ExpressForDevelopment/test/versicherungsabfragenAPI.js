@@ -35,48 +35,23 @@ describe("Test API:", function(){
       done(err);
     });
   });
-  // Drop Schemas nach allen Tests in diesem Block
-  after(function(done){
-    var query = fs.readFileSync('test/data/general/dropSchemas.sql').toString();
+
+  // Lege Testdaten an!
+  beforeEach(function(done){
+    var query = fs.readFileSync('test/data/general/testdatenEinfuegen.sql').toString();
     db.any(query).then(function(){
-      done()
+      if (verbose) logger.consoleInfo("Testdaten eingefuegt");
+      server = app.listen(3000, function () {
+        if (verbose) logger.consoleInfo('App hört nun auf port 3000 - Test Modus');
+        done();
+      });
     }).catch(function(err){
-      if (verbose) logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);
+      if (verbose) logger.consoleInfo("Fehler beim Einfuegen der Versicherungen\n"+ err);
       done(err);
     });
   });
 
-  describe("/api/smartinsurance/versicherung/:id", function(){
-
-
-    // Lege Testdaten an!
-    beforeEach(function(done){
-      var query = fs.readFileSync('test/data/general/testdatenEinfuegen.sql').toString();
-      db.any(query).then(function(){
-        if (verbose) logger.consoleInfo("Testdaten eingefuegt");
-        server = app.listen(3000, function () {
-          if (verbose) logger.consoleInfo('App hört nun auf port 3000 - Test Modus');
-          done();
-        });
-      }).catch(function(err){
-        if (verbose) logger.consoleInfo("Fehler beim Einfuegen der Versicherungen\n"+ err);
-        done(err);
-      });
-    });
-
-    // Leere die Tabellen
-    afterEach(function(done){
-      var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
-      server.close(); // app.close() wurde rausgepatcht: https://github.com/expressjs/express/issues/1366
-      if (verbose) logger.consoleInfo('App stoppt - Test Modus');
-      db.any(query).then(function(){
-        done();
-      }).catch(function(err){
-        if (verbose) logger.consoleInfo("Fehler beim leeren der Tabellen\n"+ err);
-        done(err);
-      });
-    });
-
+  describe("get /api/smartinsurance/versicherung/:id", function(){
 
     it("Test auf erfolgreiche Rückgabe einer Versicherung by id", function(done){
       var url = "http://localhost:3000/api/smartinsurance/versicherung/114";
@@ -128,4 +103,29 @@ describe("Test API:", function(){
     });
 
   });
+
+  // Leere die Tabellen
+  afterEach(function(done){
+    var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
+    server.close(); // app.close() wurde rausgepatcht: https://github.com/expressjs/express/issues/1366
+    if (verbose) logger.consoleInfo('App stoppt - Test Modus');
+    db.any(query).then(function(){
+      done();
+    }).catch(function(err){
+      if (verbose) logger.consoleInfo("Fehler beim leeren der Tabellen\n"+ err);
+      done(err);
+    });
+  });
+
+  // Drop Schemas nach allen Tests in diesem Block
+  after(function(done){
+    var query = fs.readFileSync('test/data/general/dropSchemas.sql').toString();
+    db.any(query).then(function(){
+      done()
+    }).catch(function(err){
+      if (verbose) logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);
+      done(err);
+    });
+  });
+
 });
