@@ -169,11 +169,40 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/versicherung", function(){
-    it('Alle Versicherungen einer Person');
+    it('Alle Versicherungen einer Person', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        expect(responseObject).to.have.length(1);
+        var versicherungOf = responseObject[0].personID;
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          expect(versicherung).to.have.property("personID").to.equal(versicherungOf);
+        }
+      });
+    });
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
-    it('Bewertung einer Versicherung');
+    it('Bewertung einer Versicherung', function(done){
+      var expectedResponse = fs.readFileSync('test/data/versicherungapi/bewertung89.json').toString();
+      expectedResponse = JSON.parse(expectedResponse);
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/89/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        expect(responseObject).to.have.length(3);
+        var versicherungID = responseObject[0].versicherungID;
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          expect(versicherung).to.have.property("versicherungID").to.equal(versicherungID);
+          expect(versicherung).to.have.property("bewertung");
+          var bewertung = versicherung.bewertung;
+          for (var j = 0, expected; expected = expectedResponse[j], j++) {
+            if (bewertung == expected.bewertung) {
+              expect(versicherung).to.have.property("count").to.equal(expected.count);
+            }
+          }
+        }
+      });
+    });
   });
 
   describe("post /api/smartinsurance/filter", function(){
@@ -215,7 +244,7 @@ describe("Test API:", function(){
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           if (i>0) {
-            expect(versicherung).to.have.property("rendite").to.be.at.least(responseObject[i-1].rendite); // Test the rendite is higher or equal
+            expect(versicherung).to.have.property("rendite").to.be.at.least(responseObject[i-1].rendite); // Test the rendite is higher or equal responseObject[i-1].rendite
           }
         }
         done();
@@ -240,7 +269,7 @@ describe("Test API:", function(){
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           if (i>0) {
-            expect(versicherung).to.have.property("rendite").to.be.at.most(responseObject[i-1].rendite); // Test the rendite is higher or equal
+            expect(versicherung).to.have.property("rendite").to.be.at.most(responseObject[i-1].rendite); // Test the rendite is lower or equal responseObject[i-1].rendite
           }
         }
         done();
@@ -266,7 +295,7 @@ describe("Test API:", function(){
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
           if (i>0) {
-            expect(versicherung).to.have.property("rendite").to.be.at.most(responseObject[i-1].rendite); // Test the rendite is higher or equal
+            expect(versicherung).to.have.property("rendite").to.be.at.least(responseObject[i-1].rendite); // Test the rendite is higher or equal responseObject[i-1].rendite
           }
         }
         done();
