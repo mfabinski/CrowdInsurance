@@ -205,7 +205,18 @@ describe("Test API:", function(){
         "orderby" : "rendite",
         "ascending" : false
       };
-      request(url).post(url).send(postbody).expect(200);
+      request({
+        "url":url,
+        "method":"POST",
+        "json" : postbody
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
+        expect(responseObject).to.have.length.of.at.least(1);
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          expect(versicherung).to.have.property("kategorie").to.equal("Auto");
+        }
+      });
     });
   });
 
