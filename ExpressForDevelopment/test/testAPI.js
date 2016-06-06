@@ -189,8 +189,7 @@ describe("Test API:", function(){
         "json" : true
       }, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
-        logger.consoleInfo("ResponseCode: "+response.ResponseCode +"; "+ error + "; " + JSON.stringify(body));
-        var responseObject = JSON.parse(body);
+        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
@@ -214,7 +213,7 @@ describe("Test API:", function(){
         "json" : true
       }, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
-        var responseObject = JSON.parse(body);
+        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
