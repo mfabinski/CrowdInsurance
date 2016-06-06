@@ -4,6 +4,8 @@ var fs = require('fs');
 var app = require('../app.js');
 var server;
 var logger = require('logger.js');
+var verbose = false;
+if (verbose) logger.consoleInfo=function(){};
 
 var getDBPromis = function(){
   var credentials;
