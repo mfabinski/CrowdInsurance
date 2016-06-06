@@ -228,18 +228,23 @@ describe("Test API:", function(){
   describe("get /api/smartinsurance/kategorien", function(){
     it('Werden alle Kategorien zurückgegeben', function(done){
       var url = "http://localhost:3000/api/smartinsurance/kategorien";
-      request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(200);
+      var reqbody = {
+        "versicherungID" : "13",
+        "investitionswert" : "10,00 €"
+      }
+      request.post(url, reqbody, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
         var responseObject = JSON.parse(body);
-        expect(responseObject).to.have.length.of.at.least(7);
-        expect(responseObject).to.include.members(["Auto", "Schiff", "Flugzeug", "Haus", "Küchengeräte", "Möbel", "Maschinen"]);
+        expect(responseObject[0]).to.have.property('createinvestition').to.not.equal(null);
         done();
       });
     });
   });
 
   describe("post /api/smartinsurance/investieren", function(){
-    it('Erfolgreiches anlegen einer Investition');
+    it('Erfolgreiches anlegen einer Investition', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+    });
     it('Fehlschlag nicht erlaubtes Investieren zu hohe Investitionssumme');
     it('Fehlschlag nicht vorhandene Versicherung');
     it('Fehlschlag negative Beträge');
