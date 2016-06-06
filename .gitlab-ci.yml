@@ -44,6 +44,10 @@ build_android:
   artifacts:
     paths:
       - /builds/matthias/crowdinsurance/smartinsurance.apk
+  only:
+    - tags
+    - master
+    - /^frontend.*$/i
 
 mochatest:
   image: node:4.2.4
