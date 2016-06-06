@@ -340,14 +340,11 @@ describe("Test API:", function(){
 
     it('Werden alle Kategorien zurückgegeben', function(done){
       var url = "http://localhost:3000/api/smartinsurance/kategorien";
-      var reqbody = {
-        "versicherungID" : "13",
-        "investitionswert" : "10,00 €"
-      }
-      request.post(url, reqbody, function(error, response, body) {
-        expect(response.statusCode).to.equal(201);
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
-        expect(responseObject[0]).to.have.property('createinvestition').to.not.equal(null);
+        expect(responseObject[0]).to.equal("Auto");
+        expect(responseObject[6]).to.equal("Möbel");
         done();
       });
     });
