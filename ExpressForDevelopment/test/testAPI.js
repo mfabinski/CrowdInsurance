@@ -344,7 +344,7 @@ describe("Test API:", function(){
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
         expect(responseObject[0]).to.equal("Auto");
-        expect(responseObject[6]).to.equal("Möbel");
+        expect(responseObject[6]).to.equal("Maschinen");
         done();
       });
     });
