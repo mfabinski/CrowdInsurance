@@ -104,6 +104,70 @@ describe("Test API:", function(){
 
   });
 
+  describe("get /api/smartinsurance/investition/:id", function(){
+
+    it("Test auf erfolgreiche Rückgabe einer Investition by id", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/13";
+      var expectedResponse = fs.readFileSync('test/data/investitionapi/13.json').toString();
+      expectedResponse = JSON.parse(expectedResponse);
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
+        expect(responseObject).to.have.length(1);
+        expect(responseObject[0]).to.have.property('id').to.equal(expectedResponse[0].id);
+        expect(responseObject[0]).to.have.property('versicherungID').to.equal(expectedResponse[0].versicherungID);
+        expect(responseObject[0]).to.have.property('ipersonID').to.equal(expectedResponse[0].ipersonID);
+        expect(responseObject[0]).to.have.property('ipersonName').to.equal(expectedResponse[0].ipersonName);
+        expect(responseObject[0]).to.have.property('ipersonPrename').to.equal(expectedResponse[0].ipersonPrename);
+        expect(responseObject[0]).to.have.property('investitionshoehe').to.equal(expectedResponse[0].investitionshoehe);
+        expect(responseObject[0]).to.have.property('bewertung').to.equal(expectedResponse[0].bewertung);
+        expect(responseObject[0]).to.have.property('iabschlussZeitpunkt').to.equal(expectedResponse[0].iabschlussZeitpunkt);
+        expect(responseObject[0]).to.have.property('ikuendigungsZeitpunkt').to.equal(expectedResponse[0].ikuendigungsZeitpunkt);
+        expect(responseObject[0]).to.have.property('iistGekuendigt').to.equal(expectedResponse[0].iistGekuendigt);
+        expect(responseObject[0]).to.have.property('iwirdGekuendigt').to.equal(expectedResponse[0].iwirdGekuendigt);
+        expect(responseObject[0]).to.have.property('vpersonID').to.equal(expectedResponse[0].vpersonID);
+        expect(responseObject[0]).to.have.property('vpersonName').to.equal(expectedResponse[0].vpersonName);
+        expect(responseObject[0]).to.have.property('vpersonPrename').to.equal(expectedResponse[0].vpersonPrename);
+        expect(responseObject[0]).to.have.property('name').to.equal(expectedResponse[0].name);
+        expect(responseObject[0]).to.have.property('versicherungshoehe').to.equal(expectedResponse[0].versicherungshoehe);
+        expect(responseObject[0]).to.have.property('beitrag').to.equal(expectedResponse[0].beitrag);
+        expect(responseObject[0]).to.have.property('beschreibung').to.equal(expectedResponse[0].beschreibung);
+        expect(responseObject[0]).to.have.property('vabschlussZeitpunkt').to.equal(expectedResponse[0].vabschlussZeitpunkt);
+        expect(responseObject[0]).to.have.property('vkuendigungsZeitpunkt').to.equal(expectedResponse[0].vkuendigungsZeitpunkt);
+        expect(responseObject[0]).to.have.property('vistGekuendigt').to.equal(expectedResponse[0].vistGekuendigt);
+        expect(responseObject[0]).to.have.property('vwirdGekuendigt').to.equal(expectedResponse[0].vwirdGekuendigt);
+        expect(responseObject[0]).to.have.property('kategorie').to.equal(expectedResponse[0].kategorie);
+
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei Abfrage einer nicht vorhandenen id", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/1";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/abc";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+  });
+
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
