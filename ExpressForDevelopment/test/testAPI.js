@@ -185,7 +185,7 @@ describe("Test API:", function(){
       request({
         "url":url,
         "method":"POST",
-        "json" : postbody
+        "json" : JSON.stringify(postbody)
       }, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
@@ -215,6 +215,7 @@ describe("Test API:", function(){
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
+          // TODO Check rendite ascending
         }
       });
     });
@@ -227,7 +228,7 @@ describe("Test API:", function(){
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
         expect(responseObject).to.have.length.of.at.least(7);
-        expect(responseObject).to.include(["Auto", "Schiff", "Flugzeug", "Haus", "Küchengeräte", "Möbel", "Maschinen"]);
+        expect(responseObject).to.include.members(["Auto", "Schiff", "Flugzeug", "Haus", "Küchengeräte", "Möbel", "Maschinen"]);
         done();
       });
     });
