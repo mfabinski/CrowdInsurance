@@ -174,11 +174,13 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/versicherung";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
         expect(responseObject).to.have.length(1);
         var versicherungOf = responseObject[0].personID;
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("personID").to.equal(versicherungOf);
         }
+        done();
       });
     });
 
@@ -361,11 +363,13 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/investition";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
         expect(responseObject).to.have.length.of.at.least(1);
         var investitionOf = responseObject[0].ipersonID;
         for (var i = 0, investition; investition = responseObject[i]; i++) {
           expect(investition).to.have.property("ipersonID").to.equal(investitionOf);
         }
+        done();
       });
     });
 
@@ -377,11 +381,13 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/investitionVers/89";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
         expect(responseObject).to.have.length.of.at.least(1);
         var versicherungID = responseObject[0].versicherungID;
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("versicherungID").to.equal(versicherungID);
         }
+        done();
       });
     });
 
