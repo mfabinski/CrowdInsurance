@@ -180,12 +180,13 @@ describe("Test API:", function(){
     it('Test des Kategoriefilters', function(done) {
       var url = "http://localhost:3000/api/smartinsurance/filter";
       var postbody = {
-        "kategorie" : "Auto",
+        "kategorie" : "Auto"
       };
       request({
         "url":url,
         "method":"POST",
-        "json" : JSON.stringify(postbody)
+        "body" : postbody,
+        "json" : true
       }, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
@@ -208,7 +209,8 @@ describe("Test API:", function(){
       request({
         "url":url,
         "method":"POST",
-        "json" : postbody
+        "body" : postbody,
+        "json" : true
       }, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         var responseObject = JSON.parse(body);
