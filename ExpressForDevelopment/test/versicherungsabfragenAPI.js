@@ -65,8 +65,6 @@ describe("Versicherung abfragen", function(){
     request(url, function(error, response, body) {
       expect(response.statusCode).to.equal(200);
       var responseObject = JSON.parse(body);
-      logger.consoleInfo(body);
-      logger.consoleInfo(expectedResponse);
       expect(responseObject).to.have.length(1);
       expect(responseObject[0]).to.have.property('id').to.equal(expectedResponse[0].id);
       expect(responseObject[0]).to.have.property('beitrag').to.equal(expectedResponse[0].beitrag);
@@ -81,6 +79,14 @@ describe("Versicherung abfragen", function(){
       expect(responseObject[0]).to.have.property('kategorie').to.equal(expectedResponse[0].kategorie);
       expect(responseObject[0]).to.have.property('personName').to.equal(expectedResponse[0].personName);
       expect(responseObject[0]).to.have.property('personPrename').to.equal(expectedResponse[0].personPrename);
+      done();
+    });
+  });
+
+  it("Test Fehlschlag Versicherung by id", function(done){
+    request(url, function(error, response, body) {
+      expect(response.statusCode).to.equal(404);
+      var responseObject = JSON.parse(body);
       done();
     });
   });
