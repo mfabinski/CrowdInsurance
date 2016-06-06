@@ -22,7 +22,7 @@ var getDBPromis = function(){
 var db = getDBPromis();
 
 // Beschreibung der Testfälle:
-
+describe("Testen API", function(){
 describe("Versicherung abfragen", function(){
 
   //Erstellen der Schemen vor allen Tests in diesem Block
@@ -126,4 +126,5 @@ describe("Versicherung abfragen", function(){
     });
   });
 
-})
+});
+});
