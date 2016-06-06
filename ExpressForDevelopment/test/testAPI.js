@@ -189,6 +189,7 @@ describe("Test API:", function(){
         "json" : true
       }, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
+        logger.consoleInfo("ResponseCode: "+response.ResponseCode +"; "+ error + "; " + body);
         var responseObject = JSON.parse(body);
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
