@@ -94,8 +94,7 @@ describe("Versicherung abfragen", function(){
   it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
     var url = "http://localhost:3000/api/smartinsurance/versicherung/abc";
     request(url, function(error, response, body) {
-      expect(response.statusCode).to.equal(404);
-      var responseObject = JSON.parse(body);
+      expect(response.statusCode).to.equal(400);
       done();
     });
   });
@@ -104,7 +103,6 @@ describe("Versicherung abfragen", function(){
     var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public";
     request(url, function(error, response, body) {
       expect(response.statusCode).to.equal(400);
-      var responseObject = JSON.parse(body);
       done();
     });
   });
