@@ -177,13 +177,38 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/filter", function(){
-    it('Test des Kategoriefilters');
+    it('Test des Kategoriefilters', function(done) {
+      var url = "http://localhost:3000/api/smartinsurance/filter";
+      var postbody = {
+        "kategorie" : "Auto",
+      };
+      request(url).post(url).send(postbody).expect(200);
+    });
+
     it('Tets der Sortierung');
-    it('Tets der Kombination von Kategoriefilter und Sortierung');
+
+    it('Tets der Kombination von Kategoriefilter und Sortierung', function(done) {
+      var url = "http://localhost:3000/api/smartinsurance/filter";
+      var postbody = {
+        "kategorie" : "Auto",
+        "orderby" : "rendite",
+        "ascending" : false
+      };
+      request(url).post(url).send(postbody).expect(200);
+    });
   });
 
   describe("get /api/smartinsurance/kategorien", function(){
-    it('Werden alle Kategorien zurückgegeben');
+    it('Werden alle Kategorien zurückgegeben', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kategorien";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
+        expect(responseObject).to.have.length.of.at.least(7);
+        expect(responseObject).to.include(["Auto", "Schiff", "Flugzeug", "Haus", "Küchengeräte", "Möbel", "Maschinen"]);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/investieren", function(){
