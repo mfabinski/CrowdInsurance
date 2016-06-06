@@ -129,6 +129,26 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   })
 
+  .state('app.investitionAdd', {
+      url: '/investitionAdd/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Add/Views/investitionAdd.html',
+          controller: 'investitionAddCtrl'
+        }
+      }
+    })
+  
+  .state('app.investitionCheck', {
+      url: '/investitionCheck',
+      params: {investition: null},
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Add/Views/investitionCheck.html',
+          controller: 'investitionCheckCtrl'
+        }
+      }
+    })    
   
    .state('app.schadensfallMelden', {
       url: '/schadensfallMelden',
@@ -141,7 +161,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
   
-  .state('app.investitionSearch', {
+  .state('app.investitionAdded', {
+      url: '/investitionAdded',
+      params: {ids: null},
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Add/Views/investitionAdded.html',
+          controller: 'investitionAddedCtrl'
+        }
+      }
+    })
+      
+    .state('app.investitionSearch', {
       url: '/investitionSearch',
       views: {
         'menuContent': {

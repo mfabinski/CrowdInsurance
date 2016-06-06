@@ -2,18 +2,50 @@
     <ion-content class="has-header" padding="true">
         <div id="investitionAbschlieEn-card217" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionAbschlieEn-markdown46">Versicherungsdetails</p>
-            <ion-item style="" class="  " id="investitionAbschlieEn-list-item21">Item</ion-item>
+            <ion-item style="" class="  " id="investitionAbschlieEn-list-item21">
+                <table>
+                    <tr> 
+                        <td>  <b>Bezeichnung: </b> </td>  
+                        <td>  {{versicherung.name}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Kategorie: </b> </td>
+                        <td>  {{versicherung.kategorie}} </td>
+                    </tr>
+                   <tr> 
+                        <td> <b> Versicherungshöhe: </b> </td>
+                        <td>  {{versicherung.versicherungshoehe}} </td>
+                    </tr>
+                    <tr> 
+                        <td>  davon bereits gedeckt: </td>
+                        <td>  {{investitionBetrag}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Aktueller Wert: </b> </td>
+                        <td>  {{versicherung.wert}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Monatsbeitrag: </b> </td>
+                        <td>  {{versicherung.beitrag}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Beschreibung: </b> </td>
+                        <td>  {{versicherung.beschreibung}} </td>
+                    </tr>
+                </table>
+            </ion-item>
         </div>
         <div id="investitionAbschlieEn-card218" class="list card ">
             <form class="list " id="investitionAbschlieEn-form62">
                 <p class=" " style="color:#000000;font-size:18px;" id="investitionAbschlieEn-markdown47">Investitionswert</p>
                 <label id="investitionAbschlieEn-input39" class="item item-input ">
-                    <input placeholder="" type="text">
+                    <input placeholder="" type="text" ng-model="investition.investitionswert" ng-disabled="disable">
                 </label>
-                <p class=" " style="color:#000000;font-size:16px;" id="investitionAbschlieEn-markdown48">Maximale Rendite:</p>
+                <p class=" " style="color:#000000;font-size:16px;" id="investitionAbschlieEn-markdown48">Maximale Rendite:</p> {{calculateRendite()}}
             </form>
         </div>
-        <p class=" " style="color:#000000;font-size:16px;" id="investitionAbschlieEn-markdown49">Kosten:</p>
-        <button class=" button button-positive  button-block " id="investitionAbschlieEn-button35">Kostenpfllichtig abschließen</button>
+        <p class=" " style="color:#000000;font-size:16px;" id="investitionAbschlieEn-markdown49">Kosten:</p> {{kosten}}
+        <button class=" button button-positive  button-block " id="investitionAbschlieEn-button35" ng-click="addInvestition()">Kostenpfllichtig abschließen</button>
+
     </ion-content>
 </ion-view>
