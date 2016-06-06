@@ -170,21 +170,21 @@ describe("Test API:", function(){
 
   describe("get /api/smartinsurance/versicherung", function(){
     it('Alle Versicherungen einer Person');
-  }
+  });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
     it('Bewertung einer Versicherung');
-  }
+  });
 
   describe("post /api/smartinsurance/filter", function(){
     it('Test des Kategoriefilters');
     it('Tets der Sortierung');
     it('Tets der Kombination von Kategoriefilter und Sortierung');
-  }
+  });
 
   describe("get /api/smartinsurance/kategorien", function(){
     it('Werden alle Kategorien zurückgegeben');
-  }
+  });
 
   describe("post /api/smartinsurance/investieren", function(){
     it('Erfolgreiches anlegen einer Investition');
@@ -192,33 +192,33 @@ describe("Test API:", function(){
     it('Fehlschlag nicht vorhandene Versicherung');
     it('Fehlschlag negative Beträge');
     it('Fehlschlag unterdefinierter Body');
-  }
+  });
 
   describe("get /api/smartinsurance/investition", function(){
     it('Alle Investitionen einer Person');
-  }
+  });
 
   describe("get /api/smartinsurance/investitionVers/:versicherungID", function(){
     // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  }
+  });
 
   describe("get /api/smartinsurance/investition/:investitionID", function(){
     // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  }
+  });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){
     // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  }
+  });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/invest", function(){
     // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  }
+  });
 
   describe("post /api/smartinsurance/versicherung", function(){
     it('Erfolgreiches anlegen einer Versicherung');
     it('Fehlschlag negative Beträge');
     it('Fehlschlag unterdefinierter Body');
-  }
+  });
 
   describe("post /api/smartinsurance/versicherung/:versicherungID/kuendigen", function(){
     it('Erfolgreiche Kündigung einer Versicherung');
@@ -226,7 +226,7 @@ describe("Test API:", function(){
     it('Fehlschlag Versicherung gehört nicht dem ausführenden Nutzer');
     it('Fehlschlag Versicherung existiert nicht');
     it('Fehlschlag Versicherung bereits gekündigt');
-  }
+  });
 
   describe("post /api/smartinsurance/investition/:investitionID/kuendigen", function(){
     it('Erfolgreiche Kündigung einer Investition');
@@ -234,7 +234,7 @@ describe("Test API:", function(){
     it('Fehlschlag Investition gehört nicht dem ausführenden Nutzer');
     it('Fehlschlag Investition existiert nicht');
     it('Fehlschlag Investition bereits gekündigt');
-  }
+  });
 
   // Leere die Tabellen
   afterEach(function(done){
