@@ -57,9 +57,9 @@ describe("Versicherung abfragen", function(){
     db.any(query).then(function(){done()}).catch(function(err){logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);});
   });
 
-  var url = "http://localhost:3000/api/smartinsurance/versicherung/114";
 
-  it("Test Rückgabe Versicherung by id", function(done){
+  it("Test auf erfolgreiche Rückgabe einer Versicherung by id", function(done){
+    var url = "http://localhost:3000/api/smartinsurance/versicherung/114";
     var expectedResponse = fs.readFileSync('test/data/versicherungapi/114.json').toString();
     expectedResponse = JSON.parse(expectedResponse);
     request(url, function(error, response, body) {
@@ -83,9 +83,27 @@ describe("Versicherung abfragen", function(){
     });
   });
 
-  it("Test Fehlschlag Versicherung by id", function(done){
+  it("Test auf Fehlschlag bei Abfrage einer nicht vorhandenen id", function(done){
+    var url = "http://localhost:3000/api/smartinsurance/versicherung/10";
     request(url, function(error, response, body) {
       expect(response.statusCode).to.equal(404);
+      done();
+    });
+  });
+
+  it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+    var url = "http://localhost:3000/api/smartinsurance/versicherung/abc";
+    request(url, function(error, response, body) {
+      expect(response.statusCode).to.equal(404);
+      var responseObject = JSON.parse(body);
+      done();
+    });
+  });
+
+  it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+    var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public";
+    request(url, function(error, response, body) {
+      expect(response.statusCode).to.equal(400);
       var responseObject = JSON.parse(body);
       done();
     });
