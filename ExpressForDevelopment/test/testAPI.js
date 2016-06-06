@@ -177,13 +177,65 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/filter", function(){
-    it('Test des Kategoriefilters');
+    it('Test des Kategoriefilters', function(done) {
+      var url = "http://localhost:3000/api/smartinsurance/filter";
+      var postbody = {
+        "kategorie" : "Auto"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
+        expect(responseObject).to.have.length.of.at.least(1);
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          expect(versicherung).to.have.property("kategorie").to.equal("Auto");
+        }
+        done();
+      });
+    });
+
     it('Tets der Sortierung');
-    it('Tets der Kombination von Kategoriefilter und Sortierung');
+
+    it('Tets der Kombination von Kategoriefilter und Sortierung', function(done) {
+      var url = "http://localhost:3000/api/smartinsurance/filter";
+      var postbody = {
+        "kategorie" : "Auto",
+        "orderby" : "rendite",
+        "ascending" : false
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
+        expect(responseObject).to.have.length.of.at.least(1);
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          expect(versicherung).to.have.property("kategorie").to.equal("Auto");
+          // TODO Check rendite ascending
+        }
+        done();
+      });
+    });
   });
 
   describe("get /api/smartinsurance/kategorien", function(){
-    it('Werden alle Kategorien zurückgegeben');
+    it('Werden alle Kategorien zurückgegeben', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kategorien";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        var responseObject = JSON.parse(body);
+        expect(responseObject).to.have.length.of.at.least(7);
+        expect(responseObject).to.include.members(["Auto", "Schiff", "Flugzeug", "Haus", "Küchengeräte", "Möbel", "Maschinen"]);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/investieren", function(){
