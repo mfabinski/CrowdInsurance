@@ -38,8 +38,8 @@ pg_dump.exe -h pftclan.de -W -U smartbackenduser -p 995 --schema-only --no-owner
 
 Für die Generierung von Testdaten kann mit dem folgenden Befehl ein Datenexport gezogen werden:
 ```
-pg_dump.exe -h pftclan.de -W -U smartbackenduser -p 995 --column-inserts --data-only --no-owner --no-security-labels --no-acl -d smartbackenddevelopment -n smar
-tinsurance -n smartbackend  -f %userprofile%/git/crowdinsurance/ExpressForDevelopment/test/data/general/testdatenEinfuegen.sql
+cd "C:\Program Files (x86)\pgAdmin III\1.22\"
+pg_dump.exe -h pftclan.de -W -U smartbackenduser -p 995 --column-inserts --data-only --no-owner --no-security-labels --no-acl -d smartbackenddevelopment -n smartinsurance -n smartbackend  -f %userprofile%/git/crowdinsurance/ExpressForDevelopment/test/data/general/testdatenEinfuegen.sql
 ```
 
 ## Misc
