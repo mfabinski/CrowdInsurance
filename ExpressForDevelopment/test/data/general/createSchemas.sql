@@ -88,26 +88,26 @@ SET search_path = smartbackend, pg_catalog;
 
 CREATE FUNCTION insert_smartbackend_user(email text, prename text, name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    LOOP
-        -- first try to update the key
-        -- note that "a" must be unique
-        UPDATE smartbackend.user SET email = email WHERE email = email;
-        IF found THEN
-            RETURN;
-        END IF;
-        -- not there, so try to insert the key
-        -- if someone else inserts the same key concurrently,
-        -- we could get a unique-key failure
-        BEGIN
-            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
-            RETURN;
-        EXCEPTION WHEN unique_violation THEN
-            -- do nothing, and loop to try the UPDATE again
-        END;
-    END LOOP;
-END;
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
 $$;
 
 
@@ -128,13 +128,13 @@ SET search_path = smartinsurance, pg_catalog;
 
 CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Zahlungsstrom"
-       ("versicherungID", "personID", betrag)
-       VALUES ($1, $2, $3);
-    INSERT INTO smartinsurance."Investition"
-       (id, "versicherungID", "personID", investitionshoehe) 
-       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
+    AS $_$
+    INSERT INTO smartinsurance."Zahlungsstrom"
+       ("versicherungID", "personID", betrag)
+       VALUES ($1, $2, $3);
+    INSERT INTO smartinsurance."Investition"
+       (id, "versicherungID", "personID", investitionshoehe) 
+       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
 
@@ -144,10 +144,10 @@ $_$;
 
 CREATE FUNCTION createversicherung(uuid, text, money, money, text, kategorie) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Versicherung"
-    (id, "personID", name, versicherungshoehe, beitrag, beschreibung, kategorie)
-    VALUES ( DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id;
+    AS $_$
+    INSERT INTO smartinsurance."Versicherung"
+    (id, "personID", name, versicherungshoehe, beitrag, beschreibung, kategorie)
+    VALUES ( DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id;
 $_$;
 
 
@@ -157,62 +157,16 @@ $_$;
 
 CREATE FUNCTION executezahlung(integer, uuid, money) RETURNS void
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Zahlungsstrom"
-      ("versicherungID", "personID", betrag)
-      VALUES ($1, $2, $3);
+    AS $_$
+    INSERT INTO smartinsurance."Zahlungsstrom"
+      ("versicherungID", "personID", betrag)
+      VALUES ($1, $2, $3);
 $_$;
 
-
---
--- Name: finalizeinvestitionskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
---
-
-CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
-    LANGUAGE sql
-    AS $$
-    INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
-      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
-      FROM smartinsurance."Investition" 
-      WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
-    UPDATE smartinsurance."Investition"
-      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
-      WHERE "wirdGekuendigt"=true;
-$$;
-
-
---
--- Name: finalizeversicherungskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
---
-
-CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
-    LANGUAGE sql
-    AS $$
-    UPDATE smartinsurance."Versicherung"
-    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
-    WHERE "wirdGekuendigt"=true;
-$$;
-
-
-SET search_path = smartbackend, pg_catalog;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: user; Type: TABLE; Schema: smartbackend; Owner: -
---
-
-CREATE TABLE "user" (
-    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
-    name text,
-    prename text,
-    email text
-);
-
-
-SET search_path = smartinsurance, pg_catalog;
 
 --
 -- Name: Investition; Type: TABLE; Schema: smartinsurance; Owner: -
@@ -232,6 +186,192 @@ CREATE TABLE "Investition" (
 
 
 --
+-- Name: Versicherung; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE "Versicherung" (
+    id integer NOT NULL,
+    name text NOT NULL,
+    versicherungshoehe money NOT NULL,
+    beitrag money NOT NULL,
+    beschreibung text,
+    "abschlussZeitpunkt" timestamp without time zone DEFAULT now(),
+    "kuendigungsZeitpunkt" timestamp without time zone,
+    "istGekuendigt" boolean DEFAULT false,
+    "wirdGekuendigt" boolean DEFAULT false,
+    "personID" uuid NOT NULL,
+    kategorie kategorie
+);
+
+
+--
+-- Name: VersicherungAnzahlInvestoren; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungAnzahlInvestoren" AS
+ SELECT "Investition"."versicherungID" AS id,
+    count("Investition"."personID") AS anzahl_investoren
+   FROM "Investition"
+  WHERE ("Investition"."istGekuendigt" = false)
+  GROUP BY "Investition"."versicherungID";
+
+
+--
+-- Name: VersicherungDaumen; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungDaumen" AS
+ SELECT i.vid AS id,
+    (sum(i.daumenhoch) - sum(i.daumenrunter)) AS bewertung
+   FROM (( SELECT "Investition"."versicherungID" AS vid,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenHoch'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenhoch,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenRunter'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenrunter
+           FROM "Investition"
+          GROUP BY "Investition"."versicherungID") i
+     JOIN ( SELECT "Versicherung".id,
+            "Versicherung"."personID" AS versicherter
+           FROM "Versicherung") v ON ((i.vid = v.id)))
+  GROUP BY i.vid;
+
+
+--
+-- Name: VersicherungRendite; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungRendite" AS
+ SELECT "Versicherung".id,
+    (("Versicherung".beitrag / "Versicherung".versicherungshoehe) * (100)::double precision) AS rendite
+   FROM "Versicherung"
+  WHERE ("Versicherung"."istGekuendigt" = false);
+
+
+--
+-- Name: VersicherungFilter; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "VersicherungFilter" AS
+ SELECT v.id,
+    v.name,
+    v.versicherungshoehe,
+    v.beitrag,
+    v.beschreibung,
+    v."abschlussZeitpunkt",
+    v."kuendigungsZeitpunkt",
+    v."istGekuendigt",
+    v."wirdGekuendigt",
+    v."personID",
+    v.kategorie,
+    a.anzahl_investoren,
+    b.bewertung,
+    r.rendite
+   FROM (((( SELECT "Versicherung".id,
+            "Versicherung".name,
+            "Versicherung".versicherungshoehe,
+            "Versicherung".beitrag,
+            "Versicherung".beschreibung,
+            "Versicherung"."abschlussZeitpunkt",
+            "Versicherung"."kuendigungsZeitpunkt",
+            "Versicherung"."istGekuendigt",
+            "Versicherung"."wirdGekuendigt",
+            "Versicherung"."personID",
+            "Versicherung".kategorie
+           FROM "Versicherung") v
+     JOIN ( SELECT "VersicherungAnzahlInvestoren".id,
+            "VersicherungAnzahlInvestoren".anzahl_investoren
+           FROM "VersicherungAnzahlInvestoren") a ON ((v.id = a.id)))
+     LEFT JOIN ( SELECT "VersicherungDaumen".id,
+            "VersicherungDaumen".bewertung
+           FROM "VersicherungDaumen") b ON ((a.id = b.id)))
+     LEFT JOIN ( SELECT "VersicherungRendite".id,
+            "VersicherungRendite".rendite
+           FROM "VersicherungRendite") r ON ((a.id = r.id)));
+
+
+--
+-- Name: filterversicherung(kategorie, text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION filterversicherung(kategorie, text, text) RETURNS SETOF "VersicherungFilter"
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 ORDER BY '
+    || quote_ident($2) || ' ' || $3 || ';' USING $1;
+END;
+$_$;
+
+
+--
+-- Name: finalizeinvestitionskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
+    LANGUAGE sql
+    AS $$
+    INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
+      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
+      FROM smartinsurance."Investition" 
+      WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
+    UPDATE smartinsurance."Investition"
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+      WHERE "wirdGekuendigt"=true;
+$$;
+
+
+--
+-- Name: finalizeversicherungskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
+    LANGUAGE sql
+    AS $$
+    UPDATE smartinsurance."Versicherung"
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+    WHERE "wirdGekuendigt"=true;
+$$;
+
+
+SET search_path = smartbackend, pg_catalog;
+
+--
+-- Name: user; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE "user" (
+    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
+    name text,
+    prename text,
+    email text,
+    password text
+);
+
+
+SET search_path = smartinsurance, pg_catalog;
+
+--
 -- Name: InvestitionPerson; Type: VIEW; Schema: smartinsurance; Owner: -
 --
 
@@ -249,25 +389,6 @@ CREATE VIEW "InvestitionPerson" AS
     i."wirdGekuendigt"
    FROM ("Investition" i
      JOIN smartbackend."user" p ON ((i."personID" = p.id)));
-
-
---
--- Name: Versicherung; Type: TABLE; Schema: smartinsurance; Owner: -
---
-
-CREATE TABLE "Versicherung" (
-    id integer NOT NULL,
-    name text NOT NULL,
-    versicherungshoehe money NOT NULL,
-    beitrag money NOT NULL,
-    beschreibung text,
-    "abschlussZeitpunkt" timestamp without time zone DEFAULT now(),
-    "kuendigungsZeitpunkt" timestamp without time zone,
-    "istGekuendigt" boolean DEFAULT false,
-    "wirdGekuendigt" boolean DEFAULT false,
-    "personID" uuid NOT NULL,
-    kategorie kategorie
-);
 
 
 --
@@ -330,8 +451,8 @@ CREATE VIEW "InvestitionKomplett" AS
 
 CREATE FUNCTION getinvestitionkomplettbyiid(integer) RETURNS "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
 $_$;
 
 
@@ -341,8 +462,8 @@ $_$;
 
 CREATE FUNCTION getinvestitionkomplettbyuid(uuid) RETURNS SETOF "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
 $_$;
 
 
@@ -352,8 +473,8 @@ $_$;
 
 CREATE FUNCTION getinvestitionkomplettbyvid(integer) RETURNS SETOF "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
 $_$;
 
 
@@ -363,12 +484,12 @@ $_$;
 
 CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     LANGUAGE sql
-    AS $_$
-    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
-     FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
-     WHERE smartinsurance."Versicherung".id=$1
-     AND smartinsurance."Investition"."istGekuendigt"=false;
+    AS $_$
+    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
+     FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     WHERE smartinsurance."Versicherung".id=$1
+     AND smartinsurance."Investition"."istGekuendigt"=false;
 $_$;
 
 
@@ -389,9 +510,9 @@ CREATE VIEW "InvestorenVonVersicherung" AS
 
 CREATE FUNCTION getinvestorenbyvid(integer) RETURNS SETOF "InvestorenVonVersicherung"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestorenVonVersicherung"
-    WHERE "versicherungID"=$1;
+    AS $_$
+    SELECT * FROM "InvestorenVonVersicherung"
+    WHERE "versicherungID"=$1;
 $_$;
 
 
@@ -401,8 +522,8 @@ $_$;
 
 CREATE FUNCTION getkategorien() RETURNS kategorie[]
     LANGUAGE sql
-    AS $$
-    SELECT enum_range(NULL::kategorie);
+    AS $$
+    SELECT enum_range(NULL::kategorie);
 $$;
 
 
@@ -412,8 +533,8 @@ $$;
 
 CREATE FUNCTION getversicherungpersonbyuid(uuid) RETURNS SETOF "VersicherungPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
 $_$;
 
 
@@ -423,8 +544,8 @@ $_$;
 
 CREATE FUNCTION getversicherungpersonbyvid(integer) RETURNS "VersicherungPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
 $_$;
 
 
@@ -447,8 +568,8 @@ CREATE VIEW "Versicherungsbewertungen" AS
 
 CREATE FUNCTION getversicherungsbewertungenbyvid(integer) RETURNS SETOF "Versicherungsbewertungen"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "Versicherungsbewertungen" as vb WHERE vb."versicherungID" = $1;
+    AS $_$
+    SELECT * FROM "Versicherungsbewertungen" as vb WHERE vb."versicherungID" = $1;
 $_$;
 
 
@@ -483,8 +604,8 @@ CREATE VIEW "VersicherungenUndBeitraege" AS
 
 CREATE FUNCTION getversicherungundbeitraege() RETURNS SETOF "VersicherungenUndBeitraege"
     LANGUAGE sql
-    AS $$
-    SELECT * FROM "VersicherungenUndBeitraege";
+    AS $$
+    SELECT * FROM "VersicherungenUndBeitraege";
 $$;
 
 
@@ -516,9 +637,38 @@ CREATE VIEW "ZahlungsrelevanteInvestitionen" AS
 
 CREATE FUNCTION getzahlungsrelevanteinvestitionen() RETURNS SETOF "ZahlungsrelevanteInvestitionen"
     LANGUAGE sql
-    AS $$
-    SELECT * FROM "ZahlungsrelevanteInvestitionen";
+    AS $$
+    SELECT * FROM "ZahlungsrelevanteInvestitionen";
 $$;
+
+
+--
+-- Name: orderversicherung(text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION orderversicherung(text, text) RETURNS SETOF "VersicherungFilter"
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
+    ORDER BY '
+    || quote_ident($2) || ' ' || $3 || ';';
+END;
+$_$;
 
 
 --
@@ -527,9 +677,9 @@ $$;
 
 CREATE FUNCTION submitinvestitionskuendigung(integer) RETURNS void
     LANGUAGE sql
-    AS $_$
-    UPDATE smartinsurance."Investition"
-      SET "wirdGekuendigt"=true WHERE id=$1 AND "istGekuendigt"=false;
+    AS $_$
+    UPDATE smartinsurance."Investition"
+      SET "wirdGekuendigt"=true WHERE id=$1 AND "istGekuendigt"=false;
 $_$;
 
 
@@ -539,12 +689,12 @@ $_$;
 
 CREATE FUNCTION submitversicherungskuendigung(integer) RETURNS void
     LANGUAGE sql
-    AS $_$
-    UPDATE smartinsurance."Versicherung"
-      SET "wirdGekuendigt"=true WHERE id=$1;
-    UPDATE smartinsurance."Investition" 
-      SET "wirdGekuendigt"=true 
-      WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
+    AS $_$
+    UPDATE smartinsurance."Versicherung"
+      SET "wirdGekuendigt"=true WHERE id=$1;
+    UPDATE smartinsurance."Investition" 
+      SET "wirdGekuendigt"=true 
+      WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
 $_$;
 
 
@@ -554,13 +704,13 @@ $_$;
 
 CREATE FUNCTION test_matthias(param_id integer) RETURNS SETOF "Versicherung"
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-   RETURN QUERY
-   SELECT *
-   FROM "smartinsurance"."Versicherung"
-   WHERE id = param_id;
-END
+    AS $$
+BEGIN
+   RETURN QUERY
+   SELECT *
+   FROM "smartinsurance"."Versicherung"
+   WHERE id = param_id;
+END
 $$;
 
 
@@ -846,97 +996,6 @@ CREATE VIEW "UserDaumen" AS
             "Versicherung"."personID" AS versicherter
            FROM "Versicherung") v ON ((i.vid = v.id)))
   GROUP BY v.versicherter;
-
-
---
--- Name: VersicherungAnzahlInvestoren; Type: VIEW; Schema: smartinsurance; Owner: -
---
-
-CREATE VIEW "VersicherungAnzahlInvestoren" AS
- SELECT "Investition"."versicherungID" AS id,
-    count("Investition"."personID") AS anzahl_investoren
-   FROM "Investition"
-  WHERE ("Investition"."istGekuendigt" = false)
-  GROUP BY "Investition"."versicherungID";
-
-
---
--- Name: VersicherungDaumen; Type: VIEW; Schema: smartinsurance; Owner: -
---
-
-CREATE VIEW "VersicherungDaumen" AS
- SELECT i.vid AS id,
-    (sum(i.daumenhoch) - sum(i.daumenrunter)) AS bewertung
-   FROM (( SELECT "Investition"."versicherungID" AS vid,
-            count(
-                CASE
-                    WHEN ("Investition".bewertung = 'daumenHoch'::bewertung) THEN 1
-                    ELSE NULL::integer
-                END) AS daumenhoch,
-            count(
-                CASE
-                    WHEN ("Investition".bewertung = 'daumenRunter'::bewertung) THEN 1
-                    ELSE NULL::integer
-                END) AS daumenrunter
-           FROM "Investition"
-          GROUP BY "Investition"."versicherungID") i
-     JOIN ( SELECT "Versicherung".id,
-            "Versicherung"."personID" AS versicherter
-           FROM "Versicherung") v ON ((i.vid = v.id)))
-  GROUP BY i.vid;
-
-
---
--- Name: VersicherungRendite; Type: VIEW; Schema: smartinsurance; Owner: -
---
-
-CREATE VIEW "VersicherungRendite" AS
- SELECT "Versicherung".id,
-    (("Versicherung".beitrag / "Versicherung".versicherungshoehe) * (100)::double precision) AS rendite
-   FROM "Versicherung"
-  WHERE ("Versicherung"."istGekuendigt" = false);
-
-
---
--- Name: VersicherungFilter; Type: VIEW; Schema: smartinsurance; Owner: -
---
-
-CREATE VIEW "VersicherungFilter" AS
- SELECT v.id,
-    v.name,
-    v.versicherungshoehe,
-    v.beitrag,
-    v.beschreibung,
-    v."abschlussZeitpunkt",
-    v."kuendigungsZeitpunkt",
-    v."istGekuendigt",
-    v."wirdGekuendigt",
-    v."personID",
-    v.kategorie,
-    a.anzahl_investoren,
-    b.bewertung,
-    r.rendite
-   FROM (((( SELECT "Versicherung".id,
-            "Versicherung".name,
-            "Versicherung".versicherungshoehe,
-            "Versicherung".beitrag,
-            "Versicherung".beschreibung,
-            "Versicherung"."abschlussZeitpunkt",
-            "Versicherung"."kuendigungsZeitpunkt",
-            "Versicherung"."istGekuendigt",
-            "Versicherung"."wirdGekuendigt",
-            "Versicherung"."personID",
-            "Versicherung".kategorie
-           FROM "Versicherung") v
-     JOIN ( SELECT "VersicherungAnzahlInvestoren".id,
-            "VersicherungAnzahlInvestoren".anzahl_investoren
-           FROM "VersicherungAnzahlInvestoren") a ON ((v.id = a.id)))
-     LEFT JOIN ( SELECT "VersicherungDaumen".id,
-            "VersicherungDaumen".bewertung
-           FROM "VersicherungDaumen") b ON ((a.id = b.id)))
-     LEFT JOIN ( SELECT "VersicherungRendite".id,
-            "VersicherungRendite".rendite
-           FROM "VersicherungRendite") r ON ((a.id = r.id)));
 
 
 --
