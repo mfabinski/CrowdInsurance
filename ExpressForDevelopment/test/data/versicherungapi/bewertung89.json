@@ -1,0 +1,17 @@
+[
+  {
+    "versicherungID": 89,
+    "bewertung": "keine",
+    "count": "11"
+  },
+  {
+    "versicherungID": 89,
+    "bewertung": "daumenHoch",
+    "count": "2"
+  },
+  {
+    "versicherungID": 89,
+    "bewertung": "daumenRunter",
+    "count": "3"
+  }
+]

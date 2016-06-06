@@ -169,6 +169,7 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/versicherung", function(){
+
     it('Alle Versicherungen einer Person', function(done){
       var url = "http://localhost:3000/api/smartinsurance/versicherung";
       request(url, function(error, response, body) {
@@ -180,9 +181,11 @@ describe("Test API:", function(){
         }
       });
     });
+
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
+
     it('Bewertung einer Versicherung', function(done){
       var expectedResponse = fs.readFileSync('test/data/versicherungapi/bewertung89.json').toString();
       expectedResponse = JSON.parse(expectedResponse);
@@ -195,7 +198,7 @@ describe("Test API:", function(){
           expect(versicherung).to.have.property("versicherungID").to.equal(versicherungID);
           expect(versicherung).to.have.property("bewertung");
           var bewertung = versicherung.bewertung;
-          for (var j = 0, expected; expected = expectedResponse[j], j++) {
+          for (var j = 0, expected; expected = expectedResponse[j]; j++) {
             if (bewertung == expected.bewertung) {
               expect(versicherung).to.have.property("count").to.equal(expected.count);
             }
@@ -203,9 +206,35 @@ describe("Test API:", function(){
         }
       });
     });
+
+    it("Test auf Fehlschlag bei Abfrage einer nicht vorhandenen id", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/1/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/abc/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
   });
 
   describe("post /api/smartinsurance/filter", function(){
+
     it('Test des Kategoriefilters', function(done) {
       var url = "http://localhost:3000/api/smartinsurance/filter";
       var postbody = {
@@ -250,7 +279,6 @@ describe("Test API:", function(){
         done();
       });
     });
-
 
     it('Tets der absteigenden Sortierung', function(done) {
       var url = "http://localhost:3000/api/smartinsurance/filter";
@@ -301,9 +329,11 @@ describe("Test API:", function(){
         done();
       });
     });
+
   });
 
   describe("get /api/smartinsurance/kategorien", function(){
+
     it('Werden alle Kategorien zurückgegeben', function(done){
       var url = "http://localhost:3000/api/smartinsurance/kategorien";
       request(url, function(error, response, body) {
@@ -314,6 +344,7 @@ describe("Test API:", function(){
         done();
       });
     });
+
   });
 
   describe("post /api/smartinsurance/investieren", function(){
@@ -325,15 +356,59 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/investition", function(){
-    it('Alle Investitionen einer Person');
+
+    it('Alle Investitionen einer Person', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        expect(responseObject).to.have.length.of.at.least(1);
+        var investitionOf = responseObject[0].ipersonID;
+        for (var i = 0, investition; investition = responseObject[i]; i++) {
+          expect(investition).to.have.property("ipersonID").to.equal(investitionOf);
+        }
+      });
+    });
+
   });
 
   describe("get /api/smartinsurance/investitionVers/:versicherungID", function(){
-    // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  });
 
-  describe("get /api/smartinsurance/investition/:investitionID", function(){
-    // TODO Testfälle definieren, was soll das hier überhaupt machen?
+    it('Rückgabe aller Investitionen zu einer Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investitionVers/89";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        expect(responseObject).to.have.length.of.at.least(1);
+        var versicherungID = responseObject[0].versicherungID;
+        for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
+          expect(versicherung).to.have.property("versicherungID").to.equal(versicherungID);
+        }
+      });
+    });
+
+    it("Test auf Fehlschlag bei Abfrage einer nicht vorhandenen id", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investitionVers/1";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investitionVers/abc";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    it("Test auf Fehlschlag bei fehlerhafter Anfrage", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investitionVers/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){
