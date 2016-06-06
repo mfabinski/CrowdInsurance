@@ -194,6 +194,7 @@ describe("Test API:", function(){
         for (var i = 0, versicherung; versicherung = responseObject[i]; i++) {
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
         }
+        done();
       });
     });
 
@@ -219,6 +220,7 @@ describe("Test API:", function(){
           expect(versicherung).to.have.property("kategorie").to.equal("Auto");
           // TODO Check rendite ascending
         }
+        done();
       });
     });
   });
