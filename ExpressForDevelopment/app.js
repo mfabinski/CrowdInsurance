@@ -51,3 +51,8 @@ app.post('/api/smartinsurance/versicherung', [validate.parameterZurVersicherungs
 app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
 
 app.post('/api/smartinsurance/investition/:investitionID/kuendigen', [validate.investitionID, ts.investitionKuendigungEinreichen]);
+
+// Nur fuer Testzwecke
+app.get('/api/smartinsurance/periodic', ts.periodicSchedule);
+
+app.get('/api/smartinsurance/zahlungsrelevant', ts.getPaymentrelevantInvestitions);
