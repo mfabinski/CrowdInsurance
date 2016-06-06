@@ -51,7 +51,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
   $scope.search = function(dataSorter, dataOrder) {
     console.log($scope.kategorien[0].enabled + " und " + dataSorter.value + " und " + dataOrder.value);
     var parameter = {
-        kategorie: 'Küchengeräte',
+        kategorie: 'Auto',
         orderby: 'rendite',
         ascending: false
     };
@@ -72,7 +72,8 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
       //}
       $scope.results = response.data;
 
-      console.log($scope.results[0].name);
+      console.log($scope.results);
+      console.log($scope.results.length);
      // $scope.result = JSON.stringify(response);
      //alert(arr[0].name);
 
