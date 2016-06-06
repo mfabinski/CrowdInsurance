@@ -1,0 +1,54 @@
+<ion-view style="" class=" " id="page13" title="Schadensfall melden">
+    <ion-content class="has-header" padding="true">
+        <form class="list " id="schadensfallMelden-form52" name="reportSchadenForm">
+            <div id="schadensfallMelden-card25" class="list card ">
+                <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-markdown38">
+                    <strong>Versicherung:</strong> {{versicherung.name}}
+                </p>
+            </div>
+            <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-markdown20">Schaden:</p>
+            <label id="schadensfallMelden-input10" class="item item-input ">
+                <input placeholder="" type="text" ng-model="schaden.name" name="name" required>
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(reportSchadenForm.name)" >Bitte geben Sie eine Bezeichnung an. </br></span>  
+            </div>
+            
+            <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-markdown24">Schadenshöhe:</p>
+            <label id="schadensfallMelden-input31" class="item item-input ">
+                <input placeholder="" type="text" ng-model="schaden.schadenshoehe" name="schadenshoehe" ng-pattern="checkCurrency" required>
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(reportSchadenForm.schadenshoehe)" >Bitte geben Sie eine Schadenshöhe an. </br></span>  
+                <span ng-show="isNaN(reportSchadenForm.schadenshoehe)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span> 
+            </div>
+            
+            <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-markdown25">Datum:</p>
+            <label id="schadensfallMelden-input32" class="item item-input ">
+                <input placeholder="" type="text" ng-model="schaden.datum" name="datum" required>
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(reportSchadenForm.datum)" >Bitte geben Sie eine Datum an. </br></span>  
+            </div>
+            
+            <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-markdown34">Uhrzeit:</p>
+            <label id="schadensfallMelden-input33" class="item item-input ">
+                <input placeholder="" type="text" ng-model="schaden.uhrzeit" name="uhrzeit" required>
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(reportSchadenForm.uhrzeit)" >Bitte geben Sie eine Uhrzeit an. </br></span>  
+            </div>
+            
+            <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-markdown35">Beschreibung:</p>
+            <label id="schadensfallMelden-textarea87" class="item item-input ">
+                <!--<span class="input-label"></span>--><textarea placeholder="" cols="50" rows="10" ng-model="schaden.beschreibung" name="beschreibung" required></textarea>
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(reportSchadenForm.beschreibung)" >Bitte geben Sie eine Beschreibung an. </br></span>  
+            </div>
+            
+            <button class=" button button-positive  button-block " id="schadensfallMelden-button25" ng-click="reportSchaden(reportSchadenForm)">Schadensfall melden</button
+                
+        </form>
+    </ion-content>
+</ion-view>

@@ -56,11 +56,11 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     };
 
     $scope.addSchadensfall = function () {
-        // Verweise auf Schadensfall melden
+        $state.go("app.schadensfallMelden", {id: $scope.versicherung.id});
     };
 
     $scope.showSocial = function () {
-        // Verweis auf den Social-Bereich
+        $state.go("app.versicherungSocial", {id: $scope.versicherung.id}); 
     };
 
 });

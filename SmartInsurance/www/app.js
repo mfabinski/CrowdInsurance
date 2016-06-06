@@ -64,9 +64,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
+  
+   .state('app.versicherungSocial', {
+    url: '/versicherungSocial/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'Module/Versicherung_Edit/Views/versicherungSocial.html',
+        controller: 'versicherungSocialCtrl'  
+      }
+    }
+  })
  
   .state('app.versicherungEdit', {
-    url: '/versicherungEdit',
+    url: '/versicherungEdit/:id',
     params: {id : null},
     views: {
       'menuContent': {
@@ -109,7 +119,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   })
   
    .state('app.schadensfaelle', {
-    url: '/schadensfaelle',
+    url: '/schadensfaelle/:id',
     params: {id: null},
     views: {
       'menuContent': {
@@ -138,6 +148,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
           controller: 'investitionCheckCtrl'
         }
       }
+    })    
+  
+   .state('app.schadensfallMelden', {
+      url: '/schadensfallMelden',
+      params: {id: null},
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Versicherung_Edit/Views/schadensfallMelden.html',
+          controller: 'schadensfallMeldenCtrl'
+        }
+      }
     })
   
   .state('app.investitionAdded', {
@@ -151,7 +172,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
       
-      .state('app.investitionSearch', {
+    .state('app.investitionSearch', {
       url: '/investitionSearch',
       views: {
         'menuContent': {
@@ -160,6 +181,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+  
+  
  
    .state('app.faq', {
       url: '/faq',
