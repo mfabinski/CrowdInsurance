@@ -5,7 +5,6 @@ var app = require('../app.js');
 var server;
 var logger = require('logger.js');
 var verbose = false;
-if (verbose) logger.consoleInfo=function(){};
 
 var getDBPromis = function(){
   var credentials;
@@ -15,7 +14,7 @@ var getDBPromis = function(){
   } catch(err) {
     credentials = 'postgres://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DATABASENAME + ((process.env.DB_SSL=="true")?'?ssl=true':'');
   }
-  logger.consoleInfo('Setze die Test Datenbank-URL auf ' + credentials);
+  if (verbose) logger.consoleInfo('Setze die Test Datenbank-URL auf ' + credentials);
   var pgp = require('pg-promise')();
   var db = pgp(credentials);
   return db;
@@ -29,34 +28,52 @@ describe("Versicherung abfragen", function(){
   //Erstellen der Schemen vor allen Tests in diesem Block
   before(function(done){
     var query = fs.readFileSync('test/data/general/createSchemas.sql').toString();
-    db.any(query).then(function(){done(); logger.consoleInfo("Schema erstellt");}).catch(function(err){logger.consoleInfo("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err)});
+    db.any(query).then(function() {
+      done();
+      if (verbose) logger.consoleInfo("Schema erstellt");
+    }).catch(function(err){
+      if (verbose) logger.consoleInfo("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err);
+      done(err);
+    });
   });
 
   // Lege Testdaten an!
   beforeEach(function(done){
     var query = fs.readFileSync('test/data/general/testdatenEinfuegen.sql').toString();
     db.any(query).then(function(){
-      logger.consoleInfo("Testdaten eingefuegt");
+      if (verbose) logger.consoleInfo("Testdaten eingefuegt");
       server = app.listen(3000, function () {
-        logger.consoleInfo('App hört nun auf port 3000 - Test Modus');
+        if (verbose) logger.consoleInfo('App hört nun auf port 3000 - Test Modus');
         done();
       });
-    }).catch(function(err){logger.consoleInfo("Fehler beim Einfuegen der Versicherungen\n"+ err);});
-
+    }).catch(function(err){
+      if (verbose) logger.consoleInfo("Fehler beim Einfuegen der Versicherungen\n"+ err);
+      done(err);
+    });
   });
 
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
     server.close(); // app.close() wurde rausgepatcht: https://github.com/expressjs/express/issues/1366
-    logger.consoleInfo('App stoppt - Test Modus');
-    db.any(query).then(function(){done()}).catch(function(err){logger.consoleInfo("Fehler beim leeren der Tabellen\n"+ err);});
+    if (verbose) logger.consoleInfo('App stoppt - Test Modus');
+    db.any(query).then(function(){
+      done();
+    }).catch(function(err){
+      if (verbose) logger.consoleInfo("Fehler beim leeren der Tabellen\n"+ err);
+      done(err);
+    });
   });
 
   // Drop Schemas nach allen Tests in diesem Block
   after(function(done){
     var query = fs.readFileSync('test/data/general/dropSchemas.sql').toString();
-    db.any(query).then(function(){done()}).catch(function(err){logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);});
+    db.any(query).then(function(){
+      done()
+    }).catch(function(err){
+      if (verbose) logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);
+      done(err);
+    });
   });
 
 
