@@ -207,6 +207,7 @@ describe("Test API:", function(){
             }
           }
         }
+        done();
       });
     });
 
