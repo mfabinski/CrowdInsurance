@@ -6,9 +6,6 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
         $scope.versicherungNeu = angular.copy($scope.versicherung);
-         /*   $scope.versicherungNeu.versicherungshoehe ="";
-            $scope.versicherungNeu.beitrag = "";
-            $scope.versicherungNeu.wert = ""; */
     });
 
 
@@ -17,9 +14,8 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
 
             $scope.versicherungNeu.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.versicherungshoehe));
             $scope.versicherungNeu.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.beitrag));
-//          $scope.versicherungNeu.wert = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.wert));
 
-            if($scope.versicherungNeu.versicherungshoehe != "0,00 €" && $scope.versicherungNeu.beitrag != "0,00 €" /* && $scope.versicherungNeu.wert != "0,00 €" */ ){
+            if($scope.versicherungNeu.versicherungshoehe != "0,00 €" && $scope.versicherungNeu.beitrag != "0,00 €" ){
                 $http.post(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId, $scope.versicherungNeu).then(function(data) {
                     console.log("erfolgreich");
                     $state.go('app.versicherungDetail',{id: $scope.versicherungId});

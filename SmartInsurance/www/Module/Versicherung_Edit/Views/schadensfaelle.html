@@ -6,8 +6,8 @@
             </ion-item>
         </div>
         <div id="schadensfLleEinsehen-card210" class="list card ">
-            <a ng-click="schadensfallShow()" ng-show="!(noSchaden)">
-                <ion-item style="" class="  " id="schadensfLleEinsehen-list-item23" ng-repeat="schaden in schaeden">
+            <a ng-click="schadensfallShow({{schaden.id}})" ng-show="!(noSchaden)" ng-repeat="schaden in schaeden">
+                <ion-item style="" class="  " id="schadensfLleEinsehen-list-item23">
                     <table>
                         <tr> 
                             <td>  <b>Schaden: </b> </td>  

@@ -8,10 +8,8 @@ appController.controller('versicherungCheckCtrl',function($scope, $http, $state,
 
     $scope.versicherungCheck = function (){
         console.log(JSON.stringify($scope.versicherung));
-        $http.post(apiendpoint.url + '/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
-            console.log("erfolgreich");
-            // id übergeben
-            $state.go('app.versicherungAdded',{id: data});
+        $http.post(apiendpoint.url + '/api/smartinsurance/versicherung', $scope.versicherung).success(function(response) {
+            $state.go('app.versicherungAdded',{id: response[0].createversicherung});
         });
     }
 
