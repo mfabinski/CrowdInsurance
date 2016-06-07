@@ -152,7 +152,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   
    .state('app.schadensfallMelden', {
       url: '/schadensfallMelden',
-      params: {id: null},
+      params: {schaden: null},
       views: {
         'menuContent': {
           templateUrl: 'Module/Versicherung_Edit/Views/schadensfallMelden.html',

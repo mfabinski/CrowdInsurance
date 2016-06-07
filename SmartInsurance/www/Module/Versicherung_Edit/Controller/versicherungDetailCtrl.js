@@ -13,13 +13,16 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
         $scope.investoren = response;
         $scope.noInvestor = false;
-
-    });
+    })
+    .error(function(response) {
+    })
     
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungId).success(function(response) {
          $scope.schadensfaelle = response;
 
-    });
+    })
+    .error(function(response) {
+    })
     
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/invest')
@@ -56,7 +59,7 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     };
 
     $scope.addSchadensfall = function () {
-        $state.go("app.schadensfallMelden", {id: $scope.versicherung.id});
+        $state.go("app.schadensfallMelden", {schaden: {versicherungID: $scope.versicherung.id}});
     };
 
     $scope.showSocial = function () {

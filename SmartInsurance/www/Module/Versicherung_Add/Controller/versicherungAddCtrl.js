@@ -31,11 +31,10 @@ appController.controller('versicherungAddCtrl',function($scope, $http, $state, m
 
     $scope.versicherungAdd = function(form) {
 
-        if(angular.isDefined($scope.versicherung.versicherungshoehe) && angular.isDefined($scope.versicherung.beitrag) /* && angular.isDefined($scope.versicherung.wert) */ ){
+        if(angular.isDefined($scope.versicherung.versicherungshoehe) && angular.isDefined($scope.versicherung.beitrag) ){
             $scope.versicherung.kategorie =  selectFormatter.formatSelect($scope.versicherung.kategorie);
             $scope.versicherung.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.versicherungshoehe));
             $scope.versicherung.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.beitrag));
-//          $scope.versicherung.wert = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherung.wert));
         }
 
         if (form.$valid){
