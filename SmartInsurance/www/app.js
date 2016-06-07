@@ -128,6 +128,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
+  
+  .state('app.investitionInfo', {
+      url: '/investitionInfo/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Add/Views/investitionInfo.html',
+          controller: 'investitionInfoCtrl'
+        }
+      }
+    })
 
   .state('app.investitionAdd', {
       url: '/investitionAdd/:id',

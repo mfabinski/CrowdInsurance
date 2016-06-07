@@ -28,7 +28,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/bewertungen').success(function(response) {
-        $scope.bewertung = response[0];
+        $scope.bewertung = response;
     });
     
     /*
