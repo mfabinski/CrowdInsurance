@@ -28,14 +28,14 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
     }
     
     $scope.addInvestition = function() {
-       /*
-        $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investition).then(function(data) {
+       
+        $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investition).success(function(data) {
+            console.log(data);
             // muss Versicherungid und Investitionsid liefern
-            $state.go('app.investitionAdded',{ids: data});
+            $state.go('app.investitionAdded',{ids: data.id});
         });
         
-        */
-        $state.go('app.investitionAdded',{ids: $scope.investition});
+  
 
     }
     

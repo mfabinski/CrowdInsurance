@@ -25,6 +25,8 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
         return (field.$error.required || field.$error.pattern) && field.$touched;
     };
     
+    // Validierung, dass der investitionswert geringer als der versicherungswert ist
+    
     $scope.calculateRendite = function(field) {
         var gesamtbetrag = 0;
         if($scope.investition.investitionswert != "" && angular.isDefined($scope.versicherung) && !(field.$error.pattern)){
