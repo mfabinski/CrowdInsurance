@@ -193,17 +193,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
 
-    .state('app.searchResult', {
-      url: '/searchResult',
-      views: {
-        'menuContent': {
-          templateUrl: 'Module/Investition_Add/Views/searchResult.html',
-          controller: 'investitionSearchCtrl'
-        }
-      }
-    })
-
-
    .state('app.faq', {
       url: '/faq',
       views: {
