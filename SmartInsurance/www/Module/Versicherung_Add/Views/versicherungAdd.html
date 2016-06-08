@@ -37,18 +37,7 @@
                 <span ng-show="isNaN(versicherungAddForm.versicherungshoehe)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span> 
             </div>
            
-            
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown7">aktueller Wert:</p>
-            <label id="versicherungAnlegen-input8" class="item item-input ">
-                <input placeholder="" type="text" name="wert" ng-pattern="checkCurrency" required>
-                <!--<input placeholder="" type="text" name="wert" ng-model="versicherung.wert"  required> -->
-            </label>
-<!--
-            <div style="color:red">
-                <span ng-show="isInvalid(versicherungAddForm.wert)" >Bitte geben Sie den aktuellen Wert des/der Versicherungsobjekte an. </br></span> 
-                <span ng-show="isNaN(versicherungAddForm.wert)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span> 
-            </div>            
--->
+    
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown8">Monatbeitrag:</p>
             <label id="versicherungAnlegen-input9" class="item item-input ">
                 <input type="text" ng-model="versicherung.beitrag" name="beitrag" ng-pattern="checkCurrency" required>

@@ -1,0 +1,53 @@
+<ion-view style="" class=" " id="page9" title="Versicherung bearbeiten">
+    <ion-content class="has-header" padding="true">
+        <div id="versicherungBearbeiten-card26" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungBearbeiten-markdown18">Versicherungsdetails</p>
+            <ion-item style="" class="  " id="versicherungBearbeiten-list-item13">
+                <table>
+                    <tr> 
+                        <td>  <b>Bezeichnung: </b> </td>  
+                        <td>  {{versicherung.name}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Kategorie: </b> </td>
+                        <td>  {{versicherung.kategorie}} </td>
+                    </tr>
+                   <tr> 
+                        <td> <b> Versicherungshöhe: </b> </td>
+                        <td>  {{versicherung.versicherungshoehe}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Monatsbeitrag: </b> </td>
+                        <td>  {{versicherung.beitrag}} </td>
+                    </tr>
+                </table>
+            </ion-item>
+        </div>
+        <div id="versicherungBearbeiten-card211" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungBearbeiten-markdown19">Änderungen</p>
+            <form class="list " id="versicherungBearbeiten-form50" name="versicherungEditForm">
+                
+                <p class=" " style="color:#000000;" id="versicherungBearbeiten-markdown33">Neue Versicherungshöhe</p>
+                <label id="versicherungBearbeiten-input26" class="item item-input ">
+                    <input placeholder="" type="text" ng-model="versicherungNeu.versicherungshoehe" name="versicherungshoehe" ng-pattern="checkCurrency" required>
+                </label>
+                <div style="color:red">
+                    <span ng-show="isNaN(versicherungEditForm.versicherungshoehe)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span>  
+                </div>
+                
+                <p class=" " style="color:#000000;" id="versicherungBearbeiten-markdown22">Neuer Monatsbeitrag</p>
+                <label id="versicherungBearbeiten-input30" class="item item-input ">
+                    <input placeholder="" type="text" ng-model="versicherungNeu.beitrag" name="beitrag" ng-pattern="checkCurrency" required>
+                </label>
+                <div style="color:red">
+                    <span ng-show="isNaN(versicherungEditForm.beitrag)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span> 
+                </div>
+                
+            </form>
+        </div>
+        <button class=" button button-positive  button-block " id="versicherungBearbeiten-button13" ng-click="save(versicherungEditForm)">Änderungen übernehmen</button>
+        <div class=" button-bar " id="versicherungBearbeiten-button-bar2">
+            <button class=" button button-positive  button-block " id="versicherungBearbeiten-button30" ng-click="cancelVersicherung()">Versicherung kündigen</button>
+        </div>
+    </ion-content>
+</ion-view>

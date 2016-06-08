@@ -8,6 +8,9 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -51,11 +54,16 @@
        <!-- Services  -->
       <sricpt src=Module/services.js></sricpt>
 
+      <script src=Module/apiendpoint.js></script>
+
       <!-- Allgemein -->
       <script src="Module/Allgemein/Controller/uebersichtCtrl.js"></script>
       <!-- Investition_Add -->
-      <script src="Module/Investition_Add/Controller/addInvestitionCtrl.js"></script>
       <script src="Module/Investition_Add/Controller/investitionSearchCtrl.js"></script>
+      <script src="Module/Investition_Add/Controller/investitionInfoCtrl.js"></script>
+      <script src="Module/Investition_Add/Controller/investitionAddCtrl.js"></script>
+      <script src="Module/Investition_Add/Controller/investitionCheckCtrl.js"></script>
+      <script src="Module/Investition_Add/Controller/investitionAddedCtrl.js"></script>
       <!-- Investition_Edit -->
 
       <!-- Versicherung_Add -->
@@ -63,8 +71,11 @@
       <script src="Module/Versicherung_Add/Controller/versicherungCheckCtrl.js"></script>
       <script src="Module/Versicherung_Add/Controller/versicherungAddedCtrl.js"></script>
       <!-- Versicherung_Edit -->
-
-
+      <script src="Module/Versicherung_Edit/Controller/versicherungDetailCtrl.js"></script>
+      <script src="Module/Versicherung_Edit/Controller/schadensfaelleCtrl.js"></script>
+      <script src="Module/Versicherung_Edit/Controller/versicherungEditCtrl.js"></script>
+      <script src="Module/Versicherung_Edit/Controller/schadensfallMeldenCtrl.js"></script>
+      <script src="Module/Versicherung_Edit/Controller/versicherungSocialCtrl.js"></script>
 
 
   </head>

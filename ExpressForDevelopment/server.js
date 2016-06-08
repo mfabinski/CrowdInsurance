@@ -14,16 +14,16 @@ var app = require('./app.js');
 │    └──────────────────── minute (0 - 59)
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
-if (process.argv[2] == undefined){ //wenn kein testmodus aktiv ist
-  var period = '0 */1 * * * *';
-  var job = schedule.scheduleJob(period, ts.periodicSchedule); // run every 10 minutes
+if (process.argv[2] == undefined) { //wenn kein testmodus aktiv ist
+  var period = '0 0 */4 * * *'; // einmal alle 4 Stunden
+  var job = schedule.scheduleJob(period, ts.periodicSchedule);
   logger.consoleInfo('Periodischen Job gestartet - ' + period);
 }
 
-app.listen(3000, function () {
-  if (process.argv[2] == undefined){
+app.listen(3000, function() {
+  if (process.argv[2] == undefined) {
     logger.consoleInfo('App hört auf port 3000 - Produktiver Modus');
-  } else{
+  } else {
     logger.consoleInfo('App hört auf port 3000 - Test Modus');
   }
 });

@@ -1,0 +1,27 @@
+[
+  {
+    "id": 13,
+    "versicherungID": 60,
+    "ipersonID": "bfa73b02-21f7-11e6-b56d-6ffe69564a95",
+    "ipersonName": "Hardwood",
+    "ipersonPrename": "Lance",
+    "investitionshoehe": "1.750,00 €",
+    "bewertung": "daumenHoch",
+    "iabschlussZeitpunkt": "2016-05-24T23:59:56.076Z",
+    "ikuendigungsZeitpunkt": null,
+    "iistGekuendigt": false,
+    "iwirdGekuendigt": false,
+    "vpersonID": "bfa6c82a-21f7-11e6-b56d-e7aac0eb4ace",
+    "vpersonName": "Cock",
+    "vpersonPrename": "Chris",
+    "name": "MOQQA Skipper Raspberry",
+    "versicherungshoehe": "46.736,00 €",
+    "beitrag": "4.674,00 €",
+    "beschreibung": "Das Produkt MOQQA Skipper Raspberry ist in sehr gutem Zustand",
+    "vabschlussZeitpunkt": "2016-05-24T23:48:01.570Z",
+    "vkuendigungsZeitpunkt": null,
+    "vistGekuendigt": false,
+    "vwirdGekuendigt": false,
+    "kategorie": "Küchengeräte"
+  }
+]

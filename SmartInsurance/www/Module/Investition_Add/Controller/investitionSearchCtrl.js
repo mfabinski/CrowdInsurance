@@ -1,11 +1,13 @@
-appController.controller('investitionSearchCtrl',function($scope, $http){
+appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint){
 
-    $http.get('http://localhost:3000/api/smartinsurance/investition').success(function(response) {
+    $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
+
          $scope.investitionen = response.data;
 
     });
 
-    $http.get('http://localhost:3000/api/smartinsurance/kategorien').success(function(response) {
+
+    $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
 
       var kat = [];
 
@@ -59,7 +61,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
         ascending: true
     };
 
-    $http.post('http://localhost:3000/api/smartinsurance/filter', parameter).then(function(response) {
+    $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).then(function(response) {
 
       var arr = [];
 
@@ -88,7 +90,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
 
 
 
-    /*$http.post('http://localhost:3000/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
+    /*$http.post(apiendpoint.url + '/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
      versicherungAdd.setVersicherung({});
      $state.go('app.versicherungAdded');
      });  */
@@ -102,9 +104,6 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
   $scope.investitionSearch = function() {
 
   }
-
-
-
 
 
 

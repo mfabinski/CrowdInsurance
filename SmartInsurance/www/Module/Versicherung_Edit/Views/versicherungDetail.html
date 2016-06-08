@@ -1,0 +1,60 @@
+<ion-view style="" class=" " id="page5" title="Versicherungsdetails">
+    <ion-content class="has-header" padding="true">
+        <div id="versicherungsdetails-card28" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungsdetails-markdown43">Versicherungsdetails</p>
+            <ion-item style="" class="  " id="versicherungsdetails-list-item34">
+                <table>
+                    <tr> 
+                        <td>  <b>Bezeichnung: </b> </td>  
+                        <td>  {{versicherung.name}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Kategorie: </b> </td>
+                        <td>  {{versicherung.kategorie}} </td>
+                    </tr>
+                   <tr> 
+                        <td> <b> Versicherungshöhe: </b> </td>
+                        <td>  {{versicherung.versicherungshoehe}} </td>
+                    </tr>
+                    <tr> 
+                        <td>  davon gedeckt: </td>
+                        <td>  {{investitionBetrag}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Monatsbeitrag: </b> </td>
+                        <td>  {{versicherung.beitrag}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Beschreibung: </b> </td>
+                        <td>  {{versicherung.beschreibung}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> ausgezahlter Schaden: </b> </td>
+                        <td>  {{gesamtSchaden()}} </td>
+                    </tr>
+                </table>
+            </ion-item>
+        </div>
+        <div id="versicherungsdetails-card29" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungsdetails-markdown45">Investoren</p>
+            <a ng-click="showInvestor()" ng-repeat="investor in investoren" ng-show="!(noInvestor)">
+                <ion-item style="" id="versicherungsdetails-list-item36" class="item-avatar  " >
+                     <table>
+                        <tr> 
+                            <td>  <b>Name: </b> </td>  
+                            <td>  {{investor.personID}} </td>
+                        </tr>
+                    
+                    </table>   
+                </ion-item>
+            </a>  
+            <p class=" " style="margin-top:0px;color:#000000;" id="versicherungsdetails-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert</p>
+        </div>
+        <button class=" button button-positive  button-block " id="versicherungsdetails-button4" ng-click="editVersicherung()">Bearbeiten</button>
+        <div class=" button-bar " id="versicherungsdetails-button-bar1">
+            <button class=" button button-positive  button-block " id="versicherungsdetails-button8" ng-click="showSchadensfaelle()">Schadensfälle</button>
+            <button class=" button button-positive  button-block " id="versicherungsdetails-button9" ng-click="addSchadensfall()">+</button>
+            <button class=" button button-positive  button-block " id="versicherungsdetails-button19" ng-click="showSocial()">Social</button>
+        </div>
+    </ion-content>
+</ion-view>
