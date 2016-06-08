@@ -12,14 +12,34 @@
         </select>
       </label>
 
+      <ion-item id="investitionSuchen-list-item-divider11" class="item-divider ">Sortieren nach</ion-item>
+      <label id="selectSorter" class="item item-select ">
+        <span class="input-label"></span>
+        <select ng-model="dataSorter.value" ng-value="item.value" name="sortierung" required>
+          <option ng-repeat = "item in sorterList" >
+            {{item.text}}
+          </option>
+        </select>
+      </label>
+
 
 
       <!--<ion-checkbox ng-repeat = "item in kategorien" ng-model="item.enabled"  name="kategorie">{{item.text}}</ion-checkbox>-->
-      <ion-item id="investitionSuchen-list-item-divider11" class="item-divider ">Sortieren nach</ion-item>
-      <ion-radio ng-repeat = "item in sorterList" ng-value="item.value"  ng-model="dataSorter.value" name="sortierung"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>
+
+      <!--<ion-radio ng-repeat = "item in sorterList" ng-value="item.value"  ng-model="dataSorter.value" name="sortierung"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
       <ion-item id="investitionSuchen-list-item-divider2" class="item-divider ">Anzeige der Suchergebnisse</ion-item>
-      <ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>
-      <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, dataSorter, dataOrder)" id="investitionSuchen-button34" ui-sref="app.searchResult">Investition suchen</a>
+      <label id="selectAsc" class="item item-select ">
+        <span class="input-label"></span>
+        <select ng-model="dataOrder.value" name="anzeige" required>
+          <option ng-repeat = "item in sorterOrder" >
+            {{item.text}}
+          </option>
+        </select>
+      </label>
+
+
+      <!--<ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
+      <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, dataSorter, dataOrder)" id="investitionSuchen-button34">Investition suchen</a>
     </form>
 
     <div id="" class="list card " ng-controller="investitionSearchCtrl">

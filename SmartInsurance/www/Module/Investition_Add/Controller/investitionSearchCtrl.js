@@ -1,4 +1,4 @@
-appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint){
+appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint, selectFormatter){
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
 
@@ -10,11 +10,10 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
 
       var kat = [];
+      kat.push({value: "Keine"});
 
          for (var i = 0; i < response.length; i++) {
-           kat.push({
-             value: response[i]
-           });
+           kat.push({value: response[i]});
          }
       $scope.kategorien = kat;
 
@@ -26,8 +25,9 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
 
   $scope.sorterList = [
-    {text: "Bewertung", value: "bewertung"},
+    {text: "Keine", value: "keine"},
     {text: "Bezeichnung", value: "name"},
+    {text: "Bewertung", value: "bewertung"},
     {text: "Rendite", value: "rendite"},
     {text: "Versicherungshöhe", value: "versicherungshoehe"},
     {text: "Anzahl der Investoren", value: "anzahl_investoren"}
@@ -35,16 +35,16 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
 
   $scope.sorterOrder = [
-    {text: "Aufsteigend", value: "asc"},
-    {text: "Absteigend", value: "desc"},
+    {text: "Aufsteigend", value: true},
+    {text: "Absteigend", value: false}
   ];
 
   $scope.dataSorter = {
-    value: ''
+    value: ""
   };
 
   $scope.dataOrder = {
-    value: 'asc'
+    value: false
   };
 
 
@@ -52,48 +52,24 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
 
     //kategorienFilter.value= kategorienFilter.value.trim();
-    console.log(kategorienFilter.value);
+    console.log($scope.sorterList.value);
 
 
     var parameter = {
-        kategorie: kategorienFilter.value.trim(),
-        orderby: 'rendite',
-        ascending: true
+        kategorie: selectFormatter.formatSelect(kategorienFilter.value),
+        orderby: selectFormatter.formatSelect(dataSorter.value),
+        ascending: dataOrder.value
     };
 
-    $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).then(function(response) {
+    $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).success(function(response) {
 
-      var arr = [];
+      $scope.results = response;
 
-      for (var i = 0; i < response.data.length; i++) {
-        arr.push({
-          name: response.data[i].name,
-          versicherungshoehe: response.data[i].versicherungshoehe,
-          kategorie: response.data[i].kategorie,
-          anzahl_investoren: response.data[i].anzahl_investoren,
-          bewertung: response.data[i].bewertung,
-          rendite: response.data[i].rendite
-        });
-      }
-//$scope.$apply(function() {
-  //$scope.results = arr;
-  $scope.results = response.data;
-  //console.log(arr);
-  console.log($scope.results);
-  console.log($scope.results.length);
-  // $scope.result = JSON.stringify(response);
-  //alert(arr[0].name);
-//})
-
+      console.log($scope.results);
+      console.log($scope.results.length);
 
     });
 
-
-
-    /*$http.post(apiendpoint.url + '/api/smartinsurance/versicherung', $scope.versicherung).then(function(data) {
-     versicherungAdd.setVersicherung({});
-     $state.go('app.versicherungAdded');
-     });  */
 
   }
 
