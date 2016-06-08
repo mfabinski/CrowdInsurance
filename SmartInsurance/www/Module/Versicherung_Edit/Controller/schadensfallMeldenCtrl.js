@@ -29,7 +29,6 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
     $scope.reportSchaden = function (form) {
         
         $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
-        console.log($scope.schaden);
         if(form.$valid && $scope.schaden.versicherungID != null){
             $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schaden).then(function(data) {
                 $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});

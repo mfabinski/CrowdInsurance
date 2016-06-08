@@ -36,7 +36,7 @@ appController.service('selectFormatter', [ function(){
 
 
 appController.factory("checkCurrencyFormat",function(){
-        return /^([1-9]{1}\d{0,2}(\.{0,1}\d{3})*,{0,1}\d{0,2}(€| €){0,1})$/;
+        return /^(([1-9][0-9]?[0-9]?)([.][0-9]{3})*|[0]),[0-9]{2}\s?€$/;
 });
 
 
