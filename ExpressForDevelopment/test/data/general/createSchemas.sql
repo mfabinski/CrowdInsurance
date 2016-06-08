@@ -529,7 +529,7 @@ CREATE VIEW "InvestorenVonVersicherung" AS
             i."abschlussZeitpunkt"
            FROM ("Investition" i
              JOIN smartbackend."user" p ON ((i."personID" = p.id)))) ip ON (("Versicherung".id = ip."versicherungID")))
-  ORDER BY ip.investitionshoehe;
+  ORDER BY ip.investitionshoehe DESC;
 
 
 --
