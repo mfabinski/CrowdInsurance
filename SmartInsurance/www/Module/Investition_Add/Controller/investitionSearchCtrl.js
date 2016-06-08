@@ -11,26 +11,24 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
 
          for (var i = 0; i < response.length; i++) {
            kat.push({
-             text: response[i],
-             enabled: false
+             value: response[i]
            });
          }
       $scope.kategorien = kat;
 
     });
 
-    $scope.investitionShow = function() {
+    $scope.kategorienFilter = {
+      value: ''
+  };
 
-    }
-
-    $scope.investitionSearch = function() {
-
-    }
 
   $scope.sorterList = [
-    {text: "Bewertung", value: "bw"},
-    {text: "Bezeichnung", value: "bez"},
-    {text: "Versicherungshöhe", value: "vh"}
+    {text: "Bewertung", value: "bewertung"},
+    {text: "Bezeichnung", value: "name"},
+    {text: "Rendite", value: "rendite"},
+    {text: "Versicherungshöhe", value: "versicherungshoehe"},
+    {text: "Anzahl der Investoren", value: "anzahl_investoren"}
   ];
 
 
@@ -48,12 +46,17 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
   };
 
 
-  $scope.search = function(dataSorter, dataOrder) {
-    console.log($scope.kategorien[0].enabled + " und " + dataSorter.value + " und " + dataOrder.value);
+  $scope.search = function(kategorienFilter, dataSorter, dataOrder) {
+
+
+    //kategorienFilter.value= kategorienFilter.value.trim();
+    console.log(kategorienFilter.value);
+
+
     var parameter = {
-        kategorie: 'Auto',
+        kategorie: kategorienFilter.value.trim(),
         orderby: 'rendite',
-        ascending: false
+        ascending: true
     };
 
     $http.post('http://localhost:3000/api/smartinsurance/filter', parameter).then(function(response) {
@@ -91,6 +94,15 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
      });  */
 
   }
+
+  $scope.investitionShow = function() {
+
+  }
+
+  $scope.investitionSearch = function() {
+
+  }
+
 
 
 
