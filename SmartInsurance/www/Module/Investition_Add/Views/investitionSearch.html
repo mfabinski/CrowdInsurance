@@ -2,12 +2,60 @@
   <ion-content class="has-header" padding="true">
     <form class="list " id="investitionSuchen-form51">
       <ion-item id="investitionSuchen-list-item-divider3" class="item-divider ">Filtern nach Kategorie</ion-item>
-      <ion-checkbox ng-repeat = "item in kategorien" ng-model="item.enabled"  name="kategorie">{{item.text}}</ion-checkbox>
+
+
+        <select ng-model="item.enabled" name="kategorie" required>
+          <option ng-repeat = "item in kategorien" >
+            {{item.text}}
+          </option>
+        </select>
+
+
+      <!--<ion-checkbox ng-repeat = "item in kategorien" ng-model="item.enabled"  name="kategorie">{{item.text}}</ion-checkbox>-->
       <ion-item id="investitionSuchen-list-item-divider11" class="item-divider ">Sortieren nach</ion-item>
       <ion-radio ng-repeat = "item in sorterList" ng-value="item.value"  ng-model="dataSorter.value" name="sortierung"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>
       <ion-item id="investitionSuchen-list-item-divider2" class="item-divider ">Anzeige der Suchergebnisse</ion-item>
       <ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>
       <a class=" button button-positive  button-block "  ng-click="search(dataSorter, dataOrder)" id="investitionSuchen-button34" ui-sref="app.searchResult">Investition suchen</a>
     </form>
+
+    <div id="" class="list card " ng-controller="investitionSearchCtrl">
+      <!--<ion-item style="" class="  " id="1">Suchergebnis</ion-item>-->
+      <div style="" id="2" class="item item-body ">
+        <ion-list class=" " id="3" ng-controller="investitionSearchCtrl">
+          <!--<a ng-click="investitionShow()">-->
+          <ion-item ng-repeat="item in results" id="4" class="item-icon-left">
+            <i class="icon ion-ionic"></i>
+            <table>
+              <tr>
+                <td> <b> Bezeichnung: </b> </td>
+                <td> <b> {{item.name}} </b> </td>
+              </tr>
+              <tr>
+                <td> <b> Versicherungshöhe: </b> </td>
+                <td> {{item.versicherungshoehe}} </td>
+              </tr>
+              <tr>
+                <td> <b> Kategorie: </b> </td>
+                <td> {{item.kategorie}} </td>
+              </tr>
+              <tr>
+                <td> <b> Anzahl der Investoren: </b> </td>
+                <td> {{item.anzahl_investoren}} </td>
+              </tr>
+              <tr>
+                <td> <b> Bewertung: </b> </td>
+                <td> {{item.bewertung}} </td>
+              </tr>
+              <tr>
+                <td> <b> Rendite: </b> </td>
+                <td> {{item.rendite}} </td>
+              </tr>
+            </table>
+          </ion-item>
+          <!--</a>-->
+        </ion-list>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

@@ -58,24 +58,28 @@ appController.controller('investitionSearchCtrl',function($scope, $http){
 
     $http.post('http://localhost:3000/api/smartinsurance/filter', parameter).then(function(response) {
 
-      /*var arr = [];
+      var arr = [];
 
       for (var i = 0; i < response.data.length; i++) {
         arr.push({
           name: response.data[i].name,
           versicherungshoehe: response.data[i].versicherungshoehe,
           kategorie: response.data[i].kategorie,
-          anzahl: response.data[i].anzahl_investoren,
+          anzahl_investoren: response.data[i].anzahl_investoren,
           bewertung: response.data[i].bewertung,
           rendite: response.data[i].rendite
-        });*/
-      //}
-      $scope.results = response.data;
+        });
+      }
+//$scope.$apply(function() {
+  //$scope.results = arr;
+  $scope.results = response.data;
+  //console.log(arr);
+  console.log($scope.results);
+  console.log($scope.results.length);
+  // $scope.result = JSON.stringify(response);
+  //alert(arr[0].name);
+//})
 
-      console.log($scope.results);
-      console.log($scope.results.length);
-     // $scope.result = JSON.stringify(response);
-     //alert(arr[0].name);
 
     });
 
