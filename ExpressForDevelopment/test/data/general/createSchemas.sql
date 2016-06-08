@@ -133,7 +133,20 @@ CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
        ("versicherungID", "personID", betrag)
        VALUES ($1, $2, $3);
     INSERT INTO smartinsurance."Investition"
-       (id, "versicherungID", "personID", investitionshoehe)
+       (id, "versicherungID", "personID", investitionshoehe) 
+       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
+$_$;
+
+
+--
+-- Name: createschadensfall(integer, text, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION createschadensfall(integer, text, money) RETURNS integer
+    LANGUAGE sql
+    AS $_$
+    INSERT INTO smartinsurance."Schadensfall"
+       (id, "versicherungID", beschreibung, schadenshoehe) 
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -316,8 +329,8 @@ BEGIN
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
-    FROM smartinsurance."VersicherungFilter"
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
     WHERE "kategorie" = $1 ORDER BY '
     || quote_ident($2) || ' ' || $3 || ';' USING $1;
 END;
@@ -332,11 +345,11 @@ CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
-      SELECT "versicherungID", "personID", investitionshoehe * (-1)
-      FROM smartinsurance."Investition"
+      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
+      FROM smartinsurance."Investition" 
       WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
     UPDATE smartinsurance."Investition"
-      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
       WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -349,7 +362,7 @@ CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     UPDATE smartinsurance."Versicherung"
-    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
     WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -365,7 +378,8 @@ CREATE TABLE "user" (
     name text,
     prename text,
     email text,
-    password text
+    password text,
+    birthday date
 );
 
 
@@ -487,7 +501,7 @@ CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     AS $_$
     SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
      FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
      WHERE smartinsurance."Versicherung".id=$1
      AND smartinsurance."Investition"."istGekuendigt"=false;
 $_$;
@@ -498,10 +512,24 @@ $_$;
 --
 
 CREATE VIEW "InvestorenVonVersicherung" AS
- SELECT "Investition"."personID",
-    "Investition"."versicherungID"
+ SELECT ip."personID",
+    ip."versicherungID",
+    ip.name,
+    ip.prename,
+    ip.email,
+    ip.investitionshoehe,
+    ip."abschlussZeitpunkt"
    FROM ("Versicherung"
-     JOIN "Investition" ON (("Versicherung".id = "Investition"."versicherungID")));
+     JOIN ( SELECT i."versicherungID",
+            i."personID",
+            p.name,
+            p.prename,
+            p.email,
+            i.investitionshoehe,
+            i."abschlussZeitpunkt"
+           FROM ("Investition" i
+             JOIN smartbackend."user" p ON ((i."personID" = p.id)))) ip ON (("Versicherung".id = ip."versicherungID")))
+  ORDER BY ip.investitionshoehe;
 
 
 --
@@ -525,6 +553,50 @@ CREATE FUNCTION getkategorien() RETURNS kategorie[]
     AS $$
     SELECT enum_range(NULL::kategorie);
 $$;
+
+
+--
+-- Name: Schadensfall; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE "Schadensfall" (
+    id integer NOT NULL,
+    "versicherungID" integer NOT NULL,
+    beschreibung text,
+    schadenshoehe money NOT NULL,
+    zeitpunkt timestamp without time zone DEFAULT now(),
+    "auszahlungsZeitpunkt" timestamp without time zone,
+    "istAusgezahlt" boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: COLUMN "Schadensfall".zeitpunkt; Type: COMMENT; Schema: smartinsurance; Owner: -
+--
+
+COMMENT ON COLUMN "Schadensfall".zeitpunkt IS 'Zeitpunkt der Meldung des Schadensfalls durch den Versicherungsnehmer';
+
+
+--
+-- Name: getschadensfallbysid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getschadensfallbysid(integer) RETURNS "Schadensfall"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "Schadensfall" as sf WHERE sf.id = $1;
+$_$;
+
+
+--
+-- Name: getschadensfallbyvid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getschadensfallbyvid(integer) RETURNS SETOF "Schadensfall"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "Schadensfall" as sf WHERE sf."versicherungID" = $1;
+$_$;
 
 
 --
@@ -663,8 +735,8 @@ BEGIN
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
-    FROM smartinsurance."VersicherungFilter"
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
     ORDER BY '
     || quote_ident($1) || ' ' || $2 || ';';
 END;
@@ -692,8 +764,8 @@ CREATE FUNCTION submitversicherungskuendigung(integer) RETURNS void
     AS $_$
     UPDATE smartinsurance."Versicherung"
       SET "wirdGekuendigt"=true WHERE id=$1;
-    UPDATE smartinsurance."Investition"
-      SET "wirdGekuendigt"=true
+    UPDATE smartinsurance."Investition" 
+      SET "wirdGekuendigt"=true 
       WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
 $_$;
 
@@ -861,28 +933,6 @@ CREATE SEQUENCE "Kommentar_versicherungID_seq"
 --
 
 ALTER SEQUENCE "Kommentar_versicherungID_seq" OWNED BY "Kommentar"."versicherungID";
-
-
---
--- Name: Schadensfall; Type: TABLE; Schema: smartinsurance; Owner: -
---
-
-CREATE TABLE "Schadensfall" (
-    id integer NOT NULL,
-    "versicherungID" integer NOT NULL,
-    beschreibung text,
-    schadenshoehe money NOT NULL,
-    zeitpunkt timestamp without time zone DEFAULT now(),
-    "auszahlungsZeitpunkt" timestamp without time zone,
-    "istAusgezahlt" boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: COLUMN "Schadensfall".zeitpunkt; Type: COMMENT; Schema: smartinsurance; Owner: -
---
-
-COMMENT ON COLUMN "Schadensfall".zeitpunkt IS 'Zeitpunkt der Meldung des Schadensfalls durch den Versicherungsnehmer';
 
 
 --
@@ -1356,3 +1406,4 @@ ALTER TABLE ONLY "Zahlungsstrom"
 --
 -- PostgreSQL database dump complete
 --
+
