@@ -7,7 +7,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
                 text: ""
         };
     
-    $scope.noComment = false;
+    $scope.noComment = true;
     
     $scope.noInvestor = true;
     
@@ -44,6 +44,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
     
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungId).success(function(response) {
             $scope.comments = response;
+            $scope.noComment= false;
     });
     
     $scope.showPicture = function(investor) {

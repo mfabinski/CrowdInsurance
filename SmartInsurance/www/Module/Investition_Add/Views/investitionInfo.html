@@ -55,9 +55,10 @@
         </div>
         <div id="detailsZurVersicherung-card221" class="list card ">
             <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown44">Kommentare:</p>
-            <ion-item style="" id="detailsZurVersicherung-list-item28" class="item-avatar  ">
-                <h2>hier werden die Kommentare angezeigt</h2>
+            <ion-item style="" id="detailsZurVersicherung-list-item28" class="item-avatar  " ng-repeat="comment in comments" ng-hide="noComment">
+                {{comment.prename}} {{comment.name}}:  {{comment.text}}
             </ion-item>
+            <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
         </div>
         <button class=" button button-positive  button-block " id="detailsZurVersicherung-button10" ng-click="becomeInvestor()">Als Investor einsteigen</button>
         <button class=" button button-positive  button-block " id="detailsZurVersicherung-button11" ng-click="showSchadensfaelle()">Schadensfälle einsehen</button>

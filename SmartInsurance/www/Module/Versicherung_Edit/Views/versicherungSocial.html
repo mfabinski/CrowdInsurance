@@ -58,9 +58,10 @@
         <div id="versicherungSocial-card214" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown39">Kommentare</p>
             <ion-list class=" " id="versicherungSocial-list10">
-                <ion-item style="" id="versicherungSocial-list-item16" class="item-avatar  " ng-repeat="comment in comments">
+                <ion-item style="" id="versicherungSocial-list-item16" class="item-avatar  " ng-repeat="comment in comments" ng-hide="noComment">
                     {{comment.prename}} {{comment.name}}:  {{comment.text}}
                 </ion-item>
+                <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
             </ion-list>
         </div>
         <form class="list " id="versicherungSocial-form57" name="kommentarForm">

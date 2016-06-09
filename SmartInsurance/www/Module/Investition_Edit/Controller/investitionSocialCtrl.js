@@ -2,9 +2,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
     $scope.investitionId = $stateParams.id;
     
-   
-    
-    $scope.noComment = false;
+    $scope.noComment = true;
     
     $scope.investoren = [];
 
@@ -42,6 +40,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         
         $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.investition.versicherungID).success(function(response) {
             $scope.comments = response;
+            $scope.noComment=false;
         });
     });
     
