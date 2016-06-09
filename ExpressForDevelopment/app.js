@@ -48,6 +48,10 @@ app.get('/api/smartinsurance/versicherung/:versicherungID/invest', [validate.ver
 
 app.get('/api/smartinsurance/schadensfall/:schadensfallID', [validate.schadensfallID, ts.getSchadensfallByID]);
 
+app.get('/api/smartinsurance/profil/', ts.getProfilByID); // Für das eigene (vorläufig). Sollte auch die eigene haben!
+
+app.get('/api/smartinsurance/profil/:profilID', ts.getProfilByID);
+
 app.get('/api/smartinsurance/schadensfaelle/:versicherungID', [validate.versicherungID, ts.getSchadensfaelleByVersicherung]);
 
 app.post('/api/smartinsurance/schadensfallmelden', [validate.parameterSchadensfall, ts.erstelleSchadensfall]);
