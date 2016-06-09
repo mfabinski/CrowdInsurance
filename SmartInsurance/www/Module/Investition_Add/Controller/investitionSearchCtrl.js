@@ -1,4 +1,4 @@
-appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint, selectFormatter){
+appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint, selectFormatter, $ionicPopup, $state){
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
 
@@ -6,17 +6,13 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
     });
 
-
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
 
       var kat = [];
-      //kat.push({value: "Keine"});
-
-         for (var i = 0; i < response.length; i++) {
-           kat.push({text: response[i]});
-         }
+      for (var i = 0; i < response.length; i++) {
+        kat.push({text: response[i]});
+      }
       $scope.kategorien = kat;
-
     });
 
     $scope.kategorienFilter = {
@@ -36,7 +32,6 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
     {text: "Aufsteigend", value: true},
     {text: "Absteigend", value: false}
   ];
-
 
   $scope.search = function(kategorienFilter, sorterList, sorterOrder) {
 
@@ -81,32 +76,31 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
     }
 
 
-    //kategorienFilter.value= kategorienFilter.value.trim();
-    console.log("Kategorie: " + kategorie);
-    console.log("Sorter: " + sorterValue);
-    console.log("Order: " + orderValue);
-
-
-
-    /*var parameter = {
-        kategorie: kategorie,
-        orderby: selectFormatter.formatSelect(sorterList.text),
-        ascending: false
-    };*/
-
     $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).success(function(response) {
-
       $scope.results = response;
-
-      console.log($scope.results);
-      console.log($scope.results.length);
 
     });
 
+    $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).error(function(response) {
+      console.log(response.status);
+      //alert("error");
 
+      var alertPopup = $ionicPopup.alert({
+        title: "Fehlermeldung",
+        template: "Es wurden keine Investionen gefunden!"
+      });
+
+      alertPopup.then(function(res) {
+        console.log("Fehler");
+      });
+
+    });
   }
 
-  $scope.investitionShow = function() {
+  $scope.investitionShow = function(id) {
+    console.log(id);
+      $state.go("app.investitionInfo",{id: id});
+
 
   }
 

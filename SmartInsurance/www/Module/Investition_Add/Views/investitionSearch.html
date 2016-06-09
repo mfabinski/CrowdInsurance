@@ -46,14 +46,22 @@
       <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, sorterList, sorterOrder)" id="investitionSuchen-button34">Investition suchen</a>
     </form>
 
+
+
     <div id="" class="list card " ng-controller="investitionSearchCtrl">
+      <ion-item  class="item-divider ">Suchergebnisse</ion-item>
       <!--<ion-item style="" class="  " id="1">Suchergebnis</ion-item>-->
       <div style="" id="2" class="item item-body ">
         <ion-list class=" " id="3" ng-controller="investitionSearchCtrl">
-          <!--<a ng-click="investitionShow()">-->
-          <ion-item ng-repeat="item in results" id="4" class="item-icon-left">
+          <a ng-click="investitionShow({{item.id}})" ng-repeat="item in results">
+          <ion-item  id="4" class="item-icon-left">
             <i class="icon ion-ionic"></i>
             <table>
+              <tr>
+                <td> <b> ID: </b> </td>
+                <td>  {{item.id}}  </td>
+              </tr>
+              <tr>
               <tr>
                 <td> <b> Bezeichnung: </b> </td>
                 <td>  {{item.name}}  </td>
@@ -80,9 +88,11 @@
               </tr>
             </table>
           </ion-item>
-          <!--</a>-->
+          </a>
         </ion-list>
       </div>
     </div>
   </ion-content>
 </ion-view>
+
+
