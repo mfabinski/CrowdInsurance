@@ -33,7 +33,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     //controller: 'AppCtrl'
   })
 
-   
+
   .state('app.uebersicht', {
     url: '/uebersicht',
     views: {
@@ -44,48 +44,49 @@ app.config(function($stateProvider, $urlRouterProvider) {
     }
   })
 
-  
+
   .state('app.profil', {
     url: '/profil',
     views: {
       'menuContent': {
         templateUrl: 'Module/Sonstiges/Views/profil.html'
-        
+
       }
     }
   })
+
 
   .state('app.versicherungDetail', {
     url: '/versicherungDetail/:id',
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Edit/Views/versicherungDetail.html',
-        controller: 'versicherungDetailCtrl'  
+        controller: 'versicherungDetailCtrl'
       }
     }
   })
-  
+
    .state('app.versicherungSocial', {
     url: '/versicherungSocial/:id',
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Edit/Views/versicherungSocial.html',
-        controller: 'versicherungSocialCtrl'  
+        controller: 'versicherungSocialCtrl'
       }
     }
   })
- 
+
   .state('app.versicherungEdit', {
     url: '/versicherungEdit/:id',
     params: {id : null},
     views: {
       'menuContent': {
         templateUrl: 'Module/Versicherung_Edit/Views/versicherungEdit.html',
-        controller: 'versicherungEditCtrl'  
+        controller: 'versicherungEditCtrl'
       }
     }
   })
- 
+
   .state('app.versicherungAdd', {
     url: '/versicherungAdd',
     views: {
@@ -95,7 +96,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  
+
   .state('app.versicherungCheck', {
     url: '/versicherungCheck',
     params: {versicherung : null},
@@ -106,7 +107,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  
+
   .state('app.versicherungAdded', {
     url: '/versicherungAdded',
     params: {id : null},
@@ -117,7 +118,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  
+
    .state('app.schadensfaelle', {
     url: '/schadensfaelle/:id',
     params: {id: null},
@@ -128,7 +129,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
-  
+
   .state('app.investitionInfo', {
       url: '/investitionInfo/:id',
       views: {
@@ -148,7 +149,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
   .state('app.investitionCheck', {
       url: '/investitionCheck',
       params: {investition: null},
@@ -158,8 +159,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
           controller: 'investitionCheckCtrl'
         }
       }
-    })    
-  
+    })
+
    .state('app.schadensfallMelden', {
       url: '/schadensfallMelden',
       params: {schaden: null},
@@ -170,7 +171,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
   .state('app.investitionAdded', {
       url: '/investitionAdded',
       params: {ids: null},
@@ -181,7 +182,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-      
+
     .state('app.investitionSearch', {
       url: '/investitionSearch',
       views: {
@@ -191,9 +192,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
-  
- 
+
    .state('app.faq', {
       url: '/faq',
       views: {
@@ -202,7 +201,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
- 
+
    .state('app.impressum', {
       url: '/impressum',
       views: {
@@ -211,14 +210,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     });
-     
- 
+
+
   // if none of the above states are matched, use this as the fallback
    $urlRouterProvider.otherwise('/app/uebersicht');
-  
+
 });
-    
 
 
- 
+
+
 
