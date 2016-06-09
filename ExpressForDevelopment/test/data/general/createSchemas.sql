@@ -139,6 +139,19 @@ $_$;
 
 
 --
+-- Name: createkommentar(integer, text, uuid); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION createkommentar(integer, text, uuid) RETURNS integer
+    LANGUAGE sql
+    AS $_$
+    INSERT INTO "Kommentar"(
+            id, "versicherungID", text, zeitpunkt, "personID")
+    VALUES (DEFAULT, $1, $2, now(), $3) returning id;
+$_$;
+
+
+--
 -- Name: createschadensfall(integer, text, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -148,6 +161,19 @@ CREATE FUNCTION createschadensfall(integer, text, money) RETURNS integer
     INSERT INTO smartinsurance."Schadensfall"
        (id, "versicherungID", beschreibung, schadenshoehe) 
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
+$_$;
+
+
+--
+-- Name: createschadensfall(integer, text, text, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION createschadensfall(integer, text, text, money) RETURNS integer
+    LANGUAGE sql
+    AS $_$
+    INSERT INTO smartinsurance."Schadensfall"
+       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe) 
+       VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id;
 $_$;
 
 
@@ -556,6 +582,83 @@ $$;
 
 
 --
+-- Name: Kommentar; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE "Kommentar" (
+    id integer NOT NULL,
+    "versicherungID" integer NOT NULL,
+    text text,
+    zeitpunkt timestamp without time zone,
+    "personID" uuid NOT NULL
+);
+
+
+--
+-- Name: KommentarPerson; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "KommentarPerson" AS
+ SELECT k.id,
+    k."versicherungID",
+    k.text,
+    k.zeitpunkt,
+    k."personID",
+    p.name,
+    p.prename
+   FROM ("Kommentar" k
+     JOIN smartbackend."user" p ON ((k."personID" = p.id)));
+
+
+--
+-- Name: getkommentarebyvid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getkommentarebyvid(integer) RETURNS SETOF "KommentarPerson"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "KommentarPerson" as kp WHERE kp."versicherungID" = $1;
+$_$;
+
+
+--
+-- Name: userbank; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE userbank (
+    id uuid NOT NULL,
+    iban text,
+    bic text
+);
+
+
+--
+-- Name: ProfilKomplett; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "ProfilKomplett" AS
+ SELECT u.id,
+    u.name,
+    u.prename,
+    u.email,
+    b.iban,
+    b.bic
+   FROM (smartbackend."user" u
+     LEFT JOIN userbank b ON ((u.id = b.id)));
+
+
+--
+-- Name: getprofilkomplettbyuid(uuid); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getprofilkomplettbyuid(uuid) RETURNS "ProfilKomplett"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "ProfilKomplett" as p WHERE p.id = $1;
+$_$;
+
+
+--
 -- Name: Schadensfall; Type: TABLE; Schema: smartinsurance; Owner: -
 --
 
@@ -566,7 +669,8 @@ CREATE TABLE "Schadensfall" (
     schadenshoehe money NOT NULL,
     zeitpunkt timestamp without time zone DEFAULT now(),
     "auszahlungsZeitpunkt" timestamp without time zone,
-    "istAusgezahlt" boolean DEFAULT false NOT NULL
+    "istAusgezahlt" boolean DEFAULT false NOT NULL,
+    bezeichnung text
 );
 
 
@@ -787,6 +891,45 @@ $$;
 
 
 --
+-- Name: updateinvestition(integer, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateinvestition(integer, money) RETURNS void
+    LANGUAGE sql
+    AS $_$
+   UPDATE "Investition"
+      SET investitionshoehe=$2
+      WHERE id=$1;
+$_$;
+
+
+--
+-- Name: updateschadensfall(integer, text, text, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateschadensfall(integer, text, text, money) RETURNS void
+    LANGUAGE sql
+    AS $_$
+   UPDATE "Schadensfall"
+      SET bezeichnung=$2, beschreibung=$3, schadenshoehe=$4
+      WHERE id=$1;
+$_$;
+
+
+--
+-- Name: updateversicherung(integer, text, text, kategorie); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateversicherung(integer, text, text, kategorie) RETURNS void
+    LANGUAGE sql
+    AS $_$
+   UPDATE "Versicherung"
+      SET name=$2, beschreibung=$3, kategorie=$4
+      WHERE id=$1;
+$_$;
+
+
+--
 -- Name: uuid_generate_v1mc(); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -844,6 +987,31 @@ CREATE TABLE chat_room_user (
 );
 
 
+--
+-- Name: user_token; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE user_token (
+    token text NOT NULL,
+    fk_user uuid NOT NULL
+);
+
+
+--
+-- Name: user_access_view; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_access_view AS
+ SELECT "user".id,
+    "user".name,
+    "user".prename,
+    "user".email,
+    user_token.token
+   FROM "user",
+    user_token
+  WHERE ("user".id = user_token.fk_user);
+
+
 SET search_path = smartinsurance, pg_catalog;
 
 --
@@ -882,19 +1050,6 @@ CREATE SEQUENCE "Investition_versicherungID_seq"
 --
 
 ALTER SEQUENCE "Investition_versicherungID_seq" OWNED BY "Investition"."versicherungID";
-
-
---
--- Name: Kommentar; Type: TABLE; Schema: smartinsurance; Owner: -
---
-
-CREATE TABLE "Kommentar" (
-    id integer NOT NULL,
-    "versicherungID" integer NOT NULL,
-    text text,
-    zeitpunkt timestamp without time zone,
-    "personID" uuid NOT NULL
-);
 
 
 --
@@ -1245,6 +1400,14 @@ ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_pkey PRIMARY KEY (id);
 
 
+--
+-- Name: user_token_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_token
+    ADD CONSTRAINT user_token_pkey PRIMARY KEY (token);
+
+
 SET search_path = smartinsurance, pg_catalog;
 
 --
@@ -1295,6 +1458,14 @@ ALTER TABLE ONLY "Zahlungsstrom"
     ADD CONSTRAINT "Zahlungsstrom_pkey" PRIMARY KEY (id);
 
 
+--
+-- Name: userbank_pkey; Type: CONSTRAINT; Schema: smartinsurance; Owner: -
+--
+
+ALTER TABLE ONLY userbank
+    ADD CONSTRAINT userbank_pkey PRIMARY KEY (id);
+
+
 SET search_path = smartbackend, pg_catalog;
 
 --
@@ -1327,6 +1498,14 @@ ALTER TABLE ONLY chat_message
 
 ALTER TABLE ONLY chat_room_user
     ADD CONSTRAINT chat_room_user_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
+
+
+--
+-- Name: user_token_fk_user_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_token
+    ADD CONSTRAINT user_token_fk_user_fkey FOREIGN KEY (fk_user) REFERENCES "user"(id);
 
 
 SET search_path = smartinsurance, pg_catalog;
@@ -1401,6 +1580,14 @@ ALTER TABLE ONLY "Zahlungsstrom"
 
 ALTER TABLE ONLY "Zahlungsstrom"
     ADD CONSTRAINT "Zahlungsstrom_versicherungID_fkey" FOREIGN KEY ("versicherungID") REFERENCES "Versicherung"(id);
+
+
+--
+-- Name: userbank_id_fkey; Type: FK CONSTRAINT; Schema: smartinsurance; Owner: -
+--
+
+ALTER TABLE ONLY userbank
+    ADD CONSTRAINT userbank_id_fkey FOREIGN KEY (id) REFERENCES smartbackend."user"(id);
 
 
 --
