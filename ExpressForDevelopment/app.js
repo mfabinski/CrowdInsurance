@@ -64,6 +64,8 @@ app.post('/api/smartinsurance/investition/:investitionID/kuendigen', [validate.i
 
 app.post('/api/smartinsurance/kommentieren', [validate.parameterKommentar, ts.erstelleKommentar]);
 
+app.get('/api/smartinsurance/kommentare/:versicherungID', [validate.versicherungID, ts.getKommentareByVID]);
+
 // Nur fuer Testzwecke
 app.get('/api/smartinsurance/periodic', ts.periodicSchedule);
 
