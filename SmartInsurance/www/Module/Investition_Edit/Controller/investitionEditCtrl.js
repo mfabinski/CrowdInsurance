@@ -12,13 +12,13 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
          
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
             .success(function(response) {
-                console.log(response);
-                $scope.investitionBetrag = response[0].suminvestition;
-
+                if(angular.isDefined(response[0])) {
+                    $scope.investitionBetrag = response[0].suminvestition;
+                } else {
+                    $scope.investitionBetrag = "0,00 €";   
+                }
             })
-            .error(function(response) {
-                $scope.investitionBetrag = "0,00 €";
-            })
+        
     });
 
 
