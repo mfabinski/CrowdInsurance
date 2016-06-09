@@ -360,7 +360,7 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
         "versicherungID":"2",
-        "investitionswert":"5,00 €"
+        "investitionshoehe":"5,00 €"
       };
       request({
         "url":url,
