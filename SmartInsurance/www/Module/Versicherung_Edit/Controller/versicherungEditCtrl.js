@@ -16,6 +16,7 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
             $scope.versicherungNeu.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.beitrag));
 
             if($scope.versicherungNeu.versicherungshoehe != "0,00 €" && $scope.versicherungNeu.beitrag != "0,00 €" ){
+                // Schnittstelle ist noch nicht implementiert
                 $http.post(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId, $scope.versicherungNeu).then(function(data) {
                     console.log("erfolgreich");
                     $state.go('app.versicherungDetail',{id: $scope.versicherungId});

@@ -20,9 +20,9 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
         var gesamtbetrag = "0,00 €"
         if(angular.isDefined($scope.versicherung)){
             var monatsbeitrag = moneyParser.moneyparsen($scope.versicherung.beitrag);
-            var investitionswert = moneyParser.moneyparsen($scope.investition.investitionswert);
+            var investitionshoehe = moneyParser.moneyparsen($scope.investition.investitionshoehe);
             var versicherungshoehe = moneyParser.moneyparsen($scope.versicherung.versicherungshoehe);
-            gesamtbetrag = monatsbeitrag * investitionswert /versicherungshoehe;
+            gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
     }

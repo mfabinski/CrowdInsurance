@@ -1,25 +1,25 @@
-<ion-view style="" class=" " id="page15" title="Versicherung Social">
+<ion-view style="" class=" " id="page24" title="Investition Social">
     <ion-content class="has-header" padding="true">
-        <div id="versicherungSocial-card24" class="list card ">
-            <ion-item style="" class="  " id="versicherungSocial-list-item8">
+        <div id="investitionSocial-card226" class="list card ">
+            <ion-item style="" class="  " id="investitionSocial-list-item20">
                 <table>
                     <tr> 
                         <td>  <b>Versicherungsnehmer: </b>   </td>  
                         <td> 
-                                <a ng-click="showProfil({{versicherung.personID}})"> {{versicherung.personPrename}} {{versicherung.personName}}  </a> 
+                                <a ng-click="showProfil({{investition.vpersonID}})"> {{investition.vpersonPrename}} {{investition.vpersonName}}  </a> 
                         </td>
                     </tr>
                     
                     <tr> 
                         <td> <b> Versicherung: </b> </td>
-                        <td>  {{versicherung.name}} </td>
+                        <td>  {{investition.name}} </td>
                     </tr>
                 </table>
             </ion-item>
         </div>
-        <div id="versicherungSocial-card212" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown30">Investoren</p>
-                <div class = "row" ng-repeat="investor in investoren">
+        <div id="investitionSocial-card227" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown54">Investoren</p>
+            <div class = "row" ng-repeat="investor in investoren">
                     <div class = "col">
                          <i class="icon ion-ionic"></i> </br>
                         <a ng-click="showInvestor({{investor[0].personID}})">
@@ -41,8 +41,8 @@
                 </div>
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungSocial-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert.</p>
         </div>
-        <div id="versicherungSocial-card213" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown37">Bewertung: </p>
+        <div id="investitionSocial-card228" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown55">Bewertung</p>
             <div class = "row">
                 <div class = "col">
                     <b>positiv: </b> {{bewertung[1].count}}
@@ -55,23 +55,27 @@
                 </div>
             </div>
         </div>
-        <div id="versicherungSocial-card214" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown39">Kommentare</p>
-            <ion-list class=" " id="versicherungSocial-list10">
-                <ion-item style="" id="versicherungSocial-list-item16" class="item-avatar  " ng-repeat="comment in comments">
+        <div class=" button-bar " id="investitionSocial-button-bar8">
+            <button class=" button button-positive  button-block " id="investitionSocial-button42" ng-click="evaluate('positiv')">positiv</button>
+            <button class=" button button-positive  button-block " id="investitionSocial-button43" ng-click="evaluate('negativ')">negativ</button>
+        </div>
+        <div id="investitionSocial-card229" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">Kommentare</p>
+            <ion-list class=" " id="investitionSocial-list12">
+                <ion-item style="" id="investitionSocial-list-item33" class="item-avatar  "ng-repeat="comment in comments">
                     {{comment.kommentar}}
                 </ion-item>
             </ion-list>
         </div>
-        <form class="list " id="versicherungSocial-form57" name="kommentarForm">
-            <label id="versicherungSocial-input36" class="item item-input ">
+        <form class="list " id="investitionSocial-form64" name="kommentarForm">
+            <label id="investitionSocial-input17" class="item item-input ">
                 <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment" required>
             </label>
              <div style="color:red">
                 <span ng-show="noComment" >Das Kommentarfeld muss befüllt sein. </br></span>  
             </div>
-        <button class=" button button-positive  button-block " type="submit" id="versicherungSocial-button23" ng-click="writeComment(kommentarForm)">Kommentar schreiben</button>
         </form>
-        
+        <button class=" button button-positive  button-block " id="investitionSocial-button41" ng-click="writeComment(kommentarForm)">Kommentar schreiben</button>
+        <div class=" button-bar " id="investitionSocial-button-bar7"></div>
     </ion-content>
 </ion-view>

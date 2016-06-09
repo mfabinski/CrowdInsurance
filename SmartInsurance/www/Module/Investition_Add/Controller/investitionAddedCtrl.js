@@ -2,7 +2,7 @@ appController.controller('investitionAddedCtrl',function($scope, $http, $state, 
 
     $scope.versicherungID = $stateParams.ids.versicherungID;
     
-    $scope.investitionID = $stateParams.ids.investitionsID;
+    $scope.investitionID = $stateParams.ids.investitionID;
     
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
          $scope.versicherung = response[0];

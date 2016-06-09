@@ -9,7 +9,8 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
     $scope.noInvestor = true;
     
     $scope.investoren = [];
-
+    
+   
     
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
@@ -29,7 +30,14 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/bewertungen').success(function(response) {
         $scope.bewertung = response;
-    });
+        })
+        .error(function(response) {
+             $scope.bewertung = [
+                {count: 0},
+                {count: 0},
+                {count: 0}
+            ]          
+        })
     
     /*
     $http.get(apiendpoint.url).success(function(response) {
@@ -56,10 +64,13 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
         }
     };
     
-    $scope.showInvestor = function () {
+    $scope.showInvestor = function (id) {
       // Verweis auf Investor personID übergeben        
     };
-
+    
+     $scope.showProfil = function (id) {
+        // Verweis auf Versicherungsnehmer personID übergeben 
+    }
    
 
 });

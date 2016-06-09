@@ -1,0 +1,73 @@
+<ion-view style="" class=" " id="page22" title="Investitionsdetails">
+    <ion-content class="has-header" padding="true">
+        <div id="investitionsdetails-card222" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionsdetails-markdown12">Investitionsdetails:</p>
+            <ion-item style="" class="  " id="investitionsdetails-list-item15">
+                <table>
+                    <tr> 
+                        <td>  <b>Versicherungsnehmer: </b> </td>  
+                        <td>  {{investition.vpersonPrename}} {{investition.vpersonName}} </td>
+                    </tr>
+                    <tr> 
+                        <td>  <b>Bezeichnung: </b> </td>  
+                        <td>  {{investition.name}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Kategorie: </b> </td>
+                        <td>  {{investition.kategorie}} </td>
+                    </tr>
+                   <tr> 
+                        <td> <b> Versicherungshöhe: </b> </td>
+                        <td>  {{investition.versicherungshoehe}} </td>
+                    </tr>
+                    <tr> 
+                        <td>  davon gedeckt: </td>
+                        <td>  {{investitionBetrag}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Investitionshöhe: </b> </td>
+                        <td>  {{investition.investitionshoehe}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Maximale Rendite: </b> </td>
+                        <td>  {{ calculateRendite(investition.investitionshoehe) }} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Beschreibung: </b> </td>
+                        <td>  {{investition.beschreibung}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> ausgezahlter Schaden: </b> </td>
+                        <td>  {{gesamtSchaden()}} </td>
+                    </tr>
+                </table>
+            </ion-item>
+        </div>
+        <div id="investitionsdetails-card223" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionsdetails-markdown40">Investoren</p>
+            <a ng-click="showInvestor()" ng-repeat="investor in investoren">
+                <ion-item style="" id="investitionsdetails-list-item17" class="item-avatar  ">
+                    <table>
+                        <tr> 
+                            <td>  <b>Name: </b> </td>  
+                            <td>  {{investor.prename}} {{investor.name}} </td>
+                        </tr>
+                        <tr> 
+                            <td>  <b>Investitionshöhe: </b> </td>  
+                            <td>  {{investor.investitionshoehe}} </td>
+                        </tr>
+                        <tr> 
+                            <td>  <b>Abschlusszeitpunkt: </b> </td>  
+                            <td>  {{investor.abschlussZeitpunkt}} </td>
+                        </tr>
+                    </table>  
+                </ion-item>
+            </a>
+        </div>
+        <div class=" button-bar " id="investitionsdetails-button-bar5">
+            <button class=" button button-positive  button-block " id="investitionsdetails-button14" ng-click="showSchadensfaelle()">Schadensfälle</button>
+            <button class=" button button-positive  button-block " id="investitionsdetails-button36" ng-click="showSocial()">Social</button>
+        </div>
+        <button class=" button button-positive  button-block " id="investitionsdetails-button12" ng-click="editInvestition()">Bearbeiten</button>
+    </ion-content>
+</ion-view>
