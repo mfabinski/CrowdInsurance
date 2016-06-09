@@ -77,7 +77,13 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
 
     $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).success(function(response) {
+
       $scope.results = response;
+      for (var i = 0; i < $scope.results.length; i++) {
+        $scope.results[i].rendite = Math.round($scope.results[i].rendite);
+      }
+
+
 
     });
 
