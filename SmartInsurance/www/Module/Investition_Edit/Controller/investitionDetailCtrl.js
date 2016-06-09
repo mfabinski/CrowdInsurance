@@ -1,4 +1,4 @@
-appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint){
+appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint){
 
 
     $scope.investitionID = $stateParams.id;
@@ -9,6 +9,9 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
          
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID +'/person').success(function(response) {
             $scope.investoren = response;
+            for (var i=0;i<$scope.investoren.length;i++) {
+                $scope.investoren[i].abschlussZeitpunkt = datumFormatter.formatDatum($scope.investoren[i].abschlussZeitpunkt);
+            }
         })
 
     
