@@ -4,7 +4,7 @@ var fs = require('fs');
 var app = require('../app.js');
 var server;
 var logger = require('logger.js');
-var verbose = false;
+logger.setLogLevel(process.env.DEBUG_LEVEL || "error"); // info for more verbose output
 
 var getDBPromis = function(){
   var credentials;
@@ -14,7 +14,7 @@ var getDBPromis = function(){
   } catch(err) {
     credentials = 'postgres://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DATABASENAME + ((process.env.DB_SSL=="true")?'?ssl=true':'');
   }
-  if (verbose) logger.consoleInfo('Setze die Test Datenbank-URL auf ' + credentials);
+  logger.info('Setze die Test Datenbank-URL auf ' + credentials);
   var pgp = require('pg-promise')();
   var db = pgp(credentials);
   return db;
@@ -29,9 +29,9 @@ describe("Test API:", function(){
     var query = fs.readFileSync('test/data/general/createSchemas.sql').toString();
     db.any(query).then(function() {
       done();
-      if (verbose) logger.consoleInfo("Schema erstellt");
+      logger.info("Schema erstellt");
     }).catch(function(err){
-      if (verbose) logger.consoleInfo("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err);
+      logger.info("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err);
       done(err);
     });
   });
@@ -40,13 +40,13 @@ describe("Test API:", function(){
   beforeEach(function(done){
     var query = fs.readFileSync('test/data/general/testdatenEinfuegen.sql').toString();
     db.any(query).then(function(){
-      if (verbose) logger.consoleInfo("Testdaten eingefuegt");
+      logger.info("Testdaten eingefuegt");
       server = app.listen(3000, function () {
-        if (verbose) logger.consoleInfo('App hört nun auf port 3000 - Test Modus');
+        logger.info('App hört nun auf port 3000 - Test Modus');
         done();
       });
     }).catch(function(err){
-      if (verbose) logger.consoleInfo("Fehler beim Einfuegen der Versicherungen\n"+ err);
+      logger.info("Fehler beim Einfuegen der Versicherungen\n"+ err);
       done(err);
     });
   });
@@ -472,11 +472,11 @@ describe("Test API:", function(){
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
     server.close(); // app.close() wurde rausgepatcht: https://github.com/expressjs/express/issues/1366
-    if (verbose) logger.consoleInfo('App stoppt - Test Modus');
+    logger.info('App stoppt - Test Modus');
     db.any(query).then(function(){
       done();
     }).catch(function(err){
-      if (verbose) logger.consoleInfo("Fehler beim leeren der Tabellen\n"+ err);
+      logger.info("Fehler beim leeren der Tabellen\n"+ err);
       done(err);
     });
   });
@@ -487,7 +487,7 @@ describe("Test API:", function(){
     db.any(query).then(function(){
       done()
     }).catch(function(err){
-      if (verbose) logger.consoleInfo("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);
+      logger.info("Fehler bei der Verwerfung der Schemen in der Datenbank\n"+ err);
       done(err);
     });
   });

@@ -8,6 +8,8 @@ var validate = require('validator.js');
 
 logger.clearLogFiles();
 
+logger.setLogLevel(process.env.DEBUG_LEVEL || "info");
+
 var app = module.exports = express();
 app.use( bodyParser.json() );
 
