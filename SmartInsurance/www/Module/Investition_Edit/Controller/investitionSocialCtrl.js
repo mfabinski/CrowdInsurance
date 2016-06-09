@@ -34,16 +34,14 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
                 {count: 0}
             ]          
         })
+        
+        $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.investition.versicherungID).success(function(response) {
+            $scope.comments = response;
+        });
     });
     
      
     
-    /*
-    // Get Kommentare
-    $http.get(apiendpoint.url).success(function(response) {
-        $scope.comments = response;
-    });
-    */
     
     $scope.showPicture = function(investor) {
         if(angular.isDefined(investor)){
@@ -54,10 +52,13 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     
     $scope.writeComment = function(form) {
         if (form.$valid) {
-         /*   $http.post(apiendpoint.url , $scope.comment).then(function(data) {
+            $scope.commentNew = {
+                versicherungID: $scope.investition.versicherungID,
+                text: $scope.investition.versicherungID
+            };
+            $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.commentNew).then(function(data) {
                 console.log("erfolgreich");
-            });  */  
-            console.log("erfolgreich");
+            });  
             $scope.noComment=false;
         } else {
             $scope.noComment=true;

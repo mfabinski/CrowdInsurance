@@ -26,6 +26,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
             $scope.investitionNeu.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investitionNeu.investitionshoehe));
 
             if($scope.investitionNeu.investitionshoehe != "0,00 €" && $scope.investitionNeu.investitionshoehe != "0,00 €" ){
+                console.log($scope.investitionNeu);
                 // Schnittstelle noch nicht implementiert
                 $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investitionNeu).then(function(data) {
                     console.log("erfolgreich");
