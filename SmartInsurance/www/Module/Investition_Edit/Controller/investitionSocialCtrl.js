@@ -2,7 +2,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
     $scope.investitionId = $stateParams.id;
     
-    $scope.comment = "";
+   
     
     $scope.noComment = false;
     
@@ -11,6 +11,11 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId).success(function(response) {
         $scope.investition = response[0];
+        
+         $scope.comment = {
+                versicherungID: $scope.investition.versicherungID,
+                text: ""
+        };
         
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID +'/person').success(function(response) {
             $scope.investorhelper = response;
@@ -34,16 +39,14 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
                 {count: 0}
             ]          
         })
+        
+        $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.investition.versicherungID).success(function(response) {
+            $scope.comments = response;
+        });
     });
     
      
     
-    /*
-    // Get Kommentare
-    $http.get(apiendpoint.url).success(function(response) {
-        $scope.comments = response;
-    });
-    */
     
     $scope.showPicture = function(investor) {
         if(angular.isDefined(investor)){
@@ -54,10 +57,8 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     
     $scope.writeComment = function(form) {
         if (form.$valid) {
-         /*   $http.post(apiendpoint.url , $scope.comment).then(function(data) {
-                console.log("erfolgreich");
-            });  */  
-            console.log("erfolgreich");
+            $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).then(function(data) {
+            });  
             $scope.noComment=false;
         } else {
             $scope.noComment=true;

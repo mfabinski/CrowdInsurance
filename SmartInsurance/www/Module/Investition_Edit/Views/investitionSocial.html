@@ -63,13 +63,13 @@
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">Kommentare</p>
             <ion-list class=" " id="investitionSocial-list12">
                 <ion-item style="" id="investitionSocial-list-item33" class="item-avatar  "ng-repeat="comment in comments">
-                    {{comment.kommentar}}
+                    {{comment.prename}} {{comment.name}}:  {{comment.text}}
                 </ion-item>
             </ion-list>
         </div>
         <form class="list " id="investitionSocial-form64" name="kommentarForm">
             <label id="investitionSocial-input17" class="item item-input ">
-                <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment" required>
+                <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment.text" required>
             </label>
              <div style="color:red">
                 <span ng-show="noComment" >Das Kommentarfeld muss befüllt sein. </br></span>  
