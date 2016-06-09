@@ -1,4 +1,4 @@
-appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint){
+appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint){
 
     $scope.versicherungId = $stateParams.id;
 
@@ -10,8 +10,11 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungId).success(function(response) {
-         $scope.schaeden = response;
-         $scope.noSchaden = false;
+        $scope.schaeden = response;
+        for (var i=0;i<$scope.schaeden.length;i++) {
+            $scope.schaeden[i].zeitpunkt = datumFormatter.formatDatum($scope.schaeden[i].zeitpunkt);
+        }
+        $scope.noSchaden = false;
 
     });
 
