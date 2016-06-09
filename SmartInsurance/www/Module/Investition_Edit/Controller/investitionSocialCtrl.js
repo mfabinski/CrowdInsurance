@@ -2,7 +2,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
     $scope.investitionId = $stateParams.id;
     
-    $scope.comment = "";
+   
     
     $scope.noComment = false;
     
@@ -11,6 +11,11 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId).success(function(response) {
         $scope.investition = response[0];
+        
+         $scope.comment = {
+                versicherungID: $scope.investition.versicherungID,
+                text: ""
+        };
         
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID +'/person').success(function(response) {
             $scope.investorhelper = response;
@@ -52,12 +57,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     
     $scope.writeComment = function(form) {
         if (form.$valid) {
-            $scope.commentNew = {
-                versicherungID: $scope.investition.versicherungID,
-                text: $scope.investition.versicherungID
-            };
-            $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.commentNew).then(function(data) {
-                console.log("erfolgreich");
+            $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).then(function(data) {
             });  
             $scope.noComment=false;
         } else {

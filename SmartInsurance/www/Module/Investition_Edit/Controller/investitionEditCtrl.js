@@ -12,7 +12,9 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
          
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
             .success(function(response) {
+                console.log(response);
                 $scope.investitionBetrag = response[0].suminvestition;
+
             })
             .error(function(response) {
                 $scope.investitionBetrag = "0,00 €";
@@ -26,8 +28,6 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
             $scope.investitionNeu.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investitionNeu.investitionshoehe));
 
             if($scope.investitionNeu.investitionshoehe != "0,00 €" && $scope.investitionNeu.investitionshoehe != "0,00 €" ){
-                console.log($scope.investitionNeu);
-                // Schnittstelle noch nicht implementiert
                 $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investitionNeu).then(function(data) {
                     console.log("erfolgreich");
                     $state.go('app.investitionDetail',{id: $scope.investitionID});
