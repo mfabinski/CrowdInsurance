@@ -34,7 +34,6 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
             var investitionshoehe = moneyParser.moneyparsen($scope.investition.investitionshoehe);
             var versicherungshoehe = moneyParser.moneyparsen($scope.versicherung.versicherungshoehe);
             gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
-            console.log($scope.investition.investitionshoehe);
         }
         $scope.rendite = moneyFormatter.formatMoney(gesamtbetrag);
     }

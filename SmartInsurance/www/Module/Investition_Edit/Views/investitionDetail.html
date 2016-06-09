@@ -29,6 +29,10 @@
                         <td>  {{investition.investitionshoehe}} </td>
                     </tr>
                     <tr> 
+                        <td> <b> Maximale Rendite: </b> </td>
+                        <td>  {{ calculateRendite(investition.investitionshoehe) }} </td>
+                    </tr>
+                    <tr> 
                         <td> <b> Beschreibung: </b> </td>
                         <td>  {{investition.beschreibung}} </td>
                     </tr>

@@ -37,6 +37,16 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         return moneyFormatter.formatMoney(gesamtSchaden);
     };
     
+    $scope.calculateRendite = function(investitionshoehe) {
+        var gesamtbetrag = 0;
+        if(angular.isDefined($scope.investition)){
+            var monatsbeitrag = moneyParser.moneyparsen($scope.investition.beitrag);
+            var investitionshoehe = moneyParser.moneyparsen(investitionshoehe);
+            var versicherungshoehe = moneyParser.moneyparsen($scope.investition.versicherungshoehe);
+            gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
+        }
+        return moneyFormatter.formatMoney(gesamtbetrag);
+    }
 
 
     $scope.showInvestor = function () {
