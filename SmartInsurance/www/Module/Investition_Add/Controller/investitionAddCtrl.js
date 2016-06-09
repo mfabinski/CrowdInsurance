@@ -8,7 +8,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
     
     $scope.investition = {
         versicherungID: $stateParams.id,
-        investitionswert:""
+        investitionshoehe:""
     }
     
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/invest')
@@ -25,15 +25,16 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
         return (field.$error.required || field.$error.pattern) && field.$touched;
     };
     
-    // Validierung, dass der investitionswert geringer als der versicherungswert ist
+    // Validierung, dass der investitionshoehe geringer als der versicherungswert ist
     
     $scope.calculateRendite = function(field) {
         var gesamtbetrag = 0;
-        if($scope.investition.investitionswert != "" && angular.isDefined($scope.versicherung) && !(field.$error.pattern)){
+        if($scope.investition.investitionshoehe != "" && angular.isDefined($scope.versicherung) && !(field.$error.pattern)){
             var monatsbeitrag = moneyParser.moneyparsen($scope.versicherung.beitrag);
-            var investitionswert = moneyParser.moneyparsen($scope.investition.investitionswert);
+            var investitionshoehe = moneyParser.moneyparsen($scope.investition.investitionshoehe);
             var versicherungshoehe = moneyParser.moneyparsen($scope.versicherung.versicherungshoehe);
-            gesamtbetrag = monatsbeitrag * investitionswert /versicherungshoehe;
+            gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
+            console.log($scope.investition.investitionshoehe);
         }
         $scope.rendite = moneyFormatter.formatMoney(gesamtbetrag);
     }
@@ -41,7 +42,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
     $scope.save = function(form) {
         if (form.$valid) {
 
-            $scope.investition.investitionswert = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investition.investitionswert));
+            $scope.investition.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investition.investitionshoehe));
             $state.go('app.investitionCheck',{investition: $scope.investition});  
         }
     }

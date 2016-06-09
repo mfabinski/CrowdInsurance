@@ -1,0 +1,45 @@
+<ion-view style="" class=" " id="page23" title="Investition bearbeiten">
+    <ion-content class="has-header" padding="true">
+        <div id="investitionBearbeiten-card224" class="list card ">
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionBearbeiten-markdown51">Investitionsdetails:</p>
+            <ion-item style="" class="  " id="investitionBearbeiten-list-item18">
+                <table>
+                    <tr> 
+                        <td>  <b>Versicherungsnehmer: </b> </td>  
+                        <td>  {{investition.vpersonPrename}} {{investition.vpersonName}} </td>
+                    </tr>
+                    <tr> 
+                        <td>  <b>Bezeichnung: </b> </td>  
+                        <td>  {{investition.name}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Versicherungshöhe: </b> </td>
+                        <td>  {{investition.versicherungshoehe}} </td>
+                    </tr>
+                    <tr> 
+                        <td>  davon gedeckt: </td>
+                        <td>  {{investitionBetrag}} </td>
+                    </tr>
+                    <tr> 
+                        <td> <b> Investitionshöhe: </b> </td>
+                        <td>  {{investition.investitionshoehe}} </td>
+                    </tr>
+                </table>
+            </ion-item>
+        </div>
+        <div id="investitionBearbeiten-card225" class="list card ">
+            <form class="list " id="investitionBearbeiten-form63" name="investitionEditForm">
+                <p class=" " style="color:#000000;font-size:18px;" id="investitionBearbeiten-markdown52">Neue Investitionshöhe</p>
+                <label id="investitionBearbeiten-input16" class="item item-input ">
+                    <input placeholder="" type="text" ng-model="investitionNeu.investitionshoehe" name="investitionshoehe" ng-pattern="checkCurrency" required>
+                </label>
+                <div style="color:red">
+                    <span ng-show="isNaN(investitionEditForm.investitionshoehe)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span>  
+                </div>
+                <p class=" " style="color:#000000;font-size:16px;" id="investitionBearbeiten-markdown53">Maximale Rendite:</p>
+            </form>
+        </div>
+        <button class=" button button-positive  button-block " id="investitionBearbeiten-button37" ng-click="save(investitionEditForm)">Änderung speichern</button>
+        <button class=" button button-positive  button-block " id="investitionBearbeiten-button38" ng-click="cancelInvestition()">Investition kündigen</button>
+    </ion-content>
+</ion-view>

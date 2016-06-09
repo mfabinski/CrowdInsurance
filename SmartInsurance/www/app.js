@@ -192,7 +192,37 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-
+  
+  .state('app.investitionDetail', {
+      url: '/investitionDetail/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Edit/Views/investitionDetail.html',
+          controller: 'investitionDetailCtrl'
+        }
+      }
+    })
+  
+  .state('app.investitionEdit', {
+      url: '/investitionEdit/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Edit/Views/investitionEdit.html',
+          controller: 'investitionEditCtrl'
+        }
+      }
+    })
+  
+  .state('app.investitionSocial', {
+      url: '/investitionSocial/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'Module/Investition_Edit/Views/investitionSocial.html',
+          controller: 'investitionSocialCtrl'
+        }
+      }
+    })
+  
    .state('app.faq', {
       url: '/faq',
       views: {

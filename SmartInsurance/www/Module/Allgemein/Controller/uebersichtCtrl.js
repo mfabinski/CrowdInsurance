@@ -23,8 +23,8 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         $state.go("app.versicherungDetail",{id: id});
     }
 
-    $scope.investitionShow = function() {
-        // Verweis auf Investition Detailansicht
+    $scope.investitionShow = function(id) {
+        $state.go("app.investitionDetail",{id: id});
     }
 
     $scope.versicherungengesamt = function() {
