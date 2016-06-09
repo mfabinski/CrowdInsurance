@@ -56,6 +56,8 @@ app.get('/api/smartinsurance/schadensfaelle/:versicherungID', [validate.versiche
 
 app.post('/api/smartinsurance/schadensfallmelden', [validate.parameterSchadensfall, ts.erstelleSchadensfall]);
 
+app.post('/api/smartinsurance/schadensfall', [validate.parameterSchadensfallAendern, ts.updateSchadensfall]);
+
 app.post('/api/smartinsurance/versicherung', [validate.parameterZurVersicherungsErstellung, validate.obKategorieExistiert, ts.erstelleVersicherung]);
 
 app.post('/api/smartinsurance/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
