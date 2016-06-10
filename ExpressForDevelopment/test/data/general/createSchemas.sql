@@ -381,6 +381,32 @@ $$;
 
 
 --
+-- Name: finalizeschadensfall(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION finalizeschadensfall() RETURNS void
+    LANGUAGE sql
+    AS $$
+   UPDATE "Schadensfall"
+      SET "istAusgezahlt"=true
+      WHERE "istAusgezahlt"=false;
+$$;
+
+
+--
+-- Name: finalizeschadensfall(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION finalizeschadensfall(integer) RETURNS void
+    LANGUAGE sql
+    AS $_$
+   UPDATE "Schadensfall"
+      SET "istAusgezahlt"=true
+      WHERE id=$1;
+$_$;
+
+
+--
 -- Name: finalizeversicherungskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -391,6 +417,17 @@ CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
     WHERE "wirdGekuendigt"=true;
 $$;
+
+
+--
+-- Name: getinvestitionbewertung(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getinvestitionbewertung(integer) RETURNS bewertung
+    LANGUAGE sql
+    AS $_$
+select p.bewertung as "Bewertung" from "Investition" as p where p.id = $1;
+$_$;
 
 
 SET search_path = smartbackend, pg_catalog;
@@ -848,6 +885,36 @@ $_$;
 
 
 --
+-- Name: payschadensfaelle(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION payschadensfaelle() RETURNS void
+    LANGUAGE sql
+    AS $$
+    INSERT INTO "Zahlungsstrom" ("versicherungID", betrag, "personID")
+    SELECT s."versicherungID", (s.auszahlung * (-1)) AS betrag, s."personID"
+    FROM "SchadensfallVersicherung" s;
+$$;
+
+
+--
+-- Name: reduceinvestitionenwegenschaden(); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION reduceinvestitionenwegenschaden() RETURNS void
+    LANGUAGE sql
+    AS $$
+    UPDATE "Investition" 
+    SET investitionshoehe = (SELECT s."neueInvestitionshoehe"
+	FROM "SchadensfallAbzugDerInvestition" s
+	WHERE "Investition".id = s."investitionID")
+    WHERE EXISTS (SELECT *
+	FROM "SchadensfallAbzugDerInvestition" s
+	WHERE "Investition".id = s."investitionID");
+$$;
+
+
+--
 -- Name: submitinvestitionskuendigung(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -1015,6 +1082,17 @@ CREATE VIEW user_access_view AS
 SET search_path = smartinsurance, pg_catalog;
 
 --
+-- Name: InvestitionBewertung; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "InvestitionBewertung" AS
+ SELECT "Investition".id,
+    "Investition".bewertung
+   FROM "Investition"
+  ORDER BY "Investition".id;
+
+
+--
 -- Name: Investition_id_seq; Type: SEQUENCE; Schema: smartinsurance; Owner: -
 --
 
@@ -1088,6 +1166,72 @@ CREATE SEQUENCE "Kommentar_versicherungID_seq"
 --
 
 ALTER SEQUENCE "Kommentar_versicherungID_seq" OWNED BY "Kommentar"."versicherungID";
+
+
+--
+-- Name: SchadensfallVersicherung; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "SchadensfallVersicherung" AS
+ SELECT s.schadenssumme,
+    s."versicherungID",
+    i.investitionssumme,
+        CASE
+            WHEN (s.schadenssumme > i.investitionssumme) THEN i.investitionssumme
+            ELSE s.schadenssumme
+        END AS auszahlung,
+        CASE
+            WHEN (s.schadenssumme > i.investitionssumme) THEN (1)::double precision
+            ELSE (s.schadenssumme / i.investitionssumme)
+        END AS abgabeanteil,
+    v."personID"
+   FROM ((( SELECT s_1."versicherungID",
+            sum(s_1.schadenshoehe) AS schadenssumme
+           FROM "Schadensfall" s_1
+          WHERE (s_1."istAusgezahlt" = false)
+          GROUP BY s_1."versicherungID") s
+     JOIN ( SELECT i_1."versicherungID",
+            sum(i_1.investitionshoehe) AS investitionssumme
+           FROM "Investition" i_1
+          WHERE (i_1."istGekuendigt" = false)
+          GROUP BY i_1."versicherungID") i ON ((i."versicherungID" = s."versicherungID")))
+     JOIN "Versicherung" v ON ((v.id = s."versicherungID")));
+
+
+--
+-- Name: SchadensfallAbzugDerInvestition; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "SchadensfallAbzugDerInvestition" AS
+ SELECT i.id AS "investitionID",
+    i."versicherungID",
+    (i.investitionshoehe * ((1)::double precision - sv.abgabeanteil)) AS "neueInvestitionshoehe",
+    sv.schadenssumme,
+    sv.investitionssumme,
+    sv.auszahlung,
+    sv.abgabeanteil,
+    sv."personID"
+   FROM ("Investition" i
+     JOIN "SchadensfallVersicherung" sv ON ((i."versicherungID" = sv."versicherungID")))
+  WHERE (i."istGekuendigt" = false);
+
+
+--
+-- Name: SchadensfallBerechnungKomplett; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "SchadensfallBerechnungKomplett" AS
+ SELECT s."versicherungID",
+    sum(s."neueInvestitionshoehe") AS "summeGerundeteInvestitionshoehe",
+    (s.investitionssumme - s.auszahlung) AS "summeBerechneteInvestitionshoehe",
+    ((s.investitionssumme - s.auszahlung) - sum(s."neueInvestitionshoehe")) AS "auszahlungsUeberschuss",
+    s.schadenssumme,
+    s.investitionssumme,
+    s.auszahlung,
+    s.abgabeanteil,
+    s."personID"
+   FROM "SchadensfallAbzugDerInvestition" s
+  GROUP BY s."versicherungID", s.schadenssumme, s.investitionssumme, s.auszahlung, s.abgabeanteil, s."personID";
 
 
 --
