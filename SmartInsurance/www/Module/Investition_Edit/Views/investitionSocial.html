@@ -62,9 +62,10 @@
         <div id="investitionSocial-card229" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">Kommentare</p>
             <ion-list class=" " id="investitionSocial-list12">
-                <ion-item style="" id="investitionSocial-list-item33" class="item-avatar  "ng-repeat="comment in comments">
+                <ion-item style="" id="investitionSocial-list-item33" class="item-avatar  "ng-repeat="comment in comments" ng-hide="noComment">
                     {{comment.prename}} {{comment.name}}:  {{comment.text}}
                 </ion-item>
+                <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
             </ion-list>
         </div>
         <form class="list " id="investitionSocial-form64" name="kommentarForm">
@@ -72,7 +73,7 @@
                 <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment.text" required>
             </label>
              <div style="color:red">
-                <span ng-show="noComment" >Das Kommentarfeld muss befüllt sein. </br></span>  
+                <span ng-hide="isFilled(kommentarForm.comment)" >Das Kommentarfeld muss befüllt sein. </br></span>  
             </div>
         </form>
         <button class=" button button-positive  button-block " id="investitionSocial-button41" ng-click="writeComment(kommentarForm)">Kommentar schreiben</button>

@@ -2,6 +2,8 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
 
     $scope.versicherungID = $stateParams.id;
     
+    $scope.noComment = true;
+    
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
          $scope.versicherung = response[0];
     });
@@ -14,23 +16,23 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/invest')
         .success(function(response) {
-            $scope.investitionBetrag = response[0].suminvestition;
-        })
-        .error(function(response) {
-            $scope.investitionBetrag = "0,00 €";
+            if(angular.isDefined(response[0])) {
+                $scope.investitionBetrag = response[0].suminvestition;
+            } else {
+                $scope.investitionBetrag = "0,00 €";   
+            }
         })
     
-     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/bewertungen').success(function(response) {
+    $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/bewertungen').success(function(response) {
         $scope.bewertung = response;
     });
     
-     /*
-    $http.get(apiendpoint.url).success(function(response) {
-        $scope.comments = response;
+    $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungID).success(function(response) {
+            $scope.comments = response;
+            $scope.noComment = false;
     });
-    */
-
-   
+    
+      
     $scope.gesamtSchaden = function () {
         var gesamtSchaden = 0;
         if (angular.isDefined($scope.schadensfaelle)) {

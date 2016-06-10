@@ -7,13 +7,20 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
                 text: ""
         };
     
-    $scope.noComment = false;
+    $scope.noComment = true;
     
     $scope.noInvestor = true;
     
     $scope.investoren = [];
     
-   
+    $scope.submitted = false;
+    
+     $scope.bewertung = [
+                {count: 0},
+                {count: 0},
+                {count: 0}
+    ];
+  
     
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
@@ -32,18 +39,26 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/bewertungen').success(function(response) {
-        $scope.bewertung = response;
+         $scope.bewertunghelper = response;
+            for (var i=0;i<$scope.bewertunghelper.length;i++){
+                switch ($scope.bewertunghelper[i].bewertung) {
+                    case "keine":
+                        $scope.bewertung[0]=$scope.bewertunghelper[i];
+                        break;
+                    case "daumenHoch":
+                        $scope.bewertung[1]=$scope.bewertunghelper[i];
+                        break;
+                    case "daumenRunter":
+                        $scope.bewertung[2]=$scope.bewertunghelper[i];
+                        break;
+                }
+            }
         })
-        .error(function(response) {
-             $scope.bewertung = [
-                {count: 0},
-                {count: 0},
-                {count: 0}
-            ]          
-        })
+    
     
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungId).success(function(response) {
             $scope.comments = response;
+            $scope.noComment= false;
     });
     
     $scope.showPicture = function(investor) {
@@ -56,11 +71,18 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
     $scope.writeComment = function(form) {
         if (form.$valid) {
             $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).then(function(data) { }); 
-            $scope.noComment=false;
+            $scope.submitted = false;
         } else {
-            $scope.noComment=true;
+            $scope.submitted = true;
         }
     };
+    
+    $scope.isFilled = function (field) {
+        if(field.$error.required && $scope.submitted) {
+            return false;
+        }
+        return true;
+    }
     
     $scope.showInvestor = function (id) {
       // Verweis auf Investor personID übergeben        

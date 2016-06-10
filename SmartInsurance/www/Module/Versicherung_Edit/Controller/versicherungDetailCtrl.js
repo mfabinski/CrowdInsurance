@@ -11,29 +11,29 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
-        $scope.investoren = response;
-        for (var i=0;i<$scope.investoren.length;i++) {
-            $scope.investoren[i].abschlussZeitpunkt = datumFormatter.formatDatum($scope.investoren[i].abschlussZeitpunkt);
+        if(angular.isDefined(response[0])) {
+            $scope.investoren = response;
+            for (var i=0;i<$scope.investoren.length;i++) {
+                $scope.investoren[i].abschlussZeitpunkt = datumFormatter.formatDatum($scope.investoren[i].abschlussZeitpunkt);
+            }
+            $scope.noInvestor = false;
         }
-        $scope.noInvestor = false;
     })
-    .error(function(response) {
-    })
+
     
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungId).success(function(response) {
          $scope.schadensfaelle = response;
 
     })
-    .error(function(response) {
-    })
     
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/invest')
         .success(function(response) {
-            $scope.investitionBetrag = response[0].suminvestition;
-        })
-        .error(function(response) {
-            $scope.investitionBetrag = "0,00 €";
+            if(angular.isDefined(response[0])) {
+                $scope.investitionBetrag = response[0].suminvestition;
+            } else {
+                $scope.investitionBetrag = "0,00 €";   
+            }
         })
 
    
