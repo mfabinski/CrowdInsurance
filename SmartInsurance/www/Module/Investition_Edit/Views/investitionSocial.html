@@ -45,13 +45,13 @@
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown55">Bewertung</p>
             <div class = "row">
               <div class = "col">
-                <button class=" button button-positive  button-block icon ion-thumbsup"  ng-click="bewerten('up')"> {{bewertung[1].count}} Likes</button>
+                <button class=" button button-positive  button-block icon ion-thumbsup"  ng-click="bewerten('up')"> {{bewertung[0].count}} Likes</button>
               </div>
               <div class = "col">
-                <button class=" button button-positive  button-block icon ion-thumbsdown"   ng-click="bewerten('down')"> {{bewertung[2].count}} Dislikes</button>
+                <button class=" button button-positive  button-block icon ion-thumbsdown"   ng-click="bewerten('down')"> {{bewertung[1].count}} Dislikes</button>
               </div>
                 <div class = "col">
-                    <b> keine: </b>  {{bewertung[0].count}}
+                    <b> keine: </b>  {{bewertung[2].count}}
                 </div>
             </div>
         </div>
