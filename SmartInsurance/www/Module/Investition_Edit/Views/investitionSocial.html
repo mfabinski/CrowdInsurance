@@ -73,7 +73,7 @@
                 <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment.text" required>
             </label>
              <div style="color:red">
-                <span ng-show="noComment" >Das Kommentarfeld muss befüllt sein. </br></span>  
+                <span ng-hide="isFilled(kommentarForm.comment)" >Das Kommentarfeld muss befüllt sein. </br></span>  
             </div>
         </form>
         <button class=" button button-positive  button-block " id="investitionSocial-button41" ng-click="writeComment(kommentarForm)">Kommentar schreiben</button>
