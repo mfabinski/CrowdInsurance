@@ -9,6 +9,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     $scope.investoren = [];
 
 
+
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId).success(function(response) {
         $scope.investition = response[0];
 
@@ -23,18 +24,36 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
             }
 
         });
-
-        $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/bewertungen').success(function(response) {
-            $scope.bewertung = response;
-        })
-        .error(function(response) {
-             $scope.bewertung = [
-                {count: 0},
-                {count: 0},
-                {count: 0}
-            ]
-        })
     });
+
+
+
+  $scope.showPicture = function(investor) {
+        if(angular.isDefined(investor)){
+            return true;
+        }
+        return false;
+    }
+
+    $scope.writeComment = function(form) {
+        if (form.$valid) {
+         /*   $http.post(apiendpoint.url , $scope.comment).then(function(data) {
+                console.log("erfolgreich");
+            });  */
+            console.log("erfolgreich");
+            $scope.noComment=false;
+        } else {
+            $scope.noComment=true;
+        }
+    };
+
+    $scope.showInvestor = function (id) {
+      // Verweis auf Investor personID übergeben
+    };
+
+    $scope.showProfil = function (id) {
+        // Verweis auf Versicherungsnehmer personID übergeben
+    }
 
   $scope.bewerten = function(thumb){
     var data = {};
@@ -62,45 +81,6 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
     ;
   };
-
-
-  $scope.showPicture = function(investor) {
-        if(angular.isDefined(investor)){
-            return true;
-        }
-        return false;
-    }
-
-    $scope.writeComment = function(form) {
-        if (form.$valid) {
-         /*   $http.post(apiendpoint.url , $scope.comment).then(function(data) {
-                console.log("erfolgreich");
-            });  */
-            console.log("erfolgreich");
-            $scope.noComment=false;
-        } else {
-            $scope.noComment=true;
-        }
-    };
-
-    $scope.evaluate = function (bewertung) {
-        switch(bewertung) {
-            case "positiv":
-                // Post Bewertung positiv
-                break;
-            case "negativ":
-                // Post Bewertung negativ
-                break;
-        }
-    }
-
-    $scope.showInvestor = function (id) {
-      // Verweis auf Investor personID übergeben
-    };
-
-    $scope.showProfil = function (id) {
-        // Verweis auf Versicherungsnehmer personID übergeben
-    }
 
 
 
