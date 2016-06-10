@@ -3,14 +3,14 @@
         <div id="investitionSocial-card226" class="list card ">
             <ion-item style="" class="  " id="investitionSocial-list-item20">
                 <table>
-                    <tr> 
-                        <td>  <b>Versicherungsnehmer: </b>   </td>  
-                        <td> 
-                                <a ng-click="showProfil({{investition.vpersonID}})"> {{investition.vpersonPrename}} {{investition.vpersonName}}  </a> 
+                    <tr>
+                        <td>  <b>Versicherungsnehmer: </b>   </td>
+                        <td>
+                                <a ng-click="showProfil({{investition.vpersonID}})"> {{investition.vpersonPrename}} {{investition.vpersonName}}  </a>
                         </td>
                     </tr>
-                    
-                    <tr> 
+
+                    <tr>
                         <td> <b> Versicherung: </b> </td>
                         <td>  {{investition.name}} </td>
                     </tr>
@@ -26,7 +26,7 @@
                             {{investor[0].prename}} {{investor[0].name}}
                         </a>
                     </div>
-                    <div class = "col">  
+                    <div class = "col">
                         <i class="icon ion-ionic" ng-show="showPicture({{investor[1]}})"></i> </br>
                         <a ng-click="showInvestor({{investor[1].personID}})">
                             {{investor[1].prename}} {{investor[1].name}}
@@ -41,24 +41,25 @@
                 </div>
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungSocial-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert.</p>
         </div>
-        <div id="investitionSocial-card228" class="list card ">
+    <div id="investitionSocial-card228" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown55">Bewertung</p>
             <div class = "row">
-                <div class = "col">
-                    <b>positiv: </b> {{bewertung[1].count}}
-                </div>
-                <div class = "col">  
-                     <b>negativ: </b> {{bewertung[2].count}}
-                </div>
-                <div class = "col">
-                    <b> keine: </b>  {{bewertung[0].count}} 
-                </div>
+              <div class = "col">
+                <button class=" button button-positive  button-block icon ion-thumbsup"  ng-click="bewerten('up')"> {{bewertung[1].count}} Likes</button>
+              </div>
+              <div class = "col">
+                <button class=" button button-positive  button-block icon ion-thumbsdown"   ng-click="bewerten('down')"> {{bewertung[2].count}} Dislikes</button>
+              </div>
+              <!--  <div class = "col">
+                    <b> keine: </b>  {{bewertung[2].count}}
+                </div-->>
             </div>
         </div>
-        <div class=" button-bar " id="investitionSocial-button-bar8">
+
+<!--        <div class=" button-bar " id="investitionSocial-button-bar8">
             <button class=" button button-positive  button-block " id="investitionSocial-button42" ng-click="evaluate('positiv')">positiv</button>
             <button class=" button button-positive  button-block " id="investitionSocial-button43" ng-click="evaluate('negativ')">negativ</button>
-        </div>
+        </div>-->
         <div id="investitionSocial-card229" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">Kommentare</p>
             <ion-list class=" " id="investitionSocial-list12">
@@ -73,7 +74,7 @@
                 <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment.text" required>
             </label>
              <div style="color:red">
-                <span ng-hide="isFilled(kommentarForm.comment)" >Das Kommentarfeld muss befüllt sein. </br></span>  
+                <span ng-hide="isFilled(kommentarForm.comment)" >Das Kommentarfeld muss befüllt sein. </br></span>
             </div>
         </form>
         <button class=" button button-positive  button-block " id="investitionSocial-button41" ng-click="writeComment(kommentarForm)">Kommentar schreiben</button>
