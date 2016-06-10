@@ -64,7 +64,6 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
   };
 
 
-
   $scope.showPicture = function(investor) {
         if(angular.isDefined(investor)){
             return true;
