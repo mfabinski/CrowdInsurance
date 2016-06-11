@@ -25,10 +25,7 @@ app.run(function($ionicPlatform) {
 
 app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
-  // Cache ist ausgeschaltet
-  //$ionicConfigProvider.views.maxCache(0);
-
-    $stateProvider
+  $stateProvider
 
   .state('app', {
     url: '/app',

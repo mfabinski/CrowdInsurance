@@ -1,4 +1,4 @@
-appController.controller('versicherungAddedCtrl',function($scope, $http, $state, $stateParams, apiendpoint) {
+appController.controller('versicherungAddedCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter) {
 
     $scope.versicherungId = $stateParams.id;
 
@@ -8,6 +8,7 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state,
 
 
     $scope.navigate = function (to) {
+        CacheHistoryReseter.reset();
         switch (to) {
             case "teilen":
                 // Facebook

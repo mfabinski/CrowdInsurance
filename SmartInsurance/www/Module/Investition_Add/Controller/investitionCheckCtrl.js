@@ -1,22 +1,22 @@
-appController.controller('investitionCheckCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint){
+appController.controller('investitionCheckCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter){
 
     $scope.investition = $stateParams.investition;
-    
+
     $scope.disable = true;
-    
+
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID).success(function(response) {
          $scope.versicherung = response[0];
     });
-    
+
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
         .success(function(response) {
             if(angular.isDefined(response[0])) {
                 $scope.investitionBetrag = response[0].suminvestition;
             } else {
-                $scope.investitionBetrag = "0,00 €";   
+                $scope.investitionBetrag = "0,00 €";
             }
         })
-    
+
      $scope.calculateRendite = function(field) {
         var gesamtbetrag = "0,00 €"
         if(angular.isDefined($scope.versicherung)){
@@ -27,16 +27,17 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
     }
-    
+
     $scope.addInvestition = function() {
-       
+
         $http.post(apiendpoint.url + '/api/smartinsurance/investieren', $scope.investition).success(function(data) {
+               CacheHistoryReseter.reset();
                $state.go('app.investitionAdded',{ids: {versicherungID: $scope.investition.versicherungID,
                                                       investitionID: data[0].createinvestition}});
         });
-        
-  
+
+
 
     }
-    
+
 });

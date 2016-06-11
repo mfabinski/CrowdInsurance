@@ -1,4 +1,4 @@
-appController.controller('investitionEditCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint){
+appController.controller('investitionEditCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
     $scope.investitionID = $stateParams.id;
 
@@ -9,16 +9,16 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
             investitionID: $stateParams.id,
             investitionshoehe : ""
         };
-         
+
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
             .success(function(response) {
                 if(angular.isDefined(response[0])) {
                     $scope.investitionBetrag = response[0].suminvestition;
                 } else {
-                    $scope.investitionBetrag = "0,00 €";   
+                    $scope.investitionBetrag = "0,00 €";
                 }
             })
-        
+
     });
 
 
@@ -29,8 +29,8 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
             if($scope.investitionNeu.investitionshoehe != "0,00 €" && $scope.investitionNeu.investitionshoehe != "0,00 €" ){
                 $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investitionNeu).then(function(data) {
-                    console.log("erfolgreich");
-                    $state.go('app.investitionDetail',{id: $scope.investitionID}, {reload: true});
+                    CacheHistoryReseter.reset();
+                    $state.go('app.investitionDetail',{id: $scope.investitionID});
                 });
             }
         }
@@ -38,8 +38,8 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
     $scope.cancelInvestition = function () {
          $http.post(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID + '/kuendigen').then(function(data) {
-            console.log("erfolgreich");
-            $state.go('app.investitionDetail',{id: $scope.investitionID}, {reload: true});
+            CacheHistoryReseter.reset();
+            $state.go('app.investitionDetail',{id: $scope.investitionID});
         });
     };
 
@@ -48,9 +48,9 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
     $scope.isNaN = function(field) {
         return (field.$error.required || field.$error.pattern) && field.$touched;
     };
-    
-     
-    
+
+
+
     $scope.calculateRendite = function(investitionshoehe) {
         var gesamtbetrag = 0;
         if(angular.isDefined($scope.investition)){
@@ -61,14 +61,14 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
     }
-    
+
     $scope.calculateNewRendite = function(field) {
         if($scope.investitionNeu.investitionshoehe != "" && !(field.$error.pattern)){
              $scope.rendite = $scope.calculateRendite($scope.investitionNeu.investitionshoehe);
         }
     }
-     
-     
+
+
 
 
 });
