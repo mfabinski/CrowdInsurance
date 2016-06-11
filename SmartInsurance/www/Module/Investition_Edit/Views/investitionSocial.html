@@ -50,20 +50,13 @@
               <div class = "col">
                 <button class=" button button-positive  button-block icon ion-thumbsdown"   ng-click="bewerten('down')"> {{bewertung[2].count}} Dislikes</button>
               </div>
-              <!--  <div class = "col">
-                    <b> keine: </b>  {{bewertung[2].count}}
-                </div-->>
+
             </div>
         </div>
-
-<!--        <div class=" button-bar " id="investitionSocial-button-bar8">
-            <button class=" button button-positive  button-block " id="investitionSocial-button42" ng-click="evaluate('positiv')">positiv</button>
-            <button class=" button button-positive  button-block " id="investitionSocial-button43" ng-click="evaluate('negativ')">negativ</button>
-        </div>-->
         <div id="investitionSocial-card229" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">Kommentare</p>
             <ion-list class=" " id="investitionSocial-list12">
-                <ion-item style="" id="investitionSocial-list-item33" class="item-avatar  "ng-repeat="comment in comments" ng-hide="noComment">
+                <ion-item style="" id="investitionSocial-list-item33" class="icon ion-person  "ng-repeat="comment in comments" ng-hide="noComment">
                     {{comment.prename}} {{comment.name}}:  {{comment.text}}
                 </ion-item>
                 <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
