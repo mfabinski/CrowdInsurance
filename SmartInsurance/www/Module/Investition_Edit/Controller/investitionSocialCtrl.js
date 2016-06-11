@@ -62,10 +62,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     $scope.writeComment = function(form) {
         if (form.$valid) {
             $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).success(function(data) {
-                console.log(data);
-                console.log($scope.comments);
                 $scope.comments.splice(0, 0, data[0]);
-                console.log($scope.comments);
                 $scope.comment.text= "";
                 $scope.noComment=false;
             });
