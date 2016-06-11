@@ -8,9 +8,9 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
     
    $scope.edit = function() {
        if (angular.isDefined($scope.schaden.id)){
-           return "Änderung speichern";
+           return true;
        }
-       return "Schadensfall melden";
+       return false;
    }
      
         
@@ -30,7 +30,29 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
         
         $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
         if(form.$valid && $scope.schaden.versicherungID != null){
-            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schaden).then(function(data) {
+            $scope.schadenNew = {
+                versicherungID:$scope.schaden.versicherungID,
+                bezeichnung:$scope.schaden.bezeichnung,
+                beschreibung:$scope.schaden.beschreibung,
+                schadenshoehe:$scope.schaden.schadenshoehe
+            };
+            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schadenNew).then(function(data) {
+                $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+            }); 
+        }
+    }
+    
+    $scope.editSchaden = function (form) {
+        
+        $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
+        if(form.$valid && $scope.schaden.versicherungID != null){
+            $scope.schadenNew = {
+                schadensfallID:$scope.schaden.id,
+                bezeichnung:$scope.schaden.bezeichnung,
+                beschreibung:$scope.schaden.beschreibung,
+                schadenshoehe:$scope.schaden.schadenshoehe
+            };
+            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfall/', $scope.schadenNew).then(function(data) {
                 $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
             }); 
         }

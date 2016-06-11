@@ -30,7 +30,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
             if($scope.investitionNeu.investitionshoehe != "0,00 €" && $scope.investitionNeu.investitionshoehe != "0,00 €" ){
                 $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investitionNeu).then(function(data) {
                     console.log("erfolgreich");
-                    $state.go('app.investitionDetail',{id: $scope.investitionID});
+                    $state.go('app.investitionDetail',{id: $scope.investitionID}, {reload: true});
                 });
             }
         }
@@ -39,7 +39,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
     $scope.cancelInvestition = function () {
          $http.post(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID + '/kuendigen').then(function(data) {
             console.log("erfolgreich");
-            $state.go('app.investitionDetail',{id: $scope.investitionID});
+            $state.go('app.investitionDetail',{id: $scope.investitionID}, {reload: true});
         });
     };
 

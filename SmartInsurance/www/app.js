@@ -23,10 +23,14 @@ app.run(function($ionicPlatform) {
 })
 
 
-app.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
-    .state('app', {
+  // Cache ist ausgeschaltet
+  //$ionicConfigProvider.views.maxCache(0);
+
+    $stateProvider
+
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'Module/Allgemein/Views/menu.html',
@@ -192,7 +196,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
   .state('app.investitionDetail', {
       url: '/investitionDetail/:id',
       views: {
@@ -202,7 +206,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
   .state('app.investitionEdit', {
       url: '/investitionEdit/:id',
       views: {
@@ -212,7 +216,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
   .state('app.investitionSocial', {
       url: '/investitionSocial/:id',
       views: {
@@ -222,7 +226,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-  
+
    .state('app.faq', {
       url: '/faq',
       views: {

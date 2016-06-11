@@ -2,7 +2,7 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
 
     $scope.versicherungId = $stateParams.id;
 
-    $scope.noSchaden = true;
+    
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
          $scope.versicherung = response[0];
@@ -10,12 +10,15 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungId).success(function(response) {
-        $scope.schaeden = response;
-        for (var i=0;i<$scope.schaeden.length;i++) {
-            $scope.schaeden[i].zeitpunkt = datumFormatter.formatDatum($scope.schaeden[i].zeitpunkt);
+        if(angular.isDefined(response[0])){
+            $scope.schaeden = response;
+            for (var i=0;i<$scope.schaeden.length;i++) {
+                $scope.schaeden[i].zeitpunkt = datumFormatter.formatDatum($scope.schaeden[i].zeitpunkt);
+            }
+            $scope.noSchaden = false;
+        } else {
+           $scope.noSchaden = true; 
         }
-        $scope.noSchaden = false;
-
     });
 
 
