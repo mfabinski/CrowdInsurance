@@ -9,6 +9,8 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
 
     $scope.noComment = true;
 
+    $scope.comments = [];
+
     $scope.noInvestor = true;
 
     $scope.investoren = [];
@@ -58,10 +60,15 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
 
     $scope.writeComment = function(form) {
         if (form.$valid) {
+            console.log($scope.comment);
             $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).success(function(data) {
+                console.log(data);
+                console.log($scope.comments);
                 $scope.comments.splice(0, 0, data[0]);
+                console.log($scope.comments);
+                $scope.comment.text= "";
+                $scope.noComment=false;
             });
-            $scope.comment= "";
             $scope.submitted = false;
         } else {
             $scope.submitted = true;
