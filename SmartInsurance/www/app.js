@@ -23,10 +23,14 @@ app.run(function($ionicPlatform) {
 })
 
 
-app.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+   
+  // Cache ist ausgeschaltet    
+  $ionicConfigProvider.views.maxCache(0);
+    
+    $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'Module/Allgemein/Views/menu.html',

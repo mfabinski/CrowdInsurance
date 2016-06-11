@@ -4,6 +4,12 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
     
     $scope.noComment = true;
     
+     $scope.bewertung = [
+                {count: 0},
+                {count: 0},
+                {count: 0}
+    ];
+    
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
          $scope.versicherung = response[0];
     });
@@ -24,7 +30,20 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
         })
     
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/bewertungen').success(function(response) {
-        $scope.bewertung = response;
+         $scope.bewertunghelper = response;
+            for (var i=0;i<$scope.bewertunghelper.length;i++){
+                switch ($scope.bewertunghelper[i].bewertung) {
+                    case "keine":
+                        $scope.bewertung[0]=$scope.bewertunghelper[i];
+                        break;
+                    case "daumenHoch":
+                        $scope.bewertung[1]=$scope.bewertunghelper[i];
+                        break;
+                    case "daumenRunter":
+                        $scope.bewertung[2]=$scope.bewertunghelper[i];
+                        break;
+                }
+            }
     });
     
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungID).success(function(response) {
