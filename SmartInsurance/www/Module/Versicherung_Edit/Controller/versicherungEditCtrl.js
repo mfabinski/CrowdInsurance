@@ -1,4 +1,4 @@
-appController.controller('versicherungEditCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint){
+appController.controller('versicherungEditCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
     $scope.versicherungId = $stateParams.id;
 
@@ -27,7 +27,7 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
                 }
                 // Schnittstelle ist noch nicht implementiert
                 $http.post(apiendpoint.url + '/api/smartinsurance/versicherungaendern' , $scope.versicherungNeu).then(function(data) {
-                    console.log("erfolgreich");
+                    CacheHistoryReseter.reset();
                     $state.go('app.versicherungDetail',{id: $scope.versicherungId});
                 });
             }

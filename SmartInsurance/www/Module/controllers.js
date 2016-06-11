@@ -48,6 +48,15 @@ appController.service('datumFormatter', [ function(){
 
 }])
 
+appController.service('CacheHistoryReseter', ['$ionicHistory', function($ionicHistory){
+    this.reset = function () {
+        $ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
+        $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+    }
+
+}])
+
 
 //Beispiel-Code für ein Login-Modul kann noch entfernt werden
 
