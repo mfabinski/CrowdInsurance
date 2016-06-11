@@ -59,7 +59,13 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
     $scope.writeComment = function(form) {
         if (form.$valid) {
-            $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).then(function(data) { });
+            $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).then(function(data) {
+                 $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.investition.versicherungID).success(function(response) {
+                    $scope.comments = response;
+                    $scope.noComment=false;
+                    $scope.comment.text = "";
+                });
+            });
             $scope.submitted = false;
         } else {
             $scope.submitted = true;
@@ -73,19 +79,8 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         return true;
     }
 
-    $scope.evaluate = function (bewertung) {
-        switch(bewertung) {
-            case "positiv":
-                // Post Bewertung positiv
-                break;
-            case "negativ":
-                // Post Bewertung negativ
-                break;
-        }
-    }
-
     $scope.showInvestor = function (id) {
-      // Verweis auf Investor personID übergeben        
+      // Verweis auf Investor personID übergeben
     };
 
     $scope.showProfil = function (id) {
