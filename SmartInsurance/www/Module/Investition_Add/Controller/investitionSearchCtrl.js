@@ -57,39 +57,28 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
       }
     }
 
-    var parameter;
-    if (kategorie === "Alle" && sorterValue === "") {
-      parameter = {
-        ascending: orderValue
-      };
-    } else if (kategorie !== "Alle" && sorterValue === "") {
-      parameter = {
-        kategorie: kategorie,
-        ascending: orderValue
-      };
-    } else if (kategorie !== "Alle" && sorterValue !== "") {
-      parameter = {
-        kategorie: kategorie,
-        orderby: sorterValue,
-        ascending: orderValue
-      };
+    /*
+     * Setup search parameter for search
+     */
+    var parameter = new Object();
+    if (kategorie !== "Alle") {
+      parameter.kategorie = kategorie;
     }
+    if (sorterValue !== "") {
+      parameter.orderby = sorterValue;
+    }
+    parameter.ascending = orderValue;
 
-
+    /*
+     * Execute search and display the results / show error popup if no results
+     */
     $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).success(function(response) {
-
       $scope.results = response;
       for (var i = 0; i < $scope.results.length; i++) {
         $scope.results[i].rendite = Math.round($scope.results[i].rendite);
       }
-
-
-
-    });
-
-    $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameter).error(function(response) {
+    }).error(function(response) {
       console.log(response.status);
-      //alert("error");
 
       var alertPopup = $ionicPopup.alert({
         title: "Fehlermeldung",
@@ -105,16 +94,10 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
   $scope.investitionShow = function(id) {
     console.log(id);
-      $state.go("app.investitionInfo",{id: id});
-
-
+    $state.go("app.investitionInfo",{id: id});
   }
 
   $scope.investitionSearch = function() {
 
   }
-
-
-
-
 })
