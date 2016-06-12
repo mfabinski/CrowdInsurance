@@ -228,7 +228,8 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
       url: '/faq',
       views: {
         'menuContent': {
-          templateUrl: 'Module/Sonstiges/Views/faq.html'
+          templateUrl: 'Module/Sonstiges/Views/faq.html',
+          controller: 'faqCtrl'
         }
       }
     })
