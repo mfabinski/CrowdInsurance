@@ -4,7 +4,6 @@ appController.controller('versicherungCheckCtrl',function($scope, $http, $state,
 
     $scope.disable = true;
 
-    $scope.kosten = "Das Erstellen des Versicherungsangebots kostet einmalig 5 €";
 
     $scope.versicherungCheck = function (){
         $http.post(apiendpoint.url + '/api/smartinsurance/versicherung', $scope.versicherung).success(function(response) {

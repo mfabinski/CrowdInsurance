@@ -2,6 +2,8 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
 
     $scope.schaden =  $stateParams.schaden;
 
+    $scope.submitted = false;
+
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.schaden.versicherungID).success(function(response) {
          $scope.versicherung = response[0];
     });
@@ -17,16 +19,19 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
     $scope.checkCurrency = checkCurrencyFormat;
 
     $scope.isInvalid = function(field){
-        return field.$error.required && field.$touched;
+        console.log($scope.submitted);
+        return field.$error.required && (field.$touched || $scope.submitted);
      };
 
 
     $scope.isNaN = function(field) {
-        return field.$error.pattern && field.$touched;
+        return field.$error.pattern && (field.$touched || $scope.submitted);
     };
 
 
     $scope.reportSchaden = function (form) {
+
+        $scope.submitted = true;
 
         $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
         if(form.$valid && $scope.schaden.versicherungID != null){
@@ -44,6 +49,8 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
     };
 
     $scope.editSchaden = function (form) {
+
+        $scope.submitted = true;
 
         $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
         if(form.$valid && $scope.schaden.versicherungID != null){

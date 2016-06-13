@@ -1,5 +1,7 @@
 appController.controller('versicherungAddCtrl',function($scope, $http, $state, moneyParser, moneyFormatter, checkCurrencyFormat, selectFormatter, apiendpoint){
 
+    $scope.submitted = false;
+
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
         $scope.kategorien = response;
     });
@@ -18,18 +20,20 @@ appController.controller('versicherungAddCtrl',function($scope, $http, $state, m
 
 
     $scope.isInvalid = function(field){
-        return field.$error.required && field.$touched;
+        return field.$error.required && (field.$touched || $scope.submitted);
     };
 
 
     $scope.isNaN = function(field) {
-        return field.$error.pattern && field.$touched;
+        return field.$error.pattern && (field.$touched || $scope.submitted);
     };
 
 
 
 
     $scope.versicherungAdd = function(form) {
+
+        $scope.submitted = true;
 
         if(angular.isDefined($scope.versicherung.versicherungshoehe) && angular.isDefined($scope.versicherung.beitrag) ){
             $scope.versicherung.kategorie =  selectFormatter.formatSelect($scope.versicherung.kategorie);

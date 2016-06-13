@@ -38,12 +38,12 @@
             </div>
 
 
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown8">Monatbeitrag:</p>
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown8">Monatsbeitrag:</p>
             <label id="versicherungAnlegen-input9" class="item item-input ">
                 <input type="text" ng-model="versicherung.beitrag" name="beitrag" ng-pattern="checkCurrency" required>
             </label>
             <div style="color:red">
-                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie einen Monatbeitrag an. </br> </span>
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie einen Monatsbeitrag an. </br> </span>
                 <span ng-show="isNaN(versicherungAddForm.beitrag)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span>
             </div>
 
