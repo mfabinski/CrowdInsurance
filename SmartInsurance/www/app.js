@@ -50,11 +50,36 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
             url: '/profil',
             views: {
                 'menuContent': {
-                    templateUrl: 'Module/Sonstiges/Views/profil.html'
+                    templateUrl: 'Module/Sonstiges/Views/profil.html',
+                    controller: 'profilCtrl'
 
                 }
             }
         })
+    
+         .state('app.profilBearbeiten', {
+     url: '/profilBearbeiten',
+     views: {
+       'menuContent': {
+         templateUrl: 'Module/Sonstiges/Views/profil_bearbeiten.html',
+         controller: 'profilBearbeitenCtrl'
+ 
+       }
+     }
+   })
+    
+           .state('app.profilFremd', {
+     url: '/profilFremd',
+     views: {
+       'menuContent': {
+         templateUrl: 'Module/Sonstiges/Views/profil_fremd.html',
+         controller: 'profilFremdCtrl'
+ 
+       }
+     }
+    })
+    
+    
 
 
         .state('app.versicherungDetail', {
