@@ -11,21 +11,15 @@
             
                 <table>
                     <tr> 
-                        <td>  <b>Bezahlverfahren: </b> </td>  
-                        <td>  {{profil.name}} </td>
+                        <td>  <b>Bewertung: </b> </td>  
+                        <td>  {{versicherungen[0].beschreibung}} </td>
                     </tr>
                     <tr> 
-                        <td> <b> Bankinstitut: </b> </td>
-                        <td>  {{profil.name}} </td>
+                        <td> <b> Versicherungen: </b> </td>
+                        <td>  {{versicherungen[0].name}}, {{versicherungen[1].name}} </td>
+                        
                     </tr>
-                   <tr> 
-                        <td> <b> IBAN: </b> </td>
-                        <td>  {{profil.iban}} </td>
-                    </tr>
-                    <tr> 
-                        <td>  <b> BIC: </b> </td>
-                        <td>  {{profil.bic}} </td>
-                    </tr>
+
 
                 </table>
             
@@ -33,6 +27,6 @@
             
             </ion-item>
         </ion-list>
-        <button id="profil-button27" class=" button button-positive  button-block " ng-click="navigate('bearbeiten')">Profil bearbeiten</button>
+       
     </ion-content>
 </ion-view>
