@@ -12,12 +12,12 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
             for (var i=0;i<$scope.investoren.length;i++) {
                 $scope.investoren[i].abschlussZeitpunkt = datumFormatter.formatDatum($scope.investoren[i].abschlussZeitpunkt);
             }
-        })
+        });
 
     
         $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.investition.versicherungID).success(function(response) {
              $scope.schadensfaelle = response;
-        })
+        });
     
          $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
             .success(function(response) {
@@ -36,9 +36,9 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         if (angular.isDefined($scope.schadensfaelle)) {
             for (var i = 0; i < $scope.schadensfaelle.length; i++) {
                 gesamtSchaden = gesamtSchaden + moneyParser.moneyparsen($scope.schadensfaelle[i].schadenshoehe);
-            };
-        };
-        return moneyFormatter.formatMoney(gesamtSchaden);
+            }
+        }
+      return moneyFormatter.formatMoney(gesamtSchaden);
     };
     
     $scope.calculateRendite = function(investitionshoehe) {
@@ -50,7 +50,7 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
             gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
-    }
+    };
 
 
     $scope.showInvestor = function () {

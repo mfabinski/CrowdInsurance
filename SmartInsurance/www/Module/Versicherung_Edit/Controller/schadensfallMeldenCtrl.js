@@ -11,7 +11,7 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
            return true;
        }
        return false;
-   }
+   };
 
 
     $scope.checkCurrency = checkCurrencyFormat;
@@ -41,7 +41,7 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
                 $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
             });
         }
-    }
+    };
 
     $scope.editSchaden = function (form) {
 

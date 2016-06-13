@@ -24,7 +24,7 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
                     versicherungID: $scope.versicherungId,
                     versicherungshoehe: $scope.versicherungNeu.versicherungshoehe,
                     beitrag: $scope.versicherungNeu.beitrag
-                }
+                };
                 // Schnittstelle ist noch nicht implementiert
                 $http.post(apiendpoint.url + '/api/smartinsurance/versicherungaendern' , $scope.versicherungNeu).then(function(data) {
                     CacheHistoryReseter.reset();
@@ -32,7 +32,7 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
                 });
             }
         }
-    }
+    };
 
     $scope.cancelVersicherung = function () {
          $http.post(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/kuendigen').then(function(data) {

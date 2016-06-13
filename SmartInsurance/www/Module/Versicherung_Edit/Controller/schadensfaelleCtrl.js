@@ -29,8 +29,8 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
                 if ($scope.schaeden[i].id == id) {
                     $state.go("app.schadensfallMelden", {schaden: $scope.schaeden[i]});
                     break;
-                };
-            };
+                }
+            }
         }
     };
 

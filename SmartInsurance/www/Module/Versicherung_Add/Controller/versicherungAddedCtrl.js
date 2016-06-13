@@ -19,7 +19,7 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state,
             case "Übersicht":
                 $state.go('app.uebersicht');
                 break;
-        };
+        }
     };
 
 });

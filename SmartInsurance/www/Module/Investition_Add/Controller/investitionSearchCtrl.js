@@ -60,7 +60,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
     /*
      * Setup search parameter for search
      */
-    var parameter = new Object();
+    var parameter = {};
     if (kategorie !== "Alle") {
       parameter.kategorie = kategorie;
     }
@@ -90,14 +90,14 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
       });
 
     });
-  }
+  };
 
   $scope.investitionShow = function(id) {
     console.log(id);
     $state.go("app.investitionInfo",{id: id});
-  }
+  };
 
   $scope.investitionSearch = function() {
 
   }
-})
+});
