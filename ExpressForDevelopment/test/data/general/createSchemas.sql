@@ -676,7 +676,7 @@ $_$;
 CREATE FUNCTION getkommentarebyvid(integer) RETURNS SETOF "KommentarPerson"
     LANGUAGE sql
     AS $_$
-    SELECT * FROM "KommentarPerson" as kp WHERE kp."versicherungID" = $1;
+    SELECT * FROM "KommentarPerson" as kp WHERE kp."versicherungID" = $1 ORDER BY "zeitpunkt" DESC;
 $_$;
 
 
