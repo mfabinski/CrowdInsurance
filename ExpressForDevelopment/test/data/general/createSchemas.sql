@@ -308,9 +308,9 @@ CREATE VIEW "VersicherungFilter" AS
     v."wirdGekuendigt",
     v."personID",
     v.kategorie,
-    a.anzahl_investoren,
-    b.bewertung,
-    r.rendite
+    COALESCE(a.anzahl_investoren, (0)::bigint) AS anzahl_investoren,
+    COALESCE(b.bewertung, (0)::numeric) AS bewertung,
+    COALESCE(r.rendite, (0)::double precision) AS rendite
    FROM (((( SELECT "Versicherung".id,
             "Versicherung".name,
             "Versicherung".versicherungshoehe,
@@ -323,15 +323,15 @@ CREATE VIEW "VersicherungFilter" AS
             "Versicherung"."personID",
             "Versicherung".kategorie
            FROM "Versicherung") v
+     LEFT JOIN ( SELECT "VersicherungRendite".id,
+            "VersicherungRendite".rendite
+           FROM "VersicherungRendite") r ON ((v.id = r.id)))
      LEFT JOIN ( SELECT "VersicherungAnzahlInvestoren".id,
             "VersicherungAnzahlInvestoren".anzahl_investoren
            FROM "VersicherungAnzahlInvestoren") a ON ((v.id = a.id)))
      LEFT JOIN ( SELECT "VersicherungDaumen".id,
             "VersicherungDaumen".bewertung
-           FROM "VersicherungDaumen") b ON ((a.id = b.id)))
-     LEFT JOIN ( SELECT "VersicherungRendite".id,
-            "VersicherungRendite".rendite
-           FROM "VersicherungRendite") r ON ((a.id = r.id)));
+           FROM "VersicherungDaumen") b ON ((a.id = b.id)));
 
 
 --
