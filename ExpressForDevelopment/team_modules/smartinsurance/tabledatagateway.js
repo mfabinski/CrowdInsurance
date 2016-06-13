@@ -1,17 +1,8 @@
 var logger = require('./logger.js');
 
 var getDBPromis = function(){
-    var credentials;
-    if (process.argv[2] != undefined && (process.argv[2].startsWith('postgres'))) {
-        credentials = process.argv[2];
-    } else{
-        try {
-            var dbconfig = require('./dbconfig.js');
-            credentials = dbconfig.url;
-        }catch(err) {
-            credentials = 'postgres://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DATABASENAME + ((process.env.DB_SSL=="true")?'?ssl=true':'');
-        }
-    }
+    var dbconfig = require('./dbconfig.js');
+    var credentials = dbconfig.getCredentials();
     logger.consoleInfo('Setze die Datenbank-URL auf ' + credentials);
     var pgp = require('pg-promise')();
     var db = pgp(credentials);
