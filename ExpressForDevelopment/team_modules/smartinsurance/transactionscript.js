@@ -1,6 +1,6 @@
-var tdg = require('tabledatagateway.js');
+var tdg = require('./tabledatagateway.js');
 var q = require('q');
-var logger = require('logger.js');
+var logger = require('./logger.js');
 var periodNumber = 0;
 var personID = "bfa73b02-21f7-11e6-b56d-6ffe69564a95";
 var internal = {};
@@ -11,6 +11,7 @@ var internal = {};
 //-------------
 // Lade alle Versicherungen der Person, die die Anfrage stellt
 exports.getVersicherungOf = function (req, res, next) {
+    logger.info('Versicherungen der Person ' + personID + ' laden.');
     tdg.selectVersicherungOf(personID,
         function(data){
             logger.info('Versicherungen der Person ' + personID + 'erfolgreich geladen.');

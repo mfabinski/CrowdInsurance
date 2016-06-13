@@ -3,7 +3,7 @@ var request = require("request");
 var fs = require('fs');
 var app = require('../app.js');
 var server;
-var logger = require('logger.js');
+var logger = require('../team_modules/smartinsurance/logger.js');
 logger.setLogLevel(process.env.DEBUG_LEVEL || "error"); // info for more verbose output
 
 var getDBPromis = function(){
@@ -120,7 +120,7 @@ describe("Test API:", function(){
         expect(responseObject[0]).to.have.property('ipersonName').to.equal(expectedResponse[0].ipersonName);
         expect(responseObject[0]).to.have.property('ipersonPrename').to.equal(expectedResponse[0].ipersonPrename);
         expect(responseObject[0]).to.have.property('investitionshoehe').to.equal(expectedResponse[0].investitionshoehe);
-        expect(responseObject[0]).to.have.property('bewertung').to.equal(expectedResponse[0].bewertung);
+        expect(responseObject[0]).to.have.property('bewertung').to.eql(expectedResponse[0].bewertung);
         expect(responseObject[0]).to.have.property('iabschlussZeitpunkt').to.equal(expectedResponse[0].iabschlussZeitpunkt);
         expect(responseObject[0]).to.have.property('ikuendigungsZeitpunkt').to.equal(expectedResponse[0].ikuendigungsZeitpunkt);
         expect(responseObject[0]).to.have.property('iistGekuendigt').to.equal(expectedResponse[0].iistGekuendigt);

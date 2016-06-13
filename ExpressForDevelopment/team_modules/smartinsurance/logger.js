@@ -1,4 +1,12 @@
 var winston = require('winston');
+var mkdirp = require('mkdirp');
+
+// Make sure the log directory exists
+mkdirp('logs', function (err) {
+    if (err) {
+        console.error(err);
+    }
+});
 
 var logger = new (winston.Logger)({
     transports: [
