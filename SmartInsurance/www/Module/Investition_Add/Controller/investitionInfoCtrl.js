@@ -4,19 +4,19 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
 
     $scope.noComment = true;
 
-     $scope.bewertung = [
-                {count: 0},
-                {count: 0},
-                {count: 0}
+    $scope.bewertung = [
+        {count: 0},
+        {count: 0},
+        {count: 0}
     ];
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
-         $scope.versicherung = response[0];
+        $scope.versicherung = response[0];
     });
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungID).success(function(response) {
-         $scope.schadensfaelle = response;
+        $scope.schadensfaelle = response;
     });
 
 
@@ -34,8 +34,8 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungID).success(function(response) {
-            $scope.comments = response;
-            $scope.noComment = false;
+        $scope.comments = response;
+        $scope.noComment = false;
     });
 
 
@@ -46,7 +46,7 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
                 gesamtSchaden = gesamtSchaden + moneyParser.moneyparsen($scope.schadensfaelle[i].schadenshoehe);
             }
         }
-      return moneyFormatter.formatMoney(gesamtSchaden);
+        return moneyFormatter.formatMoney(gesamtSchaden);
     };
 
 

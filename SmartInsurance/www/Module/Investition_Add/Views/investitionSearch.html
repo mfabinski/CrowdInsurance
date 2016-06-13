@@ -1,93 +1,93 @@
 <ion-view  id="invSearch" title="Investition suchen">
-  <ion-content class="has-header" padding="true">
-    <form class="list " id="investitionSuchen-form51">
-      <ion-item id="investitionSuchen-list-item-divider3" class="item-divider ">Filtern nach Kategorie</ion-item>
+    <ion-content class="has-header" padding="true">
+        <form class="list " id="investitionSuchen-form51">
+            <ion-item id="investitionSuchen-list-item-divider3" class="item-divider ">Filtern nach Kategorie</ion-item>
 
-      <label id="selectKategorie" class="item item-select ">
-      <span class="input-label"></span>
-        <select ng-model="kategorienFilter.text" ng-init="kategorienFilter.text='Alle'" name="kategorie" required>
-          <option ng-selected="true" value="Alle">Alle</option>
-          <option ng-repeat = "item in kategorien" >
-            {{item.text}}
-          </option>
-        </select>
-      </label>
+            <label id="selectKategorie" class="item item-select ">
+                <span class="input-label"></span>
+                <select ng-model="kategorienFilter.text" ng-init="kategorienFilter.text='Alle'" name="kategorie" required>
+                    <option ng-selected="true" value="Alle">Alle</option>
+                    <option ng-repeat = "item in kategorien" >
+                        {{item.text}}
+                    </option>
+                </select>
+            </label>
 
-      <ion-item id="investitionSuchen-list-item-divider11" class="item-divider ">Sortierung</ion-item>
-      <label id="selectSorter" class="item item-select ">
-        <span class="input-label"></span>
-        <select ng-model="sorterList.text" ng-init="sorterList.text='Keine'"  name="sortierung" required>
-          <option ng-selected="true" value="Keine">Keine</option>
-          <option ng-repeat = "item in sorterList" >
-            {{item.text}}
-          </option>
-        </select>
-      </label>
-
-
-
-      <!--<ion-checkbox ng-repeat = "item in kategorien" ng-model="item.enabled"  name="kategorie">{{item.text}}</ion-checkbox>-->
-
-      <!--<ion-radio ng-repeat = "item in sorterList" ng-value="item.value"  ng-model="dataSorter.value" name="sortierung"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
-      <ion-item id="investitionSuchen-list-item-divider2" class="item-divider ">Anzeige der Suchergebnisse</ion-item>
-      <label id="selectAsc" class="item item-select ">
-        <span class="input-label"></span>
-        <select ng-model="sorterOrder.text" ng-init="sorterOrder.text='Aufsteigend'" name="anzeige" required>
-          <option ng-selected="true" value="Aufsteigend">Aufsteigend</option>
-          <option value="Absteigend">Absteigend</option>
-          <!--<option ng-repeat = "item in sorterOrder" >
-            {{item.text}}
-          </option>-->
-        </select>
-      </label>
-
-
-      <!--<ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
-      <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, sorterList, sorterOrder)" id="investitionSuchen-button34">Investition suchen</a>
-    </form>
+            <ion-item id="investitionSuchen-list-item-divider11" class="item-divider ">Sortierung</ion-item>
+            <label id="selectSorter" class="item item-select ">
+                <span class="input-label"></span>
+                <select ng-model="sorterList.text" ng-init="sorterList.text='Keine'"  name="sortierung" required>
+                    <option ng-selected="true" value="Keine">Keine</option>
+                    <option ng-repeat = "item in sorterList" >
+                        {{item.text}}
+                    </option>
+                </select>
+            </label>
 
 
 
-    <div id="" class="list card " ng-controller="investitionSearchCtrl">
-      <ion-item  class="item-divider ">Suchergebnisse</ion-item>
-      <!--<ion-item style="" class="  " id="1">Suchergebnis</ion-item>-->
-      <div style="" id="2" class="item item-body ">
-        <ion-list class=" " id="3" ng-controller="investitionSearchCtrl">
-          <a ng-click="investitionShow({{item.id}})" ng-repeat="item in results">
-          <ion-item  id="4" class="item-icon-left">
-            <i class="icon ion-ionic"></i>
-            <table>
-              <tr>
-                <td> <b> Bezeichnung: </b> </td>
-                <td>  {{item.name}}  </td>
-              </tr>
-              <tr>
-                <td> <b> Kategorie: </b> </td>
-                <td>  {{item.kategorie}}  </td>
-              </tr>
-              <tr>
-                <td> <b> Bewertung: </b> </td>
-                <td> {{item.bewertung}} </td>
-              </tr>
-              <tr>
-                <td> <b> Rendite: </b> </td>
-                <td> {{item.rendite}} % </td>
-              </tr>
-              <tr>
-                <td> <b> Versicherungshöhe: </b> </td>
-                <td> {{item.versicherungshoehe}} </td>
-              </tr>
-              <tr>
-                <td> <b> Anzahl der Investoren: </b> </td>
-                <td> {{item.anzahl_investoren}} </td>
-              </tr>
-            </table>
-          </ion-item>
-          </a>
-        </ion-list>
-      </div>
-    </div>
-  </ion-content>
+            <!--<ion-checkbox ng-repeat = "item in kategorien" ng-model="item.enabled"  name="kategorie">{{item.text}}</ion-checkbox>-->
+
+            <!--<ion-radio ng-repeat = "item in sorterList" ng-value="item.value"  ng-model="dataSorter.value" name="sortierung"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
+            <ion-item id="investitionSuchen-list-item-divider2" class="item-divider ">Anzeige der Suchergebnisse</ion-item>
+            <label id="selectAsc" class="item item-select ">
+                <span class="input-label"></span>
+                <select ng-model="sorterOrder.text" ng-init="sorterOrder.text='Aufsteigend'" name="anzeige" required>
+                    <option ng-selected="true" value="Aufsteigend">Aufsteigend</option>
+                    <option value="Absteigend">Absteigend</option>
+                    <!--<option ng-repeat = "item in sorterOrder" >
+                      {{item.text}}
+                    </option>-->
+                </select>
+            </label>
+
+
+            <!--<ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
+            <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, sorterList, sorterOrder)" id="investitionSuchen-button34">Investition suchen</a>
+        </form>
+
+
+
+        <div id="" class="list card " ng-controller="investitionSearchCtrl">
+            <ion-item  class="item-divider ">Suchergebnisse</ion-item>
+            <!--<ion-item style="" class="  " id="1">Suchergebnis</ion-item>-->
+            <div style="" id="2" class="item item-body ">
+                <ion-list class=" " id="3" ng-controller="investitionSearchCtrl">
+                    <a ng-click="investitionShow({{item.id}})" ng-repeat="item in results">
+                        <ion-item  id="4" class="item-icon-left">
+                            <i class="icon ion-ionic"></i>
+                            <table>
+                                <tr>
+                                    <td> <b> Bezeichnung: </b> </td>
+                                    <td>  {{item.name}}  </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Kategorie: </b> </td>
+                                    <td>  {{item.kategorie}}  </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Bewertung: </b> </td>
+                                    <td> {{item.bewertung}} </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Rendite: </b> </td>
+                                    <td> {{item.rendite}} % </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Versicherungshöhe: </b> </td>
+                                    <td> {{item.versicherungshoehe}} </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Anzahl der Investoren: </b> </td>
+                                    <td> {{item.anzahl_investoren}} </td>
+                                </tr>
+                            </table>
+                        </ion-item>
+                    </a>
+                </ion-list>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>
 
 

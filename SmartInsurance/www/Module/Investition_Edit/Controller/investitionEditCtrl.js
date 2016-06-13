@@ -37,7 +37,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
     };
 
     $scope.cancelInvestition = function () {
-         $http.post(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID + '/kuendigen').then(function(data) {
+        $http.post(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID + '/kuendigen').then(function(data) {
             CacheHistoryReseter.reset();
             $state.go('app.investitionDetail',{id: $scope.investitionID});
         });
@@ -64,7 +64,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
     $scope.calculateNewRendite = function(field) {
         if($scope.investitionNeu.investitionshoehe != "" && !(field.$error.pattern)){
-             $scope.rendite = $scope.calculateRendite($scope.investitionNeu.investitionshoehe);
+            $scope.rendite = $scope.calculateRendite($scope.investitionNeu.investitionshoehe);
         }
     }
 

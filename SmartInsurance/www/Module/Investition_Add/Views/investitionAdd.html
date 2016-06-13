@@ -4,27 +4,27 @@
             <p class=" " style="color:#000000;font-size:18px;" id="investitionTTigen-markdown23">Versicherungsdetails:</p>
             <ion-item style="" class="  " id="investitionTTigen-list-item19">
                 <table>
-                    <tr> 
-                        <td>  <b>Bezeichnung: </b> </td>  
+                    <tr>
+                        <td>  <b>Bezeichnung: </b> </td>
                         <td>  {{versicherung.name}} </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td> <b> Kategorie: </b> </td>
                         <td>  {{versicherung.kategorie}} </td>
                     </tr>
-                   <tr> 
+                    <tr>
                         <td> <b> Versicherungshöhe: </b> </td>
                         <td>  {{versicherung.versicherungshoehe}} </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td>  davon bereits gedeckt: </td>
                         <td>  {{investitionBetrag}} </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td> <b> Monatsbeitrag: </b> </td>
                         <td>  {{versicherung.beitrag}} </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td> <b> Beschreibung: </b> </td>
                         <td>  {{versicherung.beschreibung}} </td>
                     </tr>
@@ -38,7 +38,7 @@
                     <input placeholder="" type="text" ng-model="investition.investitionshoehe" name="investitionshoehe" ng-pattern="checkCurrency" ng-change="calculateRendite(investitionAddForm.investitionshoehe)" required>
                 </label>
                 <div style="color:red">
-                    <span ng-show="isNaN(investitionAddForm.investitionshoehe)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span> 
+                    <span ng-show="isNaN(investitionAddForm.investitionshoehe)" >Bitte geben Sie eine Zahl/Betrag > 0 ein. </br></span>
                 </div>
                 <p class=" " style="color:#000000;font-size:16px;" id="investitionTTigen-markdown42">Maximale Rendite: {{rendite}}</p>
             </form>
