@@ -1,6 +1,6 @@
 ExpressForDevelopment/node_modules/*
 !ExpressForDevelopment/node_modules/*.js
-ExpressForDevelopment/node_modules/dbconfig.js
+**/dbconfig.js
 ExpressForDevelopment/node_modules/ipaddr.js/*
 ExpressForDevelopment/test/modules/testdbconfig.js
 .idea/*
