@@ -323,7 +323,7 @@ CREATE VIEW "VersicherungFilter" AS
             "Versicherung"."personID",
             "Versicherung".kategorie
            FROM "Versicherung") v
-     JOIN ( SELECT "VersicherungAnzahlInvestoren".id,
+     LEFT JOIN ( SELECT "VersicherungAnzahlInvestoren".id,
             "VersicherungAnzahlInvestoren".anzahl_investoren
            FROM "VersicherungAnzahlInvestoren") a ON ((v.id = a.id)))
      LEFT JOIN ( SELECT "VersicherungDaumen".id,
@@ -420,13 +420,24 @@ $$;
 
 
 --
+-- Name: InvestitionBewertung; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "InvestitionBewertung" AS
+ SELECT "Investition".id,
+    "Investition".bewertung
+   FROM "Investition"
+  ORDER BY "Investition".id;
+
+
+--
 -- Name: getinvestitionbewertung(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
-CREATE FUNCTION getinvestitionbewertung(integer) RETURNS bewertung
+CREATE FUNCTION getinvestitionbewertung(investitionid integer) RETURNS "InvestitionBewertung"
     LANGUAGE sql
     AS $_$
-select p.bewertung as "Bewertung" from "Investition" as p where p.id = $1;
+select * from "InvestitionBewertung" as p where p.id = $1;
 $_$;
 
 
@@ -645,6 +656,17 @@ CREATE VIEW "KommentarPerson" AS
     p.prename
    FROM ("Kommentar" k
      JOIN smartbackend."user" p ON ((k."personID" = p.id)));
+
+
+--
+-- Name: getkommentarbykid(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getkommentarbykid(integer) RETURNS SETOF "KommentarPerson"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "KommentarPerson" as kp WHERE kp."id" = $1;
+$_$;
 
 
 --
@@ -915,6 +937,17 @@ $$;
 
 
 --
+-- Name: setinvestitionbewertung(integer, bewertung); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION setinvestitionbewertung("investitionID" integer, "Bewertung" bewertung) RETURNS void
+    LANGUAGE sql
+    AS $_$Update "Investition" 
+set bewertung =$2
+where id=$1;$_$;
+
+
+--
 -- Name: submitinvestitionskuendigung(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -1082,14 +1115,17 @@ CREATE VIEW user_access_view AS
 SET search_path = smartinsurance, pg_catalog;
 
 --
--- Name: InvestitionBewertung; Type: VIEW; Schema: smartinsurance; Owner: -
+-- Name: Gewinnberechnung; Type: TABLE; Schema: smartinsurance; Owner: -
 --
 
-CREATE VIEW "InvestitionBewertung" AS
- SELECT "Investition".id,
-    "Investition".bewertung
-   FROM "Investition"
-  ORDER BY "Investition".id;
+CREATE TABLE "Gewinnberechnung" (
+    prename text,
+    name text,
+    id uuid,
+    gewinn money
+);
+
+ALTER TABLE ONLY "Gewinnberechnung" REPLICA IDENTITY NOTHING;
 
 
 --
@@ -1608,6 +1644,24 @@ ALTER TABLE ONLY "Zahlungsstrom"
 
 ALTER TABLE ONLY userbank
     ADD CONSTRAINT userbank_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: _RETURN; Type: RULE; Schema: smartinsurance; Owner: -
+--
+
+CREATE RULE "_RETURN" AS
+    ON SELECT TO "Gewinnberechnung" DO INSTEAD  SELECT p.prename,
+    p.name,
+    p.id,
+    (('-1'::integer * sum(z.betrag)) - ip.investitionssumme) AS gewinn
+   FROM (("Zahlungsstrom" z
+     JOIN smartbackend."user" p ON ((z."personID" = p.id)))
+     JOIN ( SELECT sum("Investition".investitionshoehe) AS investitionssumme,
+            "Investition"."personID"
+           FROM "Investition"
+          GROUP BY "Investition"."personID") ip ON ((ip."personID" = z."personID")))
+  GROUP BY p.id, ip.investitionssumme;
 
 
 SET search_path = smartbackend, pg_catalog;
