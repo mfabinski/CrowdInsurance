@@ -2,6 +2,8 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
     $scope.investitionID = $stateParams.id;
 
+    $scope.submitted = false;
+
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
         $scope.investition = response[0];
@@ -23,6 +25,8 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
 
     $scope.save = function(form) {
+
+        $scope.submitted = true;
         if (form.$valid) {
 
             $scope.investitionNeu.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investitionNeu.investitionshoehe));
@@ -46,7 +50,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
     $scope.checkCurrency = checkCurrencyFormat;
 
     $scope.isNaN = function(field) {
-        return (field.$error.required || field.$error.pattern) && field.$touched;
+        return (field.$error.required || field.$error.pattern) && (field.$touched || $scope.submitted);
     };
 
 

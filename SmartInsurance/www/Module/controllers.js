@@ -2,13 +2,16 @@ var appController = angular.module('smartInsurance.controllers',  []);
 
 appController.service('moneyParser', [function(){
     this.moneyparsen = function(betrag) {
-        if(betrag.search(" €") != -1){
-            betrag = betrag.substring(0, (betrag.length -2));
+        if(angular.isDefined(betrag)){
+            if(betrag.search(" €") != -1){
+                betrag = betrag.substring(0, (betrag.length -2));
+            }
+            betrag = betrag.replace(/\./g,'');
+            betrag = betrag.replace(',','.');
+            betrag = parseFloat(betrag);
+            return betrag;
         }
-        betrag = betrag.replace(/\./g,'');
-        betrag = betrag.replace(',','.');
-        betrag = parseFloat(betrag);
-        return betrag;
+        return 0;
     }
 }]);
 

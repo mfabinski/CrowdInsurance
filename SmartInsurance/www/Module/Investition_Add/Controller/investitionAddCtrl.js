@@ -2,6 +2,8 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
 
     $scope.versicherungID = $stateParams.id;
 
+    $scope.submitted = false;
+
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
         $scope.versicherung = response[0];
     });
@@ -23,7 +25,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
     $scope.checkCurrency = checkCurrencyFormat;
 
     $scope.isNaN = function(field) {
-        return (field.$error.required || field.$error.pattern) && field.$touched;
+        return (field.$error.required || field.$error.pattern) && (field.$touched || $scope.submitted);
     };
 
     // Validierung, dass der investitionshoehe geringer als der versicherungswert ist
@@ -40,8 +42,9 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
     };
 
     $scope.save = function(form) {
-        if (form.$valid) {
 
+        $scope.submitted = true;
+        if (form.$valid) {
             $scope.investition.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investition.investitionshoehe));
             $state.go('app.investitionCheck',{investition: $scope.investition});
         }

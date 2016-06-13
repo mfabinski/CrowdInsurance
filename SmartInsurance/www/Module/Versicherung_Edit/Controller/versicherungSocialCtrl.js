@@ -30,14 +30,16 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
 
      $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
         $scope.investorhelper = response;
-        var countInvestor = $scope.investorhelper.length;
-        $scope.noInvestor = false;
+        if(angular.isDefined($scope.investorhelper[0])) {
 
-        for (var i = 0; i < countInvestor/3 ; i++){
-            var j=i*3;
-            $scope.investoren.push([$scope.investorhelper[j],$scope.investorhelper[j+1],$scope.investorhelper[j+2]]);
+            var countInvestor = $scope.investorhelper.length;
+            $scope.noInvestor = false;
+
+            for (var i = 0; i < countInvestor/3 ; i++){
+                var j=i*3;
+                $scope.investoren.push([$scope.investorhelper[j],$scope.investorhelper[j+1],$scope.investorhelper[j+2]]);
+            }
         }
-
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/bewertungen').success(function(response) {

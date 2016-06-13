@@ -66,6 +66,11 @@
                                     <td> <b> Monatsbeitrag: </b> </td>
                                     <td>  {{versicherung.beitrag}} </td>
                                 </tr>
+                                 <tr ng-show="versicherung.wirdGekuendigt">
+                                    <td>  </td>
+                                    <td> <b> Kündigung zum Monatsende </b> </td>
+
+                                </tr>
                             </table>
                         </ion-item>
                     </a>
@@ -92,6 +97,16 @@
                                 <tr>
                                     <td> <b> Maximale Rendite: </b> </td>
                                     <td>  {{calculateRendite(investition)}} </td>
+                                </tr>
+                                 <tr ng-show="investition.iwirdGekuendigt">
+                                    <td>  </td>
+                                    <td> <b> Kündigung zum Monatsende </b> </td>
+
+                                </tr>
+                                 <tr ng-show="investition.vwirdGekuendigt">
+                                    <td>  </td>
+                                    <td> <b> Versicherung wird beendet </b> </td>
+
                                 </tr>
                             </table>
                         </ion-item>
