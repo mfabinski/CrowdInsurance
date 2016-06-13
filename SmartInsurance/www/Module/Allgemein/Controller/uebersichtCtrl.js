@@ -21,11 +21,11 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
 
     $scope.versicherungShow = function(id) {
         $state.go("app.versicherungDetail",{id: id});
-    }
+    };
 
     $scope.investitionShow = function(id) {
         $state.go("app.investitionDetail",{id: id});
-    }
+    };
 
     $scope.versicherungengesamt = function() {
         var gesamtbetrag=0;
@@ -76,4 +76,4 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
     };
 
 
-})
+});

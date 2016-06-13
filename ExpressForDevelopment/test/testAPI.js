@@ -18,7 +18,7 @@ var getDBPromis = function(){
   var pgp = require('pg-promise')();
   var db = pgp(credentials);
   return db;
-}
+};
 var db = getDBPromis();
 
 // Beschreibung der Testfälle:

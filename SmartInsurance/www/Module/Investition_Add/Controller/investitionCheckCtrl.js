@@ -15,10 +15,10 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
             } else {
                 $scope.investitionBetrag = "0,00 €";
             }
-        })
+        });
 
      $scope.calculateRendite = function(field) {
-        var gesamtbetrag = "0,00 €"
+        var gesamtbetrag = "0,00 €";
         if(angular.isDefined($scope.versicherung)){
             var monatsbeitrag = moneyParser.moneyparsen($scope.versicherung.beitrag);
             var investitionshoehe = moneyParser.moneyparsen($scope.investition.investitionshoehe);
@@ -26,7 +26,7 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
             gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
-    }
+    };
 
     $scope.addInvestition = function() {
 

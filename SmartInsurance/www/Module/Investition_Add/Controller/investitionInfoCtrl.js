@@ -27,7 +27,7 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
             } else {
                 $scope.investitionBetrag = "0,00 €";
             }
-        })
+        });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/bewertungen').success(function(response) {
         $scope.bewertung = response;
@@ -44,9 +44,9 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
         if (angular.isDefined($scope.schadensfaelle)) {
             for (var i = 0; i < $scope.schadensfaelle.length; i++) {
                 gesamtSchaden = gesamtSchaden + moneyParser.moneyparsen($scope.schadensfaelle[i].schadenshoehe);
-            };
-        };
-        return moneyFormatter.formatMoney(gesamtSchaden);
+            }
+        }
+      return moneyFormatter.formatMoney(gesamtSchaden);
     };
 
 
@@ -58,4 +58,4 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
         $state.go("app.investitionAdd", {id: $scope.versicherungID});
     };
 
-})
+});

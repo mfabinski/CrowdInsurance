@@ -9,7 +9,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
     $scope.investition = {
         versicherungID: $stateParams.id,
         investitionshoehe:""
-    }
+    };
     
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/invest')
         .success(function(response) {
@@ -18,7 +18,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
             } else {
                 $scope.investitionBetrag = "0,00 €";   
             }
-        })
+        });
     
     $scope.checkCurrency = checkCurrencyFormat;
 
@@ -37,7 +37,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
             gesamtbetrag = monatsbeitrag * investitionshoehe /versicherungshoehe;
         }
         $scope.rendite = moneyFormatter.formatMoney(gesamtbetrag);
-    }
+    };
     
     $scope.save = function(form) {
         if (form.$valid) {

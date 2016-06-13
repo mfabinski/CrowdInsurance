@@ -10,7 +10,7 @@ appController.service('moneyParser', [function(){
             betrag = parseFloat(betrag);
             return betrag;
        }
-}])
+}]);
 
 appController.service('moneyFormatter', [ function(){
     this.formatMoney = function(zahl){
@@ -23,7 +23,7 @@ appController.service('moneyFormatter', [ function(){
         j = (j = i.length) > 3 ? j % 3 : 0;
         return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "") + " €";
     }
-}])
+}]);
 
 appController.service('selectFormatter', [ function(){
     this.formatSelect = function (select) {
@@ -31,13 +31,13 @@ appController.service('selectFormatter', [ function(){
         select = select.trim();
         return select;
     }
-}])
+}]);
 
 
 
 appController.factory("checkCurrencyFormat",function(){
         return /^(([1-9]{1}[0-9]{0,2}(\.{0,1}[0-9]{3})*,{0,1}[0-9]{0,2}|[0][,][0-9][1-9]|[0][,][1-9][0-9]{0,1})(€| €){0,1})$/;
-})
+});
 
 appController.service('datumFormatter', [ function(){
     this.formatDatum = function (zeitstempel) {
@@ -46,7 +46,7 @@ appController.service('datumFormatter', [ function(){
         return datum + ' ' + uhrzeit;
     }
 
-}])
+}]);
 
 appController.service('CacheHistoryReseter', ['$ionicHistory', function($ionicHistory){
     this.reset = function () {
@@ -55,7 +55,7 @@ appController.service('CacheHistoryReseter', ['$ionicHistory', function($ionicHi
         $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
     }
 
-}])
+}]);
 
 
 //Beispiel-Code für ein Login-Modul kann noch entfernt werden

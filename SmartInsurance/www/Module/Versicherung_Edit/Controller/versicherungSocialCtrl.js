@@ -56,7 +56,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
             return true;
         }
         return false;
-    }
+    };
 
     $scope.writeComment = function(form) {
         if (form.$valid) {
@@ -76,7 +76,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
             return false;
         }
         return true;
-    }
+    };
 
     $scope.showInvestor = function (id) {
       // Verweis auf Investor personID übergeben

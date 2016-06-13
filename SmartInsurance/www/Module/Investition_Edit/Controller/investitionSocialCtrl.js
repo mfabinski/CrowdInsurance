@@ -40,7 +40,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/bewertungen').success(function(response) {
             $scope.bewertung = response;
 
-        })
+        });
 
 
         $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.investition.versicherungID).success(function(response) {
@@ -57,7 +57,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
             return true;
         }
         return false;
-    }
+    };
 
     $scope.writeComment = function(form) {
         if (form.$valid) {
@@ -77,7 +77,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
             return false;
         }
         return true;
-    }
+    };
 
     $scope.showInvestor = function (id) {
       // Verweis auf Investor personID übergeben
@@ -85,7 +85,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
     $scope.showProfil = function (id) {
         // Verweis auf Versicherungsnehmer personID übergeben
-    }
+    };
   $scope.bewerten = function(thumb){
     var data = {};
     data.bewertung = thumb;
