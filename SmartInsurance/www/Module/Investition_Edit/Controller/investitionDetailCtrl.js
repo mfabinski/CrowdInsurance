@@ -2,11 +2,11 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
 
 
     $scope.investitionID = $stateParams.id;
-    
 
-     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
+
+    $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
         $scope.investition = response[0];
-         
+
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID +'/person').success(function(response) {
             $scope.investoren = response;
             for (var i=0;i<$scope.investoren.length;i++) {
@@ -14,20 +14,20 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
             }
         });
 
-    
+
         $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.investition.versicherungID).success(function(response) {
-             $scope.schadensfaelle = response;
+            $scope.schadensfaelle = response;
         });
-    
-         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
+
+        $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
             .success(function(response) {
                 if(angular.isDefined(response[0])) {
                     $scope.investitionBetrag = response[0].suminvestition;
                 } else {
-                    $scope.investitionBetrag = "0,00 €";   
+                    $scope.investitionBetrag = "0,00 €";
                 }
             })
-         
+
     });
 
 
@@ -38,9 +38,9 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
                 gesamtSchaden = gesamtSchaden + moneyParser.moneyparsen($scope.schadensfaelle[i].schadenshoehe);
             }
         }
-      return moneyFormatter.formatMoney(gesamtSchaden);
+        return moneyFormatter.formatMoney(gesamtSchaden);
     };
-    
+
     $scope.calculateRendite = function(investitionshoehe) {
         var gesamtbetrag = 0;
         if(angular.isDefined($scope.investition)){
@@ -66,7 +66,7 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
     };
 
     $scope.showSocial = function () {
-        $state.go("app.investitionSocial", {id: $scope.investition.id}); 
+        $state.go("app.investitionSocial", {id: $scope.investition.id});
     };
 
 });

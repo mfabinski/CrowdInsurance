@@ -6,7 +6,7 @@
                     <tr>
                         <td>  <b>Versicherungsnehmer: </b>   </td>
                         <td>
-                                <a ng-click="showProfil({{investition.vpersonID}})"> {{investition.vpersonPrename}} {{investition.vpersonName}}  </a>
+                            <a ng-click="showProfil({{investition.vpersonID}})"> {{investition.vpersonPrename}} {{investition.vpersonName}}  </a>
                         </td>
                     </tr>
 
@@ -20,36 +20,36 @@
         <div id="investitionSocial-card227" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown54">Investoren</p>
             <div class = "row" ng-repeat="investor in investoren">
-                    <div class = "col">
-                         <i class="icon ion-ionic"></i> </br>
-                        <a ng-click="showInvestor({{investor[0].personID}})">
-                            {{investor[0].prename}} {{investor[0].name}}
-                        </a>
-                    </div>
-                    <div class = "col">
-                        <i class="icon ion-ionic" ng-show="showPicture({{investor[1]}})"></i> </br>
-                        <a ng-click="showInvestor({{investor[1].personID}})">
-                            {{investor[1].prename}} {{investor[1].name}}
-                        </a>
-                    </div>
-                    <div class = "col">
-                        <i class="icon ion-ionic" ng-show="showPicture({{investor[2]}})"></i> </br>
-                        <a ng-click="showInvestor({{investor[2].personID}})">
-                            {{investor[2].prename}} {{investor[2].name}}
-                        </a>
-                    </div>
+                <div class = "col">
+                    <i class="icon ion-ionic"></i> </br>
+                    <a ng-click="showInvestor({{investor[0].personID}})">
+                        {{investor[0].prename}} {{investor[0].name}}
+                    </a>
                 </div>
+                <div class = "col">
+                    <i class="icon ion-ionic" ng-show="showPicture({{investor[1]}})"></i> </br>
+                    <a ng-click="showInvestor({{investor[1].personID}})">
+                        {{investor[1].prename}} {{investor[1].name}}
+                    </a>
+                </div>
+                <div class = "col">
+                    <i class="icon ion-ionic" ng-show="showPicture({{investor[2]}})"></i> </br>
+                    <a ng-click="showInvestor({{investor[2].personID}})">
+                        {{investor[2].prename}} {{investor[2].name}}
+                    </a>
+                </div>
+            </div>
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungSocial-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert.</p>
         </div>
-    <div id="investitionSocial-card228" class="list card ">
+        <div id="investitionSocial-card228" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown55">Bewertung</p>
             <div class = "row">
-              <div class = "col">
-                <button class=" button button-positive  button-block icon ion-thumbsup"  ng-click="bewerten('up')"> {{bewertung[1].count}} Likes</button>
-              </div>
-              <div class = "col">
-                <button class=" button button-positive  button-block icon ion-thumbsdown"   ng-click="bewerten('down')"> {{bewertung[2].count}} Dislikes</button>
-              </div>
+                <div class = "col">
+                    <button class=" button button-positive  button-block icon ion-thumbsup"  ng-click="bewerten('up')"> {{bewertung[1].count}} Likes</button>
+                </div>
+                <div class = "col">
+                    <button class=" button button-positive  button-block icon ion-thumbsdown"   ng-click="bewerten('down')"> {{bewertung[2].count}} Dislikes</button>
+                </div>
 
             </div>
         </div>
@@ -66,7 +66,7 @@
             <label id="investitionSocial-input17" class="item item-input ">
                 <input placeholder="Kommentar schreiben ..." type="text" name="comment" ng-model="comment.text" required>
             </label>
-             <div style="color:red">
+            <div style="color:red">
                 <span ng-hide="isFilled(kommentarForm.comment)" >Das Kommentarfeld muss befüllt sein. </br></span>
             </div>
         </form>

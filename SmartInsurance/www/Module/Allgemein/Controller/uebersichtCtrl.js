@@ -31,8 +31,8 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         var gesamtbetrag=0;
         var versicherungshoehe = 0;
         for (var i = 0; i < $scope.versicherungen.length; i++){
-           versicherungshoehe = moneyParser.moneyparsen($scope.versicherungen[i].versicherungshoehe);
-           gesamtbetrag += versicherungshoehe;
+            versicherungshoehe = moneyParser.moneyparsen($scope.versicherungen[i].versicherungshoehe);
+            gesamtbetrag += versicherungshoehe;
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
@@ -40,15 +40,15 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
     $scope.monatsbeitraggesamt = function() {
         var gesamtbetrag=0;
         for (var i = 0; i < $scope.versicherungen.length; i++){
-           gesamtbetrag += moneyParser.moneyparsen($scope.versicherungen[i].beitrag);
+            gesamtbetrag += moneyParser.moneyparsen($scope.versicherungen[i].beitrag);
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
-     $scope.investhoehegesamt = function() {
+    $scope.investhoehegesamt = function() {
         var gesamtbetrag=0;
         for (var i = 0; i < $scope.investitionen.length; i++){
-           gesamtbetrag += moneyParser.moneyparsen($scope.investitionen[i].investitionshoehe);
+            gesamtbetrag += moneyParser.moneyparsen($scope.investitionen[i].investitionshoehe);
         }
         return moneyFormatter.formatMoney(gesamtbetrag);
     };

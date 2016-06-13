@@ -5,7 +5,7 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
     $scope.disable = true;
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID).success(function(response) {
-         $scope.versicherung = response[0];
+        $scope.versicherung = response[0];
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/invest')
@@ -17,7 +17,7 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
             }
         });
 
-     $scope.calculateRendite = function(field) {
+    $scope.calculateRendite = function(field) {
         var gesamtbetrag = "0,00 €";
         if(angular.isDefined($scope.versicherung)){
             var monatsbeitrag = moneyParser.moneyparsen($scope.versicherung.beitrag);
@@ -31,9 +31,9 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
     $scope.addInvestition = function() {
 
         $http.post(apiendpoint.url + '/api/smartinsurance/investieren', $scope.investition).success(function(data) {
-               CacheHistoryReseter.reset();
-               $state.go('app.investitionAdded',{ids: {versicherungID: $scope.investition.versicherungID,
-                                                      investitionID: data[0].createinvestition}});
+            CacheHistoryReseter.reset();
+            $state.go('app.investitionAdded',{ids: {versicherungID: $scope.investition.versicherungID,
+                investitionID: data[0].createinvestition}});
         });
 
 

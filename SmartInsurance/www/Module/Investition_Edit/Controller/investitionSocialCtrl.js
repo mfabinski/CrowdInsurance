@@ -11,18 +11,18 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     $scope.submitted= false;
 
     $scope.bewertung = [
-                {count: 0},
-                {count: 0},
-                {count: 0}
+        {count: 0},
+        {count: 0},
+        {count: 0}
     ];
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId).success(function(response) {
         $scope.investition = response[0];
 
-         $scope.comment = {
-                versicherungID: $scope.investition.versicherungID,
-                text: ""
+        $scope.comment = {
+            versicherungID: $scope.investition.versicherungID,
+            text: ""
         };
 
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID +'/person').success(function(response) {
@@ -80,38 +80,38 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     };
 
     $scope.showInvestor = function (id) {
-      // Verweis auf Investor personID übergeben
+        // Verweis auf Investor personID übergeben
     };
 
     $scope.showProfil = function (id) {
         // Verweis auf Versicherungsnehmer personID übergeben
     };
-  $scope.bewerten = function(thumb){
-    var data = {};
-    data.bewertung = thumb;
-    $http.put(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId + '/bewertung', data)
-      .then(function (response) {
-          console.log("erfolgreich");
-        }, function(response){
-          console.log("fail");
-        }
-      ).then(function(response) {
-      $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/bewertungen').success(function (response) {
-        $scope.bewertung = response;
-      })
-        .error(function (response) {
-          $scope.bewertung = [
-            {count: 0},
-            {count: 0},
-            {count: 0}
-          ]
+    $scope.bewerten = function(thumb){
+        var data = {};
+        data.bewertung = thumb;
+        $http.put(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId + '/bewertung', data)
+            .then(function (response) {
+                    console.log("erfolgreich");
+                }, function(response){
+                    console.log("fail");
+                }
+            ).then(function(response) {
+            $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/bewertungen').success(function (response) {
+                $scope.bewertung = response;
+            })
+                .error(function (response) {
+                    $scope.bewertung = [
+                        {count: 0},
+                        {count: 0},
+                        {count: 0}
+                    ]
+                })
+        }).then(function(){
+            $scope.$apply;
         })
-    }).then(function(){
-      $scope.$apply;
-    })
 
-    ;
-  };
+        ;
+    };
 
 
 });

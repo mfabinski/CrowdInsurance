@@ -1,7 +1,7 @@
 appController.controller('versicherungAddCtrl',function($scope, $http, $state, moneyParser, moneyFormatter, checkCurrencyFormat, selectFormatter, apiendpoint){
 
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
-         $scope.kategorien = response;
+        $scope.kategorien = response;
     });
 
 
@@ -19,7 +19,7 @@ appController.controller('versicherungAddCtrl',function($scope, $http, $state, m
 
     $scope.isInvalid = function(field){
         return field.$error.required && field.$touched;
-     };
+    };
 
 
     $scope.isNaN = function(field) {
