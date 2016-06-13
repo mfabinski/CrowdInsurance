@@ -1,5 +1,5 @@
-var tdg = require('tabledatagateway.js');
-var logger = require('logger.js');
+var tdg = require('./tabledatagateway.js');
+var logger = require('./logger.js');
 var internal = {};
 
 internal.isNumber = function(value){

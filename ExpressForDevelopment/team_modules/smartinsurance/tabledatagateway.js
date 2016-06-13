@@ -1,4 +1,4 @@
-var logger = require('logger.js');
+var logger = require('./logger.js');
 
 var getDBPromis = function(){
     var credentials;
@@ -6,7 +6,7 @@ var getDBPromis = function(){
         credentials = process.argv[2];
     } else{
         try {
-            var dbconfig = require('dbconfig.js');
+            var dbconfig = require('./dbconfig.js');
             credentials = dbconfig.url;
         }catch(err) {
             credentials = 'postgres://' + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DATABASENAME + ((process.env.DB_SSL=="true")?'?ssl=true':'');
