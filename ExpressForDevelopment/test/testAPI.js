@@ -3,7 +3,7 @@ var request = require("request");
 var fs = require('fs');
 var app = require('../app.js');
 var server;
-var logger = require('./logger.js');
+var logger = require('../team_modules/smartinsurance/logger.js');
 logger.setLogLevel(process.env.DEBUG_LEVEL || "error"); // info for more verbose output
 
 var getDBPromis = function(){
