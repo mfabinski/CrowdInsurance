@@ -279,7 +279,8 @@ exports.getKommentareByVID = function (req, res, next) {
             if(data.length != 0){
                 res.status(200).json(data);
             } else{
-                res.status(404).send('Keine Kommentare zu dieser Versicherung gefunden.');
+                logger.info('Keine Kommentare zu dieser Versicherung ' + versicherungID + ' gefunden.');
+                res.status(204).json(data); // 204 no content
             }
         },
         function(err){
