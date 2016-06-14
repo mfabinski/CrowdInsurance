@@ -30,7 +30,9 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
         });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/bewertungen').success(function(response) {
-        $scope.bewertung = response;
+       if(angular.isDefined(response[0])) {
+            $scope.bewertung = response;
+        }
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungID).success(function(response) {
