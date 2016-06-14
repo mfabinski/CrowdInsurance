@@ -211,10 +211,10 @@ describe("Test API:", function(){
       });
     });
 
-    it("Test auf Fehlschlag bei Abfrage einer nicht vorhandenen id", function(done){
-      var url = "http://localhost:3000/api/smartinsurance/versicherung/1/bewertungen";
+    it("Test auf Fehlschlag bei Abfrage einer Versicherung ohne Bewertung", function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/107/bewertungen";
       request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(204);
         done();
       });
     });
