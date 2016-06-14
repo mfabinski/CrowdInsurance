@@ -38,7 +38,9 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         });
 
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/bewertungen').success(function(response) {
-            $scope.bewertung = response;
+            if(angular.isDefined(response[0])) {
+                $scope.bewertung = response;
+            }
 
         });
 
@@ -97,15 +99,16 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
                 }
             ).then(function(response) {
             $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID + '/bewertungen').success(function (response) {
-                $scope.bewertung = response;
-            })
-                .error(function (response) {
-                    $scope.bewertung = [
+                if(angular.isDefined(response[0])) {
+                    $scope.bewertung = response;
+                } else {
+                     $scope.bewertung = [
                         {count: 0},
                         {count: 0},
                         {count: 0}
                     ]
-                })
+                }
+            })
         }).then(function(){
             $scope.$apply;
         })
