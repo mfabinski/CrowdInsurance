@@ -46,8 +46,10 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
 
         $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.investition.versicherungID).success(function(response) {
-            $scope.comments = response;
-            $scope.noComment=false;
+            if (angular.isDefined(response[0])) {
+                $scope.comments = response;
+                $scope.noComment= false;
+            }
         });
     });
 

@@ -1,4 +1,4 @@
-appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
+appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
     $scope.schaden =  $stateParams.schaden;
 
@@ -19,7 +19,6 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
     $scope.checkCurrency = checkCurrencyFormat;
 
     $scope.isInvalid = function(field){
-        console.log($scope.submitted);
         return field.$error.required && (field.$touched || $scope.submitted);
      };
 
@@ -41,9 +40,22 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
                 beschreibung:$scope.schaden.beschreibung,
                 schadenshoehe:$scope.schaden.schadenshoehe
             };
-            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schadenNew).then(function(data) {
-                CacheHistoryReseter.reset();
-                $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+            $ionicPopup.show({
+                title: 'Bestätigung',
+                template: 'Wollen Sie die Änderung speichern?',
+                buttons: [
+                  { text: 'Cancel' },
+                  {
+                    text: '<b>Speichern</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schadenNew).then(function(data) {
+                            CacheHistoryReseter.reset();
+                            $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+                        });
+                    }
+                  }
+                ]
             });
         }
     };
@@ -60,9 +72,22 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
                 beschreibung:$scope.schaden.beschreibung,
                 schadenshoehe:$scope.schaden.schadenshoehe
             };
-            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfall/', $scope.schadenNew).then(function(data) {
-                CacheHistoryReseter.reset();
-                $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+            $ionicPopup.show({
+                title: 'Bestätigung',
+                template: 'Wollen Sie die Änderung speichern?',
+                buttons: [
+                  { text: 'Cancel' },
+                  {
+                    text: '<b>Speichern</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        $http.post(apiendpoint.url + '/api/smartinsurance/schadensfall/', $scope.schadenNew).then(function(data) {
+                            CacheHistoryReseter.reset();
+                            $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+                        });
+                    }
+                  }
+                ]
             });
         }
     }

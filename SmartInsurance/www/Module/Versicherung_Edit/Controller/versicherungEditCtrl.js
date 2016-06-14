@@ -25,19 +25,44 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
                     versicherungshoehe: $scope.versicherungNeu.versicherungshoehe,
                     beitrag: $scope.versicherungNeu.beitrag
                 };
-                // Schnittstelle ist noch nicht implementiert
-                $http.post(apiendpoint.url + '/api/smartinsurance/versicherungaendern' , $scope.versicherungNeu).then(function(data) {
-                    CacheHistoryReseter.reset();
-                    $state.go('app.versicherungDetail',{id: $scope.versicherungId});
+                $ionicPopup.show({
+                    title: 'Bestätigung',
+                    template: 'Wollen Sie die Änderung speichern?',
+                    buttons: [
+                      { text: 'Cancel' },
+                      {
+                        text: '<b>Speichern</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            // Schnittstelle ist noch nicht implementiert
+                            $http.post(apiendpoint.url + '/api/smartinsurance/versicherungaendern' , $scope.versicherungNeu).then(function(data) {
+                                CacheHistoryReseter.reset();
+                                $state.go('app.versicherungDetail',{id: $scope.versicherungId});
+                            });
+                        }
+                      }
+                    ]
                 });
             }
         }
     };
 
     $scope.cancelVersicherung = function () {
-         $http.post(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/kuendigen').then(function(data) {
-            console.log("erfolgreich");
-            $state.go('app.versicherungDetail',{id: $scope.versicherungId});
+        $ionicPopup.show({
+            title: 'Bestätigung',
+            template: 'Wollen Sie die Änderung speichern?',
+            buttons: [
+              { text: 'Cancel' },
+              {
+                text: '<b>Speichern</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                    $http.post(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/kuendigen').then(function(data) {
+                        $state.go('app.versicherungDetail',{id: $scope.versicherungId});
+                    });
+                }
+              }
+            ]
         });
     };
 
