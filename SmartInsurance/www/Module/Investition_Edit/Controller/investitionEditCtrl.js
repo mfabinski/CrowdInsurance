@@ -1,4 +1,4 @@
-appController.controller('investitionEditCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
+appController.controller('investitionEditCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
     $scope.investitionID = $stateParams.id;
 
@@ -29,21 +29,48 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
         $scope.submitted = true;
         if (form.$valid) {
 
-            $scope.investitionNeu.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investitionNeu.investitionshoehe));
+        $scope.investitionNeu.investitionshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.investitionNeu.investitionshoehe));
 
             if($scope.investitionNeu.investitionshoehe != "0,00 €" && $scope.investitionNeu.investitionshoehe != "0,00 €" ){
-                $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investitionNeu).then(function(data) {
-                    CacheHistoryReseter.reset();
-                    $state.go('app.investitionDetail',{id: $scope.investitionID});
+
+                $ionicPopup.show({
+                    title: 'Bestätigung',
+                    template: 'Wollen Sie die Änderung speichern?',
+                    buttons: [
+                      { text: 'Cancel' },
+                      {
+                        text: '<b>Speichern</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                             $http.post(apiendpoint.url + '/api/smartinsurance/investition', $scope.investitionNeu).then(function(data) {
+                                CacheHistoryReseter.reset();
+                                $state.go('app.investitionDetail',{id: $scope.investitionID});
+                            });
+                        }
+                      }
+                    ]
                 });
             }
         }
     };
 
     $scope.cancelInvestition = function () {
-        $http.post(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID + '/kuendigen').then(function(data) {
-            CacheHistoryReseter.reset();
-            $state.go('app.investitionDetail',{id: $scope.investitionID});
+        $ionicPopup.show({
+            title: 'Bestätigung',
+            template: 'Wollen Sie die Änderung speichern?',
+            buttons: [
+              { text: 'Cancel' },
+              {
+                text: '<b>Speichern</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                    $http.post(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID + '/kuendigen').then(function(data) {
+                        CacheHistoryReseter.reset();
+                        $state.go('app.investitionDetail',{id: $scope.investitionID});
+                    });
+                }
+              }
+            ]
         });
     };
 
