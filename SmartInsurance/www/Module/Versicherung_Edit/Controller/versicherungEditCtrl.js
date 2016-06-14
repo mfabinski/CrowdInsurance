@@ -1,4 +1,4 @@
-appController.controller('versicherungEditCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
+appController.controller('versicherungEditCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
     $scope.versicherungId = $stateParams.id;
 
