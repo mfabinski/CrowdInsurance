@@ -190,7 +190,7 @@ exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
         function(data){
             // logger.consoleInfo("Abfrage der Kategorien: " + JSON.stringify(data));
             data = data[0].getkategorien;
-            data = data.substring(1,data.length-2);
+            data = data.substring(1,data.length-1);
             listOfKategorien = data.split(/,/);
             // logger.consoleInfo("Alle Kategorien: " + listOfKategorien);
             if(listOfKategorien.indexOf(kategorie) != -1){

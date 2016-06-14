@@ -149,7 +149,8 @@ exports.getKategorien = function (req, res, next) {
         function(data){
             logger.info('Kategorien erfolgreich geladen.');
             data = data[0].getkategorien;
-            data = data.substring(1,data.length-2);
+            logger.info("Data: "+ data);
+            data = data.substring(1,data.length-1);
             listOfKategorien = data.split(/,/);
             res.status(200).json(listOfKategorien);
         },
