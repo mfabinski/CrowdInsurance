@@ -65,7 +65,8 @@ exports.getBewertungen = function (req, res, next) {
                 }
                 res.status(200).json(return_data);
             } else{
-                res.status(404).send('Bewertungen der Versicherung ' + versicherungID + ' wurde nicht gefunden. Das heißt die Versicherung existiert nicht oder hat keine Investitionen.')
+                logger.info('Bewertungen der Versicherung ' + versicherungID + ' wurde nicht gefunden. Das heißt die Versicherung existiert nicht oder hat keine Investitionen.');
+                res.status(204).json(data); // 204 no content
             }
         },
         function(err){
