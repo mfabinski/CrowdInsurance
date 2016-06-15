@@ -573,11 +573,24 @@ $_$;
 CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     LANGUAGE sql
     AS $_$
-    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
+/*    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
      FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
      ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
      WHERE smartinsurance."Versicherung".id=$1
-     AND smartinsurance."Investition"."istGekuendigt"=false;
+     AND smartinsurance."Investition"."istGekuendigt"=false; */
+/*
+     SELECT COALESCE(sum(smartinsurance."Investition"."investitionshoehe"), '0.00 €') as suminvestition
+     FROM smartinsurance."Versicherung" LEFT OUTER JOIN smartinsurance."Investition"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     AND smartinsurance."Investition"."istGekuendigt"=false;*/
+     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
+            (SELECT * FROM "Versicherung") v
+        LEFT OUTER JOIN
+            (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
+        ON v.id = i."versicherungID"
+     WHERE v.id = $1
+     GROUP BY v.id;
+
 $_$;
 
 
@@ -1092,8 +1105,9 @@ CREATE TABLE chat_room_user (
 --
 
 CREATE TABLE user_token (
-    token text NOT NULL,
-    fk_user uuid NOT NULL
+    access_token text NOT NULL,
+    fk_user uuid NOT NULL,
+    access_provider text NOT NULL
 );
 
 
@@ -1106,7 +1120,7 @@ CREATE VIEW user_access_view AS
     "user".name,
     "user".prename,
     "user".email,
-    user_token.token
+    user_token.access_token AS token
    FROM "user",
     user_token
   WHERE ("user".id = user_token.fk_user);
@@ -1585,7 +1599,7 @@ ALTER TABLE ONLY "user"
 --
 
 ALTER TABLE ONLY user_token
-    ADD CONSTRAINT user_token_pkey PRIMARY KEY (token);
+    ADD CONSTRAINT user_token_pkey PRIMARY KEY (fk_user, access_provider);
 
 
 SET search_path = smartinsurance, pg_catalog;
