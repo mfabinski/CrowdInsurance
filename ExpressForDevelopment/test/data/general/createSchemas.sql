@@ -586,7 +586,7 @@ CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
      SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
             (SELECT * FROM "Versicherung") v
         LEFT OUTER JOIN
-            (SELECT * FROM "Investition") i
+            (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
         ON v.id = i."versicherungID"
      WHERE v.id = $1
      GROUP BY v.id;
