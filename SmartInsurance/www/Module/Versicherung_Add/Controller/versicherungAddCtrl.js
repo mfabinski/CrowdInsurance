@@ -1,6 +1,8 @@
-appController.controller('versicherungAddCtrl',function($scope, $http, $state, moneyParser, moneyFormatter, checkCurrencyFormat, selectFormatter, apiendpoint){
+appController.controller('versicherungAddCtrl',function($scope, $http, $state, $location, moneyParser, moneyFormatter, checkCurrencyFormat, selectFormatter, apiendpoint){
 
     $scope.submitted = false;
+
+    $scope.url = $location.absUrl();
 
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
         $scope.kategorien = response;
