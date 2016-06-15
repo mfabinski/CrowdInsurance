@@ -21,8 +21,30 @@
             </table>
         </div>
 
-        <button class=" button button-positive  button-block " id="versicherungsangebotEingestellt-button20" ng-click="navigate('teilen')">Angebot teilen</button>
         <button class=" button button-positive  button-block " id="versicherungsangebotEingestellt-button21" ng-click="navigate('hinzufügen')">Weitere Versicherung anbieten</button>
         <button class=" button button-positive  button-block " id="versicherungsangebotEingestellt-button22" ng-click="navigate('Übersicht')">Zur Übersicht</button>
+        <div id="detailsZurVersicherung-card219" class="list card ">
+            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown11">Wollen Sie das Versicherungsangebot teilen?</p>
+            <div class = "row">
+                <div class = "col" ng-repeat="share in provider[0]">
+                    <button class=" button button-positive  button-block icon {{share.icon}}" href="#" socialshare
+                        socialshare-provider="{{share.provider}}"
+                        socialshare-text="{{text}}"
+                        socialshare-hashtags="smartInsurance"
+                        socialshare-url="{{url}}"> {{share.name}}
+                    </button>
+                </div>
+            </div>
+            <div class = "row">
+                <div class = "col" ng-repeat="share in provider[1]">
+                    <button class=" button button-positive  button-block icon {{share.icon}}" href="#" socialshare
+                        socialshare-provider="{{share.provider}}"
+                        socialshare-text="{{text}}"
+                        socialshare-hashtags="smartInsurance"
+                        socialshare-url="{{url}}"> {{share.name}}
+                    </button>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
