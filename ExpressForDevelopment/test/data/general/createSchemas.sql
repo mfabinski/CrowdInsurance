@@ -357,7 +357,7 @@ BEGIN
        "bewertung",
        "rendite" 
     FROM smartinsurance."VersicherungFilter" 
-    WHERE "kategorie" = $1 ORDER BY '
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
     || quote_ident($2) || ' ' || $3 || ';' USING $1;
 END;
 $_$;
@@ -912,8 +912,9 @@ BEGIN
        "anzahl_investoren",
        "bewertung",
        "rendite" 
-    FROM smartinsurance."VersicherungFilter" 
-    ORDER BY '
+    FROM smartinsurance."VersicherungFilter" '
+    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
+    || 'ORDER BY '
     || quote_ident($1) || ' ' || $2 || ';';
 END;
 $_$;
