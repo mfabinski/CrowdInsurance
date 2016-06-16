@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('smartInsurance', ['ionic', 'smartInsurance.controllers']);
+var app = angular.module('smartInsurance', ['ionic', 'smartInsurance.controllers', '720kb.socialshare']);
 
 app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -23,7 +23,7 @@ app.run(function($ionicPlatform) {
 });
 
 
-app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $stateProvider
 
@@ -56,30 +56,30 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                 }
             }
         })
-    
+
          .state('app.profilBearbeiten', {
      url: '/profilBearbeiten',
      views: {
        'menuContent': {
          templateUrl: 'Module/Sonstiges/Views/profil_bearbeiten.html',
          controller: 'profilBearbeitenCtrl'
- 
+
        }
      }
    })
-    
+
            .state('app.profilFremd', {
      url: '/profilFremd',
      views: {
        'menuContent': {
          templateUrl: 'Module/Sonstiges/Views/profil_fremd.html',
          controller: 'profilFremdCtrl'
- 
+
        }
      }
     })
-    
-    
+
+
 
 
         .state('app.versicherungDetail', {
@@ -271,6 +271,8 @@ app.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/uebersicht');
+
+    $locationProvider.html5Mode(false).hashPrefix('!');
 
 });
 
