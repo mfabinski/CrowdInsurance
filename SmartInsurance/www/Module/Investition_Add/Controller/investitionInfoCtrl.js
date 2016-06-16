@@ -27,9 +27,9 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
                 name: "E-Mail"
             },
             {
-                provider: "xing",
-                icon: "",
-                name: "Xing"
+                provider: "linkedin",
+                icon: "ion-social-linkedin",
+                name: "LinkedIn"
             },
             {
                 provider: "google",

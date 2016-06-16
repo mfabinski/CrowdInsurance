@@ -135,7 +135,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         })
 
         .state('app.versicherungAdded', {
-            url: '/versicherungAdded',
+            url: '/versicherungAdded/:id',
             params: {id : null},
             views: {
                 'menuContent': {
@@ -199,8 +199,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         })
 
         .state('app.investitionAdded', {
-            url: '/investitionAdded',
-            params: {ids: null},
+            url: '/investitionAdded/:id',
             views: {
                 'menuContent': {
                     templateUrl: 'Module/Investition_Add/Views/investitionAdded.html',
