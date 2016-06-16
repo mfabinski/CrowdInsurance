@@ -1,6 +1,46 @@
-appController.controller('investitionInfoCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint){
+appController.controller('investitionInfoCtrl',function($scope, $http, $state, $stateParams, $location, moneyParser, moneyFormatter, apiendpoint){
 
     $scope.versicherungID = $stateParams.id;
+
+    $scope.provider = [
+        [
+            {
+                provider: "facebook",
+                icon: "ion-social-facebook",
+                name: "Facebook"
+            },
+            {
+                provider: "telegram",
+                icon: "ion-ios-navigate",
+                name: "Telegram"
+            },
+            {
+                provider: "twitter",
+                icon: "ion-social-twitter",
+                name: "Twitter"
+            }
+        ],
+        [
+            {
+                provider: "email",
+                icon: "ion-android-mail",
+                name: "E-Mail"
+            },
+            {
+                provider: "xing",
+                icon: "",
+                name: "Xing"
+            },
+            {
+                provider: "google",
+                icon: "ion-social-googleplus",
+                name: "Google+"
+            }
+        ]
+    ];
+    $scope.text = "Mit der App geteilt";
+    $scope.url = $location.absUrl();
+
 
     $scope.noComment = true;
 
