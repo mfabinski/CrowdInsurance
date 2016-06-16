@@ -1,12 +1,45 @@
-appController.controller('investitionAddedCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter){
+appController.controller('investitionAddedCtrl',function($scope, $http, $state, $stateParams, $location, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter){
 
-    $scope.versicherungID = $stateParams.ids.versicherungID;
+    $scope.investitionID = $stateParams.id;
 
-    $scope.investitionID = $stateParams.ids.investitionID;
-
-    $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
-        $scope.versicherung = response[0];
-    });
+    $scope.provider = [
+        [
+            {
+                provider: "facebook",
+                icon: "ion-social-facebook",
+                name: "Facebook"
+            },
+            {
+                provider: "telegram",
+                icon: "ion-ios-navigate",
+                name: "Telegram"
+            },
+            {
+                provider: "twitter",
+                icon: "ion-social-twitter",
+                name: "Twitter"
+            }
+        ],
+        [
+            {
+                provider: "email",
+                icon: "ion-android-mail",
+                name: "E-Mail"
+            },
+            {
+                provider: "linkedin",
+                icon: "ion-social-linkedin",
+                name: "LinkedIn"
+            },
+            {
+                provider: "google",
+                icon: "ion-social-googleplus",
+                name: "Google+"
+            }
+        ]
+    ];
+    $scope.text = "Mit der App geteilt";
+    $scope.url = $location.absUrl();
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
         $scope.investition = response[0];
@@ -17,9 +50,6 @@ appController.controller('investitionAddedCtrl',function($scope, $http, $state, 
     $scope.navigate = function (to) {
         CacheHistoryReseter.reset();
         switch (to) {
-            case "teilen":
-                // Facebook
-                break;
             case "suchen":
                 $state.go('app.investitionSearch');
                 break;

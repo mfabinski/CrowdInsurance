@@ -5,15 +5,15 @@
             <table>
                 <tr>
                     <td>  <b>Bezeichnung: </b> </td>
-                    <td>  {{versicherung.name}} </td>
+                    <td>  {{investition.name}} </td>
                 </tr>
                 <tr>
                     <td> <b> Kategorie: </b> </td>
-                    <td>  {{versicherung.kategorie}} </td>
+                    <td>  {{investition.kategorie}} </td>
                 </tr>
                 <tr>
                     <td> <b> Versicherungshöhe: </b> </td>
-                    <td>  {{versicherung.versicherungshoehe}} </td>
+                    <td>  {{investition.versicherungshoehe}} </td>
                 </tr>
                 <tr>
                     <td> <b> Investitionshöhe: </b> </td>
@@ -21,8 +21,29 @@
                 </tr>
             </table>
         </div>
-        <button class=" button button-positive  button-block " id="investitionErfolgreichGetTigt-button15">Investition teilen</button>
-        <button class=" button button-positive  button-block " id="investitionErfolgreichGetTigt-button16" ng-click="navigate('suchen')">Weitere Investitionen suchen</button>
         <button class=" button button-positive  button-block " id="investitionErfolgreichGetTigt-button17" ng-click="navigate('Übersicht')">Zur Übersicht</button>
+        <div id="investitionErfolgreichGetTigt-card219" class="list card ">
+            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="investitionErfolgreichGetTigt-markdown11">Wollen Sie die Investitionsmöglichkeit teilen?</p>
+            <div class = "row">
+                <div class = "col" ng-repeat="share in provider[0]">
+                    <button class=" button button-positive  button-block icon {{share.icon}}" href="#" socialshare
+                        socialshare-provider="{{share.provider}}"
+                        socialshare-text="{{text}}"
+                        socialshare-hashtags="smartInsurance"
+                        socialshare-url="{{url}}"> {{share.name}}
+                    </button>
+                </div>
+            </div>
+            <div class = "row">
+                <div class = "col" ng-repeat="share in provider[1]">
+                    <button class=" button button-positive  button-block icon {{share.icon}}" href="#" socialshare
+                        socialshare-provider="{{share.provider}}"
+                        socialshare-text="{{text}}"
+                        socialshare-hashtags="smartInsurance"
+                        socialshare-url="{{url}}"> {{share.name}}
+                    </button>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

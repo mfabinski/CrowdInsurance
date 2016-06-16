@@ -32,8 +32,7 @@ appController.controller('investitionCheckCtrl',function($scope, $http, $state, 
 
         $http.post(apiendpoint.url + '/api/smartinsurance/investieren', $scope.investition).success(function(data) {
             CacheHistoryReseter.reset();
-            $state.go('app.investitionAdded',{ids: {versicherungID: $scope.investition.versicherungID,
-                investitionID: data[0].createinvestition}});
+            $state.go('app.investitionAdded',{id: data[0].createinvestition});
         });
 
 
