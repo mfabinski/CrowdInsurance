@@ -5,3 +5,4 @@ ExpressForDevelopment/node_modules/dbconfig.js
 ExpressForDevelopment/node_modules/ipaddr.js/*
 ExpressForDevelopment/test/modules/testdbconfig.js
 .idea/*
+npm-debug.log
