@@ -1,7 +1,9 @@
 version: '2'
 services:
   web:
-    dockerfile: Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
     links:
       - db
     environment:
