@@ -1,7 +1,9 @@
 version: '2'
 services:
   web:
-    dockerfile: DockerfileTest
+    build:
+      context: .
+      dockerfile: DockerfileTest
     links:
       - db
     depends_on:
