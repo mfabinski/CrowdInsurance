@@ -4,6 +4,8 @@ services:
     image: registry.cloudf.de/matthias/buildtest:master
     links:
       - db
+    depends_on:
+      - "db"
     environment:
       - DB_USER=smartinsurance
       - DB_PASSWORD=123456

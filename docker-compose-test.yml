@@ -8,7 +8,7 @@ services:
       - db
     depends_on:
       - "db"
-    entrypoint: ./wait-for-it.sh db:5432
+    command: ./wait-for-it.sh db:5432 -- /bin/sh npmtest
     environment:
       - DB_USER=smartinsurance
       - DB_PASSWORD=123456
