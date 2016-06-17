@@ -66,10 +66,10 @@ dockertest:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e gitlab-ci-token@gitlab-ci-token.de registry.cloudf.de
   script:
-    - docker-compose pull
-    - docker-compose run web ./wait-for-it.sh db:5432 -- /bin/sh npmtest
+    - docker-compose -f docker-compose.yml pull
+    - docker-compose -f docker-compose.yml run web ./wait-for-it.sh db:5432 -- /bin/sh npmtest
   after_script:
-    - docker-compose stop
+    - docker-compose -f docker-compose.yml stop
   tags:
     - containerbuild
   only:
