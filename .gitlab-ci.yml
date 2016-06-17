@@ -12,15 +12,14 @@ variables:
   POSTGRES_PASSWORD: "123456"
 
 build:
-  image: docker:git
-  services:
-    - docker:dind
   stage: build
   before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e gitlab-ci-token@gitlab-ci-token.de registry.cloudf.de
   script:
     - docker build -t $CONTAINER_TEST_IMAGE .
     - docker push $CONTAINER_TEST_IMAGE
+  tags:
+    - containerbuild
   only:
     - tags
 
@@ -48,52 +47,60 @@ build_android:
     - tags
     - master
     - /^frontend.*$/i
+  tags:
+    - docker
 
 mochatest:
-  image: node:4.2.4
-  services:
-    - registry.cloudf.de/matthias/depostgresdocker:9.5
   stage: test
-  variables:
-      DB_USER: smartinsurance
-      DB_PASSWORD: "123456"
-      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
-      DB_PORT: "5432"
-      DB_DATABASENAME: smartbackenddevelopment
-      DB_SSL: "false"
   script:
-    - cd ./ExpressForDevelopment/ && npm config set loglevel warn && npm install --loglevel warn
-    - npm install pg --loglevel warn
-    - npm install fs --loglevel warn
-    - npm install mocha -g --loglevel warn
-    - npm test
+    - docker-compose -f docker-compose-test.yml build
+    - docker-compose -f docker-compose-test.yml run web /bin/sh npmtest
+  after_script:
+    - docker-compose -f docker-compose-test.yml stop
+    - docker-compose -f docker-compose-test.yml rm -f
+  tags:
+    - containerbuild
 
 dockertest:
-  image: docker:git
-  services:
-    - docker:dind
-    - registry.cloudf.de/matthias/depostgresdocker:9.5
-  variables:
-      DB_USER: smartinsurance
-      DB_PASSWORD: "123456"
-      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
-      DB_PORT: "5432"
-      DB_DATABASENAME: smartbackenddevelopment
-      DB_SSL: "false"
   stage: test
   before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e gitlab-ci-token@gitlab-ci-token.de registry.cloudf.de
   script:
-    - echo "DB_USER=$DB_USER" > env.list
-    - echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
-    - echo "DB_HOST=$(grep "registry.cloudf.de__matthias__depostgresdocker" /etc/hosts | grep -o "[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}" | tail -n 1)" >> env.list
-    - echo "DB_PORT=$DB_PORT" >> env.list
-    - echo "DB_DATABASENAME=$DB_DATABASENAME" >> env.list
-    - echo "DB_SSL=$DB_SSL" >> env.list
-    - cat env.list
-    - docker run --net=host --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
+    - docker-compose pull
+    - docker-compose run web /bin/sh npmtest
+  after_script:
+    - docker-compose stop
+  tags:
+    - containerbuild
   only:
     - tags
+
+#dockertest:
+#  image: docker:git
+#  services:
+#    - docker:dind
+#    - registry.cloudf.de/matthias/depostgresdocker:9.5
+#  variables:
+#      DB_USER: smartinsurance
+#      DB_PASSWORD: "123456"
+#      DB_HOST: registry.cloudf.de__matthias__depostgresdocker
+#      DB_PORT: "5432"
+#      DB_DATABASENAME: smartbackenddevelopment
+#      DB_SSL: "false"
+#  stage: test
+#  before_script:
+#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+#  script:
+#    - echo "DB_USER=$DB_USER" > env.list
+#    - echo "DB_PASSWORD=$DB_PASSWORD" >> env.list
+#    - echo "DB_HOST=$(grep "registry.cloudf.de__matthias__depostgresdocker" /etc/hosts | grep -o "[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}" | tail -n 1)" >> env.list
+#    - echo "DB_PORT=$DB_PORT" >> env.list
+#    - echo "DB_DATABASENAME=$DB_DATABASENAME" >> env.list
+#    - echo "DB_SSL=$DB_SSL" >> env.list
+#    - cat env.list
+#    - docker run --net=host --env-file=env.list $CONTAINER_TEST_IMAGE /bin/sh npmtest
+#  only:
+#    - tags
 
 release-image:
   image: docker:git
@@ -101,13 +108,15 @@ release-image:
     - docker:dind
   stage: release
   before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.cloudf.de
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e gitlab-ci-token@gitlab-ci-token.de registry.cloudf.de
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - tags
+  tags:
+    - containerbuild
 
 deploy:
   image: docker:git
@@ -125,3 +134,5 @@ deploy:
     - rm id_rsa
   only:
     - tags
+  tags:
+    - docker
