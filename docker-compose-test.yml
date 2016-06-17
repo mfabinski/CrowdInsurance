@@ -1,12 +1,12 @@
 version: '2'
-
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    dockerfile: DockerfileTest
     links:
       - db
+    depends_on:
+      - "db"
+    entrypoint: ./wait-for-it.sh db:5432
     environment:
       - DB_USER=smartinsurance
       - DB_PASSWORD=123456
