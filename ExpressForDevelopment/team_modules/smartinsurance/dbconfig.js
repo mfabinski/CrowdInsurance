@@ -14,7 +14,7 @@ exports.getCredentials = function() {
     } catch(err) {}
     // Configured by SmartBackend?
     try {
-        var dbconfig = require('../../node_modules/smartbackendHelper/lib/database.js');
+        var dbconfig = require('../../node_modules/smartbackendHelper/lib/config/database.js');
         credentials = dbconfig.smartinsurance;
         return credentials;
     } catch(err) {}
