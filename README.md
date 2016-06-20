@@ -42,6 +42,20 @@ cd "C:\Program Files (x86)\pgAdmin III\1.22\"
 pg_dump.exe -h pftclan.de -W -U smartbackenduser -p 995 --column-inserts --data-only --no-owner --no-security-labels --no-acl -d smartbackenddevelopment -n smartinsurance -n smartbackend  -f %userprofile%/git/crowdinsurance/ExpressForDevelopment/test/data/general/testdatenEinfuegen.sql
 ```
 
+## Integration in das SMART Backend
+
+```
+git clone git@gitlab.cloudf.de:matthias/crowdinsurance.git
+git clone git@github.com:benedikt-sondermann/smartbackend.git
+rm -r smartbackend/100_Prototyp/src/team_modules/smartinsurance/
+cp -r crowdinsurance/ExpressForDevelopment/team_modules/smartinsurance/ smartbackend/100_Prototyp/src/team_modules/smartinsurance/
+cd smartbackend/
+# Manually Merge the package.json dependencies :(
+# then
+docker build -t smartbackend:unstable .
+docker run -p hostport:3000 smartbackend:unstable
+```
+
 ## Misc
 
 Hi Kids, ich bin Carlo.
