@@ -468,6 +468,66 @@ describe("Test API:", function(){
     it('Fehlschlag Investition bereits gekündigt');
   });
 
+  describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/versicherung/:versicherungID/invest", function(){
+    it('?');
+  });
+
+  describe("post /api/smartinsurance/schadensfallmelden", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/schadensfaelle/:versicherungID", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/schadensfall/:schadensfallID", function(){
+    it('?');
+  });
+
+  describe("post /api/smartinsurance/schadensfall/    Schadensfall bearbeiten", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/profil", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/profil/profilID", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
+    it('?');
+  });
+
+  describe("get IoT-Gerät hinzufügen?", function(){
+    it('?');
+  });
+
+  describe("post Schadensfall Bild hinzufügen", function(){
+    it('?');
+  });
+
+  describe("post /api/smartinsurance/kommentieren", function(){
+    it('?');
+  });
+
+  describe("get /api/smartinsurance/kommentare/:versicherungID", function(){
+    it('?');
+  });
+
+  describe("post /api/smartinsurance/versicherungaendern", function(){
+    it('?');
+  });
+
+  describe("post /api/smartinsurance/investition", function(){
+    it('?');
+  });
+
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
