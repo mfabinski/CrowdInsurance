@@ -40,7 +40,7 @@ module.exports = function() {
 
   router.get('/schadensfaelle/:versicherungID', [validate.versicherungID, ts.getSchadensfaelleByVersicherung]);
 
-  router.post('/schadensfallmelden', [validate.parameterSchadensfall, ts.erstelleSchadensfall]);
+  router.post('/schadensfallmelden', [validate.parameterSchadensfall, validate.obVersicherungExistiert, ts.erstelleSchadensfall]);
 
   router.post('/schadensfall', [validate.parameterSchadensfallAendern, ts.updateSchadensfall]);
 

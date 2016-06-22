@@ -835,7 +835,7 @@ describe("Test API:", function(){
 
   describe("get /api/smartinsurance/schadensfall/:schadensfallID", function(){
     it('Erfolgreiches Laden eines existierenden Schadensfalls',function(done){
-      var url = "http://localhost:3000/api/smartinsurance/schadensfall/1";
+      var url = "http://localhost:3000/api/smartinsurance/schadensfall/100";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
         done();

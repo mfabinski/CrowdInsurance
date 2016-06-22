@@ -525,6 +525,9 @@ exports.periodicSchedule = function (req,res,next) {
         .then(function(){return new q.Promise(exports.auszahlungRendite)})
         .catch(function (err){
             logger.error('Es ist ein Fehler im periodicSchedule aufgetreten: ' + err);
+            if(res != undefined){
+                res.status(500).send('Periode aufgrund eines Fehlers nicht berechnet.');
+            }
         })
         .done();
     periodNumber += 1;
