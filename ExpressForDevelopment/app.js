@@ -29,7 +29,7 @@ app.all('*', function(req, res, next) {
 //var oauth = backendHelper.oauthModel;
 // wir machen es erstmal so:
 var oauth = new Object();
-var oauth.bearerAuth = function(req, res, next) {
+oauth.bearerAuth = function(req, res, next) {
   if (!req.user) {
     req.user = new Object();
   }
