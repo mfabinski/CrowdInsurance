@@ -151,7 +151,7 @@ exports.setinvestitionbewertung = function(investitionID, bewertung, onSuccess, 
 };
 
 
-//2.2 Kuendigungen
+//3.2 Kuendigungen
 //-----------------
 exports.updateVersicherungGekuendigt = function(onSuccess, onError){
     db.func('finalizeversicherungskuendigung').then(onSuccess).catch(onError);
@@ -162,42 +162,49 @@ exports.investitionKuendigungEinreichen = function(investitionID, onSuccess, onE
 };
 
 //
-//2.2 Schadensfall
+//3.2 Schadensfall
 //-----------------
 exports.updateSchadensfall = function(schadensfallID, bezeichnung, beschreibung, schadenshoehe, onSuccess, onError){
     db.func('updateschadensfall', [schadensfallID,bezeichnung,beschreibung,schadenshoehe]).then(onSuccess).catch(onError);
 };
 
 //
-//2.2.1 Schadensfall ausgezahlt = true
+//3.2.1 Schadensfall ausgezahlt = true
 exports.finalizeSchadensfall = function(onSuccess, onError){
     db.func('finalizeschadensfall').then(onSuccess).catch(onError);
 };
 
 //
-//2.2.2 Schaden auszahlen
+//3.2.2 Schaden auszahlen
 exports.paySchadensfaelle = function(onSuccess, onError){
     db.func('payschadensfaelle').then(onSuccess).catch(onError);
 };
 
 //
-//2.2.3 Schaden von den Investitionshoehen abziehen
+//3.2.3 Schaden von den Investitionshoehen abziehen
 exports.reduceInvestitionenWegenSchaden = function(onSuccess, onError){
     db.func('reduceinvestitionenwegenschaden').then(onSuccess).catch(onError);
 };
 
 //
-//2.3 Versicherung
+//3.3 Versicherung
 //-----------------
 exports.updateVersicherung = function(versicherungID, name, beschreibung, kategorie, onSuccess, onError){
     db.func('updateversicherung', [versicherungID,name,beschreibung,kategorie]).then(onSuccess).catch(onError);
 };
 
 //
-//2.4 Investition
+//3.4 Investition
 //-----------------
 exports.updateInvestition = function(investitionID, investitionshoehe, onSuccess, onError){
     db.func('updateinvestition', [investitionID,investitionshoehe]).then(onSuccess).catch(onError);
+};
+
+//
+//3.5 Profil bearbeiten
+//-----------------
+exports.changeProfil = function(personID, name, prename, email, iban, bic, bankinstitut, onSuccess, onError){
+    db.func('updateprofil', [personID, name, prename, email, iban, bic, bankinstitut]).then(onSuccess).catch(onError);
 };
 
 //
