@@ -459,25 +459,27 @@ CREATE VIEW "InvestitionPerson" AS
 
 
 --
--- Name: VersicherungPerson; Type: VIEW; Schema: smartinsurance; Owner: -
+-- Name: VersicherungPerson; Type: TABLE; Schema: smartinsurance; Owner: -
 --
 
-CREATE VIEW "VersicherungPerson" AS
- SELECT v.id,
-    v.name,
-    v.versicherungshoehe,
-    v.beitrag,
-    v.beschreibung,
-    v."abschlussZeitpunkt",
-    v."kuendigungsZeitpunkt",
-    v."istGekuendigt",
-    v."wirdGekuendigt",
-    v."personID",
-    v.kategorie,
-    p.name AS "personName",
-    p.prename AS "personPrename"
-   FROM ("Versicherung" v
-     JOIN smartbackend."user" p ON ((v."personID" = p.id)));
+CREATE TABLE "VersicherungPerson" (
+    id integer,
+    name text,
+    versicherungshoehe money,
+    beitrag money,
+    beschreibung text,
+    "abschlussZeitpunkt" timestamp without time zone,
+    "kuendigungsZeitpunkt" timestamp without time zone,
+    "istGekuendigt" boolean,
+    "wirdGekuendigt" boolean,
+    "personID" uuid,
+    kategorie kategorie,
+    "personName" text,
+    "personPrename" text,
+    suminvestition money
+);
+
+ALTER TABLE ONLY "VersicherungPerson" REPLICA IDENTITY NOTHING;
 
 
 --
@@ -1637,6 +1639,35 @@ ALTER TABLE ONLY "Zahlungsstrom"
 
 ALTER TABLE ONLY userbank
     ADD CONSTRAINT userbank_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: _RETURN; Type: RULE; Schema: smartinsurance; Owner: -
+--
+
+CREATE RULE "_RETURN" AS
+    ON SELECT TO "VersicherungPerson" DO INSTEAD  SELECT v.id,
+    v.name,
+    v.versicherungshoehe,
+    v.beitrag,
+    v.beschreibung,
+    v."abschlussZeitpunkt",
+    v."kuendigungsZeitpunkt",
+    v."istGekuendigt",
+    v."wirdGekuendigt",
+    v."personID",
+    v.kategorie,
+    p.name AS "personName",
+    p.prename AS "personPrename",
+    COALESCE(sum(i.investitionshoehe), '0,00 €'::money) AS suminvestition
+   FROM (("Versicherung" v
+     JOIN smartbackend."user" p ON ((v."personID" = p.id)))
+     LEFT JOIN ( SELECT "Investition"."versicherungID",
+            "Investition".investitionshoehe
+           FROM "Investition"
+          WHERE ("Investition"."istGekuendigt" = false)) i ON ((v.id = i."versicherungID")))
+  GROUP BY v.id, p.name, p.prename
+  ORDER BY v."istGekuendigt", COALESCE(sum(i.investitionshoehe), '0,00 €'::money) DESC, v.versicherungshoehe DESC;
 
 
 --
