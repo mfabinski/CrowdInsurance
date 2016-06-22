@@ -1,4 +1,7 @@
-appController.controller('errorCtrl', function($scope, $http, $state, $stateParams,  moneyParser, moneyFormatter, apiendpoint){
+appController.controller('errorCtrl', function($scope, $stateParams, CacheHistoryReseter){
 
     $scope.error = $stateParams.error;
+
+    CacheHistoryReseter.reset();
+
 });
