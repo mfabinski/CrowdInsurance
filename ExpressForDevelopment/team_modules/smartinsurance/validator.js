@@ -230,6 +230,7 @@ exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
 };
 
 exports.obVersicherungExistiert = function(req,res,next){
+  var versicherungID = req.body.versicherungID;
   tdg.selectVersicherung(versicherungID,
       function(data){
           if(data[0].id != null){
