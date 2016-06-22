@@ -60,6 +60,48 @@ appController.service('CacheHistoryReseter', ['$ionicHistory', function($ionicHi
 
 }]);
 
+appController.service('Status', function(){
+    this.versicherung = function (versicherungen) {
+        var versicherungsstatus = [];
+        for (var i=0;i<versicherungen.length;i++){
+            if(versicherungen[i].wirdGekuendigt){
+                versicherungsstatus.push("wird gekündigt")
+            }
+            if(versicherungen[i].istGekuendigt){
+                versicherungsstatus.push("gekündigt")
+            } else if (versicherungen[i].suminvestition == "0,00 €") {
+                versicherungsstatus.push("keine Investoren")
+            } else {
+                versicherungsstatus.push("läuft")
+            }
+            versicherungen[i].versicherungsstatus = versicherungsstatus;
+            versicherungsstatus = [];
+        }
+        return versicherungen;
+    }
+    this.investition = function (investitionen) {
+        var investitionsstatus = [];
+        for (var i=0;i<investitionen.length;i++){
+            if(investitionen[i].iwirdGekuendigt){
+                investitionsstatus.push("wird gekündigt")
+            }
+            if(investitionen[i].iistGekuendigt || investitionen[i].vistGekuendigt){
+                investitionsstatus.push("gekündigt")
+            }
+            if(investitionen[i].vwirdGekuendigt){
+                investitionsstatus.push("Versicherung wird beendet")
+            }
+             if(investitionsstatus.length == 0){
+                investitionsstatus.push("läuft")
+            }
+            investitionen[i].investitionsstatus = investitionsstatus;
+            investitionsstatus = [];
+        }
+        return investitionen;
+    }
+
+});
+
 
 //Beispiel-Code für ein Login-Modul kann noch entfernt werden
 

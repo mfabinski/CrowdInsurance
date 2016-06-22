@@ -40,13 +40,9 @@
                         <td> <b> ausgezahlter Schaden: </b> </td>
                         <td>  {{gesamtSchaden()}} </td>
                     </tr>
-                    <tr ng-show="investition.vwirdGekuendigt">
-                        <td> <b> Verischerung wird gekündigt: </b> </td>
-                        <td>  <b> ja </b> </td>
-                    </tr>
-                    <tr ng-show="investition.iwirdGekuendigt">
-                        <td> <b> Investition wird gekündigt: </b> </td>
-                        <td>  <b> ja </b> </td>
+                    <tr ng-repeat= "status in investition.investitionsstatus">
+                                    <td> <b> Status: </b> </td>
+                                    <td>  {{status}} </td>
                     </tr>
                 </table>
             </ion-item>

@@ -1,58 +1,21 @@
-appController.controller('uebersichtCtrl', function($scope, $http, $state, moneyParser, moneyFormatter, apiendpoint){
+appController.controller('uebersichtCtrl', function($scope, $http, $state, moneyParser, moneyFormatter, apiendpoint, Status){
 
 
     $scope.versicherungen= [];
     $scope.investitionen = [];
-
-    $scope.versicherungsstatus = [];
-    $scope.investitionsstatus = [];
 
     $scope.noVersicherung = true;
     $scope.noInvestition = true;
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung').success(function(response) {
-        $scope.versicherungen = response;
+        $scope.versicherungen = Status.versicherung(response);
         $scope.noVersicherung = false;
-         for (var i=0;i<$scope.versicherungen.length;i++){
-            if($scope.versicherungen[i].wirdGekuendigt){
-                $scope.versicherungsstatus.push("wird gekündigt")
-            }
-            if($scope.versicherungen[i].istGekuendigt){
-                $scope.versicherungsstatus.push("gekündigt")
-            }
-            if (!$scope.versicherungen[i].laeuft) {
-                 $scope.versicherungsstatus.push("keine Investoren")
-            } else {
-                $scope.versicherungsstatus.push("läuft")
-            }
-            $scope.versicherungen[i].versicherungsstatus = $scope.versicherungsstatus;
-            $scope.versicherungsstatus = [];
-
-        }
-
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
-        $scope.investitionen = response;
+        $scope.investitionen = Status.investition(response);
         $scope.noInvestition = false;
-        for (var i=0;i<$scope.investitionen.length;i++){
-            if($scope.investitionen[i].iwirdGekuendigt){
-                $scope.investitionsstatus.push("wird gekündigt")
-            }
-            if($scope.investitionen[i].iistGekuendigt || $scope.investitionen[i].vistGekuendigt){
-                $scope.investitionsstatus.push("gekündigt")
-            }
-            if($scope.investitionen[i].vwirdGekuendigt){
-                $scope.investitionsstatus.push("Versicherung wird beendet")
-            }
-             if($scope.investitionsstatus.length == 0){
-                $scope.investitionsstatus.push("läuft")
-            }
-            $scope.investitionen[i].investitionsstatus = $scope.investitionsstatus;
-            $scope.investitionsstatus = [];
-        }
-
     });
 
     $scope.versicherungShow = function(id) {
