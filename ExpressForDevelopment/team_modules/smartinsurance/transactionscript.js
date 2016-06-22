@@ -320,7 +320,7 @@ exports.calculateSumOfInvestVersicherung = function (req, res, next) {
         function(data){
             logger.info('Kalkulieren der Investitionssumme der Versicherung ' + versicherungID + ' erfolgreich durchgeführt.');
             data[0] = {"suminvestition":data[0].getinvestitionssummebyvid};
-            if(data[0].suminvestition != null) {
+            if(data[0].suminvestition != '0,00 €') {
                 res.status(200).json(data);
             } else{
                 res.status(204).json(data); // no investition
