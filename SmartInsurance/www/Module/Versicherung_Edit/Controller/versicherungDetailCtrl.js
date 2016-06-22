@@ -7,7 +7,9 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
-         $scope.versicherung = response[0];
+        $scope.versicherung = response[0];
+    }).error(function(error, status) {
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
