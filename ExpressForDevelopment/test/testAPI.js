@@ -702,7 +702,37 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/schadensfallmelden", function(){
-    it('?');
+    it('Schadensfall erfolgreich melden', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":114,
+        "schadenshoehe":'1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Fehlschlag VersicherungID ist keine Nummer');
+    it('Fehlschlag Versicherung Existiert nicht');
+    it('Fehlschlag fehlende Parameter');
+    it('Fehlschlag negative Schadenshoehe');
+    it('Fehlschlag nur der Versicherungsnehmer kann Schadensfälle erstellen');
+  });
+
+  describe("post Bild zum Schadensfall hinzufuegen", function(){
+    it('Bilder sind noch nicht entwickelt.');
+  });
+
+  describe("post Bild zum Schadensfall hinzufuegen", function(){
+    it('Bilder sind noch nicht entwickelt.');
   });
 
   describe("get /api/smartinsurance/schadensfaelle/:versicherungID", function(){
@@ -760,10 +790,6 @@ describe("Test API:", function(){
     });
   });
 
-  describe("post /api/smartinsurance/schadensfall/    Schadensfall bearbeiten", function(){
-    it('?');
-  });
-
   describe("get /api/smartinsurance/profil/profilID", function(){
     it('Erfolgreiches Laden eines existierenden Profils',function(done){
       var url = "http://localhost:3000/api/smartinsurance/profil/bfa77220-21f7-11e6-b56d-b76efa9c5485";
@@ -810,14 +836,6 @@ describe("Test API:", function(){
         done();
       });
     });
-  });
-
-  describe("get IoT-Gerät hinzufügen?", function(){
-    it('?');
-  });
-
-  describe("post Schadensfall Bild hinzufügen", function(){
-    it('?');
   });
 
   describe("post /api/smartinsurance/kommentieren", function(){
@@ -912,14 +930,6 @@ describe("Test API:", function(){
         done();
       });
     });
-  });
-
-  describe("post /api/smartinsurance/versicherungaendern", function(){
-    it('?');
-  });
-
-  describe("post /api/smartinsurance/investition", function(){
-    it('?');
   });
 
   // Leere die Tabellen
