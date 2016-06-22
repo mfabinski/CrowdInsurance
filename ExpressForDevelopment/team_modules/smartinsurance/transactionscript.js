@@ -456,13 +456,14 @@ exports.erstelleKommentar = function (req, res, next) {
 
     tdg.erstelleKommentar(versicherungID, text, req.user.id,
         function(data){
-            logger.info('Kommentar für die Versicherung ' + versicherungID + ' mit dem Text ' + text + ' erfolgreich erstellt.');
+            logger.consoleInfo('Kommentar für die Versicherung ' + versicherungID + ' mit dem Text ' + text + ' erfolgreich erstellt.');
             tdg.getKommentarByKID(data[0].createkommentar,
                 function(data2){
                     logger.info("Kommentar ID is " + data[0].createkommentar + "; Kommentar is " + JSON.stringify(data2));
                     res.status(201).json(data2);
                 },
                 function(err2){
+                    logger.error('Fehler beim Laden des erstellten Kommentars.');
                     res.status(500).send('Fehler beim Lesen des erstellten Kommentars.');
                 }
             );

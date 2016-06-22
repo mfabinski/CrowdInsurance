@@ -186,10 +186,9 @@ exports.parameterKommentar = function(req,res,next){
     var text = req.body.text;
 
     if(text != undefined && versicherungID != undefined && text.length > 0 && internal.isNumber(versicherungID)) {
-        logger.consoleInfo("Parameter zur Kommentarerstellung passen.");
         next();
     } else{
-        res.status(400).send('Bad Request: ' + name + " - " + versicherungshoehe + " - " + beitrag + " - " + beschreibung);
+        res.status(400).send('Bad Request: ' + versicherungID + " - " + text);
     }
 };
 
