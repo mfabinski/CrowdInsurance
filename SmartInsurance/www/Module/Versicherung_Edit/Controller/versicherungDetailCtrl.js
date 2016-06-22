@@ -13,6 +13,7 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
+
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
         if(angular.isDefined(response[0])) {
             $scope.investoren = response;

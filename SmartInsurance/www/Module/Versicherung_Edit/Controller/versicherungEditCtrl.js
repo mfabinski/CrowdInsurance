@@ -6,11 +6,14 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
-       $scope.versicherungNeu = {
-                    versicherungID: $scope.versicherungId,
-                    versicherungshoehe: $scope.versicherung.versicherungshoehe,
-                    beitrag: $scope.versicherung.beitrag
-                }
+        $scope.versicherungNeu = {
+            versicherungID: $scope.versicherungId,
+            versicherungshoehe: $scope.versicherung.versicherungshoehe,
+            beitrag: $scope.versicherung.beitrag
+        }
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
 

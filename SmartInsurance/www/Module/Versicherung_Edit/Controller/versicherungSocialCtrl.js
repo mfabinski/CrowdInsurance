@@ -1,4 +1,4 @@
-appController.controller('versicherungSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint){
+appController.controller('versicherungSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter){
 
     $scope.versicherungId = $stateParams.id;
 
@@ -26,6 +26,9 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
      $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {

@@ -1,4 +1,4 @@
-appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, Status){
+appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, Status, CacheHistoryReseter){
 
 
     $scope.investitionID = $stateParams.id;
@@ -28,6 +28,9 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
                 }
             })
 
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
 

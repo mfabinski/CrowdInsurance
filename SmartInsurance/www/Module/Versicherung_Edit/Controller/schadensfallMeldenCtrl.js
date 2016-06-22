@@ -1,96 +1,101 @@
 appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
-    $scope.schaden =  $stateParams.schaden;
-
-    $scope.submitted = false;
-
-    $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.schaden.versicherungID).success(function(response) {
-         $scope.versicherung = response[0];
-    });
-
-   $scope.edit = function() {
-       if (angular.isDefined($scope.schaden.id)){
-           return true;
-       }
-       return false;
-   };
+    if ($stateParams.schaden == null) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: "Fehler beim erneuten Laden der Seite.", status: ""}});
+    } else {
+        $scope.schaden =  $stateParams.schaden;
 
 
-    $scope.checkCurrency = checkCurrencyFormat;
+        $scope.submitted = false;
 
-    $scope.isInvalid = function(field){
-        return field.$error.required && (field.$touched || $scope.submitted);
-     };
+        $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.schaden.versicherungID).success(function(response) {
+            $scope.versicherung = response[0];
+        });
+
+       $scope.edit = function() {
+           if (angular.isDefined($scope.schaden.id)){
+               return true;
+           }
+           return false;
+       };
 
 
-    $scope.isNaN = function(field) {
-        return field.$error.pattern && (field.$touched || $scope.submitted);
-    };
+        $scope.checkCurrency = checkCurrencyFormat;
+
+        $scope.isInvalid = function(field){
+            return field.$error.required && (field.$touched || $scope.submitted);
+         };
 
 
-    $scope.reportSchaden = function (form) {
+        $scope.isNaN = function(field) {
+            return field.$error.pattern && (field.$touched || $scope.submitted);
+        };
 
-        $scope.submitted = true;
 
-        $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
-        if(form.$valid && $scope.schaden.versicherungID != null){
-            $scope.schadenNew = {
-                versicherungID:$scope.schaden.versicherungID,
-                bezeichnung:$scope.schaden.bezeichnung,
-                beschreibung:$scope.schaden.beschreibung,
-                schadenshoehe:$scope.schaden.schadenshoehe
-            };
-            $ionicPopup.show({
-                title: 'Bestätigung',
-                template: 'Wollen Sie die Änderung speichern?',
-                buttons: [
-                  { text: 'Cancel' },
-                  {
-                    text: '<b>Speichern</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schadenNew).then(function(data) {
-                            CacheHistoryReseter.reset();
-                            $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
-                        });
-                    }
-                  }
-                ]
-            });
-        }
-    };
+        $scope.reportSchaden = function (form) {
 
-    $scope.editSchaden = function (form) {
+            $scope.submitted = true;
 
-        $scope.submitted = true;
+            $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
+            if(form.$valid && $scope.schaden.versicherungID != null){
+                $scope.schadenNew = {
+                    versicherungID:$scope.schaden.versicherungID,
+                    bezeichnung:$scope.schaden.bezeichnung,
+                    beschreibung:$scope.schaden.beschreibung,
+                    schadenshoehe:$scope.schaden.schadenshoehe
+                };
+                $ionicPopup.show({
+                    title: 'Bestätigung',
+                    template: 'Wollen Sie die Änderung speichern?',
+                    buttons: [
+                      { text: 'Cancel' },
+                      {
+                        text: '<b>Speichern</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfallmelden', $scope.schadenNew).then(function(data) {
+                                CacheHistoryReseter.reset();
+                                $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+                            });
+                        }
+                      }
+                    ]
+                });
+            }
+        };
 
-        $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
-        if(form.$valid && $scope.schaden.versicherungID != null){
-            $scope.schadenNew = {
-                schadensfallID:$scope.schaden.id,
-                bezeichnung:$scope.schaden.bezeichnung,
-                beschreibung:$scope.schaden.beschreibung,
-                schadenshoehe:$scope.schaden.schadenshoehe
-            };
-            $ionicPopup.show({
-                title: 'Bestätigung',
-                template: 'Wollen Sie die Änderung speichern?',
-                buttons: [
-                  { text: 'Cancel' },
-                  {
-                    text: '<b>Speichern</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        $http.post(apiendpoint.url + '/api/smartinsurance/schadensfall/', $scope.schadenNew).then(function(data) {
-                            CacheHistoryReseter.reset();
-                            $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
-                        });
-                    }
-                  }
-                ]
-            });
+        $scope.editSchaden = function (form) {
+
+            $scope.submitted = true;
+
+            $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
+            if(form.$valid && $scope.schaden.versicherungID != null){
+                $scope.schadenNew = {
+                    schadensfallID:$scope.schaden.id,
+                    bezeichnung:$scope.schaden.bezeichnung,
+                    beschreibung:$scope.schaden.beschreibung,
+                    schadenshoehe:$scope.schaden.schadenshoehe
+                };
+                $ionicPopup.show({
+                    title: 'Bestätigung',
+                    template: 'Wollen Sie die Änderung speichern?',
+                    buttons: [
+                      { text: 'Cancel' },
+                      {
+                        text: '<b>Speichern</b>',
+                        type: 'button-positive',
+                        onTap: function(e) {
+                            $http.post(apiendpoint.url + '/api/smartinsurance/schadensfall/', $scope.schadenNew).then(function(data) {
+                                CacheHistoryReseter.reset();
+                                $state.go('app.versicherungDetail',{id: $scope.schaden.versicherungID});
+                            });
+                        }
+                      }
+                    ]
+                });
+            }
         }
     }
-
 
 });

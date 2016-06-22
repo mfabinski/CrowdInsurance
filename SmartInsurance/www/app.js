@@ -31,7 +31,6 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/app',
             abstract: true,
             templateUrl: 'Module/Allgemein/Views/menu.html',
-            //controller: 'AppCtrl'
         })
 
 

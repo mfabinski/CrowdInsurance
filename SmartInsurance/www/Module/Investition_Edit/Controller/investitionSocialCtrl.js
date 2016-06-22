@@ -1,4 +1,4 @@
-appController.controller('investitionSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint){
+appController.controller('investitionSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter){
 
     $scope.investitionId = $stateParams.id;
 
@@ -51,6 +51,9 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
                 $scope.noComment= false;
             }
         });
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
 
