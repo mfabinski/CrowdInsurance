@@ -382,7 +382,7 @@ describe("Test API:", function(){
         "body" : postbody,
         "json" : true
       }, function(error, response, body) {
-        expect(response.statusCode).to.equal(409);
+        expect(response.statusCode).to.equal(201); //Naechst kleinerer passende Betrag wurde investiert
         done();
       });
     });

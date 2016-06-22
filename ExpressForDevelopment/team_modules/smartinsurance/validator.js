@@ -242,7 +242,6 @@ exports.obVersicherungSchonVollIst = function(req,res,next){
         function(data){
             var diff = versicherungshoehe - internal.moneyToNumber(data[0].getinvestitionssummebyvid);
             var investitionshoehe = internal.moneyToNumber(req.body.investitionshoehe);
-            logger.consoleInfo('Differenz zwischen investitionssumme und versicherungshoehe' + diff + '   investitionshoehe: ' + investitionshoehe);
             if(diff >= investitionshoehe){
                 next();
             } else if(diff > 0 && diff < investitionshoehe) {
