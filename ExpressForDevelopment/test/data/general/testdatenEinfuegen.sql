@@ -313,7 +313,7 @@ SELECT pg_catalog.setval('"Investition_versicherungID_seq"', 1, false);
 -- Data for Name: Kommentar; Type: TABLE DATA; Schema: smartinsurance; Owner: -
 --
 
-INSERT INTO "Kommentar"(id, "versicherungID", text, "personID") VALUES (1, 89, 'Ich bin ein Kommentar.', 'bfa79174-21f7-11e6-b56d-f7a449cf1508');
+INSERT INTO "Kommentar"(id, "versicherungID", text, "personID") VALUES (100, 89, 'Ich bin ein Kommentar.', 'bfa79174-21f7-11e6-b56d-f7a449cf1508');
 
 --
 -- Name: Kommentar_id_seq; Type: SEQUENCE SET; Schema: smartinsurance; Owner: -
