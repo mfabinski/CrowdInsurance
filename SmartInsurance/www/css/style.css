@@ -6,30 +6,11 @@ td.linebreak p {
     font-weight: bold;
 }
 
-.tableDesktop {
-    table-layout: fixed;
-    width: 25%;
-    border-collapse: collapse;
-}
-
 .styleTable {
     width: 100%;
     border-collapse: collapse;
 }
 
-/*tr:nth-of-type(odd) {
-    background: #eee;
-}
-th {
-    background: #333;
-    color: white;
-    font-weight: bold;
-}*/
-/*td, th {
-    padding: 6px;
-    border: 1px solid #ccc;
-    text-align: left;
-}*/
 
 .styleData {
     padding: 6px;
@@ -37,27 +18,12 @@ th {
     text-align: left;
 }
 
-/*.styleData2 {
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-right: 1px solid white;
-    text-align: left;
-}
 
-.hideHeaders2 {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-}*/
 
 @media
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
 
-
-    /* table, thead, tbody, th, td, tr {
-         display: block;
-     }*/
 
     .displayBlock{
         display: block;
@@ -133,7 +99,4 @@ only screen and (max-width: 760px),
     .labelData:nth-of-type(5):before { content: "Versicherungshöhe"; font-weight: bold;}
     .labelData:nth-of-type(6):before { content: "Anzahl Investoren"; font-weight: bold;}
 
-    /*.labelZsm:nth-of-type(1):before { content: "Anzahl Versicherungen"; font-weight: bold; }
-    .labelZsm:nth-of-type(2):before { content: "Versicherungshöhe"; font-weight: bold;}
-    .labelZsm:nth-of-type(3):before { content: "Maximale Rendite"; font-weight: bold;}*/
 }
