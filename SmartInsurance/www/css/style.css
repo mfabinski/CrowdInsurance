@@ -92,7 +92,19 @@ only screen and (max-width: 760px),
 
     .tableMobile {
         table-layout: fixed;
+        width: 118%;
+
+    }
+
+    .tableMobile2 {
+        table-layout: fixed;
         width: 110%;
+
+    }
+
+    .tableMobile3 {
+        table-layout: fixed;
+        width: 111%;
         border-collapse: collapse;
 
     }
