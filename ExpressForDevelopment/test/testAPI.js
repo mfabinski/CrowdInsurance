@@ -538,7 +538,34 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/schadensfaelle/:versicherungID", function(){
-    it('?');
+    it('Erfolgreiches Laden der Schadensfaelle einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/89";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Schadensfaelle',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/90";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Versicherung existiert nicht 404',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/1";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
   });
 
   describe("get /api/smartinsurance/schadensfall/:schadensfallID", function(){

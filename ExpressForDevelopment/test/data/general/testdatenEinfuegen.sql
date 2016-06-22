@@ -333,6 +333,7 @@ SELECT pg_catalog.setval('"Kommentar_versicherungID_seq"', 1, false);
 -- Data for Name: Schadensfall; Type: TABLE DATA; Schema: smartinsurance; Owner: -
 --
 
+INSERT INTO "Schadensfall"(id, "versicherungID", beschreibung, schadenshoehe, bezeichnung) VALUES (1, 89, 'Sehr sehr große Delle', '10,00 €', 'Delle');
 
 
 --
