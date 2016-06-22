@@ -189,6 +189,7 @@ exports.parameterKommentar = function(req,res,next){
       tdg.selectVersicherung(versicherungID,
           function(data){
               if(data.length == 1){
+                  logger.consoleInfo('Versicherung ID ' + versicherungID + ' soll scheinbar existieren.');
                   next();
               } else{
                   res.status(409).send('Angegebene Versicherung existiert nicht.');
