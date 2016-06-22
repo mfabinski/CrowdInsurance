@@ -72,4 +72,8 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         $state.go("app.investitionSocial", {id: $scope.investition.id});
     };
 
+    $scope.invest = function () {
+        $state.go("app.investitionAdd", {id: $scope.investition.versicherungID});
+    }
+
 });
