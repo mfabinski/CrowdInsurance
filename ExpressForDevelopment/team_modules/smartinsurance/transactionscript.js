@@ -523,6 +523,12 @@ exports.periodicSchedule = function (req,res,next) {
         .then(function(){return new q.Promise(exports.investitionKuendigungenVerarbeiten)})
         .then(function(){return new q.Promise(exports.einziehenVersicherungsbeitraege)})
         .then(function(){return new q.Promise(exports.auszahlungRendite)})
+        .then(function(){return new q.Promise(function(){
+            if(res != undefined){
+                periodNumber += 1;
+                res.status(200).send('Periode erfolgreich berechnet.');
+            }
+        })})
         .catch(function (err){
             logger.error('Es ist ein Fehler im periodicSchedule aufgetreten: ' + err);
             if(res != undefined){
@@ -530,12 +536,6 @@ exports.periodicSchedule = function (req,res,next) {
             }
         })
         .done();
-        
-    periodNumber += 1;
-
-    if(res != undefined){
-        res.status(200).send('Periode erfolgreich berechnet.');
-    }
 };
 
 exports.auszahlungSchadensfaelle = function(resolve, reject, notify) {
