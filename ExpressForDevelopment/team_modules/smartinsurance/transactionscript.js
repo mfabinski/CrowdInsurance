@@ -119,7 +119,7 @@ exports.filterVersicherung = function (req, res, next) {
     // }
 
     if (withFilter) {
-        tdg.filterVersicherung(kategorie, orderby, asc_desc, limit, skip
+        tdg.filterVersicherung(kategorie, orderby, asc_desc, limit, skip,
             function(data){
                 logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
                 if(data.length != 0) {
