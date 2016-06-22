@@ -896,13 +896,36 @@ $$;
 
 
 --
--- Name: orderversicherung(text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+-- Name: orderversicherung(text, text, integer, integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
-CREATE FUNCTION orderversicherung(text, text) RETURNS SETOF "VersicherungFilter"
+CREATE FUNCTION orderversicherung(text, text, integer DEFAULT 0, integer DEFAULT 0) RETURNS SETOF "VersicherungFilter"
     LANGUAGE plpgsql
     AS $_$
 BEGIN
+if $3 > 0 then 
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" '
+    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
+    || 'ORDER BY '
+    || quote_ident($1) || ' ' || $2 || 
+    ' LIMIT  $3
+      OFFSET $4
+    ;' USING $1,$2,$3,$4;
+else
     RETURN QUERY EXECUTE 'SELECT "id",
        "name",
        "versicherungshoehe",
@@ -921,6 +944,7 @@ BEGIN
     || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
     || 'ORDER BY '
     || quote_ident($1) || ' ' || $2 || ';';
+end if;
 END;
 $_$;
 
@@ -1115,7 +1139,8 @@ CREATE TABLE chat_room_user (
 --
 
 CREATE TABLE push_notification (
-    id uuid DEFAULT uuid_generate_v1mc() NOT NULL
+    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
+    urls_to_fetch text
 );
 
 
