@@ -705,7 +705,73 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/kommentieren", function(){
-    it('?');
+    it('Erfolgreiches anlegen eines Kommentars', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"85",
+        "text":"Ich bin ein Kommentar"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+
+    it('Anlegen eines Kommentars bei einer nicht vorhandenen Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"8599",
+        "text":"Ich bin ein Kommentar"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(409);
+        done();
+      });
+    });
+
+    it('Anlegen eines Kommentars mit ungültiger VersicherungID',, function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"SQLINJECTION",
+        "text":"Ich bin ein Kommentar"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    it('Anlegen eines Kommentars ohne Text', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"85"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
   });
 
   describe("get /api/smartinsurance/kommentare/:versicherungID", function(){
