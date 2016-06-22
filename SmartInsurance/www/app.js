@@ -45,6 +45,16 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
 
+        .state('app.error', {
+            url: '/error',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Allgemein/Views/error.html',
+                    controller: 'errorCtrl'
+                }
+            }
+        })
+
 
         .state('app.profil', {
             url: '/profil',
