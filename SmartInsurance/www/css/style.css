@@ -1,22 +1,16 @@
 /* Empty. Add your own CSS if you like */
 td.linebreak p {
-    width: 107%;
+    width: 120%;
     font-size: inherit;
     color: inherit;
+    font-weight: bold;
 }
 
-
-.myTable {
+.tableDesktop {
     table-layout: fixed;
-    width: 102%;
+    width: 25%;
+    border-collapse: collapse;
 }
-
-.myTable2 {
-    table-layout: fixed;
-    width: 122%;
-}
-
-
 
 
 .styleTable {
@@ -38,13 +32,24 @@ th {
     text-align: left;
 }*/
 
-.sytleData {
+.styleData {
     padding: 6px;
     border: 1px solid #ccc;
     text-align: left;
 }
 
+/*.styleData2 {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-right: 1px solid white;
+    text-align: left;
+}
 
+.hideHeaders2 {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}*/
 
 @media
 only screen and (max-width: 760px),
@@ -85,16 +90,22 @@ only screen and (max-width: 760px),
         white-space: nowrap;
     }
 
+    .tableMobile {
+        table-layout: fixed;
+        width: 112%;
+        border-collapse: collapse;
+    }
 
-    .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
+
+
     .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
     .labelData:nth-of-type(2):before { content: "Kategorie"; font-weight: bold;}
     .labelData:nth-of-type(3):before { content: "Bewertung"; font-weight: bold;}
     .labelData:nth-of-type(4):before { content: "Rendite"; font-weight: bold;}
     .labelData:nth-of-type(5):before { content: "Versicherungshöhe"; font-weight: bold;}
     .labelData:nth-of-type(6):before { content: "Anzahl Investoren"; font-weight: bold;}
-    td:nth-of-type(7):before { content: "Date of Birth"; }
-    td:nth-of-type(8):before { content: "Dream Vacation City"; }
-    td:nth-of-type(9):before { content: "GPA"; }
-    td:nth-of-type(10):before { content: "Arbitrary Data"; }
+
+    /*.labelZsm:nth-of-type(1):before { content: "Anzahl Versicherungen"; font-weight: bold; }
+    .labelZsm:nth-of-type(2):before { content: "Versicherungshöhe"; font-weight: bold;}
+    .labelZsm:nth-of-type(3):before { content: "Maximale Rendite"; font-weight: bold;}*/
 }
