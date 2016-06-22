@@ -14,6 +14,10 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
        }
        return false;
    };
+    
+    
+
+    
 
 
     $scope.checkCurrency = checkCurrencyFormat;

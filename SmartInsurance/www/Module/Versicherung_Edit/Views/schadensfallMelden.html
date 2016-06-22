@@ -31,9 +31,37 @@
                 <span ng-show="isInvalid(reportSchadenForm.beschreibung)" >Bitte geben Sie eine Beschreibung an. </br></span>
             </div>
 
+
+
+   
+
+    <p class=" " style="color:#000000;font-size:18px;" id="schadensfallMelden-bildhinzu">Bilder hinzufügen:</p>
+
+      <style type="text/css">
+         img { padding:4px; }
+      </style>
+ 
+
+      <div>
+       <!--  <span>Thumbnails:</span> -->
+         <div id="thumbnail"></div>
+      </div>
+
+      <form method="post" enctype="multipart/form-data">
+         <input  type="file" name="fileInput" accept="image/*" multiple onChange="fileThumbnail(this.files);">
+      </form>
+ 
+
+
+
+
+
             <button class=" button button-positive  button-block " id="schadensfallMelden-button25" ng-click="reportSchaden(reportSchadenForm)" ng-hide="edit()">Schaden melden</button>
             <button class=" button button-positive  button-block " id="schadensfallMelden-button25" ng-click="editSchaden(reportSchadenForm)" ng-show="edit()">Änderung speichern</button>
+
 
         </form>
     </ion-content>
 </ion-view>
+
+ 
