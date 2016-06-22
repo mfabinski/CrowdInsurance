@@ -1,2 +1,5 @@
 /* Empty. Add your own CSS if you like */
-
+td.linebreak p {
+    width: 120%;
+    font-size: inherit;
+}
