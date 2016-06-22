@@ -1,9 +1,9 @@
 <ion-view style="" class=" " id="page23" title="Investition bearbeiten">
     <ion-content class="has-header" padding="true">
         <div id="investitionBearbeiten-card224" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionBearbeiten-markdown51">Investitionsdetails:</p>
-            <ion-item style="" class="  " id="investitionBearbeiten-list-item18">
-                <table>
+            <ion-item> Investitionsdetails</ion-item>
+            <div  class="item item-body ">
+                <table class="tableDesktop tableMobile4">
                     <tr>
                         <td>  <b>Versicherungsnehmer: </b> </td>
                         <td>  {{investition.vpersonPrename}} {{investition.vpersonName}} </td>
@@ -29,7 +29,7 @@
                         <td>  {{ calculateRendite(investition.investitionshoehe) }} </td>
                     </tr>
                 </table>
-            </ion-item>
+            </div>
         </div>
         <div id="investitionBearbeiten-card225" class="list card ">
             <form class="list " id="investitionBearbeiten-form63" name="investitionEditForm">
