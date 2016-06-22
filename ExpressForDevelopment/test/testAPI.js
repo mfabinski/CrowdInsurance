@@ -555,7 +555,7 @@ describe("Test API:", function(){
         "body" : postbody,
         "json" : true
       }, function(error, response, body) {
-        expect(response.statusCode).to.equal(201);
+        expect(response.statusCode).to.equal(200);
         done();
       });
     });

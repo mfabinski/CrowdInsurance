@@ -50,7 +50,7 @@ module.exports = function() {
 
   router.post('/versicherung', [validate.parameterZurVersicherungsErstellung, validate.obKategorieExistiert, ts.erstelleVersicherung]);
 
-  router.post('/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
+  router.post('/versicherung/:versicherungID/kuendigen', [validate.versicherungID, validate.obVersicherungGekuendigtIstOderWird, ts.versicherungKuendigungEinreichen]);
 
   router.post('/investition/:investitionID/kuendigen', [validate.investitionID, ts.investitionKuendigungEinreichen]);
 

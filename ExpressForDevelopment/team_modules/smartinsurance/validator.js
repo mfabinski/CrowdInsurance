@@ -229,6 +229,22 @@ exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
     );
 };
 
+exports.obVersicherungExistiert = function(req,res,next){
+  tdg.selectVersicherung(versicherungID,
+      function(data){
+          if(data[0].id != null){
+              next();
+          } else{
+              res.status(404).send('Angegebene Versicherung existiert nicht.');
+          }
+      },
+      function(err){
+          logger.error('Fehler beim Laden der Versicherung ' + versicherungID + ' zum Zweck der Validierung - ' + err);
+          res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Versicherung existiert.');
+      }
+  );
+}
+
 exports.obVersicherungGekuendigtIstOderWird = function(req,res,next){
     var versicherungID = req.body.versicherungID;
     tdg.selectVersicherung(versicherungID,
