@@ -9,14 +9,14 @@
                         <div ng-show="!(noVersicherung)">
                             <h2> Versicherung </h2>
                             <p></p>
-                            <table>
+                            <table class="myTable">
                                 <tr>
-                                    <td>  <b>Anzahl Versicherungen: </b> </td>
-                                    <td>  {{versicherungen.length}} </td>
+                                    <td>  <b>Anzahl der <br> Versicherungen: </b> </td>
+                                    <td>  <br> {{versicherungen.length}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Versicherungshöhe: </b> </td>
-                                    <td>  {{versicherungengesamt()}} </td>
+                                    <td> <b> Versicherungs- <br> höhe: </b> </td>
+                                    <td>  <br> {{versicherungengesamt()}} </td>
                                 </tr>
                                 <tr>
                                     <td> <b> Monatsbeitrag: </b> </td>
@@ -27,17 +27,17 @@
                         <div ng-show="!(noInvestition)">
                             <h2> Investition </h2>
                             <p></p>
-                            <table>
+                            <table class="myTable">
                                 <tr>
-                                    <td>  <b>Anzahl Investitionen: </b> </td>
-                                    <td>  {{investitionen.length}} </td>
+                                    <td>  <b>Anzahl der <br> Investitionen: </b> </td>
+                                    <td>  <br> {{investitionen.length}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Investitionshöheshöhe: </b> </td>
-                                    <td>  {{investhoehegesamt()}} </td>
+                                    <td> <b> Investitions- <br> höhe: </b> </td>
+                                    <td> <bR> {{investhoehegesamt()}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Maximale Rendite: </b> </td>
+                                    <td> <b> Max. Rendite: </b> </td>
                                     <td>  {{renditemax()}} </td>
                                 </tr>
                             </table>
@@ -53,14 +53,14 @@
                     <a ng-click="versicherungShow({{versicherung.id}})" ng-repeat="versicherung in versicherungen">
                         <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  ">
                             <i class="icon ion-ionic"></i>
-                            <table>
+                            <table class="myTable">
                                 <tr>
                                     <td>  <b>Bezeichnung: </b> </td>
-                                    <td>  {{versicherung.name}} </td>
+                                    <td class="linebreak"> <p>{{versicherung.name}}</p>  </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Versicherungshöhe: </b> </td>
-                                    <td>  {{versicherung.versicherungshoehe}} </td>
+                                    <td> <b> Versicherungs- <br> höhe: </b> </td>
+                                    <td>  <br> {{versicherung.versicherungshoehe}} </td>
                                 </tr>
                                 <tr>
                                     <td> <b> Monatsbeitrag: </b> </td>
