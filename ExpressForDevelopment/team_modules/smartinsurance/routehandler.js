@@ -36,7 +36,7 @@ module.exports = function() {
 
   router.get('/profil/', ts.getProfilByID); // Für das eigene (vorläufig). Sollte auch die eigene haben!
 
-  router.get('/profil/:profilID', ts.getProfilByID);
+  router.get('/profil/:profilID', [validate.profilID, ts.getProfilByID]);
 
   router.get('/schadensfaelle/:versicherungID', [validate.versicherungID, ts.getSchadensfaelleByVersicherung]);
 

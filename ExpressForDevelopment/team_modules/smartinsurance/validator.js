@@ -81,6 +81,16 @@ exports.schadensfallID = function(req,res,next){
     }
 };
 
+exports.profilID = function(req,res,next){
+    var profilID = req.params.profilID;
+    //Prüfe ob die ID eine Nummer ist
+    if(profilID.match(/^([a-z]|[0-9]){8}-([a-z]|[0-9]){4}-([a-z]|[0-9]){4}-([a-z]|[0-9]){4}-([a-z]|[0-9]){12}$/)){
+        next();
+    } else{
+        res.status(400).send('Fehlerhafte Anfrage: Schadensfall ID ist keine UUID');
+    }
+};
+
 exports.parameterSchadensfall = function(req,res,next){
     var versicherungID = req.body.versicherungID;
     var schadenshoehe = req.body.schadenshoehe;
