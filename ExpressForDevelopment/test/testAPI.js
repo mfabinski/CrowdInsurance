@@ -510,7 +510,27 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/invest", function(){
-    it('?');
+    it('Erfolgreiches Laden der Investitionssumme einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/89/invest";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Investitionen und somit keine Investitionssumme',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/90/invest";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public/invest";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/schadensfallmelden", function(){
