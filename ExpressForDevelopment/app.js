@@ -24,6 +24,20 @@ app.all('*', function(req, res, next) {
     // the next() function continues execution and will move onto the requested URL/URI
     next();
 });
-app.use('/api/smartinsurance', route_smartinsurance());
+// So ginge das:
+//var backendHelper = require("smartbackendHelper")(passport);
+//var oauth = backendHelper.oauthModel;
+// wir machen es erstmal so:
+var oauth = new Object();
+var oauth.bearerAuth = function(req, res, next) {
+  if (!req.user) {
+    req.user = new Object();
+  }
+  req.user.id = 'bfa73b02-21f7-11e6-b56d-6ffe69564a95';
+  next();
+  // req.user.access_token;
+}
+
+app.use('/api/smartinsurance', [oauth.bearerAuth, route_smartinsurance()]);
 
 app.use(express.static('../SmartInsurance/www/'));

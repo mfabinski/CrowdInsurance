@@ -2,7 +2,7 @@ var tdg = require('./tabledatagateway.js');
 var q = require('q');
 var logger = require('./logger.js');
 var periodNumber = 0;
-var personID = "bfa73b02-21f7-11e6-b56d-6ffe69564a95";
+// var personID = "bfa73b02-21f7-11e6-b56d-6ffe69564a95";
 var internal = {};
 
 // Datenbankabfragen angestoßen durch den Client
@@ -11,14 +11,14 @@ var internal = {};
 //-------------
 // Lade alle Versicherungen der Person, die die Anfrage stellt
 exports.getVersicherungOf = function (req, res, next) {
-    logger.info('Versicherungen der Person ' + personID + ' laden.');
-    tdg.selectVersicherungOf(personID,
+    logger.info('Versicherungen der Person ' + req.user.id + ' laden.');
+    tdg.selectVersicherungOf(req.user.id,
         function(data){
-            logger.info('Versicherungen der Person ' + personID + 'erfolgreich geladen.');
+            logger.info('Versicherungen der Person ' + req.user.id + 'erfolgreich geladen.');
             res.status(200).json(data);
         },
         function(err){
-            logger.error('Fehler beim Laden der Versicherungen der Person ' + personID + ' - ' + err);
+            logger.error('Fehler beim Laden der Versicherungen der Person ' + req.user.id + ' - ' + err);
             res.status(500).send('Fehler beim Laden der Versicherungen.');
         }
     );
@@ -102,7 +102,7 @@ exports.filterVersicherung = function (req, res, next) {
     //   case "kuendigungsZeitpunkt": orderbyindex = 7; break;
     //   case "istGekuendigt": orderbyindex = 8; break;
     //   case "wirdGekuendigt": orderbyindex = 9; break;
-    //   case "personID": orderbyindex = 10; break;
+    //   case "req.user.id": orderbyindex = 10; break;
     //   case "kategorie": orderbyindex = 11; break;
     //   case "anzahl_investoren": orderbyindex = 12; break;
     //   case "bewertung": orderbyindex = 13; break;
@@ -163,13 +163,13 @@ exports.getKategorien = function (req, res, next) {
 
 // Lade alle Investitionen der Person, die die Anfrage stellt
 exports.getInvestitionOf = function (req, res, next) {
-    tdg.selectInvestitionOf(personID,
+    tdg.selectInvestitionOf(req.user.id,
         function(data){
-            logger.info('Investitionen der Person ' + personID + 'erfolgreich geladen.');
+            logger.info('Investitionen der Person ' + req.user.id + 'erfolgreich geladen.');
             res.status(200).json(data);
         },
         function(err){
-            logger.error('Fehler beim Laden der Investitionen der Person ' + personID + ' - ' + err);
+            logger.error('Fehler beim Laden der Investitionen der Person ' + req.user.id + ' - ' + err);
             res.status(500).send('Fehler beim Laden der Investitionen.');
         }
     );
@@ -253,7 +253,7 @@ exports.getSchadensfaelleByVersicherung = function (req, res, next) {
 exports.getProfilByID = function (req, res, next) {
     var pID = req.params.profilID;
     if(pID == undefined){
-        pID = personID;
+        pID = req.user.id;
     }
     tdg.getProfilByID(pID,
         function(data){
@@ -341,7 +341,7 @@ exports.erstelleInvestition = function (req, res, next) {
     var versicherungID = req.body.versicherungID;
     var investitionshoehe = req.body.investitionshoehe;
 
-    tdg.erstelleInvestition(versicherungID, personID, investitionshoehe,
+    tdg.erstelleInvestition(versicherungID, req.user.id, investitionshoehe,
         function(data){
             logger.consoleInfo('Response is here:' + JSON.stringify(data));
             res.status(201).json(data);
@@ -366,7 +366,7 @@ exports.erstelleVersicherung = function (req, res, next) {
 
     // logger.consoleInfo(name + " " + versicherungshoehe + " " + beitrag + " " + beschreibung + " " + kategorie);
 
-    tdg.erstelleVersicherung(personID, name, versicherungshoehe, beitrag, beschreibung, kategorie, //abschlussZeitpunkt,
+    tdg.erstelleVersicherung(req.user.id, name, versicherungshoehe, beitrag, beschreibung, kategorie, //abschlussZeitpunkt,
         function(data){
             logger.info('Versicherung mit dem Namen ' + name + ', der Versicherungshöhe ' + versicherungshoehe
                 + ' und mit einem Beitrag von ' + beitrag + ' erfolgreich erstellt.');
@@ -454,7 +454,7 @@ exports.erstelleKommentar = function (req, res, next) {
     var versicherungID = req.body.versicherungID;
     var text = req.body.text;
 
-    tdg.erstelleKommentar(versicherungID, text, personID,
+    tdg.erstelleKommentar(versicherungID, text, req.user.id,
         function(data){
             logger.info('Kommentar für die Versicherung ' + versicherungID + ' mit dem Text ' + text + ' erfolgreich erstellt.');
             tdg.getKommentarByKID(data[0].createkommentar,
@@ -666,7 +666,7 @@ exports.einziehenVersicherungsbeitraege = function(resolve, reject, notify) {
 internal.beitragEinziehen = function(data) {
     for (var i = 0, versicherung; versicherung = data[i]; i++) {
         logger.info('Einzug eines Beitrags ' + JSON.stringify(versicherung));
-        tdg.insertZahlung(versicherung.id,versicherung.personID, versicherung.echterBeitrag);
+        tdg.insertZahlung(versicherung.id,versicherung.req.user.id, versicherung.echterBeitrag);
     }
 };
 
@@ -685,7 +685,7 @@ exports.auszahlungRendite = function(resolve, reject, notify) {
 internal.renditeAuszahlen = function(data) {
     for (var i = 0, investition; investition = data[i]; i++) {
         logger.info('Auszahlung einer Rendite ' + JSON.stringify(investition));
-        tdg.insertZahlung(investition.id,investition.personID, "-" + investition.rendite);
+        tdg.insertZahlung(investition.id,investition.req.user.id, "-" + investition.rendite);
     }
 };
 
