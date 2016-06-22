@@ -328,8 +328,8 @@ exports.obInvestitionGekuendigtIstOderWird = function(req,res,next){
     }
     tdg.selectInvestition(investitionID,
         function(data){
-            logger.consoleInfo('InvestitionID: ' + investitionID + '    Data: ' + JSON.stringify(data));
-            if(data[0].istGekuendigt == false && data[0].wirdGekuendigt == false){
+            //logger.consoleInfo('InvestitionID: ' + investitionID + '    Data: ' + JSON.stringify(data));
+            if(data[0].iistGekuendigt == false && data[0].iwirdGekuendigt == false){
                 next();
             } else{
                 res.status(409).send('Angegebene Investition ist oder wird Gekuendigt.');
