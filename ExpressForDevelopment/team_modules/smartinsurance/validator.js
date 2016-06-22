@@ -233,8 +233,8 @@ exports.obVersicherungExistiert = function(req,res,next){
   var versicherungID = req.body.versicherungID;
   tdg.selectVersicherung(versicherungID,
       function(data){
-          logger.consoleInfo('Data: ' + JSON.stringify(data));
-          if(data[0].id != undefined){
+          logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
+          if(data[0].id != null){
               next();
           } else{
               res.status(404).send('Angegebene Versicherung existiert nicht.');

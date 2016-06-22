@@ -547,7 +547,7 @@ describe("Test API:", function(){
 
   describe("post /api/smartinsurance/versicherung/:versicherungID/kuendigen", function(){
     it('Erfolgreiche Kündigung einer Versicherung', function(done){
-      var url = "http://localhost:3000/api/smartinsurance/versicherung/85/kuendigen";
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/88/kuendigen";
       var postbody = {};
       request({
         "url":url,
@@ -574,7 +574,7 @@ describe("Test API:", function(){
     });
     it('Fehlschlag Versicherung gehört nicht dem ausführenden Nutzer');
     it('Fehlschlag Versicherung bereits gekündigt', function(done){
-      var url = "http://localhost:3000/api/smartinsurance/versicherung/85/kuendigen";
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/88/kuendigen";
       var postbody = {};
       request({
         "url":url,
