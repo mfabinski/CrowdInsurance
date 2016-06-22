@@ -231,9 +231,12 @@ exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
 
 exports.obVersicherungExistiert = function(req,res,next){
   var versicherungID = req.body.versicherungID;
+  if (versicherungID == undefined){
+    versicherungID = req.params.versicherungID;
+  }
   tdg.selectVersicherung(versicherungID,
       function(data){
-          logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
+          //logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
           if(data[0].id != null){
               next();
           } else{
@@ -249,6 +252,9 @@ exports.obVersicherungExistiert = function(req,res,next){
 
 exports.obVersicherungGekuendigtIstOderWird = function(req,res,next){
     var versicherungID = req.body.versicherungID;
+    if (versicherungID == undefined){
+      versicherungID = req.params.versicherungID;
+    }
     tdg.selectVersicherung(versicherungID,
         function(data){
             if(data[0].istGekuendigt == false && data[0].wirdGekuendigt == false){
