@@ -999,6 +999,21 @@ describe("Test API:", function(){
     });
   });
 
+  describe("Test Backendroutine", function() {
+    it('Komplette Routine',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/periodic";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    // it('Kündigung einer Versicherung');
+    // it('Kündigung einer Investition');
+    // it('Zahlungsfluss Beiträge');
+    // it('Zahlungsfluss Rendite');
+    // it('Zahlungsfluss Invesition');
+  });
+
   // Leere die Tabellen
   afterEach(function(done){
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
@@ -1023,19 +1038,4 @@ describe("Test API:", function(){
     });
   });
 
-});
-
-describe("Test Backendroutine", function() {
-  it('Komplette Routine',function(done){
-    var url = "http://localhost:3000/api/smartinsurance/";
-    request(url, function(error, response, body) {
-      expect(response.statusCode).to.equal(200);
-      done();
-    });
-  });
-  // it('Kündigung einer Versicherung');
-  // it('Kündigung einer Investition');
-  // it('Zahlungsfluss Beiträge');
-  // it('Zahlungsfluss Rendite');
-  // it('Zahlungsfluss Invesition');
 });
