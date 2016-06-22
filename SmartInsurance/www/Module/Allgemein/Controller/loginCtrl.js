@@ -32,9 +32,9 @@ appController.controller('loginCtrl', function($scope, $http, $state, moneyParse
                 },function(error) {
                     userService.userContext.wrongLoginData();
                 })
-
+ */
         };
-        */
+
         $scope.auth = function (provider) {
             /*    if (provider === "google") {            // Signed in with Google.
                 $http({
@@ -76,5 +76,5 @@ appController.controller('loginCtrl', function($scope, $http, $state, moneyParse
             */
         }
     }
-    );
+    ); 
 

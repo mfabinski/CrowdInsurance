@@ -1,12 +1,26 @@
 appController.controller('signupCtrl', function($scope,  $http, $state, moneyParser, moneyFormatter, apiendpoint) {
     $scope.form = {};
 
+
+
+    $scope.isInvalid = function(field){
+        return field.$error.required && (field.$touched || $scope.submitted);
+    };
+
+
+  /*  $scope.isNaN = function(field) {
+        return field.$error.pattern && (field.$touched || $scope.submitted);
+    };
+*/
+
+
     $scope.signup = function () {
-            
+
+/*
         $http({
                  method: "POST",
                  url: smartbackendUrl + "/api/smartbackend/auth/signup",
-                 params: {email: $scope.daten.email, password: $scope.daten.password}
+                 params: {email: $scope.form.email, password: $scope.form.password}
                  })
                  .then(function (result) {
                  userService.userContext.saveToken(result.data);
@@ -28,8 +42,12 @@ appController.controller('signupCtrl', function($scope,  $http, $state, moneyPar
                  userService.userContext.wrongLoginData();
                  })
 
-                 }*/
+
+ */                }
 
 
-    }})
+    }
+
+
+);
 
