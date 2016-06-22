@@ -22,7 +22,7 @@ exports.selectVersicherungOf = function(personID, onSuccess, onError){
 
 exports.selectVersicherung = function(versicherungID, onSuccess, onError){
     //var query = queries.selectVersicherung;
-    db.func('getversicherungpersonbyvid',[versicherungID]).then(onSuccess).catch(onError);
+    db.func('getversicherungbyvid',[versicherungID]).then(onSuccess).catch(onError);
 };
 
 exports.selectBewertungen = function(versicherungID, onSuccess, onError){

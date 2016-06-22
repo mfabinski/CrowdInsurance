@@ -186,7 +186,19 @@ exports.parameterKommentar = function(req,res,next){
     var text = req.body.text;
 
     if(text != undefined && versicherungID != undefined && text.length > 0 && internal.isNumber(versicherungID)) {
-        next();
+      tdg.selectVersicherung(versicherungID,
+          function(data){
+              if(data.length == 1){
+                  next();
+              } else{
+                  res.status(409).send('Angegebene Versicherung existiert nicht.');
+              }
+          },
+          function(err){
+              logger.error('Fehler beim Laden der Versicherung ' + versicherungID + ' zum Zweck der Validierung - ' + err);
+              res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Versicherung existiert.');
+          }
+      );
     } else{
         res.status(400).send('Bad Request: ' + versicherungID + " - " + text);
     }
