@@ -3,28 +3,25 @@ appController.controller('versicherungEditCtrl',function($scope, $http, $state, 
     $scope.versicherungId = $stateParams.id;
 
 
+
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
        $scope.versicherungNeu = {
                     versicherungID: $scope.versicherungId,
-                    versicherungshoehe: "",
-                    beitrag: ""
+                    versicherungshoehe: $scope.versicherung.versicherungshoehe,
+                    beitrag: $scope.versicherung.beitrag
                 }
     });
 
 
     $scope.save = function(form) {
+
         if (form.$valid) {
 
-            $scope.versicherungNeu.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.versicherungshoehe));
+           $scope.versicherungNeu.versicherungshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.versicherungshoehe));
             $scope.versicherungNeu.beitrag = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.versicherungNeu.beitrag));
 
             if($scope.versicherungNeu.versicherungshoehe != "0,00 €" && $scope.versicherungNeu.beitrag != "0,00 €" ){
-                $scope.versicherungNeu = {
-                    versicherungID: $scope.versicherungId,
-                    versicherungshoehe: $scope.versicherungNeu.versicherungshoehe,
-                    beitrag: $scope.versicherungNeu.beitrag
-                };
                 $ionicPopup.show({
                     title: 'Bestätigung',
                     template: 'Wollen Sie die Änderung speichern?',
