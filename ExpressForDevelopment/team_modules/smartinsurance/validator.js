@@ -257,6 +257,7 @@ exports.obVersicherungGekuendigtIstOderWird = function(req,res,next){
     }
     tdg.selectVersicherung(versicherungID,
         function(data){
+            //logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
             if(data[0].istGekuendigt == false && data[0].wirdGekuendigt == false){
                 req.body.versicherungshoehe = data[0].versicherungshoehe;
                 next();

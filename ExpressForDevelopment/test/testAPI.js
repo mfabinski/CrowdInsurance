@@ -582,8 +582,16 @@ describe("Test API:", function(){
         "body" : postbody,
         "json" : true
       }, function(error, response, body) {
-        expect(response.statusCode).to.equal(409);
-        done();
+        request({ // Zweites mal kuendigen
+          "url":url,
+          "method":"POST",
+          "body" : postbody,
+          "json" : true
+        }, function(error, response, body) {
+
+          expect(response.statusCode).to.equal(409);
+          done();
+        });
       });
     });
   });
