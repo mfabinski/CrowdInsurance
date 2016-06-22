@@ -105,8 +105,11 @@ only screen and (max-width: 760px),
     .tableMobile3 {
         table-layout: fixed;
         width: 111%;
-        border-collapse: collapse;
+    }
 
+    .tableMobile4 {
+        table-layout: fixed;
+        width: 115%;
     }
 
     .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
