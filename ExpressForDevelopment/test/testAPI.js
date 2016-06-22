@@ -588,7 +588,6 @@ describe("Test API:", function(){
           "body" : postbody,
           "json" : true
         }, function(error, response, body) {
-
           expect(response.statusCode).to.equal(409);
           done();
         });
@@ -597,10 +596,53 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/investition/:investitionID/kuendigen", function(){
-    it('Erfolgreiche Kündigung einer Investition');
-    it('Fehlschlag Investition existiert nicht');
+    it('Erfolgreiche Kündigung einer Investition', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/20/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Fehlschlag Investition existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/1/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
     it('Fehlschlag Investition gehört nicht dem ausführenden Nutzer');
-    it('Fehlschlag Investition bereits gekündigt');
+    it('Fehlschlag Investition bereits gekündigt', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/20/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        request({ // Zweites mal kuendigen
+          "url":url,
+          "method":"POST",
+          "body" : postbody,
+          "json" : true
+        }, function(error, response, body) {
+          expect(response.statusCode).to.equal(409);
+          done();
+        });
+      });
+    });
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){

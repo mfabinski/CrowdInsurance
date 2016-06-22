@@ -299,3 +299,45 @@ exports.obVersicherungSchonVollIst = function(req,res,next){
         }
     );
 };
+
+exports.obInvestitionExistiert = function(req,res,next){
+  var investitionID = req.body.investitionID;
+  if (investitionID == undefined){
+    investitionID = req.params.investitionID;
+  }
+  tdg.selectInvestition(investitionID,
+      function(data){
+          //logger.consoleInfo('InvestitionID: ' + investitionID + '    Data: ' + JSON.stringify(data));
+          if(data[0].id != null){
+              next();
+          } else{
+              res.status(404).send('Angegebene Investition existiert nicht.');
+          }
+      },
+      function(err){
+          logger.error('Fehler beim Laden der Investition ' + investitionID + ' zum Zweck der Validierung - ' + err);
+          res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Investition existiert.');
+      }
+  );
+}
+
+exports.obInvestitionGekuendigtIstOderWird = function(req,res,next){
+    var investitionID = req.body.investitionID;
+    if (investitionID == undefined){
+      investitionID = req.params.investitionID;
+    }
+    tdg.selectInvestition(investitionID,
+        function(data){
+            //logger.consoleInfo('InvestitionID: ' + investitionID + '    Data: ' + JSON.stringify(data));
+            if(data[0].istGekuendigt == false && data[0].wirdGekuendigt == false){
+                next();
+            } else{
+                res.status(409).send('Angegebene Investition ist oder wird Gekuendigt.');
+            }
+        },
+        function(err){
+            logger.error('Fehler beim Laden der Investition ' + investitionID + ' zum Zweck der Validierung - ' + err);
+            res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Investition bereits gekuendigt ist oder wird.');
+        }
+    );
+};

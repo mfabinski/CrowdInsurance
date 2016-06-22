@@ -52,7 +52,7 @@ module.exports = function() {
 
   router.post('/versicherung/:versicherungID/kuendigen', [validate.versicherungID, validate.obVersicherungExistiert, validate.obVersicherungGekuendigtIstOderWird, ts.versicherungKuendigungEinreichen]);
 
-  router.post('/investition/:investitionID/kuendigen', [validate.investitionID, ts.investitionKuendigungEinreichen]);
+  router.post('/investition/:investitionID/kuendigen', [validate.investitionID, validate.obInvestitionExistiert, validate.obInvestitionGekuendigtIstOderWird, ts.investitionKuendigungEinreichen]);
 
   router.post('/kommentieren', [validate.parameterKommentar, ts.erstelleKommentar]);
 
