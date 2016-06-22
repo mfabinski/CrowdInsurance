@@ -173,8 +173,11 @@ exports.parameterZurVersicherungsErstellung = function(req,res,next){
     var versicherungshoehe = req.body.versicherungshoehe;
     var beitrag = req.body.beitrag;
     var beschreibung = req.body.beschreibung;
+    if(beschreibung  != undefined){
+      beschreibung = '';
+    }
 
-    if(name != undefined && name.length > 0 && internal.isMoney(versicherungshoehe) && internal.isMoney(beitrag)) {
+    if(name != undefined && versicherungshoehe != undefined && beitrag != undefined && name.length > 0 && internal.isMoney(versicherungshoehe) && internal.isMoney(beitrag)) {
         next();
     } else{
         res.status(400).send('Bad Request: ' + name + " - " + versicherungshoehe + " - " + beitrag + " - " + beschreibung);
