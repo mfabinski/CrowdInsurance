@@ -209,7 +209,6 @@ exports.parameterKommentar = function(req,res,next){
 
 exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
     var kategorie = req.body.kategorie;
-    logger.consoleInfo("Kategorie: " + kategorie);
     tdg.selectKategorien(
         function(data){
             // logger.consoleInfo("Abfrage der Kategorien: " + JSON.stringify(data));

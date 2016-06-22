@@ -546,18 +546,52 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/versicherung/:versicherungID/kuendigen", function(){
-    it('Erfolgreiche Kündigung einer Versicherung');
-    it('Fehlschlag Versicherung existiert nicht');
+    it('Erfolgreiche Kündigung einer Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/85/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Fehlschlag Versicherung existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/1/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
     it('Fehlschlag Versicherung gehört nicht dem ausführenden Nutzer');
-    it('Fehlschlag Versicherung existiert nicht');
-    it('Fehlschlag Versicherung bereits gekündigt');
+    it('Fehlschlag Versicherung bereits gekündigt', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/85/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(409);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/investition/:investitionID/kuendigen", function(){
     it('Erfolgreiche Kündigung einer Investition');
     it('Fehlschlag Investition existiert nicht');
     it('Fehlschlag Investition gehört nicht dem ausführenden Nutzer');
-    it('Fehlschlag Investition existiert nicht');
     it('Fehlschlag Investition bereits gekündigt');
   });
 
