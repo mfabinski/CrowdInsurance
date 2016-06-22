@@ -1,5 +1,14 @@
 /* Empty. Add your own CSS if you like */
 td.linebreak p {
-    width: 120%;
+    width: 107%;
     font-size: inherit;
+    color: inherit;
 }
+
+
+.myTable {
+    table-layout: fixed;
+    width: 102%;
+}
+
+

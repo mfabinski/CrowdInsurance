@@ -55,10 +55,10 @@
                 <ion-list class=" " id="3" ng-controller="investitionSearchCtrl">
                     <a ng-click="investitionShow({{item.id}})" ng-repeat="item in results">
                         <ion-item  id="4" >
-                            <table>
+                            <table class="myTable">
                                 <tr>
                                     <td> <b> Bezeichnung: </b> </td>
-                                    <td class="linebreak"> <p>{{item.name}}</p> </td>
+                                    <td class="linebreak"> <p>{{item.name}}</p>  </td>
                                 </tr>
                                 <tr>
                                     <td> <b> Kategorie: </b> </td>
@@ -73,11 +73,11 @@
                                     <td> {{item.rendite}} % </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Versicherungshöhe: </b> </td>
+                                    <td> <b> Versicherungs- <br> höhe: </b> </td>
                                     <td> {{item.versicherungshoehe}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Anzahl der Investoren: </b> </td>
+                                    <td> <b> Investoren: </b> </td>
                                     <td> {{item.anzahl_investoren}} </td>
                                 </tr>
                             </table>
