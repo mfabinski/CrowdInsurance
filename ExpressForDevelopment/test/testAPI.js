@@ -752,7 +752,7 @@ describe("Test API:", function(){
         "body" : postbody,
         "json" : true
       }, function(error, response, body) {
-        expect(response.statusCode).to.equal(409);
+        expect(response.statusCode).to.equal(404);
         done();
       });
     });
@@ -1026,9 +1026,16 @@ describe("Test API:", function(){
 });
 
 describe("Test Backendroutine", function() {
-  it('Kündigung einer Versicherung');
-  it('Kündigung einer Investition');
-  it('Zahlungsfluss Beiträge');
-  it('Zahlungsfluss Rendite');
-  it('Zahlungsfluss Invesition');
+  it('Komplette Routine',function(done){
+    var url = "http://localhost:3000/api/smartinsurance/periodic";
+    request(url, function(error, response, body) {
+      expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
+  // it('Kündigung einer Versicherung');
+  // it('Kündigung einer Investition');
+  // it('Zahlungsfluss Beiträge');
+  // it('Zahlungsfluss Rendite');
+  // it('Zahlungsfluss Invesition');
 });
