@@ -238,6 +238,26 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
 
+        .state('app.login', {
+            url: '/login',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Allgemein/Views/login.html',
+                    controller: 'loginCtrl'
+                }
+            }
+        })
+
+        .state('app.signup', {
+            url: '/signup',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Allgemein/Views/signup.html',
+                    controller: 'signupCtrl'
+                }
+            }
+        })
+
         .state('app.investitionSocial', {
             url: '/investitionSocial/:id',
             views: {

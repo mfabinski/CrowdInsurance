@@ -1,20 +1,35 @@
 <ion-view title="Login" id="page24" class=" ">
     <ion-content padding="true" class="has-header">
-        <button id="login2-button37" class=" button button-positive  button-block ">Sign Up with Facebook</button>
+
+
+        <div id="investitionTTigen-card216" class="list card ">
+
         <form id="login2-form66" class="list ">
             <ion-list id="login2-list13" class=" ">
                 <label class="item item-input " id="login2-input20">
-                    <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
+                    <span class="input-label">E-Mail</span>
+                    <input type="text" placeholder="" ng-model="daten.email">
                 </label>
                 <label class="item item-input " id="login2-input25">
-                    <span class="input-label">Password</span>
-                    <input type="password" placeholder="">
+                    <span class="input-label" >Password</span>
+                    <input type="password" placeholder="" ng-model="daten.passwort">
                 </label>
             </ion-list>
-            <div class="spacer" style="height: 40px;"></div>
-            <button id="login2-button32" class=" button button-stable  button-block ">Log in</button>
-            <a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" id="login2-button36" class=" button button-positive  button-block button-clear ">Or create an account</a>
+            <!--<div class="spacer" style="height: 40px;"></div>-->
+             <button id="login2-button32" class=" button button-stable  button-block " ng-click="login()">Log in</button>
+            <div id="investitionTTigen-card217" class="list card ">
+                <div style="float:left; width: 49.5%">
+                    <button class=" button button-positive  button-block icon ion-social-facebook" ng-click="auth('facebook')"> Sign in with Facebook
+
+                    </button>
+                </div>
+                <div style="float:right; width: 49.5%">
+                    <button class=" button button-positive  button-block icon ion-social-googleplus" ng-click="auth('google')"> Sign in with Google+
+                    </button>
+                </div>
+            </div>
+            <a href="" ng-click= "register()" id="login2-button36" class=" button button-positive  button-block button-clear ">Or create an account</a>
         </form>
+            </div>
     </ion-content>
 </ion-view>

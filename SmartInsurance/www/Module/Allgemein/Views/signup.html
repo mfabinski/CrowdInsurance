@@ -1,0 +1,68 @@
+<ion-view title="Registrieren" id="page26" class=" ">
+    <ion-content padding="true" class="has-header">
+        <form id="registrieren-form67" class="list ">
+            <ion-list id="registrieren-list14" class=" ">
+                <label class="item item-input " id="registrieren-input41">
+                    <span class="input-label">Vorname</span>
+                    <input type="text" placeholder="" ng-model="form.vorname">
+                </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie einen Vornamen an. </br> </span>
+                </div>
+                <label class="item item-input " id="registrieren-input34">
+                    <span class="input-label">Nachname</span>
+                    <input type="text" placeholder="" ng-model="form.nachname">
+                </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie einen Nachnamen an. </br> </span>
+                </div>
+                <label class="item item-input " id="registrieren-input35">
+                    <span class="input-label">E-Mail</span>
+                    <input type="email" placeholder="" ng-model="form.email">
+                </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie eine E-Mail an. </br> </span>
+                </div>
+            </ion-list>
+            <label class="item item-input " id="registrieren-input44">
+                <span class="input-label">Bankinstitut</span>
+                <input type="text" placeholder="" ng-model="form.bank">
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie ein Bankinstitut an.</br> </span>
+            </div>
+            <label class="item item-input " id="registrieren-input45">
+                <span class="input-label">IBAN</span>
+                <input type="text" placeholder="" ng-model="form.iban">
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie eine IBAN an. </br> </span>
+                <span ng-show="isNaN(versicherungAddForm.beitrag)" >Bitte geben Sie eine gültige IBAN an. </br></span>
+            </div>
+            <label class="item item-input " id="registrieren-input46">
+                <span class="input-label">BIC</span>
+                <input type="text" placeholder="" ng-model="form.bic">
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie eine BIC an. </br> </span>
+                <span ng-show="isNaN(versicherungAddForm.beitrag)" >Bitte geben Sie eine gültige BIC an. </br></span>
+            </div>
+            <label class="item item-input " id="registrieren-input37">
+                <span class="input-label">Passwort</span>
+                <input type="password" placeholder="" ng-model="form.passwort">
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte geben Sie ein Passwort an. </br> </span>
+            </div>
+            <label class="item item-input " id="registrieren-input42">
+                <span class="input-label">Passwort bestätigen</span>
+                <input type="password" placeholder="" ng-model="form.passwortWiederholung">
+            </label>
+            <div style="color:red">
+                <span ng-show="isInvalid(versicherungAddForm.beitrag)" >Bitte bestätigen Sie das Passwort. </br> </span>
+                <span ng-show="isNaN(versicherungAddForm.beitrag)" >Die Passwortwiederholung unterscheidet sich vom ersten. </br></span>
+            </div>
+            <button id="registrieren-button38" class=" button button-stable  button-block " ng-click="signup()">Sign up</button>
+        </form>
+    </ion-content>
+</ion-view>
