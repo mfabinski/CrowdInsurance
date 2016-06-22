@@ -187,7 +187,6 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
-
     it('Bewertung einer Versicherung', function(done){
       var expectedResponse = fs.readFileSync('test/data/versicherungapi/bewertung89.json').toString();
       expectedResponse = JSON.parse(expectedResponse);
@@ -238,7 +237,6 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/filter", function(){
-
     it('Test des Kategoriefilters', function(done) {
       var url = "http://localhost:3000/api/smartinsurance/filter";
       var postbody = {
@@ -337,7 +335,6 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/kategorien", function(){
-
     it('Werden alle Kategorien zurückgegeben', function(done){
       var url = "http://localhost:3000/api/smartinsurance/kategorien";
       request(url, function(error, response, body) {
@@ -348,11 +345,9 @@ describe("Test API:", function(){
         done();
       });
     });
-
   });
 
   describe("post /api/smartinsurance/investieren", function(){
-
     it('Erfolgreiches anlegen einer Investition', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
@@ -369,7 +364,6 @@ describe("Test API:", function(){
         done();
       });
     });
-
     it('Fehlschlag nicht erlaubtes Investieren zu hohe Investitionssumme', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
@@ -386,7 +380,6 @@ describe("Test API:", function(){
         done();
       });
     });
-
     it('Fehlschlag nicht vorhandene Versicherung', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
@@ -403,7 +396,6 @@ describe("Test API:", function(){
         done();
       });
     });
-
     it('Fehlschlag negative Beträge', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
@@ -420,7 +412,6 @@ describe("Test API:", function(){
         done();
       });
     });
-
     it('Fehlschlag unterdefinierter Body', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
@@ -436,11 +427,9 @@ describe("Test API:", function(){
         done();
       });
     });
-
   });
 
   describe("get /api/smartinsurance/investition", function(){
-
     it('Alle Investitionen einer Person', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investition";
       request(url, function(error, response, body) {
@@ -458,7 +447,6 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/investitionVers/:versicherungID", function(){
-
     it('Rückgabe aller Investitionen zu einer Versicherung', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investitionVers/89";
       request(url, function(error, response, body) {
@@ -499,18 +487,62 @@ describe("Test API:", function(){
 
   });
 
-  describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){
-    // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  });
-
-  describe("get /api/smartinsurance/versicherung/:versicherungID/invest", function(){
-    // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  });
-
   describe("post /api/smartinsurance/versicherung", function(){
-    it('Erfolgreiches anlegen einer Versicherung');
-    it('Fehlschlag negative Beträge');
-    it('Fehlschlag unterdefinierter Body');
+    it('Erfolgreiches anlegen einer Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      var postbody = {
+        "name":"Rennboot",
+        "versicherungshoehe":"5,00 €",
+        "beitrag":"5,00 €",
+        "beschreibung":"Super schnelles Rennboot mit extra Turbomotor",
+        "kategorie":"Schiff"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Fehlschlag negative Beträge', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      var postbody = {
+        "name":"Rennboot",
+        "versicherungshoehe":"-5,00 €",
+        "beitrag":"5,00 €",
+        "beschreibung":"Super schnelles Rennboot mit extra Turbomotor",
+        "kategorie":"Schiff"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag unterdefinierter Body', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      var postbody = {
+        "name":"Rennboot",
+        "versicherungshoehe":"5,00 €",
+        "kategorie":"Schiff"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/versicherung/:versicherungID/kuendigen", function(){

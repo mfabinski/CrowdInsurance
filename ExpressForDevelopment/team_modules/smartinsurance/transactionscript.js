@@ -343,7 +343,6 @@ exports.erstelleInvestition = function (req, res, next) {
 
     tdg.erstelleInvestition(versicherungID, req.user.id, investitionshoehe,
         function(data){
-            logger.consoleInfo('Response is here:' + JSON.stringify(data));
             res.status(201).json(data);
         },
         function(err){
