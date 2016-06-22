@@ -739,7 +739,7 @@ describe("Test API:", function(){
       });
     });
 
-    it('Anlegen eines Kommentars mit ungültiger VersicherungID',, function(done){
+    it('Anlegen eines Kommentars mit ungültiger VersicherungID', function(done){
       var url = "http://localhost:3000/api/smartinsurance/kommentieren";
       var postbody = {
         "versicherungID":"SQLINJECTION",
