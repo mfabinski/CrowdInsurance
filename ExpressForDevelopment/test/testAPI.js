@@ -353,8 +353,39 @@ describe("Test API:", function(){
 
   describe("post /api/smartinsurance/investieren", function(){
 
-    it('Erfolgreiches anlegen einer Investition');
-    it('Fehlschlag nicht erlaubtes Investieren zu hohe Investitionssumme');
+    it('Erfolgreiches anlegen einer Investition', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"85",
+        "investitionshoehe":"5,00 €"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+
+    it('Fehlschlag nicht erlaubtes Investieren zu hohe Investitionssumme', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"77",
+        "investitionshoehe":"1.299.400,00 €"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(409);
+        done();
+      });
+    });
 
     it('Fehlschlag nicht vorhandene Versicherung', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
@@ -373,8 +404,38 @@ describe("Test API:", function(){
       });
     });
 
-    it('Fehlschlag negative Beträge');
-    it('Fehlschlag unterdefinierter Body');
+    it('Fehlschlag negative Beträge', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"68",
+        "investitionshoehe":"-5,00 €"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    it('Fehlschlag unterdefinierter Body',, function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"68"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
 
   });
 
@@ -473,15 +534,6 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/versicherung/89/person";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
-        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
-        expect(responseObject).to.have.length.of.at.least(1);
-        // for (var i = 0, person; person = responseObject[i]; i++) {
-        //   expect(person).to.have.property("id");
-        //   expect(person).to.have.property("versicherungID");
-        //   expect(person).to.have.property("name");
-        //   expect(person).to.have.property("prename");
-        //   expect(person).to.have.property("email");
-        // }
         done();
       });
 
