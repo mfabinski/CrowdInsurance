@@ -134,7 +134,7 @@ exports.filterVersicherung = function (req, res, next) {
             }
         );
     } else {
-        tdg.orderVersicherung(orderby, asc_desc, limit, skip
+        tdg.orderVersicherung(orderby, asc_desc, limit, skip,
             function(data){
                 logger.info('Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
                 if(data.length != 0) {
