@@ -134,7 +134,7 @@ CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
        ("versicherungID", "personID", betrag)
        VALUES ($1, $2, $3);
     INSERT INTO smartinsurance."Investition"
-       (id, "versicherungID", "personID", investitionshoehe)
+       (id, "versicherungID", "personID", investitionshoehe) 
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -160,7 +160,7 @@ CREATE FUNCTION createschadensfall(integer, text, money) RETURNS integer
     LANGUAGE sql
     AS $_$
     INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", beschreibung, schadenshoehe)
+       (id, "versicherungID", beschreibung, schadenshoehe) 
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -173,7 +173,7 @@ CREATE FUNCTION createschadensfall(integer, text, text, money) RETURNS integer
     LANGUAGE sql
     AS $_$
     INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe)
+       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe) 
        VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id;
 $_$;
 
@@ -357,8 +357,8 @@ if $4 > 0 then
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
-    FROM smartinsurance."VersicherungFilter"
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
     WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
     || quote_ident($2) || ' ' || $3 || 
     ' LIMIT  $4
@@ -396,11 +396,11 @@ CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
-      SELECT "versicherungID", "personID", investitionshoehe * (-1)
-      FROM smartinsurance."Investition"
+      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
+      FROM smartinsurance."Investition" 
       WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
     UPDATE smartinsurance."Investition"
-      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
       WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -439,7 +439,7 @@ CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     UPDATE smartinsurance."Versicherung"
-    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
     WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -580,15 +580,15 @@ CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     AS $_$
 /*    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
      FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
      WHERE smartinsurance."Versicherung".id=$1
      AND smartinsurance."Investition"."istGekuendigt"=false; */
 /*
      SELECT COALESCE(sum(smartinsurance."Investition"."investitionshoehe"), '0.00 €') as suminvestition
      FROM smartinsurance."Versicherung" LEFT OUTER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
      AND smartinsurance."Investition"."istGekuendigt"=false;*/
-     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM
+     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
             (SELECT * FROM "Versicherung") v
         LEFT OUTER JOIN
             (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
@@ -699,13 +699,42 @@ $_$;
 
 
 --
+-- Name: PersonBewertung; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "PersonBewertung" AS
+ SELECT v.versicherter,
+    (sum(i.daumenhoch) - sum(i.daumenrunter)) AS bewertung,
+    sum(i.daumenhoch) AS daumenhoch,
+    sum(i.daumenrunter) AS daumenrunter
+   FROM (( SELECT "Investition"."versicherungID" AS vid,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenHoch'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenhoch,
+            count(
+                CASE
+                    WHEN ("Investition".bewertung = 'daumenRunter'::bewertung) THEN 1
+                    ELSE NULL::integer
+                END) AS daumenrunter
+           FROM "Investition"
+          GROUP BY "Investition"."versicherungID") i
+     JOIN ( SELECT "Versicherung".id,
+            "Versicherung"."personID" AS versicherter
+           FROM "Versicherung") v ON ((i.vid = v.id)))
+  GROUP BY v.versicherter;
+
+
+--
 -- Name: userbank; Type: TABLE; Schema: smartinsurance; Owner: -
 --
 
 CREATE TABLE userbank (
     id uuid NOT NULL,
     iban text,
-    bic text
+    bic text,
+    bankinstitut text
 );
 
 
@@ -719,8 +748,14 @@ CREATE VIEW "ProfilKomplett" AS
     u.prename,
     u.email,
     b.iban,
-    b.bic
-   FROM (smartbackend."user" u
+    b.bic,
+    b.bankinstitut,
+    u.birthday,
+    COALESCE(p.bewertung, (0)::numeric) AS bewertung,
+    COALESCE(p.daumenhoch, (0)::numeric) AS daumenhoch,
+    COALESCE(p.daumenrunter, (0)::numeric) AS daumenrunter
+   FROM ((smartbackend."user" u
+     LEFT JOIN "PersonBewertung" p ON ((u.id = p.versicherter)))
      LEFT JOIN userbank b ON ((u.id = b.id)));
 
 
@@ -732,6 +767,33 @@ CREATE FUNCTION getprofilkomplettbyuid(uuid) RETURNS "ProfilKomplett"
     LANGUAGE sql
     AS $_$
     SELECT * FROM "ProfilKomplett" as p WHERE p.id = $1;
+$_$;
+
+
+--
+-- Name: ProfilPublic; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "ProfilPublic" AS
+ SELECT "ProfilKomplett".id,
+    "ProfilKomplett".name,
+    "ProfilKomplett".prename,
+    "ProfilKomplett".email,
+    "ProfilKomplett".birthday,
+    "ProfilKomplett".bewertung,
+    "ProfilKomplett".daumenhoch,
+    "ProfilKomplett".daumenrunter
+   FROM "ProfilKomplett";
+
+
+--
+-- Name: getprofilpublicbyuid(uuid); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION getprofilpublicbyuid(uuid) RETURNS "ProfilPublic"
+    LANGUAGE sql
+    AS $_$
+    SELECT * FROM "ProfilPublic" as p WHERE p.id = $1;
 $_$;
 
 
@@ -939,7 +1001,7 @@ else
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
+       "rendite" 
     FROM smartinsurance."VersicherungFilter" '
     || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
     || 'ORDER BY '
@@ -969,7 +1031,7 @@ $$;
 CREATE FUNCTION reduceinvestitionenwegenschaden() RETURNS void
     LANGUAGE sql
     AS $$
-    UPDATE "Investition"
+    UPDATE "Investition" 
     SET investitionshoehe = (SELECT s."neueInvestitionshoehe"
 	FROM "SchadensfallAbzugDerInvestition" s
 	WHERE "Investition".id = s."investitionID")
@@ -985,7 +1047,7 @@ $$;
 
 CREATE FUNCTION setinvestitionbewertung("investitionID" integer, "Bewertung" bewertung) RETURNS void
     LANGUAGE sql
-    AS $_$Update "Investition"
+    AS $_$Update "Investition" 
 set bewertung =$2
 where id=$1;$_$;
 
@@ -1011,8 +1073,8 @@ CREATE FUNCTION submitversicherungskuendigung(integer) RETURNS void
     AS $_$
     UPDATE smartinsurance."Versicherung"
       SET "wirdGekuendigt"=true WHERE id=$1;
-    UPDATE smartinsurance."Investition"
-      SET "wirdGekuendigt"=true
+    UPDATE smartinsurance."Investition" 
+      SET "wirdGekuendigt"=true 
       WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
 $_$;
 
@@ -1140,7 +1202,18 @@ CREATE TABLE chat_room_user (
 
 CREATE TABLE push_notification (
     id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
-    urls_to_fetch text
+    urls_to_fetch text,
+    userid uuid
+);
+
+
+--
+-- Name: push_user_device; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE push_user_device (
+    userid uuid NOT NULL,
+    deviceid text NOT NULL
 );
 
 
@@ -1168,6 +1241,30 @@ CREATE VIEW user_access_view AS
    FROM "user",
     user_token
   WHERE ("user".id = user_token.fk_user);
+
+
+--
+-- Name: user_password; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE user_password (
+    id uuid NOT NULL,
+    salt text,
+    password text
+);
+
+
+--
+-- Name: user_password_view; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_password_view AS
+ SELECT "user".email,
+    "user".id,
+    user_password.salt
+   FROM "user",
+    user_password
+  WHERE ("user".id = user_password.id);
 
 
 SET search_path = smartinsurance, pg_catalog;
@@ -1626,11 +1723,27 @@ ALTER TABLE ONLY push_notification
 
 
 --
+-- Name: user_device_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY push_user_device
+    ADD CONSTRAINT user_device_pkey PRIMARY KEY (userid, deviceid);
+
+
+--
 -- Name: user_email_key; Type: CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_email_key UNIQUE (email);
+
+
+--
+-- Name: user_password_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_password
+    ADD CONSTRAINT user_password_pkey PRIMARY KEY (id);
 
 
 --
@@ -1773,11 +1886,27 @@ ALTER TABLE ONLY chat_message
 
 
 --
+-- Name: user_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY push_user_device
+    ADD CONSTRAINT user_fkey FOREIGN KEY (userid) REFERENCES "user"(id) ON DELETE CASCADE;
+
+
+--
 -- Name: user_token_fk_user_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
 ALTER TABLE ONLY user_token
     ADD CONSTRAINT user_token_fk_user_fkey FOREIGN KEY (fk_user) REFERENCES "user"(id);
+
+
+--
+-- Name: userid_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY push_notification
+    ADD CONSTRAINT userid_fkey FOREIGN KEY (userid) REFERENCES "user"(id) ON DELETE CASCADE;
 
 
 SET search_path = smartinsurance, pg_catalog;
@@ -1865,3 +1994,4 @@ ALTER TABLE ONLY userbank
 --
 -- PostgreSQL database dump complete
 --
+

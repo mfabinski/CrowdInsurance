@@ -91,7 +91,9 @@ exports.getSchadensfaelleByVersicherung = function(versicherungID, onSuccess, on
 exports.getProfilByID = function(personID, onSuccess, onError){
     db.func('getprofilkomplettbyuid',[personID]).then(onSuccess).catch(onError);
 };
-
+exports.getPublicProfilByID = function(personID, onSuccess, onError){
+    db.func('getprofilpublicbyuid',[personID]).then(onSuccess).catch(onError);
+};
 //
 // 1.7 Kommentare einer Versicherung
 //-----------------------------------
