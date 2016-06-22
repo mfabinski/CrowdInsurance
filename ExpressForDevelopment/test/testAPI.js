@@ -421,7 +421,7 @@ describe("Test API:", function(){
       });
     });
 
-    it('Fehlschlag unterdefinierter Body',, function(done){
+    it('Fehlschlag unterdefinierter Body', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
         "versicherungID":"68"
