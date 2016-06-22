@@ -4,7 +4,7 @@ var fs = require('fs');
 var app = require('../app.js');
 var server;
 var logger = require('../team_modules/smartinsurance/logger.js');
-logger.setLogLevel(process.env.DEBUG_LEVEL || "error"); // info for more verbose output
+logger.setLogLevel(process.env.DEBUG_LEVEL || "info"); // info for more verbose output
 
 var getDBPromis = function(){
   var credentials;
@@ -1027,7 +1027,7 @@ describe("Test API:", function(){
 
 describe("Test Backendroutine", function() {
   it('Komplette Routine',function(done){
-    var url = "http://localhost:3000/api/smartinsurance/periodic";
+    var url = "http://localhost:3000/api/smartinsurance/";
     request(url, function(error, response, body) {
       expect(response.statusCode).to.equal(200);
       done();

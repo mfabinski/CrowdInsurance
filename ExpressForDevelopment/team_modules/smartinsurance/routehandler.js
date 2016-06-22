@@ -69,7 +69,7 @@ module.exports = function() {
   router.get('/test/', helloWorld);
 
   function helloWorld(req, res) {
-    res.send(JSON.stringify({success: true, text: "Hello World"}));
+    res.status(200).send(JSON.stringify({success: true, text: "Hello World"}));
   }
   return router;
 }
