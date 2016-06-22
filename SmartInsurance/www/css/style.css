@@ -92,11 +92,10 @@ only screen and (max-width: 760px),
 
     .tableMobile {
         table-layout: fixed;
-        width: 112%;
+        width: 110%;
         border-collapse: collapse;
+
     }
-
-
 
     .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
     .labelData:nth-of-type(2):before { content: "Kategorie"; font-weight: bold;}

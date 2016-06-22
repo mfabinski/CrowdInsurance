@@ -53,16 +53,16 @@
             <div style="" id="Bersicht-list-item-container1" class="item item-body ">
                 <ion-list class=" " id="Bersicht-list6">
                     <a ng-click="versicherungShow({{versicherung.id}})" ng-repeat="versicherung in versicherungen">
-                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  ">
+                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left">
                             <i class="icon ion-ionic"></i>
-                            <table class="myTable">
+                            <table class="tableDesktop tableMobile">
                                 <tr>
                                     <td>  <b>Bezeichnung: </b> </td>
                                     <td class="linebreak"> <p>{{versicherung.name}}</p>  </td>
                                 </tr>
                                 <tr>
                                     <td> <b> Versicherungs- <br> höhe: </b> </td>
-                                    <td>  <br> {{versicherung.versicherungshoehe}} </td>
+                                    <td> {{versicherung.versicherungshoehe}} </td>
                                 </tr>
                                 <tr>
                                     <td> <b> Monatsbeitrag: </b> </td>
@@ -70,7 +70,7 @@
                                 </tr>
                                  <tr ng-show="versicherung.wirdGekuendigt">
                                     <td>  </td>
-                                    <td> <b> Kündigung zum Monatsende </b> </td>
+                                    <td class="linebreak"> <p> Kündigung zum Monatsende </p> </td>
 
                                 </tr>
                             </table>
@@ -87,17 +87,17 @@
                     <a ng-click="investitionShow({{investition.id}})" ng-show="!(noInvestition)" ng-repeat="investition in investitionen">
                         <ion-item style="" id="Bersicht-list-item11" class="item-icon-left  ">
                             <i class="icon ion-ios-baseball-outline"></i>
-                            <table>
+                            <table class="tableDesktop tableMobile">
                                 <tr>
                                     <td>  <b>Bezeichnung: </b> </td>
-                                    <td>  {{investition.name}} </td>
+                                    <td class="linebreak"> <p>{{investition.name}} </p>  </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Investitionshöhe: </b> </td>
+                                    <td> <b> Investitions <br> höhe: </b> </td>
                                     <td>  {{investition.investitionshoehe}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Maximale Rendite: </b> </td>
+                                    <td> <b> Maximale <br> Rendite: </b> </td>
                                     <td>  {{calculateRendite(investition)}} </td>
                                 </tr>
                                  <tr ng-show="investition.iwirdGekuendigt">
@@ -107,10 +107,11 @@
                                 </tr>
                                  <tr ng-show="investition.vwirdGekuendigt">
                                     <td>  </td>
-                                    <td> <b> Versicherung wird beendet </b> </td>
+                                    <td class="linebreak"> <p> Versicherung wird beendet </p> </td>
 
                                 </tr>
                             </table>
+                            
                         </ion-item>
                     </a>
                     <p class=" " style="margin-top:0px;color:#000000;" id="Bersicht-markdown26" ng-show="noInvestition">Es liegen keine Investitionen vor.</p>
