@@ -669,7 +669,7 @@ exports.einziehenVersicherungsbeitraege = function(resolve, reject, notify) {
 internal.beitragEinziehen = function(data) {
     for (var i = 0, versicherung; versicherung = data[i]; i++) {
         logger.info('Einzug eines Beitrags ' + JSON.stringify(versicherung));
-        tdg.insertZahlung(versicherung.id,versicherung.req.user.id, versicherung.echterBeitrag);
+        tdg.insertZahlung(versicherung.id,versicherung.personID, versicherung.echterBeitrag);
     }
 };
 
@@ -688,7 +688,7 @@ exports.auszahlungRendite = function(resolve, reject, notify) {
 internal.renditeAuszahlen = function(data) {
     for (var i = 0, investition; investition = data[i]; i++) {
         logger.info('Auszahlung einer Rendite ' + JSON.stringify(investition));
-        tdg.insertZahlung(investition.id,investition.req.user.id, "-" + investition.rendite);
+        tdg.insertZahlung(investition.id,investition.personID, "-" + investition.rendite);
     }
 };
 
