@@ -596,12 +596,21 @@ describe("Test API:", function(){
     it('?');
   });
 
-  describe("get /api/smartinsurance/profil", function(){
-    it('?');
-  });
-
   describe("get /api/smartinsurance/profil/profilID", function(){
-    it('?');
+    it('Erfolgreiches Laden eines existierenden Profils',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil/bfa77220-21f7-11e6-b56d-b76efa9c5485";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Profil existiert nicht 404',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil/9999";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
