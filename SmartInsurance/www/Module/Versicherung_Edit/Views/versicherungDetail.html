@@ -5,7 +5,7 @@
         <div id="versicherungsdetails-card28" class="list card ">
             <ion-item style="" class="  " id="versicherungsdetails-list-item34"> Versicherungsdetails</ion-item>
             <div  class="item item-body ">
-                <table class="tableDesktop tableMobile3">
+                <table class="tableMobile3">
                     <tr>
                         <td>  <b>Bezeichnung: </b> </td>
                         <td> {{versicherung.name}} </td>
@@ -31,7 +31,7 @@
                         <td>  {{versicherung.beschreibung}} </td>
                     </tr>
                     <tr>
-                        <td> <b> ausgezahlter Schaden: </b> </td>
+                        <td> <b> ausgezahlter Schaden:&nbsp </b> </td>
                         <td>  {{gesamtSchaden()}} </td>
                     </tr>
                      <tr ng-show="versicherung.wirdGekuendigt">
@@ -53,7 +53,7 @@
             <a ng-click="showInvestor()" ng-repeat="investor in investoren" ng-hide="noInvestor">
                 <ion-item style="" id="Bersicht-list-item11">
 
-                     <table class="tableDesktop tableMobile3">
+                     <table class="tableMobile3">
                         <tr>
                             <td>  <b>Name: </b> </td>
                             <td>  {{investor.prename}} {{investor.name}} </td>
@@ -63,7 +63,7 @@
                             <td>  {{investor.investitionshoehe}} </td>
                         </tr>
                         <tr>
-                            <td>  <b>Abschlusszeitpunkt: </b> </td>
+                            <td>  <b>Abschlusszeitpunkt:&nbsp </b> </td>
                             <td>{{investor.abschlussZeitpunkt}} </td>
                         </tr>
                     </table>
