@@ -657,7 +657,27 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/kommentare/:versicherungID", function(){
-    it('?');
+    it('Erfolgreiches Laden der Kommentare einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentare/89";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Kommentare',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentare/90";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentare/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/versicherungaendern", function(){
