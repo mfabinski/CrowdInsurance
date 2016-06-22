@@ -84,6 +84,14 @@ exports.filterVersicherung = function (req, res, next) {
     if (orderby == undefined) orderby = "id";
     var asc_desc = req.body.ascending;
     if (asc_desc == undefined) asc_desc = true;
+    var limit = 0;
+    if (req.body.entrycount) {
+      limit = req.body.entrycount
+    }
+    var skip = 0;
+    if (req.body.page) {
+      skip = req.body.page * entrycount;
+    }
     // var orderbyindex = 1;
 
     // Mit oder ohne where Bedingung?
@@ -111,7 +119,7 @@ exports.filterVersicherung = function (req, res, next) {
     // }
 
     if (withFilter) {
-        tdg.filterVersicherung(kategorie, orderby, asc_desc,
+        tdg.filterVersicherung(kategorie, orderby, asc_desc, limit, skip,
             function(data){
                 logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
                 if(data.length != 0) {
@@ -126,7 +134,7 @@ exports.filterVersicherung = function (req, res, next) {
             }
         );
     } else {
-        tdg.orderVersicherung(orderby, asc_desc,
+        tdg.orderVersicherung(orderby, asc_desc, limit, skip,
             function(data){
                 logger.info('Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
                 if(data.length != 0) {

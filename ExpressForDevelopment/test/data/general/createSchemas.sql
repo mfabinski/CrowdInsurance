@@ -336,13 +336,14 @@ CREATE VIEW "VersicherungFilter" AS
 
 
 --
--- Name: filterversicherung(kategorie, text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+-- Name: filterversicherung(kategorie, text, text, integer, integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
-CREATE FUNCTION filterversicherung(kategorie, text, text) RETURNS SETOF "VersicherungFilter"
+CREATE FUNCTION filterversicherung(kategorie, text, text, integer DEFAULT 0, integer DEFAULT 0) RETURNS SETOF "VersicherungFilter"
     LANGUAGE plpgsql
     AS $_$
 BEGIN
+if $4 > 0 then 
     RETURN QUERY EXECUTE 'SELECT "id",
        "name",
        "versicherungshoehe",
@@ -359,7 +360,30 @@ BEGIN
        "rendite"
     FROM smartinsurance."VersicherungFilter"
     WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
-    || quote_ident($2) || ' ' || $3 || ';' USING $1;
+    || quote_ident($2) || ' ' || $3 || 
+    ' LIMIT  $4
+     OFFSET $5
+    ;' USING $1,$2,$3,$4,$5;
+else
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
+    || quote_ident($2) || ' ' || $3 || 
+    ';' USING $1,$2,$3;
+end if;
 END;
 $_$;
 
@@ -872,13 +896,36 @@ $$;
 
 
 --
--- Name: orderversicherung(text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+-- Name: orderversicherung(text, text, integer, integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
-CREATE FUNCTION orderversicherung(text, text) RETURNS SETOF "VersicherungFilter"
+CREATE FUNCTION orderversicherung(text, text, integer DEFAULT 0, integer DEFAULT 0) RETURNS SETOF "VersicherungFilter"
     LANGUAGE plpgsql
     AS $_$
 BEGIN
+if $3 > 0 then 
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" '
+    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
+    || 'ORDER BY '
+    || quote_ident($1) || ' ' || $2 || 
+    ' LIMIT  $3
+      OFFSET $4
+    ;' USING $1,$2,$3,$4;
+else
     RETURN QUERY EXECUTE 'SELECT "id",
        "name",
        "versicherungshoehe",
@@ -897,6 +944,7 @@ BEGIN
     || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
     || 'ORDER BY '
     || quote_ident($1) || ' ' || $2 || ';';
+end if;
 END;
 $_$;
 
@@ -1083,6 +1131,16 @@ CREATE TABLE chat_room_user (
     roomid uuid DEFAULT uuid_generate_v1mc() NOT NULL,
     isadmin boolean DEFAULT false NOT NULL,
     user_id integer NOT NULL
+);
+
+
+--
+-- Name: push_notification; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE push_notification (
+    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
+    urls_to_fetch text
 );
 
 
@@ -1557,6 +1615,14 @@ ALTER TABLE ONLY address
 
 ALTER TABLE ONLY chat_room
     ADD CONSTRAINT chat_room_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: id_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY push_notification
+    ADD CONSTRAINT id_pkey PRIMARY KEY (id);
 
 
 --
