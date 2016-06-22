@@ -298,12 +298,12 @@ exports.getInvestorenVonVersicherung = function (req, res, next) {
         function(data){
             logger.info('Investoren von Versicherung ' + versicherungID + ' erfolgreich geladen.');
             if (data.length == 0) {
-                res.status(204).json(data);
+                res.status(204).json(data); // Trifft auch zu wenn die Verischerung nicht existiert
             } else
             if (data[0].versicherungID != null) {
                 res.status(200).json(data);
             } else{
-                res.status(404).send('Versicherung nicht gefunden.');
+                res.status(404).send('Versicherung nicht gefunden.'); // Wird nicht zutreffen (es sei denn die Datenbank ist nicht erreichbar)
             }
         },
         function(err){

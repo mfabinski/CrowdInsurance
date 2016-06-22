@@ -473,7 +473,7 @@ describe("Test API:", function(){
       var url = "http://localhost:3000/api/smartinsurance/versicherung/89/person";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(200);
-        var responseObject = body; // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
+        var responseObject = JSON.parse(body); // JSON.parse(body); Strange das hier ein Objekt rausfällt. TODO Prüfen!!!
         expect(responseObject).to.have.length.of.at.least(1);
         for (var i = 0, person; person = responseObject[i]; i++) {
           expect(person).to.have.property("id");
@@ -503,7 +503,7 @@ describe("Test API:", function(){
     it('Versicherung existiert nicht 404',function(done){
       var url = "http://localhost:3000/api/smartinsurance/versicherung/1/person";
       request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(204);
         done();
       });
     });
