@@ -1,11 +1,14 @@
-appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint){
+appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, CacheHistoryReseter){
 
     $scope.versicherungId = $stateParams.id;
 
-    
+
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
          $scope.versicherung = response[0];
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
 
@@ -17,7 +20,7 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
             }
             $scope.noSchaden = false;
         } else {
-           $scope.noSchaden = true; 
+           $scope.noSchaden = true;
         }
     });
 

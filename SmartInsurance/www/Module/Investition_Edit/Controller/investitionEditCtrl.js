@@ -21,6 +21,9 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
                 }
             })
 
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
 

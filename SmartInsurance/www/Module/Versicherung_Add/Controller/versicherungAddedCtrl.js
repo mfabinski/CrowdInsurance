@@ -43,6 +43,9 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state,
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/'+$scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
+    }).error(function(error, status) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: error, status: status}});
     });
 
 

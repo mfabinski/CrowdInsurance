@@ -1,11 +1,16 @@
 appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
-
-    $scope.schaden =  $stateParams.schaden;
-
+    /*
+    if ($stateParams.schaden == null) {
+        CacheHistoryReseter.reset();
+        $state.go("app.error", {error: {message: "", status: ""}});
+    } else {
+        $scope.schaden =  $stateParams.schaden;
+    }
+*/
     $scope.submitted = false;
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.schaden.versicherungID).success(function(response) {
-         $scope.versicherung = response[0];
+        $scope.versicherung = response[0];
     });
 
    $scope.edit = function() {
