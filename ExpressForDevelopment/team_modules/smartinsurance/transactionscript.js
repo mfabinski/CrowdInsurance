@@ -532,7 +532,11 @@ exports.periodicSchedule = function (req,res,next) {
         .done();
     periodNumber += 1;
 
+
+    logger.consoleInfo('Periodic erfolgreich berechnet.   ' + JSON.stringify(res));
+
     if(res != undefined){
+        logger.consoleInfo('Periodic erfolgreich berechnet mit Rückgabe.');
         res.status(200).send('Periode erfolgreich berechnet.');
     }
 };
