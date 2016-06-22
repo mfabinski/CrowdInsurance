@@ -263,20 +263,37 @@ exports.getProfilByID = function (req, res, next) {
     if(pID == undefined){
         pID = req.user.id;
     }
-    tdg.getProfilByID(pID,
-        function(data){
-            logger.info('Profil der Person ' + pID + 'erfolgreich geladen.');
-            if(data[0].id != null){
-                res.status(200).json(data);
-            } else{
-                res.status(404).send('Profil nicht gefunden.');
-            }
-        },
-        function(err){
-            logger.error('Fehler beim Laden des Profils der Person ' + pID + ' - ' + err);
-            res.status(500).send('Fehler beim Laden des Profils.');
-        }
-    );
+    if (pID == req.user.id) {
+      tdg.getProfilByID(pID,
+          function(data){
+              logger.info('Eigenes Profil der Person ' + pID + 'erfolgreich geladen.');
+              if(data[0].id != null){
+                  res.status(200).json(data);
+              } else{
+                  res.status(404).send('Profil nicht gefunden.');
+              }
+          },
+          function(err){
+              logger.error('Fehler beim Laden des eigenen Profils der Person ' + pID + ' - ' + err);
+              res.status(500).send('Fehler beim Laden des Profils.');
+          }
+      );
+    } else {
+      tdg.getPublicProfilByID(pID,
+          function(data){
+              logger.info('Profil der Person ' + pID + 'erfolgreich geladen.');
+              if(data[0].id != null){
+                  res.status(200).json(data);
+              } else{
+                  res.status(404).send('Profil nicht gefunden.');
+              }
+          },
+          function(err){
+              logger.error('Fehler beim Laden des Profils der Person ' + pID + ' - ' + err);
+              res.status(500).send('Fehler beim Laden des Profils.');
+          }
+      );
+    }
 };
 
 exports.getKommentareByVID = function (req, res, next) {
