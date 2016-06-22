@@ -1,9 +1,11 @@
 appController.controller('signupCtrl', function($scope,  $http, $state, moneyParser, moneyFormatter, apiendpoint) {
     $scope.form = {};
 
+    $scope.submitted = false;
 
 
     $scope.isInvalid = function(field){
+        console.log(field);
         return field.$error.required && (field.$touched || $scope.submitted);
     };
 
@@ -15,6 +17,8 @@ appController.controller('signupCtrl', function($scope,  $http, $state, moneyPar
 
 
     $scope.signup = function () {
+
+        $scope.submitted= true;
 
 /*
         $http({
