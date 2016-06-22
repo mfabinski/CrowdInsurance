@@ -2,26 +2,26 @@
     <ion-content class="has-header" padding="true">
         <div id="schadensfLleEinsehen-card27" class="list card ">
             <ion-item style="" class="  " id="schadensfLleEinsehen-list-item22">
-                <h2> <b>Versicherungsobjekt:</b> {{versicherung.name}} </h2> 
+                <h2> <b>Versicherungsobjekt: <br> </b> {{versicherung.name}} </h2>
             </ion-item>
         </div>
         <div id="schadensfLleEinsehen-card210" class="list card ">
             <a ng-click="schadensfallShow({{schaden.id}})" ng-show="!(noSchaden)" ng-repeat="schaden in schaeden">
                 <ion-item style="" class="  " id="schadensfLleEinsehen-list-item23">
-                    <table>
-                        <tr> 
-                            <td>  <b>Schaden: </b> </td>  
+                    <table class="tableDesktop tableMobile5">
+                        <tr>
+                            <td>  <b>Schaden: </b> </td>
                             <td>  {{schaden.bezeichnung}} </td>
                         </tr>
-                       <tr> 
+                       <tr>
                             <td> <b> Schadenshöhe: </b> </td>
                             <td>  {{schaden.schadenshoehe}} </td>
                         </tr>
-                        <tr> 
+                        <tr>
                             <td> <b> Zeitpunkt: </b> </td>
                             <td>  {{schaden.zeitpunkt}} </td>
                         </tr>
-                         <tr> 
+                         <tr>
                             <td> <b> Beschreibung: </b> </td>
                             <td>  {{schaden.beschreibung}} </td>
                         </tr>
