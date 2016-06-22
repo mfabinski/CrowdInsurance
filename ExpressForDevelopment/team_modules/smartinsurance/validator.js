@@ -34,7 +34,7 @@ internal.moneyToNumber = function(money){
     return number;
 };
 
-exports.numberToMoney = function(number){
+internal.numberToMoney = function(number){
     number = number + '';
     var euros = number.split(/[.]/)[0];
     var money = '';
@@ -242,7 +242,7 @@ exports.obVersicherungSchonVollIst = function(req,res,next){
         function(data){
             var diff = versicherungshoehe - internal.moneyToNumber(data[0].getinvestitionssummebyvid);
             var investitionshoehe = internal.moneyToNumber(req.body.investitionshoehe);
-            logger.consoleInfo('Differenz zwischen investitionssumme und versicherungshoehe' + diff);
+            logger.consoleInfo('Differenz zwischen investitionssumme und versicherungshoehe' + diff + '   investitionshoehe: ' + investitionshoehe);
             if(diff >= investitionshoehe){
                 next();
             } else if(diff > 0 && diff < investitionshoehe) {
