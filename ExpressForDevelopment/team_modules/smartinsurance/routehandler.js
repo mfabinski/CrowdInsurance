@@ -1,6 +1,9 @@
 var express = require('express');
 
 module.exports = function() {
+//    var backendHelper = require("smartbackendHelper")(passport);
+//    var oauth = backendHelper.oauthModel;
+
     var router = express.Router();
     var tdg = require('./tabledatagateway.js');
     var ts = require('./transactionscript.js');
