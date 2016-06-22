@@ -188,7 +188,7 @@ exports.parameterKommentar = function(req,res,next){
     if(text != undefined && versicherungID != undefined && text.length > 0 && internal.isNumber(versicherungID)) {
       tdg.selectVersicherung(versicherungID,
           function(data){
-              if(data[1] != null){
+              if(data[0].id != null){
                   logger.consoleInfo('Versicherung ID ' + versicherungID + ' soll scheinbar existieren.');
                   next();
               } else{
