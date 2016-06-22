@@ -76,7 +76,8 @@ CREATE TYPE kategorie AS ENUM (
     'Küchengeräte',
     'Möbel',
     'Maschinen',
-    'Uhr'
+    'Uhr',
+    'Sonstiges'
 );
 
 
@@ -417,28 +418,6 @@ CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
     WHERE "wirdGekuendigt"=true;
 $$;
-
-
---
--- Name: InvestitionBewertung; Type: VIEW; Schema: smartinsurance; Owner: -
---
-
-CREATE VIEW "InvestitionBewertung" AS
- SELECT "Investition".id,
-    "Investition".bewertung
-   FROM "Investition"
-  ORDER BY "Investition".id;
-
-
---
--- Name: getinvestitionbewertung(integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
---
-
-CREATE FUNCTION getinvestitionbewertung(investitionid integer) RETURNS "InvestitionBewertung"
-    LANGUAGE sql
-    AS $_$
-select * from "InvestitionBewertung" as p where p.id = $1;
-$_$;
 
 
 SET search_path = smartbackend, pg_catalog;
@@ -1060,8 +1039,13 @@ SET search_path = smartbackend, pg_catalog;
 
 CREATE TABLE address (
     id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
-    address_json jsonb,
-    fk_user uuid
+    street text NOT NULL,
+    city text NOT NULL,
+    state text,
+    country text NOT NULL,
+    extra text,
+    house_number text,
+    postal_code text
 );
 
 
@@ -1070,12 +1054,11 @@ CREATE TABLE address (
 --
 
 CREATE TABLE chat_message (
-    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
     roomid uuid NOT NULL,
-    senderid uuid NOT NULL,
     "timestamp" timestamp without time zone DEFAULT now(),
     messagetype messagetype NOT NULL,
-    text text
+    text text,
+    senderid uuid NOT NULL
 );
 
 
@@ -1096,8 +1079,8 @@ CREATE TABLE chat_room (
 
 CREATE TABLE chat_room_user (
     roomid uuid DEFAULT uuid_generate_v1mc() NOT NULL,
-    user_id uuid NOT NULL,
-    isadmin boolean DEFAULT false NOT NULL
+    isadmin boolean DEFAULT false NOT NULL,
+    user_id integer NOT NULL
 );
 
 
@@ -1121,7 +1104,7 @@ CREATE VIEW user_access_view AS
     "user".name,
     "user".prename,
     "user".email,
-    user_token.access_token AS token
+    user_token.access_token
    FROM "user",
     user_token
   WHERE ("user".id = user_token.fk_user);
@@ -1141,6 +1124,17 @@ CREATE TABLE "Gewinnberechnung" (
 );
 
 ALTER TABLE ONLY "Gewinnberechnung" REPLICA IDENTITY NOTHING;
+
+
+--
+-- Name: InvestitionBewertung; Type: VIEW; Schema: smartinsurance; Owner: -
+--
+
+CREATE VIEW "InvestitionBewertung" AS
+ SELECT "Investition".id,
+    "Investition".bewertung
+   FROM "Investition"
+  ORDER BY "Investition".id;
 
 
 --
@@ -1556,27 +1550,11 @@ ALTER TABLE ONLY address
 
 
 --
--- Name: chat_message_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
---
-
-ALTER TABLE ONLY chat_message
-    ADD CONSTRAINT chat_message_pkey PRIMARY KEY (id);
-
-
---
 -- Name: chat_room_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
 ALTER TABLE ONLY chat_room
     ADD CONSTRAINT chat_room_pkey PRIMARY KEY (id);
-
-
---
--- Name: chat_room_user_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
---
-
-ALTER TABLE ONLY chat_room_user
-    ADD CONSTRAINT chat_room_user_pkey PRIMARY KEY (roomid, user_id);
 
 
 --
@@ -1682,14 +1660,6 @@ CREATE RULE "_RETURN" AS
 SET search_path = smartbackend, pg_catalog;
 
 --
--- Name: address_fk_user_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
---
-
-ALTER TABLE ONLY address
-    ADD CONSTRAINT address_fk_user_fkey FOREIGN KEY (fk_user) REFERENCES "user"(id);
-
-
---
 -- Name: chat_message_roomid_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
@@ -1703,14 +1673,6 @@ ALTER TABLE ONLY chat_message
 
 ALTER TABLE ONLY chat_message
     ADD CONSTRAINT chat_message_senderid_fkey FOREIGN KEY (senderid) REFERENCES "user"(id);
-
-
---
--- Name: chat_room_user_user_id_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
---
-
-ALTER TABLE ONLY chat_room_user
-    ADD CONSTRAINT chat_room_user_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
 
 
 --
