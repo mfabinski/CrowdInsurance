@@ -881,6 +881,100 @@ describe("Test API:", function(){
     });
   });
 
+  describe("post /api/smartinsurance/profil", function(){
+    it('Erfolgreiches erstes Aendern eines Profils', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil";
+      var postbody = {
+        "personID":"bfa7b3ca-21f7-11e6-b56d-17b5af93fd5a",
+        "name":"NewName",
+        "prename":"NewPrename",
+        "email":"new(at)email.com",
+        "iban":"AL90208110080000001039531801",
+        "bic":"OKOYFIHH",
+        "bankinstitut":"Deutsche Bank AG"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Erfolgreiches zweites Aendern eines Profils', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil";
+      var postbody = {
+        "personID":"bfa7b3ca-21f7-11e6-b56d-17b5af93fd5a",
+        "name":"NewName",
+        "prename":"NewPrename",
+        "email":"new(at)email.com",
+        "iban":"AL90208110080000001039531801",
+        "bic":"OKOYFIHH",
+        "bankinstitut":"Deutsche Bank AG"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        postbody.name = "NewNewName";
+        request({
+          "url":url,
+          "method":"POST",
+          "body" : postbody,
+          "json" : true
+        }, function(error, response, body) {
+          expect(response.statusCode).to.equal(201);
+          done();
+        });
+      });
+    });
+    it('Fehlschlag Profil existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil";
+      var postbody = {
+        "personID":"4c4e8280-2d89-11e6-855f-536fc1f21fa3",
+        "name":"NewName",
+        "prename":"NewPrename",
+        "email":"new(at)email.com",
+        "iban":"AL90208110080000001039531801",
+        "bic":"OKOYFIHH",
+        "bankinstitut":"Deutsche Bank AG"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+    it('Fehlschlag Parameter unterdefiniert', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil";
+      var postbody = {
+        "personID":"4c4e8280-2d89-11e6-855f-536fc1f21fa3",
+        "prename":"NewPrename",
+        "email":"new(at)email.com",
+        "bic":"OKOYFIHH",
+        "bankinstitut":"Deutsche Bank AG"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag anderes Profil bearbeiten als das, mit dem man eingeloggt ist');
+  });
+
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
     it('Erfolgreiches Laden der Bewertungen einer existierenden Versicherung',function(done){
       var url = "http://localhost:3000/api/smartinsurance/versicherung/89/bewertungen";
