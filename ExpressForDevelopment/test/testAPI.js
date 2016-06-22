@@ -607,12 +607,12 @@ describe("Test API:", function(){
     it('ProfilID ist keine uuid',function(done){
       var url = "http://localhost:3000/api/smartinsurance/profil/9999";
       request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(400);
         done();
       });
     });
     it('Profil existiert nicht',function(done){
-      var url = "http://localhost:3000/api/smartinsurance/profil/a7ad78g7-4gs5-fst5-jzt5-21dt3rsw12w4";
+      var url = "http://localhost:3000/api/smartinsurance/profil/08ddf6b0-3857-11e6-aa52-632db7cb795f";
       request(url, function(error, response, body) {
         expect(response.statusCode).to.equal(404);
         done();
