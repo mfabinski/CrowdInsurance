@@ -621,7 +621,27 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
-    it('?');
+    it('Erfolgreiches Laden der Bewertungen einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/89/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Investitionen und somit keine Bewertungen',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/90/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe("get IoT-Gerät hinzufügen?", function(){
