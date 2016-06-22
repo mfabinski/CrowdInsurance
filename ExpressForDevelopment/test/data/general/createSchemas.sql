@@ -134,7 +134,7 @@ CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
        ("versicherungID", "personID", betrag)
        VALUES ($1, $2, $3);
     INSERT INTO smartinsurance."Investition"
-       (id, "versicherungID", "personID", investitionshoehe) 
+       (id, "versicherungID", "personID", investitionshoehe)
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -160,7 +160,7 @@ CREATE FUNCTION createschadensfall(integer, text, money) RETURNS integer
     LANGUAGE sql
     AS $_$
     INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", beschreibung, schadenshoehe) 
+       (id, "versicherungID", beschreibung, schadenshoehe)
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -173,7 +173,7 @@ CREATE FUNCTION createschadensfall(integer, text, text, money) RETURNS integer
     LANGUAGE sql
     AS $_$
     INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe) 
+       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe)
        VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id;
 $_$;
 
@@ -356,8 +356,8 @@ BEGIN
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite" 
-    FROM smartinsurance."VersicherungFilter" 
+       "rendite"
+    FROM smartinsurance."VersicherungFilter"
     WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
     || quote_ident($2) || ' ' || $3 || ';' USING $1;
 END;
@@ -372,11 +372,11 @@ CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
-      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
-      FROM smartinsurance."Investition" 
+      SELECT "versicherungID", "personID", investitionshoehe * (-1)
+      FROM smartinsurance."Investition"
       WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
     UPDATE smartinsurance."Investition"
-      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
       WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -415,7 +415,7 @@ CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     UPDATE smartinsurance."Versicherung"
-    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
     WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -556,15 +556,15 @@ CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     AS $_$
 /*    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
      FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
      WHERE smartinsurance."Versicherung".id=$1
      AND smartinsurance."Investition"."istGekuendigt"=false; */
 /*
      SELECT COALESCE(sum(smartinsurance."Investition"."investitionshoehe"), '0.00 €') as suminvestition
      FROM smartinsurance."Versicherung" LEFT OUTER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
      AND smartinsurance."Investition"."istGekuendigt"=false;*/
-     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
+     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM
             (SELECT * FROM "Versicherung") v
         LEFT OUTER JOIN
             (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
@@ -892,7 +892,7 @@ BEGIN
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite" 
+       "rendite"
     FROM smartinsurance."VersicherungFilter" '
     || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
     || 'ORDER BY '
@@ -921,7 +921,7 @@ $$;
 CREATE FUNCTION reduceinvestitionenwegenschaden() RETURNS void
     LANGUAGE sql
     AS $$
-    UPDATE "Investition" 
+    UPDATE "Investition"
     SET investitionshoehe = (SELECT s."neueInvestitionshoehe"
 	FROM "SchadensfallAbzugDerInvestition" s
 	WHERE "Investition".id = s."investitionID")
@@ -937,7 +937,7 @@ $$;
 
 CREATE FUNCTION setinvestitionbewertung("investitionID" integer, "Bewertung" bewertung) RETURNS void
     LANGUAGE sql
-    AS $_$Update "Investition" 
+    AS $_$Update "Investition"
 set bewertung =$2
 where id=$1;$_$;
 
@@ -963,8 +963,8 @@ CREATE FUNCTION submitversicherungskuendigung(integer) RETURNS void
     AS $_$
     UPDATE smartinsurance."Versicherung"
       SET "wirdGekuendigt"=true WHERE id=$1;
-    UPDATE smartinsurance."Investition" 
-      SET "wirdGekuendigt"=true 
+    UPDATE smartinsurance."Investition"
+      SET "wirdGekuendigt"=true
       WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
 $_$;
 
@@ -1799,4 +1799,3 @@ ALTER TABLE ONLY userbank
 --
 -- PostgreSQL database dump complete
 --
-

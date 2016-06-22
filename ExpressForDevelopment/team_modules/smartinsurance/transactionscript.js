@@ -298,12 +298,12 @@ exports.getInvestorenVonVersicherung = function (req, res, next) {
         function(data){
             logger.info('Investoren von Versicherung ' + versicherungID + ' erfolgreich geladen.');
             if (data.length == 0) {
-                res.status(204).json(data);
+                res.status(204).json(data); // Trifft auch zu wenn die Verischerung nicht existiert
             } else
             if (data[0].versicherungID != null) {
                 res.status(200).json(data);
             } else{
-                res.status(404).send('Versicherung nicht gefunden.');
+                res.status(404).send('Versicherung nicht gefunden.'); // Wird nicht zutreffen (es sei denn die Datenbank ist nicht erreichbar)
             }
         },
         function(err){
@@ -320,7 +320,7 @@ exports.calculateSumOfInvestVersicherung = function (req, res, next) {
         function(data){
             logger.info('Kalkulieren der Investitionssumme der Versicherung ' + versicherungID + ' erfolgreich durchgeführt.');
             data[0] = {"suminvestition":data[0].getinvestitionssummebyvid};
-            if(data[0].suminvestition != null) {
+            if(data[0].suminvestition != '0,00 €') {
                 res.status(200).json(data);
             } else{
                 res.status(204).json(data); // no investition
@@ -343,7 +343,6 @@ exports.erstelleInvestition = function (req, res, next) {
 
     tdg.erstelleInvestition(versicherungID, req.user.id, investitionshoehe,
         function(data){
-            logger.consoleInfo('Response is here:' + JSON.stringify(data));
             res.status(201).json(data);
         },
         function(err){
@@ -456,13 +455,13 @@ exports.erstelleKommentar = function (req, res, next) {
 
     tdg.erstelleKommentar(versicherungID, text, req.user.id,
         function(data){
-            logger.info('Kommentar für die Versicherung ' + versicherungID + ' mit dem Text ' + text + ' erfolgreich erstellt.');
             tdg.getKommentarByKID(data[0].createkommentar,
                 function(data2){
                     logger.info("Kommentar ID is " + data[0].createkommentar + "; Kommentar is " + JSON.stringify(data2));
                     res.status(201).json(data2);
                 },
                 function(err2){
+                    logger.error('Fehler beim Laden des erstellten Kommentars.');
                     res.status(500).send('Fehler beim Lesen des erstellten Kommentars.');
                 }
             );
@@ -524,15 +523,19 @@ exports.periodicSchedule = function (req,res,next) {
         .then(function(){return new q.Promise(exports.investitionKuendigungenVerarbeiten)})
         .then(function(){return new q.Promise(exports.einziehenVersicherungsbeitraege)})
         .then(function(){return new q.Promise(exports.auszahlungRendite)})
+        .then(function(){return new q.Promise(function(){
+            if(res != undefined){
+                periodNumber += 1;
+                res.status(200).send('Periode erfolgreich berechnet.');
+            }
+        })})
         .catch(function (err){
             logger.error('Es ist ein Fehler im periodicSchedule aufgetreten: ' + err);
+            if(res != undefined){
+                res.status(500).send('Periode aufgrund eines Fehlers nicht berechnet.');
+            }
         })
         .done();
-    periodNumber += 1;
-
-    if(res != undefined){
-        res.status(200).send('Periode erfolgreich berechnet.');
-    }
 };
 
 exports.auszahlungSchadensfaelle = function(resolve, reject, notify) {
@@ -666,7 +669,7 @@ exports.einziehenVersicherungsbeitraege = function(resolve, reject, notify) {
 internal.beitragEinziehen = function(data) {
     for (var i = 0, versicherung; versicherung = data[i]; i++) {
         logger.info('Einzug eines Beitrags ' + JSON.stringify(versicherung));
-        tdg.insertZahlung(versicherung.id,versicherung.req.user.id, versicherung.echterBeitrag);
+        tdg.insertZahlung(versicherung.id,versicherung.personID, versicherung.echterBeitrag);
     }
 };
 
@@ -685,7 +688,7 @@ exports.auszahlungRendite = function(resolve, reject, notify) {
 internal.renditeAuszahlen = function(data) {
     for (var i = 0, investition; investition = data[i]; i++) {
         logger.info('Auszahlung einer Rendite ' + JSON.stringify(investition));
-        tdg.insertZahlung(investition.id,investition.req.user.id, "-" + investition.rendite);
+        tdg.insertZahlung(investition.id,investition.personID, "-" + investition.rendite);
     }
 };
 

@@ -187,7 +187,6 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
-
     it('Bewertung einer Versicherung', function(done){
       var expectedResponse = fs.readFileSync('test/data/versicherungapi/bewertung89.json').toString();
       expectedResponse = JSON.parse(expectedResponse);
@@ -238,7 +237,6 @@ describe("Test API:", function(){
   });
 
   describe("post /api/smartinsurance/filter", function(){
-
     it('Test des Kategoriefilters', function(done) {
       var url = "http://localhost:3000/api/smartinsurance/filter";
       var postbody = {
@@ -337,7 +335,6 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/kategorien", function(){
-
     it('Werden alle Kategorien zurückgegeben', function(done){
       var url = "http://localhost:3000/api/smartinsurance/kategorien";
       request(url, function(error, response, body) {
@@ -348,14 +345,41 @@ describe("Test API:", function(){
         done();
       });
     });
-
   });
 
   describe("post /api/smartinsurance/investieren", function(){
-
-    it('Erfolgreiches anlegen einer Investition');
-    it('Fehlschlag nicht erlaubtes Investieren zu hohe Investitionssumme');
-
+    it('Erfolgreiches anlegen einer Investition', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"85",
+        "investitionshoehe":"5,00 €"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Fehlschlag nicht erlaubtes Investieren zu hohe Investitionssumme', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"77",
+        "investitionshoehe":"1.299.400,00 €"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201); //Naechst kleinerer passende Betrag wurde investiert
+        done();
+      });
+    });
     it('Fehlschlag nicht vorhandene Versicherung', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investieren";
       var postbody = {
@@ -372,14 +396,40 @@ describe("Test API:", function(){
         done();
       });
     });
-
-    it('Fehlschlag negative Beträge');
-    it('Fehlschlag unterdefinierter Body');
-
+    it('Fehlschlag negative Beträge', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"68",
+        "investitionshoehe":"-5,00 €"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag unterdefinierter Body', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investieren";
+      var postbody = {
+        "versicherungID":"68"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe("get /api/smartinsurance/investition", function(){
-
     it('Alle Investitionen einer Person', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investition";
       request(url, function(error, response, body) {
@@ -397,7 +447,6 @@ describe("Test API:", function(){
   });
 
   describe("get /api/smartinsurance/investitionVers/:versicherungID", function(){
-
     it('Rückgabe aller Investitionen zu einer Versicherung', function(done){
       var url = "http://localhost:3000/api/smartinsurance/investitionVers/89";
       request(url, function(error, response, body) {
@@ -438,34 +487,531 @@ describe("Test API:", function(){
 
   });
 
-  describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){
-    // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  });
-
-  describe("get /api/smartinsurance/versicherung/:versicherungID/invest", function(){
-    // TODO Testfälle definieren, was soll das hier überhaupt machen?
-  });
-
   describe("post /api/smartinsurance/versicherung", function(){
-    it('Erfolgreiches anlegen einer Versicherung');
-    it('Fehlschlag negative Beträge');
-    it('Fehlschlag unterdefinierter Body');
+    it('Erfolgreiches anlegen einer Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      var postbody = {
+        "name":"Rennboot",
+        "versicherungshoehe":"5,00 €",
+        "beitrag":"5,00 €",
+        "beschreibung":"Super schnelles Rennboot mit extra Turbomotor",
+        "kategorie":"Schiff"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Fehlschlag negative Beträge', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      var postbody = {
+        "name":"Rennboot",
+        "versicherungshoehe":"-5,00 €",
+        "beitrag":"5,00 €",
+        "beschreibung":"Super schnelles Rennboot mit extra Turbomotor",
+        "kategorie":"Schiff"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag unterdefinierter Body', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung";
+      var postbody = {
+        "name":"Rennboot",
+        "versicherungshoehe":"5,00 €",
+        "kategorie":"Schiff"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
   });
 
   describe("post /api/smartinsurance/versicherung/:versicherungID/kuendigen", function(){
-    it('Erfolgreiche Kündigung einer Versicherung');
-    it('Fehlschlag Versicherung existiert nicht');
+    it('Erfolgreiche Kündigung einer Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/88/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Fehlschlag Versicherung existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/1/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
     it('Fehlschlag Versicherung gehört nicht dem ausführenden Nutzer');
-    it('Fehlschlag Versicherung existiert nicht');
-    it('Fehlschlag Versicherung bereits gekündigt');
+    it('Fehlschlag Versicherung bereits gekündigt', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/88/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        request({ // Zweites mal kuendigen
+          "url":url,
+          "method":"POST",
+          "body" : postbody,
+          "json" : true
+        }, function(error, response, body) {
+          expect(response.statusCode).to.equal(409);
+          done();
+        });
+      });
+    });
   });
 
   describe("post /api/smartinsurance/investition/:investitionID/kuendigen", function(){
-    it('Erfolgreiche Kündigung einer Investition');
-    it('Fehlschlag Investition existiert nicht');
+    it('Erfolgreiche Kündigung einer Investition', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/20/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Fehlschlag Investition existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/1/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
     it('Fehlschlag Investition gehört nicht dem ausführenden Nutzer');
-    it('Fehlschlag Investition existiert nicht');
-    it('Fehlschlag Investition bereits gekündigt');
+    it('Fehlschlag Investition bereits gekündigt', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/investition/20/kuendigen";
+      var postbody = {};
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        request({ // Zweites mal kuendigen
+          "url":url,
+          "method":"POST",
+          "body" : postbody,
+          "json" : true
+        }, function(error, response, body) {
+          expect(response.statusCode).to.equal(409);
+          done();
+        });
+      });
+    });
+  });
+
+  describe("get /api/smartinsurance/versicherung/:versicherungID/person", function(){
+    it('Erfolgreiches Laden der aller Investoren einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/89/person";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+
+    });
+    it('Existierende Versicherung hat keine Investoren',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/90/person";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public/person";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Versicherung existiert nicht 404',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/1/person";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+  });
+
+  describe("get /api/smartinsurance/versicherung/:versicherungID/invest", function(){
+    it('Erfolgreiches Laden der Investitionssumme einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/89/invest";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Investitionen und somit keine Investitionssumme',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/90/invest";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public/invest";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+  });
+
+  describe("post /api/smartinsurance/schadensfallmelden", function(){
+    it('Schadensfall erfolgreich melden', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":114,
+        "schadenshoehe":'1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+    it('Fehlschlag VersicherungID ist keine Nummer', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":'aa11',
+        "schadenshoehe":'1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag Versicherung Existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":99999,
+        "schadenshoehe":'1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+    it('Fehlschlag fehlende Parameter', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":114,
+        "schadenshoehe":'1.000,00 €',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag negative Schadenshoehe', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":114,
+        "schadenshoehe":'-1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag nur der Versicherungsnehmer kann Schadensfälle erstellen');
+  });
+
+  describe("post Bild zum Schadensfall hinzufuegen", function(){
+    it('Bilder sind noch nicht entwickelt.');
+  });
+
+  describe("post Bild zum Schadensfall hinzufuegen", function(){
+    it('Bilder sind noch nicht entwickelt.');
+  });
+
+  describe("get /api/smartinsurance/schadensfaelle/:versicherungID", function(){
+    it('Erfolgreiches Laden der Schadensfaelle einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/89";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Schadensfaelle',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/90";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Versicherung existiert nicht 404',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfaelle/1";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+  });
+
+  describe("get /api/smartinsurance/schadensfall/:schadensfallID", function(){
+    it('Erfolgreiches Laden eines existierenden Schadensfalls',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfall/100";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Angegebene SchadensfallID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfall/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Schadensfall existiert nicht 404',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfall/9999";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
+  describe("get /api/smartinsurance/profil/profilID", function(){
+    it('Erfolgreiches Laden eines existierenden Profils',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil/bfa77220-21f7-11e6-b56d-b76efa9c5485";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('ProfilID ist keine uuid',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil/9999";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Profil existiert nicht',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/profil/08ddf6b0-3857-11e6-aa52-632db7cb795f";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(404);
+        done();
+      });
+    });
+  });
+
+  describe("get /api/smartinsurance/versicherung/:versicherungID/bewertungen", function(){
+    it('Erfolgreiches Laden der Bewertungen einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/89/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Investitionen und somit keine Bewertungen',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/90/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/versicherung/;DROP%20DROP%20SCHEMA%20public/bewertungen";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+  });
+
+  describe("post /api/smartinsurance/kommentieren", function(){
+    it('Erfolgreiches anlegen eines Kommentars', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"85",
+        "text":"Ich bin ein Kommentar"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(201);
+        done();
+      });
+    });
+
+    it('Anlegen eines Kommentars bei einer nicht vorhandenen Versicherung', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"8599",
+        "text":"Ich bin ein Kommentar"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(409);
+        done();
+      });
+    });
+
+    it('Anlegen eines Kommentars mit ungültiger VersicherungID', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"SQLINJECTION",
+        "text":"Ich bin ein Kommentar"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+    it('Anlegen eines Kommentars ohne Text', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentieren";
+      var postbody = {
+        "versicherungID":"85"
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+
+  });
+
+  describe("get /api/smartinsurance/kommentare/:versicherungID", function(){
+    it('Erfolgreiches Laden der Kommentare einer existierenden Versicherung',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentare/89";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    it('Existierende Versicherung hat keine Kommentare',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentare/90";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(204);
+        done();
+      });
+    });
+    it('Angegebene VersicherungsID ist keine Nummer',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/kommentare/;DROP%20DROP%20SCHEMA%20public";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+  });
+
+  describe("Test Backendroutine", function() {
+    it('Komplette Routine',function(done){
+      var url = "http://localhost:3000/api/smartinsurance/periodic";
+      request(url, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+    // it('Kündigung einer Versicherung');
+    // it('Kündigung einer Investition');
+    // it('Zahlungsfluss Beiträge');
+    // it('Zahlungsfluss Rendite');
+    // it('Zahlungsfluss Invesition');
   });
 
   // Leere die Tabellen
@@ -492,12 +1038,4 @@ describe("Test API:", function(){
     });
   });
 
-});
-
-describe("Test Backendroutine", function() {
-  it('Kündigung einer Versicherung');
-  it('Kündigung einer Investition');
-  it('Zahlungsfluss Beiträge');
-  it('Zahlungsfluss Rendite');
-  it('Zahlungsfluss Invesition');
 });

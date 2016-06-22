@@ -36,11 +36,11 @@ module.exports = function() {
 
   router.get('/profil/', ts.getProfilByID); // Für das eigene (vorläufig). Sollte auch die eigene haben!
 
-  router.get('/profil/:profilID', ts.getProfilByID);
+  router.get('/profil/:profilID', [validate.profilID, ts.getProfilByID]);
 
   router.get('/schadensfaelle/:versicherungID', [validate.versicherungID, ts.getSchadensfaelleByVersicherung]);
 
-  router.post('/schadensfallmelden', [validate.parameterSchadensfall, ts.erstelleSchadensfall]);
+  router.post('/schadensfallmelden', [validate.parameterSchadensfall, validate.obVersicherungExistiert, ts.erstelleSchadensfall]);
 
   router.post('/schadensfall', [validate.parameterSchadensfallAendern, ts.updateSchadensfall]);
 
@@ -50,9 +50,9 @@ module.exports = function() {
 
   router.post('/versicherung', [validate.parameterZurVersicherungsErstellung, validate.obKategorieExistiert, ts.erstelleVersicherung]);
 
-  router.post('/versicherung/:versicherungID/kuendigen', [validate.versicherungID, ts.versicherungKuendigungEinreichen]);
+  router.post('/versicherung/:versicherungID/kuendigen', [validate.versicherungID, validate.obVersicherungExistiert, validate.obVersicherungGekuendigtIstOderWird, ts.versicherungKuendigungEinreichen]);
 
-  router.post('/investition/:investitionID/kuendigen', [validate.investitionID, ts.investitionKuendigungEinreichen]);
+  router.post('/investition/:investitionID/kuendigen', [validate.investitionID, validate.obInvestitionExistiert, validate.obInvestitionGekuendigtIstOderWird, ts.investitionKuendigungEinreichen]);
 
   router.post('/kommentieren', [validate.parameterKommentar, ts.erstelleKommentar]);
 
@@ -69,7 +69,7 @@ module.exports = function() {
   router.get('/test/', helloWorld);
 
   function helloWorld(req, res) {
-    res.send(JSON.stringify({success: true, text: "Hello World"}));
+    res.status(200).send(JSON.stringify({success: true, text: "Hello World"}));
   }
   return router;
 }

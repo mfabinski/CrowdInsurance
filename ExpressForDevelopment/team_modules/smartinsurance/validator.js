@@ -34,7 +34,7 @@ internal.moneyToNumber = function(money){
     return number;
 };
 
-exports.numberToMoney = function(number){
+internal.numberToMoney = function(number){
     number = number + '';
     var euros = number.split(/[.]/)[0];
     var money = '';
@@ -78,6 +78,16 @@ exports.schadensfallID = function(req,res,next){
         next();
     } else{
         res.status(400).send('Fehlerhafte Anfrage: Schadensfall ID ist keine Zahl');
+    }
+};
+
+exports.profilID = function(req,res,next){
+    var profilID = req.params.profilID;
+    //Prüfe ob die ID eine Nummer ist
+    if(profilID.match(/^([a-z]|[0-9]){8}-([a-z]|[0-9]){4}-([a-z]|[0-9]){4}-([a-z]|[0-9]){4}-([a-z]|[0-9]){12}$/)){
+        next();
+    } else{
+        res.status(400).send('Fehlerhafte Anfrage: Schadensfall ID ist keine UUID');
     }
 };
 
@@ -163,8 +173,11 @@ exports.parameterZurVersicherungsErstellung = function(req,res,next){
     var versicherungshoehe = req.body.versicherungshoehe;
     var beitrag = req.body.beitrag;
     var beschreibung = req.body.beschreibung;
+    if(beschreibung  != undefined){
+      beschreibung = '';
+    }
 
-    if(name != undefined && name.length > 0 && internal.isMoney(versicherungshoehe) && internal.isMoney(beitrag)) {
+    if(name != undefined && versicherungshoehe != undefined && beitrag != undefined && name.length > 0 && internal.isMoney(versicherungshoehe) && internal.isMoney(beitrag)) {
         next();
     } else{
         res.status(400).send('Bad Request: ' + name + " - " + versicherungshoehe + " - " + beitrag + " - " + beschreibung);
@@ -176,16 +189,26 @@ exports.parameterKommentar = function(req,res,next){
     var text = req.body.text;
 
     if(text != undefined && versicherungID != undefined && text.length > 0 && internal.isNumber(versicherungID)) {
-        logger.consoleInfo("Parameter zur Kommentarerstellung passen.");
-        next();
+      tdg.selectVersicherung(versicherungID,
+          function(data){
+              if(data[0].id != null){
+                  next();
+              } else{
+                  res.status(409).send('Angegebene Versicherung existiert nicht.');
+              }
+          },
+          function(err){
+              logger.error('Fehler beim Laden der Versicherung ' + versicherungID + ' zum Zweck der Validierung - ' + err);
+              res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Versicherung existiert.');
+          }
+      );
     } else{
-        res.status(400).send('Bad Request: ' + name + " - " + versicherungshoehe + " - " + beitrag + " - " + beschreibung);
+        res.status(400).send('Bad Request: ' + versicherungID + " - " + text);
     }
 };
 
 exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
     var kategorie = req.body.kategorie;
-    logger.consoleInfo("Kategorie: " + kategorie);
     tdg.selectKategorien(
         function(data){
             // logger.consoleInfo("Abfrage der Kategorien: " + JSON.stringify(data));
@@ -206,10 +229,35 @@ exports.obKategorieExistiert = function(req,res,next){ //Not YET READY!!!
     );
 };
 
+exports.obVersicherungExistiert = function(req,res,next){
+  var versicherungID = req.body.versicherungID;
+  if (versicherungID == undefined){
+    versicherungID = req.params.versicherungID;
+  }
+  tdg.selectVersicherung(versicherungID,
+      function(data){
+          //logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
+          if(data[0].id != null){
+              next();
+          } else{
+              res.status(404).send('Angegebene Versicherung existiert nicht.');
+          }
+      },
+      function(err){
+          logger.error('Fehler beim Laden der Versicherung ' + versicherungID + ' zum Zweck der Validierung - ' + err);
+          res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Versicherung existiert.');
+      }
+  );
+}
+
 exports.obVersicherungGekuendigtIstOderWird = function(req,res,next){
     var versicherungID = req.body.versicherungID;
+    if (versicherungID == undefined){
+      versicherungID = req.params.versicherungID;
+    }
     tdg.selectVersicherung(versicherungID,
         function(data){
+            //logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
             if(data[0].istGekuendigt == false && data[0].wirdGekuendigt == false){
                 req.body.versicherungshoehe = data[0].versicherungshoehe;
                 next();
@@ -248,6 +296,48 @@ exports.obVersicherungSchonVollIst = function(req,res,next){
         function(err){
             logger.error('Fehler beim Laden der Versicherung ' + versicherungID + ' zum Zweck der Validierung - ' + err);
             res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Versicherung bereits gekuendigt ist oder wird.');
+        }
+    );
+};
+
+exports.obInvestitionExistiert = function(req,res,next){
+  var investitionID = req.body.investitionID;
+  if (investitionID == undefined){
+    investitionID = req.params.investitionID;
+  }
+  tdg.selectInvestition(investitionID,
+      function(data){
+          //logger.consoleInfo('InvestitionID: ' + investitionID + '    Data: ' + JSON.stringify(data));
+          if(data[0].id != null){
+              next();
+          } else{
+              res.status(404).send('Angegebene Investition existiert nicht.');
+          }
+      },
+      function(err){
+          logger.error('Fehler beim Laden der Investition ' + investitionID + ' zum Zweck der Validierung - ' + err);
+          res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Investition existiert.');
+      }
+  );
+}
+
+exports.obInvestitionGekuendigtIstOderWird = function(req,res,next){
+    var investitionID = req.body.investitionID;
+    if (investitionID == undefined){
+      investitionID = req.params.investitionID;
+    }
+    tdg.selectInvestition(investitionID,
+        function(data){
+            //logger.consoleInfo('InvestitionID: ' + investitionID + '    Data: ' + JSON.stringify(data));
+            if(data[0].iistGekuendigt == false && data[0].iwirdGekuendigt == false){
+                next();
+            } else{
+                res.status(409).send('Angegebene Investition ist oder wird Gekuendigt.');
+            }
+        },
+        function(err){
+            logger.error('Fehler beim Laden der Investition ' + investitionID + ' zum Zweck der Validierung - ' + err);
+            res.status(500).send('Es konnte nicht festgestellt werden ob die angegebene Investition bereits gekuendigt ist oder wird.');
         }
     );
 };
