@@ -1,4 +1,4 @@
-appController.controller('uebersichtCtrl', function($scope, $http, $state, moneyParser, moneyFormatter, apiendpoint){
+appController.controller('uebersichtCtrl', function($scope, $http, $state, moneyParser, moneyFormatter, apiendpoint, Status){
 
 
     $scope.versicherungen= [];
@@ -9,13 +9,12 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung').success(function(response) {
-        $scope.versicherungen = response;
+        $scope.versicherungen = Status.versicherung(response);
         $scope.noVersicherung = false;
-
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
-        $scope.investitionen = response;
+        $scope.investitionen = Status.investition(response);
         $scope.noInvestition = false;
     });
 

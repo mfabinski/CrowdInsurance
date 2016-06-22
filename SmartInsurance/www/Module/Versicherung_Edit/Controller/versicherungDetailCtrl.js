@@ -1,4 +1,4 @@
-appController.controller('versicherungDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint){
+appController.controller('versicherungDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, CacheHistoryReseter, Status){
 
 
     $scope.versicherungId = $stateParams.id;
@@ -7,8 +7,9 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
-        $scope.versicherung = response[0];
+         $scope.versicherung = Status.versicherung(response)[0];
     }).error(function(error, status) {
+        CacheHistoryReseter.reset();
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
@@ -27,16 +28,6 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
          $scope.schadensfaelle = response;
 
     });
-
-
-    $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/invest')
-        .success(function(response) {
-            if(angular.isDefined(response[0])) {
-                $scope.investitionBetrag = response[0].suminvestition;
-            } else {
-                $scope.investitionBetrag = "0,00 €";
-            }
-        });
 
 
     $scope.gesamtSchaden = function () {

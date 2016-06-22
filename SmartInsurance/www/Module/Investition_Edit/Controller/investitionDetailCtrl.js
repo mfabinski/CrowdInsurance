@@ -1,11 +1,11 @@
-appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint){
+appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, Status){
 
 
     $scope.investitionID = $stateParams.id;
 
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
-        $scope.investition = response[0];
+        $scope.investition = Status.investition(response)[0];
 
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.investition.versicherungID +'/person').success(function(response) {
             $scope.investoren = response;
