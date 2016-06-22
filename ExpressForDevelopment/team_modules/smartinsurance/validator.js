@@ -341,3 +341,41 @@ exports.obInvestitionGekuendigtIstOderWird = function(req,res,next){
         }
     );
 };
+
+exports.obUserExistiert = function(req,res,next){
+  var personID = req.body.personID;
+  if (personID == undefined){
+    personID = req.params.personID;
+  }
+  tdg.getProfilByID(personID,
+      function(data){
+          //logger.consoleInfo('VersicherungID: ' + versicherungID + '    Data: ' + JSON.stringify(data));
+          if(data[0].id != null){
+              next();
+          } else{
+              res.status(404).send('Angegebener User/Person existiert nicht.');
+          }
+      },
+      function(err){
+          logger.error('Fehler beim Laden der User/Person ' + personID + ' zum Zweck der Validierung - ' + err);
+          res.status(500).send('Es konnte nicht festgestellt werden ob der angegebene User/Person existiert.');
+      }
+  );
+}
+
+exports.parameterProfilAendern = function(req,res,next){
+  logger.consoleInfo("validate.parameterProfilAendern noch nicht implementiert");
+  var personID = req.body.personID;
+  var name = req.body.name;
+  var prename = req.body.prename;
+  var email = req.body.email;
+  var iban = req.body.iban;
+  var bic = req.body.bic;
+  var bankinstitut = req.body.bankinstitut;
+  if(personID == undefined || name == undefined || prename == undefined || email == undefined || iban == undefined || bic == undefined || bankinstitut == undefined){
+    res.status(400).send('Die Anfrage ist unterdefiniert (Es fehlen Felder).')
+  }
+  else{
+    next();
+  }
+}
