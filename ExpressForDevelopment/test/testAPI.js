@@ -720,10 +720,77 @@ describe("Test API:", function(){
         done();
       });
     });
-    it('Fehlschlag VersicherungID ist keine Nummer');
-    it('Fehlschlag Versicherung Existiert nicht');
-    it('Fehlschlag fehlende Parameter');
-    it('Fehlschlag negative Schadenshoehe');
+    it('Fehlschlag VersicherungID ist keine Nummer', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":'aa11',
+        "schadenshoehe":'1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag Versicherung Existiert nicht', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":99999,
+        "schadenshoehe":'1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(409);
+        done();
+      });
+    });
+    it('Fehlschlag fehlende Parameter', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":114,
+        "schadenshoehe":'1.000,00 €',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+    it('Fehlschlag negative Schadenshoehe', function(done){
+      var url = "http://localhost:3000/api/smartinsurance/schadensfallmelden";
+      var postbody = {
+        "versicherungID":114,
+        "schadenshoehe":'-1.000,00 €',
+        "bezeichnung":'Delle',
+        "beschreibung":'Grosse Delle'
+      };
+      request({
+        "url":url,
+        "method":"POST",
+        "body" : postbody,
+        "json" : true
+      }, function(error, response, body) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
     it('Fehlschlag nur der Versicherungsnehmer kann Schadensfälle erstellen');
   });
 
