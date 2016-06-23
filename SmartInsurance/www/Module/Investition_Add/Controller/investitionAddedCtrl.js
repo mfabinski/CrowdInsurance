@@ -59,6 +59,9 @@ appController.controller('investitionAddedCtrl',function($scope, $http, $state, 
             case "Übersicht":
                 $state.go('app.uebersicht');
                 break;
+            case "Detail":
+                $state.go('app.investitionDetail',{id: $scope.investitionID});
+                break;
         }
     };
 
