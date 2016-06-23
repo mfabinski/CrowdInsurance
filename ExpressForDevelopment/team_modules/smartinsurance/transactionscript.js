@@ -76,6 +76,38 @@ exports.getBewertungen = function (req, res, next) {
     );
 };
 
+exports.filterVersicherungCount = function (req, res, next) {
+    var kategorie = req.body.kategorie;
+    if (kategorie == undefined) {
+      tdg.filterVersicherungCount(null,
+          function(data){
+              if(data.length != 0) {
+                  res.status(200).json(data);
+              } else{
+                  res.status(404).send('Filter Count auf '  + kategorie +' fehlgeschlagen.')
+              }
+          },
+          function(err){
+              logger.info('Fehler beim Filter Count'+ ' - ' + err);
+              res.status(500).send('Fehler beim Filter Count');
+          }
+      );
+    } else {
+      tdg.filterVersicherungCount(kategorie,
+          function(data){
+              if(data.length != 0) {
+                  res.status(200).json(data);
+              } else{
+                  res.status(404).send('Filter Count auf '  + kategorie +' fehlgeschlagen.')
+              }
+          },
+          function(err){
+              logger.info('Fehler beim Filter Count'+ ' - ' + err);
+              res.status(500).send('Fehler beim Filter Count');
+          }
+      );
+    }
+}
 // Filtern und sortieren der Versicherungen
 exports.filterVersicherung = function (req, res, next) {
     var withFilter = true;

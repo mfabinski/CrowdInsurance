@@ -38,6 +38,11 @@ exports.filterVersicherung = function(kategorie, orderby, asc_desc, limit, skip,
 exports.orderVersicherung = function(orderby, asc_desc, limit, skip, onSuccess, onError){
     db.func('orderversicherung',[orderby, (asc_desc?"ASC":"DESC"), limit, skip]).then(onSuccess).catch(onError);
 };
+
+// Zaehlen von Versicherungen
+exports.filterVersicherungCount = function(kategorie) {
+  db.func('filterversicherungcount',[kategorie]).then(onSuccess).catch(onError);
+}
 //
 //1.2 Kategorien der Versicherungen
 //---------------------------------
