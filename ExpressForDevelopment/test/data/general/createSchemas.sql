@@ -89,26 +89,26 @@ SET search_path = smartbackend, pg_catalog;
 
 CREATE FUNCTION insert_smartbackend_user(email text, prename text, name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-    LOOP
-        -- first try to update the key
-        -- note that "a" must be unique
-        UPDATE smartbackend.user SET email = email WHERE email = email;
-        IF found THEN
-            RETURN;
-        END IF;
-        -- not there, so try to insert the key
-        -- if someone else inserts the same key concurrently,
-        -- we could get a unique-key failure
-        BEGIN
-            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
-            RETURN;
-        EXCEPTION WHEN unique_violation THEN
-            -- do nothing, and loop to try the UPDATE again
-        END;
-    END LOOP;
-END;
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
 $$;
 
 
@@ -129,13 +129,13 @@ SET search_path = smartinsurance, pg_catalog;
 
 CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Zahlungsstrom"
-       ("versicherungID", "personID", betrag)
-       VALUES ($1, $2, $3);
-    INSERT INTO smartinsurance."Investition"
-       (id, "versicherungID", "personID", investitionshoehe) 
-       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
+    AS $_$
+    INSERT INTO smartinsurance."Zahlungsstrom"
+       ("versicherungID", "personID", betrag)
+       VALUES ($1, $2, $3);
+    INSERT INTO smartinsurance."Investition"
+       (id, "versicherungID", "personID", investitionshoehe) 
+       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
 
@@ -145,10 +145,10 @@ $_$;
 
 CREATE FUNCTION createkommentar(integer, text, uuid) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO "Kommentar"(
-            id, "versicherungID", text, zeitpunkt, "personID")
-    VALUES (DEFAULT, $1, $2, now(), $3) returning id;
+    AS $_$
+    INSERT INTO "Kommentar"(
+            id, "versicherungID", text, zeitpunkt, "personID")
+    VALUES (DEFAULT, $1, $2, now(), $3) returning id;
 $_$;
 
 
@@ -158,10 +158,10 @@ $_$;
 
 CREATE FUNCTION createschadensfall(integer, text, money) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", beschreibung, schadenshoehe) 
-       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
+    AS $_$
+    INSERT INTO smartinsurance."Schadensfall"
+       (id, "versicherungID", beschreibung, schadenshoehe) 
+       VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
 
@@ -171,10 +171,10 @@ $_$;
 
 CREATE FUNCTION createschadensfall(integer, text, text, money) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe) 
-       VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id;
+    AS $_$
+    INSERT INTO smartinsurance."Schadensfall"
+       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe) 
+       VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id;
 $_$;
 
 
@@ -184,10 +184,10 @@ $_$;
 
 CREATE FUNCTION createversicherung(uuid, text, money, money, text, kategorie) RETURNS integer
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Versicherung"
-    (id, "personID", name, versicherungshoehe, beitrag, beschreibung, kategorie)
-    VALUES ( DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id;
+    AS $_$
+    INSERT INTO smartinsurance."Versicherung"
+    (id, "personID", name, versicherungshoehe, beitrag, beschreibung, kategorie)
+    VALUES ( DEFAULT, $1, $2, $3, $4, $5, $6) RETURNING id;
 $_$;
 
 
@@ -197,10 +197,10 @@ $_$;
 
 CREATE FUNCTION executezahlung(integer, uuid, money) RETURNS void
     LANGUAGE sql
-    AS $_$
-    INSERT INTO smartinsurance."Zahlungsstrom"
-      ("versicherungID", "personID", betrag)
-      VALUES ($1, $2, $3);
+    AS $_$
+    INSERT INTO smartinsurance."Zahlungsstrom"
+      ("versicherungID", "personID", betrag)
+      VALUES ($1, $2, $3);
 $_$;
 
 
@@ -341,50 +341,71 @@ CREATE VIEW "VersicherungFilter" AS
 
 CREATE FUNCTION filterversicherung(kategorie, text, text, integer DEFAULT 0, integer DEFAULT 0) RETURNS SETOF "VersicherungFilter"
     LANGUAGE plpgsql
-    AS $_$
-BEGIN
-if $4 > 0 then 
-    RETURN QUERY EXECUTE 'SELECT "id",
-       "name",
-       "versicherungshoehe",
-       "beitrag",
-       "beschreibung",
-       "abschlussZeitpunkt",
-       "kuendigungsZeitpunkt",
-       "istGekuendigt",
-       "wirdGekuendigt",
-       "personID",
-       "kategorie",
-       "anzahl_investoren",
-       "bewertung",
-       "rendite" 
-    FROM smartinsurance."VersicherungFilter" 
-    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
-    || quote_ident($2) || ' ' || $3 || 
-    ' LIMIT  $4
-     OFFSET $5
-    ;' USING $1,$2,$3,$4,$5;
-else
-    RETURN QUERY EXECUTE 'SELECT "id",
-       "name",
-       "versicherungshoehe",
-       "beitrag",
-       "beschreibung",
-       "abschlussZeitpunkt",
-       "kuendigungsZeitpunkt",
-       "istGekuendigt",
-       "wirdGekuendigt",
-       "personID",
-       "kategorie",
-       "anzahl_investoren",
-       "bewertung",
-       "rendite" 
-    FROM smartinsurance."VersicherungFilter" 
-    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
-    || quote_ident($2) || ' ' || $3 || 
-    ';' USING $1,$2,$3;
-end if;
-END;
+    AS $_$
+BEGIN
+if $4 > 0 then 
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
+    || quote_ident($2) || ' ' || $3 || 
+    ' LIMIT  $4
+     OFFSET $5
+    ;' USING $1,$2,$3,$4,$5;
+else
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
+    || quote_ident($2) || ' ' || $3 || 
+    ';' USING $1,$2,$3;
+end if;
+END;
+$_$;
+
+
+--
+-- Name: filterversicherungcount(kategorie, text, text, integer, integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION filterversicherungcount(kategorie DEFAULT NULL::kategorie, text DEFAULT ''::text, text DEFAULT ''::text, integer DEFAULT 0, integer DEFAULT 0) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+ if $1 is null then
+    RETURN (SELECT count(*)
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false);
+ else
+    RETURN (SELECT count(*)
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false);
+ end if;
+END;
 $_$;
 
 
@@ -394,14 +415,14 @@ $_$;
 
 CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
     LANGUAGE sql
-    AS $$
-    INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
-      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
-      FROM smartinsurance."Investition" 
-      WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
-    UPDATE smartinsurance."Investition"
-      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
-      WHERE "wirdGekuendigt"=true;
+    AS $$
+    INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
+      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
+      FROM smartinsurance."Investition" 
+      WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
+    UPDATE smartinsurance."Investition"
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+      WHERE "wirdGekuendigt"=true;
 $$;
 
 
@@ -411,10 +432,10 @@ $$;
 
 CREATE FUNCTION finalizeschadensfall() RETURNS void
     LANGUAGE sql
-    AS $$
-   UPDATE "Schadensfall"
-      SET "istAusgezahlt"=true
-      WHERE "istAusgezahlt"=false;
+    AS $$
+   UPDATE "Schadensfall"
+      SET "istAusgezahlt"=true
+      WHERE "istAusgezahlt"=false;
 $$;
 
 
@@ -424,10 +445,10 @@ $$;
 
 CREATE FUNCTION finalizeschadensfall(integer) RETURNS void
     LANGUAGE sql
-    AS $_$
-   UPDATE "Schadensfall"
-      SET "istAusgezahlt"=true
-      WHERE id=$1;
+    AS $_$
+   UPDATE "Schadensfall"
+      SET "istAusgezahlt"=true
+      WHERE id=$1;
 $_$;
 
 
@@ -437,10 +458,10 @@ $_$;
 
 CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     LANGUAGE sql
-    AS $$
-    UPDATE smartinsurance."Versicherung"
-    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
-    WHERE "wirdGekuendigt"=true;
+    AS $$
+    UPDATE smartinsurance."Versicherung"
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
+    WHERE "wirdGekuendigt"=true;
 $$;
 
 
@@ -544,8 +565,8 @@ CREATE VIEW "InvestitionKomplett" AS
 
 CREATE FUNCTION getinvestitionkomplettbyiid(integer) RETURNS "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik.id = $1;
 $_$;
 
 
@@ -555,8 +576,8 @@ $_$;
 
 CREATE FUNCTION getinvestitionkomplettbyuid(uuid) RETURNS SETOF "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."ipersonID" = $1;
 $_$;
 
 
@@ -566,8 +587,8 @@ $_$;
 
 CREATE FUNCTION getinvestitionkomplettbyvid(integer) RETURNS SETOF "InvestitionKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
+    AS $_$
+    SELECT * FROM "InvestitionKomplett" as ik WHERE ik."versicherungID" = $1;
 $_$;
 
 
@@ -577,25 +598,25 @@ $_$;
 
 CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     LANGUAGE sql
-    AS $_$
-/*    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
-     FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
-     WHERE smartinsurance."Versicherung".id=$1
-     AND smartinsurance."Investition"."istGekuendigt"=false; */
-/*
-     SELECT COALESCE(sum(smartinsurance."Investition"."investitionshoehe"), '0.00 €') as suminvestition
-     FROM smartinsurance."Versicherung" LEFT OUTER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
-     AND smartinsurance."Investition"."istGekuendigt"=false;*/
-     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
-            (SELECT * FROM "Versicherung") v
-        LEFT OUTER JOIN
-            (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
-        ON v.id = i."versicherungID"
-     WHERE v.id = $1
-     GROUP BY v.id;
-
+    AS $_$
+/*    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
+     FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     WHERE smartinsurance."Versicherung".id=$1
+     AND smartinsurance."Investition"."istGekuendigt"=false; */
+/*
+     SELECT COALESCE(sum(smartinsurance."Investition"."investitionshoehe"), '0.00 €') as suminvestition
+     FROM smartinsurance."Versicherung" LEFT OUTER JOIN smartinsurance."Investition"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
+     AND smartinsurance."Investition"."istGekuendigt"=false;*/
+     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
+            (SELECT * FROM "Versicherung") v
+        LEFT OUTER JOIN
+            (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
+        ON v.id = i."versicherungID"
+     WHERE v.id = $1
+     GROUP BY v.id;
+
 $_$;
 
 
@@ -630,9 +651,9 @@ CREATE VIEW "InvestorenVonVersicherung" AS
 
 CREATE FUNCTION getinvestorenbyvid(integer) RETURNS SETOF "InvestorenVonVersicherung"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "InvestorenVonVersicherung"
-    WHERE "versicherungID"=$1;
+    AS $_$
+    SELECT * FROM "InvestorenVonVersicherung"
+    WHERE "versicherungID"=$1;
 $_$;
 
 
@@ -642,8 +663,8 @@ $_$;
 
 CREATE FUNCTION getkategorien() RETURNS kategorie[]
     LANGUAGE sql
-    AS $$
-    SELECT enum_range(NULL::kategorie);
+    AS $$
+    SELECT enum_range(NULL::kategorie);
 $$;
 
 
@@ -682,8 +703,8 @@ CREATE VIEW "KommentarPerson" AS
 
 CREATE FUNCTION getkommentarbykid(integer) RETURNS SETOF "KommentarPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "KommentarPerson" as kp WHERE kp."id" = $1;
+    AS $_$
+    SELECT * FROM "KommentarPerson" as kp WHERE kp."id" = $1;
 $_$;
 
 
@@ -693,8 +714,8 @@ $_$;
 
 CREATE FUNCTION getkommentarebyvid(integer) RETURNS SETOF "KommentarPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "KommentarPerson" as kp WHERE kp."versicherungID" = $1 ORDER BY "zeitpunkt" DESC;
+    AS $_$
+    SELECT * FROM "KommentarPerson" as kp WHERE kp."versicherungID" = $1 ORDER BY "zeitpunkt" DESC;
 $_$;
 
 
@@ -765,8 +786,8 @@ CREATE VIEW "ProfilKomplett" AS
 
 CREATE FUNCTION getprofilkomplettbyuid(uuid) RETURNS "ProfilKomplett"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "ProfilKomplett" as p WHERE p.id = $1;
+    AS $_$
+    SELECT * FROM "ProfilKomplett" as p WHERE p.id = $1;
 $_$;
 
 
@@ -792,8 +813,8 @@ CREATE VIEW "ProfilPublic" AS
 
 CREATE FUNCTION getprofilpublicbyuid(uuid) RETURNS "ProfilPublic"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "ProfilPublic" as p WHERE p.id = $1;
+    AS $_$
+    SELECT * FROM "ProfilPublic" as p WHERE p.id = $1;
 $_$;
 
 
@@ -826,8 +847,8 @@ COMMENT ON COLUMN "Schadensfall".zeitpunkt IS 'Zeitpunkt der Meldung des Schaden
 
 CREATE FUNCTION getschadensfallbysid(integer) RETURNS "Schadensfall"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "Schadensfall" as sf WHERE sf.id = $1;
+    AS $_$
+    SELECT * FROM "Schadensfall" as sf WHERE sf.id = $1;
 $_$;
 
 
@@ -837,8 +858,8 @@ $_$;
 
 CREATE FUNCTION getschadensfallbyvid(integer) RETURNS SETOF "Schadensfall"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "Schadensfall" as sf WHERE sf."versicherungID" = $1;
+    AS $_$
+    SELECT * FROM "Schadensfall" as sf WHERE sf."versicherungID" = $1;
 $_$;
 
 
@@ -848,8 +869,8 @@ $_$;
 
 CREATE FUNCTION getversicherungpersonbyuid(uuid) RETURNS SETOF "VersicherungPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp."personID" = $1;
 $_$;
 
 
@@ -859,8 +880,8 @@ $_$;
 
 CREATE FUNCTION getversicherungpersonbyvid(integer) RETURNS "VersicherungPerson"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
+    AS $_$
+    SELECT * FROM "VersicherungPerson" as vp WHERE vp.id = $1;
 $_$;
 
 
@@ -883,8 +904,8 @@ CREATE VIEW "Versicherungsbewertungen" AS
 
 CREATE FUNCTION getversicherungsbewertungenbyvid(integer) RETURNS SETOF "Versicherungsbewertungen"
     LANGUAGE sql
-    AS $_$
-    SELECT * FROM "Versicherungsbewertungen" as vb WHERE vb."versicherungID" = $1;
+    AS $_$
+    SELECT * FROM "Versicherungsbewertungen" as vb WHERE vb."versicherungID" = $1;
 $_$;
 
 
@@ -919,8 +940,8 @@ CREATE VIEW "VersicherungenUndBeitraege" AS
 
 CREATE FUNCTION getversicherungundbeitraege() RETURNS SETOF "VersicherungenUndBeitraege"
     LANGUAGE sql
-    AS $$
-    SELECT * FROM "VersicherungenUndBeitraege";
+    AS $$
+    SELECT * FROM "VersicherungenUndBeitraege";
 $$;
 
 
@@ -952,8 +973,8 @@ CREATE VIEW "ZahlungsrelevanteInvestitionen" AS
 
 CREATE FUNCTION getzahlungsrelevanteinvestitionen() RETURNS SETOF "ZahlungsrelevanteInvestitionen"
     LANGUAGE sql
-    AS $$
-    SELECT * FROM "ZahlungsrelevanteInvestitionen";
+    AS $$
+    SELECT * FROM "ZahlungsrelevanteInvestitionen";
 $$;
 
 
@@ -963,51 +984,51 @@ $$;
 
 CREATE FUNCTION orderversicherung(text, text, integer DEFAULT 0, integer DEFAULT 0) RETURNS SETOF "VersicherungFilter"
     LANGUAGE plpgsql
-    AS $_$
-BEGIN
-if $3 > 0 then 
-    RETURN QUERY EXECUTE 'SELECT "id",
-       "name",
-       "versicherungshoehe",
-       "beitrag",
-       "beschreibung",
-       "abschlussZeitpunkt",
-       "kuendigungsZeitpunkt",
-       "istGekuendigt",
-       "wirdGekuendigt",
-       "personID",
-       "kategorie",
-       "anzahl_investoren",
-       "bewertung",
-       "rendite" 
-    FROM smartinsurance."VersicherungFilter" '
-    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
-    || 'ORDER BY '
-    || quote_ident($1) || ' ' || $2 || 
-    ' LIMIT  $3
-      OFFSET $4
-    ;' USING $1,$2,$3,$4;
-else
-    RETURN QUERY EXECUTE 'SELECT "id",
-       "name",
-       "versicherungshoehe",
-       "beitrag",
-       "beschreibung",
-       "abschlussZeitpunkt",
-       "kuendigungsZeitpunkt",
-       "istGekuendigt",
-       "wirdGekuendigt",
-       "personID",
-       "kategorie",
-       "anzahl_investoren",
-       "bewertung",
-       "rendite" 
-    FROM smartinsurance."VersicherungFilter" '
-    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
-    || 'ORDER BY '
-    || quote_ident($1) || ' ' || $2 || ';';
-end if;
-END;
+    AS $_$
+BEGIN
+if $3 > 0 then 
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" '
+    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
+    || 'ORDER BY '
+    || quote_ident($1) || ' ' || $2 || 
+    ' LIMIT  $3
+      OFFSET $4
+    ;' USING $1,$2,$3,$4;
+else
+    RETURN QUERY EXECUTE 'SELECT "id",
+       "name",
+       "versicherungshoehe",
+       "beitrag",
+       "beschreibung",
+       "abschlussZeitpunkt",
+       "kuendigungsZeitpunkt",
+       "istGekuendigt",
+       "wirdGekuendigt",
+       "personID",
+       "kategorie",
+       "anzahl_investoren",
+       "bewertung",
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" '
+    || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
+    || 'ORDER BY '
+    || quote_ident($1) || ' ' || $2 || ';';
+end if;
+END;
 $_$;
 
 
@@ -1017,10 +1038,10 @@ $_$;
 
 CREATE FUNCTION payschadensfaelle() RETURNS void
     LANGUAGE sql
-    AS $$
-    INSERT INTO "Zahlungsstrom" ("versicherungID", betrag, "personID")
-    SELECT s."versicherungID", (s.auszahlung * (-1)) AS betrag, s."personID"
-    FROM "SchadensfallVersicherung" s;
+    AS $$
+    INSERT INTO "Zahlungsstrom" ("versicherungID", betrag, "personID")
+    SELECT s."versicherungID", (s.auszahlung * (-1)) AS betrag, s."personID"
+    FROM "SchadensfallVersicherung" s;
 $$;
 
 
@@ -1030,14 +1051,14 @@ $$;
 
 CREATE FUNCTION reduceinvestitionenwegenschaden() RETURNS void
     LANGUAGE sql
-    AS $$
-    UPDATE "Investition" 
-    SET investitionshoehe = (SELECT s."neueInvestitionshoehe"
-	FROM "SchadensfallAbzugDerInvestition" s
-	WHERE "Investition".id = s."investitionID")
-    WHERE EXISTS (SELECT *
-	FROM "SchadensfallAbzugDerInvestition" s
-	WHERE "Investition".id = s."investitionID");
+    AS $$
+    UPDATE "Investition" 
+    SET investitionshoehe = (SELECT s."neueInvestitionshoehe"
+	FROM "SchadensfallAbzugDerInvestition" s
+	WHERE "Investition".id = s."investitionID")
+    WHERE EXISTS (SELECT *
+	FROM "SchadensfallAbzugDerInvestition" s
+	WHERE "Investition".id = s."investitionID");
 $$;
 
 
@@ -1047,8 +1068,8 @@ $$;
 
 CREATE FUNCTION setinvestitionbewertung("investitionID" integer, "Bewertung" bewertung) RETURNS void
     LANGUAGE sql
-    AS $_$Update "Investition" 
-set bewertung =$2
+    AS $_$Update "Investition" 
+set bewertung =$2
 where id=$1;$_$;
 
 
@@ -1058,9 +1079,9 @@ where id=$1;$_$;
 
 CREATE FUNCTION submitinvestitionskuendigung(integer) RETURNS void
     LANGUAGE sql
-    AS $_$
-    UPDATE smartinsurance."Investition"
-      SET "wirdGekuendigt"=true WHERE id=$1 AND "istGekuendigt"=false;
+    AS $_$
+    UPDATE smartinsurance."Investition"
+      SET "wirdGekuendigt"=true WHERE id=$1 AND "istGekuendigt"=false;
 $_$;
 
 
@@ -1070,12 +1091,12 @@ $_$;
 
 CREATE FUNCTION submitversicherungskuendigung(integer) RETURNS void
     LANGUAGE sql
-    AS $_$
-    UPDATE smartinsurance."Versicherung"
-      SET "wirdGekuendigt"=true WHERE id=$1;
-    UPDATE smartinsurance."Investition" 
-      SET "wirdGekuendigt"=true 
-      WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
+    AS $_$
+    UPDATE smartinsurance."Versicherung"
+      SET "wirdGekuendigt"=true WHERE id=$1;
+    UPDATE smartinsurance."Investition" 
+      SET "wirdGekuendigt"=true 
+      WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
 $_$;
 
 
@@ -1085,13 +1106,13 @@ $_$;
 
 CREATE FUNCTION test_matthias(param_id integer) RETURNS SETOF "Versicherung"
     LANGUAGE plpgsql
-    AS $$
-BEGIN
-   RETURN QUERY
-   SELECT *
-   FROM "smartinsurance"."Versicherung"
-   WHERE id = param_id;
-END
+    AS $$
+BEGIN
+   RETURN QUERY
+   SELECT *
+   FROM "smartinsurance"."Versicherung"
+   WHERE id = param_id;
+END
 $$;
 
 
@@ -1101,10 +1122,10 @@ $$;
 
 CREATE FUNCTION updateinvestition(integer, money) RETURNS void
     LANGUAGE sql
-    AS $_$
-   UPDATE "Investition"
-      SET investitionshoehe=$2
-      WHERE id=$1;
+    AS $_$
+   UPDATE "Investition"
+      SET investitionshoehe=$2
+      WHERE id=$1;
 $_$;
 
 
@@ -1114,16 +1135,35 @@ $_$;
 
 CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text) RETURNS void
     LANGUAGE sql
-    AS $_$
-    UPDATE smartbackend.user 
-	SET name=$2, prename=$3, email=$4
-	WHERE id=$1;
-    UPDATE smartinsurance.userbank
-        SET iban=$5, bic=$6, bankinstitut=$7
-        WHERE id=$1;
-    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
-	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
-		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
+    AS $_$
+    UPDATE smartbackend.user 
+	SET name=$2, prename=$3, email=$4
+	WHERE id=$1;
+    UPDATE smartinsurance.userbank
+        SET iban=$5, bic=$6, bankinstitut=$7
+        WHERE id=$1;
+    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
+	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
+		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
+$_$;
+
+
+--
+-- Name: updateprofil(uuid, text, text, text, text, text, text, date); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text, date) RETURNS void
+    LANGUAGE sql
+    AS $_$
+    UPDATE smartbackend.user 
+	SET name=$2, prename=$3, email=$4, birthday=$8
+	WHERE id=$1;
+    UPDATE smartinsurance.userbank
+        SET iban=$5, bic=$6, bankinstitut=$7
+        WHERE id=$1;
+    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
+	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
+		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
 $_$;
 
 
@@ -1133,10 +1173,10 @@ $_$;
 
 CREATE FUNCTION updateschadensfall(integer, text, text, money) RETURNS void
     LANGUAGE sql
-    AS $_$
-   UPDATE "Schadensfall"
-      SET bezeichnung=$2, beschreibung=$3, schadenshoehe=$4
-      WHERE id=$1;
+    AS $_$
+   UPDATE "Schadensfall"
+      SET bezeichnung=$2, beschreibung=$3, schadenshoehe=$4
+      WHERE id=$1;
 $_$;
 
 
@@ -1146,10 +1186,10 @@ $_$;
 
 CREATE FUNCTION updateversicherung(integer, text, text, kategorie) RETURNS void
     LANGUAGE sql
-    AS $_$
-   UPDATE "Versicherung"
-      SET name=$2, beschreibung=$3, kategorie=$4
-      WHERE id=$1;
+    AS $_$
+   UPDATE "Versicherung"
+      SET name=$2, beschreibung=$3, kategorie=$4
+      WHERE id=$1;
 $_$;
 
 
@@ -1270,6 +1310,32 @@ CREATE TABLE user_password (
     id uuid NOT NULL,
     salt text,
     password text
+);
+
+
+--
+-- Name: user_accesstoken_password; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_accesstoken_password AS
+ SELECT "user".id,
+    user_token.access_token,
+    user_password.password,
+    "user".email
+   FROM "user",
+    user_token,
+    user_password
+  WHERE (("user".id = user_token.fk_user) AND ("user".id = user_password.id));
+
+
+--
+-- Name: user_friends; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE user_friends (
+    "userId" uuid NOT NULL,
+    "friendId" uuid NOT NULL,
+    "isFriend" boolean DEFAULT false
 );
 
 
@@ -1758,6 +1824,14 @@ ALTER TABLE ONLY "user"
 
 
 --
+-- Name: user_friends_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_friends
+    ADD CONSTRAINT user_friends_pkey PRIMARY KEY ("userId", "friendId");
+
+
+--
 -- Name: user_password_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
@@ -1910,6 +1984,22 @@ ALTER TABLE ONLY chat_message
 
 ALTER TABLE ONLY push_user_device
     ADD CONSTRAINT user_fkey FOREIGN KEY (userid) REFERENCES "user"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_friends_friendId_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_friends
+    ADD CONSTRAINT "user_friends_friendId_fkey" FOREIGN KEY ("friendId") REFERENCES "user"(id);
+
+
+--
+-- Name: user_friends_userId_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_friends
+    ADD CONSTRAINT "user_friends_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"(id);
 
 
 --

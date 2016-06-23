@@ -372,7 +372,8 @@ exports.parameterProfilAendern = function(req,res,next){
   var iban = req.body.iban;
   var bic = req.body.bic;
   var bankinstitut = req.body.bankinstitut;
-  if(personID == undefined || name == undefined || prename == undefined || email == undefined || iban == undefined || bic == undefined || bankinstitut == undefined){
+  var birthday = req.body.birthday;
+  if(personID == undefined || name == undefined || prename == undefined || email == undefined || iban == undefined || bic == undefined || bankinstitut == undefined || birthday == undefined){
     res.status(400).send('Die Anfrage ist unterdefiniert (Es fehlen Felder).')
   }
   else{

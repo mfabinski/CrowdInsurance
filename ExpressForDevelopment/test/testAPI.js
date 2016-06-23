@@ -891,7 +891,8 @@ describe("Test API:", function(){
         "email":"new(at)email.com",
         "iban":"AL90208110080000001039531801",
         "bic":"OKOYFIHH",
-        "bankinstitut":"Deutsche Bank AG"
+        "bankinstitut":"Deutsche Bank AG",
+        "birthday":"31.12.1999"
       };
       request({
         "url":url,
@@ -912,7 +913,8 @@ describe("Test API:", function(){
         "email":"new(at)email.com",
         "iban":"AL90208110080000001039531801",
         "bic":"OKOYFIHH",
-        "bankinstitut":"Deutsche Bank AG"
+        "bankinstitut":"Deutsche Bank AG",
+        "birthday":"31.12.1999"
       };
       request({
         "url":url,
@@ -941,7 +943,8 @@ describe("Test API:", function(){
         "email":"new(at)email.com",
         "iban":"AL90208110080000001039531801",
         "bic":"OKOYFIHH",
-        "bankinstitut":"Deutsche Bank AG"
+        "bankinstitut":"Deutsche Bank AG",
+        "birthday":"31.12.1999"
       };
       request({
         "url":url,
@@ -960,7 +963,8 @@ describe("Test API:", function(){
         "prename":"NewPrename",
         "email":"new(at)email.com",
         "bic":"OKOYFIHH",
-        "bankinstitut":"Deutsche Bank AG"
+        "bankinstitut":"Deutsche Bank AG",
+        "birthday":"31.12.1999"
       };
       request({
         "url":url,

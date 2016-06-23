@@ -287,7 +287,8 @@ exports.changeProfil = function(req, res, next){
   var iban = req.body.iban;
   var bic = req.body.bic;
   var bankinstitut = req.body.bankinstitut;
-  tdg.changeProfil(personID, name, prename, email, iban, bic, bankinstitut,
+  var birthday = req.body.birthday;
+  tdg.changeProfil(personID, name, prename, email, iban, bic, bankinstitut, birthday,
       function(data){
           logger.info('Profil der Person ' + personID + 'erfolgreich geaendert.');
           res.status(201).send('Erfolgreich geandert');

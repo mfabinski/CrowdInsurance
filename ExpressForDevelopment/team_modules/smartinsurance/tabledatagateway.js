@@ -203,8 +203,8 @@ exports.updateInvestition = function(investitionID, investitionshoehe, onSuccess
 //
 //3.5 Profil bearbeiten
 //-----------------
-exports.changeProfil = function(personID, name, prename, email, iban, bic, bankinstitut, onSuccess, onError){
-    db.func('updateprofil', [personID, name, prename, email, iban, bic, bankinstitut]).then(onSuccess).catch(onError);
+exports.changeProfil = function(personID, name, prename, email, iban, bic, bankinstitut, birthday, onSuccess, onError){
+    db.func('updateprofil', [personID, name, prename, email, iban, bic, bankinstitut, birthday]).then(onSuccess).catch(onError);
 };
 
 //
