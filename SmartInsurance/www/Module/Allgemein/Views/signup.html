@@ -1,67 +1,78 @@
 <ion-view title="Registrieren" id="page26" class=" ">
 
     <ion-content padding="true" class="has-header">
+
         <form id="registrieren-form67" class="list " name="signupform">
-            <ion-list id="registrieren-list14" class=" ">
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown40">Vorname:</p>
                 <label class="item item-input " id="registrieren-input41">
-                    <span class="input-label">Vorname</span>
                     <input name="vorname" type="text" placeholder="" ng-model="form.vorname" required>
                 </label>
                 <div style="color:red">
                     <span ng-show="isInvalid(signupform.vorname)" >Bitte geben Sie einen Vornamen an. </br> </span>
                 </div>
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown41">Nachname:</p>
                 <label class="item item-input " id="registrieren-input34">
-                    <span class="input-label">Nachname</span>
                     <input name="nachname" type="text" placeholder="" ng-model="form.nachname" required>
                 </label>
                 <div style="color:red">
                     <span ng-show="isInvalid(signupform.nachname)" >Bitte geben Sie einen Nachnamen an. </br> </span>
                 </div>
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown45">E-Mail:</p>
                 <label class="item item-input " id="registrieren-input35">
-                    <span class="input-label">E-Mail</span>
                     <input name="email" type="email" placeholder="" ng-model="form.email" required>
                 </label>
                 <div style="color:red">
                     <span ng-show="isInvalid(signupform.email)" >Bitte geben Sie eine E-Mail an. </br> </span>
                 </div>
-            </ion-list>
+
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown46">Bankinstitut:</p>
             <label class="item item-input " id="registrieren-input44">
-                <span class="input-label">Bankinstitut</span>
                 <input name="bank" type="text" placeholder="" ng-model="form.bank" required>
             </label>
             <div style="color:red">
                 <span ng-show="isInvalid(signupform.bank)" >Bitte geben Sie ein Bankinstitut an.</br> </span>
             </div>
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown47">IBAN:</p>
             <label class="item item-input " id="registrieren-input45">
-                <span class="input-label">IBAN</span>
                 <input name="iban" type="text" placeholder="" ng-model="form.iban" required>
             </label>
             <div style="color:red">
                 <span ng-show="isInvalid(signupform.iban)" >Bitte geben Sie eine IBAN an. </br> </span>
             </div>
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown48">BIC:</p>
             <label class="item item-input " id="registrieren-input46">
-                <span class="input-label">BIC</span>
                 <input name="bic" type="text" placeholder="" ng-model="form.bic" required>
             </label>
             <div style="color:red">
                 <span ng-show="isInvalid(signupform.bic)" >Bitte geben Sie eine BIC an. </br> </span>
             </div>
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown51">Passwort:</p>
             <label class="item item-input " id="registrieren-input37">
-                <span class="input-label">Passwort</span>
                 <input name="passwort" type="password" placeholder="" ng-model="form.passwort" required>
             </label>
             <div style="color:red">
                 <span ng-show="isInvalid(signupform.passwort)" >Bitte geben Sie ein Passwort an. </br> </span>
             </div>
+
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown52">Passwort wiederholen:</p>
             <label class="item item-input " id="registrieren-input42">
-                <span class="input-label">Passwort bestätigen</span>
                 <input name="passwortWiederholung" type="password" placeholder="" ng-model="form.passwortWiederholung" required>
             </label>
             <div style="color:red">
                 <span ng-show="isInvalid(signupform.passwortWiederholung)" >Bitte bestätigen Sie das Passwort. </br> </span>
                 <!--<span ng-show="isSamePw(signupform.passwortWiederholung)" >Die Passwortwiederholung unterscheidet sich vom ersten. </br></span> -->
             </div>
-            <button id="registrieren-button38" class=" button button-stable  button-block " ng-click="signup()">Sign up</button>
+
+
+            <button class=" button button-positive  button-block " id="versicherungAnlegen-button31" ng-click="signup()">Registrieren</button>
+
         </form>
     </ion-content>
 </ion-view>
