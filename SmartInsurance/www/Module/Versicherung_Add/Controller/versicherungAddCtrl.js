@@ -26,8 +26,7 @@ appController.controller('versicherungAddCtrl',function($scope, $http, $state, m
 
     $scope.isNaN = function(field) {
         return field.$error.pattern && (field.$touched || $scope.submitted);
-    };
-
+    }
 
 
 
