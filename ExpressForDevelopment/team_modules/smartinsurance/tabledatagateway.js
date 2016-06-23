@@ -40,7 +40,7 @@ exports.orderVersicherung = function(orderby, asc_desc, limit, skip, onSuccess, 
 };
 
 // Zaehlen von Versicherungen
-exports.filterVersicherungCount = function(kategorie) {
+exports.filterVersicherungCount = function(kategorie, onSuccess, onError){
   db.func('filterversicherungcount',[kategorie]).then(onSuccess).catch(onError);
 }
 //
