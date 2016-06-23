@@ -1,6 +1,6 @@
-appController.controller('signupCtrl', function($scope,  $http, $state, moneyParser, moneyFormatter, apiendpoint) {
+appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $state, moneyParser, moneyFormatter, apiendpoint) {
     $scope.form = {};
-
+    $scope.token;
     $scope.submitted = false;
 
 
@@ -16,23 +16,47 @@ appController.controller('signupCtrl', function($scope,  $http, $state, moneyPar
 */
 
 
-    $scope.signup = function () {
+    $scope.signup = function (signupform) {
 
-        $scope.submitted= true;
+        if (signupform.$valid) {
+            var data = {
+                email: $scope.form.email,
+                password: $scope.form.passwort
+            };
+            var url = apiendpoint.backend + "/api/smartbackend/auth/signup";
+            $http.post(url, data)
+                .then(function (response) {
+                    console.log("erfolgreich");
+                    $scope.token = response.data;
+                    $http.defaults.headers.common['Authorization'] = "Bearer " + response.data;
 
-/*
-        $http({
-                 method: "POST",
-                 url: smartbackendUrl + "/api/smartbackend/auth/signup",
-                 params: {email: $scope.form.email, password: $scope.form.password}
-                 })
-                 .then(function (result) {
-                 userService.userContext.saveToken(result.data);
-                 $http.defaults.headers.common['Authorization'] = "Bearer " + userService.userContext.user.access_token;
 
-                 $http({
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Registrierung',
+                        template: 'Sie haben sich erfolgreich registriert.'
+
+                    });
+
+                    alertPopup.then(function(res) {
+                        console.log('Thank you for not eating my delicious ice cream cone');
+                        $state.go('app.uebersicht')
+                    });
+                    
+                }, function (error) {
+                    $ionicPopup.alert({
+                        title: 'Registrierung',
+                        template: 'Sie haben sich erfolgreich registriert.'
+                    });
+                    console.log("Registrierung ist fehlgeschlagen");
+                });
+
+
+        }
+
+
+/*                 $http({
                  method: "GET",
-                 url: smartbackendUrl + userService.userContext.urlLocation.user.getUserData,
+                 url: apiendpoint.backend + userService.userContext.urlLocation.user.getUserData,
                  params: {}
                  })
                  .then(function (result) {
@@ -42,16 +66,16 @@ appController.controller('signupCtrl', function($scope,  $http, $state, moneyPar
                  , function (error) {
                  userService.userContext.wrongLoginData();
                  })
-                 }, function (error) {
-                 userService.userContext.wrongLoginData();
-                 })
+
+                 */
 
 
- */                }
+
+
 
 
     }
 
 
-);
+});
 

@@ -16,12 +16,12 @@ appController.controller('loginCtrl', function($scope, $http, $state, moneyParse
 
         $scope.login = function () {
 /*
-            $http({method: "POST", url:smartbackend_ip +"/api/smartbackend/auth/email/", params:{email:$scope.formData.email,password: $scope.formData.password}})
+            $http({method: "POST", url:apiendpoint.backend +"/api/smartbackend/auth/email/", params:{email:$scope.daten.email,password: $scope.daten.password}})
                 .then(function(result) {
-                    userService.userContext.saveToken(result.data);
-                    $http.defaults.headers.common['Authorization'] = "Bearer "+userService.userContext.user.access_token;
+    //                userService.userContext.saveToken(result.data);
+                    $http.defaults.headers.common['Authorization'] = "Bearer "+ result.data;
 
-                    $http({method: "GET", url:smartbackend_ip +userService.userContext.urlLocation.user.getUserData, params:{}})
+                    $http({method: "GET", url:apiendpoint +userService.userContext.urlLocation.user.getUserData, params:{}})
                         .then(function(result) {
                                 userService.userContext.saveUserData(result.data);
                                 userService.userContext.decide_between_redirect(result.data);
@@ -76,5 +76,5 @@ appController.controller('loginCtrl', function($scope, $http, $state, moneyParse
             */
         }
     }
-    ); 
+    );
 
