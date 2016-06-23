@@ -18,6 +18,8 @@ module.exports = function() {
 
   router.post('/filter', ts.filterVersicherung);
 
+  router.post('/filter/count', ts.filterVersicherungCount);
+
   router.get('/kategorien', ts.getKategorien);
 
   router.post('/investieren', [validate.parameterZurInvestitionsErstellung, validate.obVersicherungGekuendigtIstOderWird, validate.obVersicherungSchonVollIst, ts.erstelleInvestition]);

@@ -389,6 +389,27 @@ $_$;
 
 
 --
+-- Name: filterversicherungcount(kategorie, text, text, integer, integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION filterversicherungcount(kategorie DEFAULT NULL::kategorie, text DEFAULT ''::text, text DEFAULT ''::text, integer DEFAULT 0, integer DEFAULT 0) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+ if $1 is null then
+    RETURN (SELECT count(*)
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false);
+ else
+    RETURN (SELECT count(*)
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false);
+ end if;
+END;
+$_$;
+
+
+--
 -- Name: finalizeinvestitionskuendigung(); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -1109,6 +1130,25 @@ $_$;
 
 
 --
+-- Name: updateprofil(uuid, text, text, text, text, text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text) RETURNS void
+    LANGUAGE sql
+    AS $_$
+    UPDATE smartbackend.user 
+	SET name=$2, prename=$3, email=$4
+	WHERE id=$1;
+    UPDATE smartinsurance.userbank
+        SET iban=$5, bic=$6, bankinstitut=$7
+        WHERE id=$1;
+    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
+	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
+		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
+$_$;
+
+
+--
 -- Name: updateschadensfall(integer, text, text, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -1252,6 +1292,21 @@ CREATE TABLE user_password (
     salt text,
     password text
 );
+
+
+--
+-- Name: user_accesstoken_password; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_accesstoken_password AS
+ SELECT "user".id,
+    user_token.access_token,
+    user_password.password,
+    "user".email
+   FROM "user",
+    user_token,
+    user_password
+  WHERE (("user".id = user_token.fk_user) AND ("user".id = user_password.id));
 
 
 --
