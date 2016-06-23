@@ -48,45 +48,32 @@
 
 
 
-        <div id="" class="list card " ng-controller="investitionSearchCtrl">
             <ion-item  class="item-divider ">Suchergebnisse</ion-item>
-            <!--<ion-item style="" class="  " id="1">Suchergebnis</ion-item>-->
-            <div style="" id="2" class="item item-body ">
-                <ion-list class=" " id="3" ng-controller="investitionSearchCtrl">
-                    <a ng-click="investitionShow({{item.id}})" ng-repeat="item in results">
-                        <ion-item  id="4" class="item-icon-left">
-                            <i class="icon ion-ionic"></i>
-                            <table>
-                                <tr>
-                                    <td> <b> Bezeichnung: </b> </td>
-                                    <td>  {{item.name}}  </td>
-                                </tr>
-                                <tr>
-                                    <td> <b> Kategorie: </b> </td>
-                                    <td>  {{item.kategorie}}  </td>
-                                </tr>
-                                <tr>
-                                    <td> <b> Bewertung: </b> </td>
-                                    <td> {{item.bewertung}} </td>
-                                </tr>
-                                <tr>
-                                    <td> <b> Rendite: </b> </td>
-                                    <td> {{item.rendite}} % </td>
-                                </tr>
-                                <tr>
-                                    <td> <b> Versicherungshöhe: </b> </td>
-                                    <td> {{item.versicherungshoehe}} </td>
-                                </tr>
-                                <tr>
-                                    <td> <b> Anzahl der Investoren: </b> </td>
-                                    <td> {{item.anzahl_investoren}} </td>
-                                </tr>
-                            </table>
-                        </ion-item>
-                    </a>
-                </ion-list>
-            </div>
-        </div>
+
+        <table class="styleTable displayBlock">
+            <thead class="hideHeaders displayBlock">
+            <tr class="rowBorder displayBlock">
+                <th class="styleData displayBlock"> <b>Bezeichnung</b></th>
+                <th class="styleData displayBlock"> <b>Kategorie</b></th>
+                <th class="styleData displayBlock"> <b>Bewertung</b> </th>
+                <th class="styleData displayBlock"> <b>Rendite</b></th>
+                <th class="styleData displayBlock"> <b>Versicherungshöhe</b> </th>
+                <th class="styleData displayBlock"> <b>Anzahl Investoren</b></th>
+            </tr>
+            </thead>
+            <tbody class="displayBlock" ng-click="investitionShow({{item.id}})" id="4" ng-repeat="item in results">
+            <tr class="rowBorder displayBlock">
+                <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.name}}</td>
+                <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.kategorie}}</td>
+                <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.bewertung}}</td>
+                <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.rendite}} %</td>
+                <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.versicherungshoehe}}</td>
+                <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.anzahl_investoren}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+
     </ion-content>
 </ion-view>
 

@@ -1,9 +1,11 @@
 <ion-view style="" class=" " id="page22" title="Investitionsdetails" cache-view="false">
     <ion-content class="has-header" padding="true">
+
+
         <div id="investitionsdetails-card222" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionsdetails-markdown12">Investitionsdetails:</p>
-            <ion-item style="" class="  " id="investitionsdetails-list-item15">
-                <table>
+            <ion-item> Investitionsdetails</ion-item>
+            <div  class="item item-body ">
+                <table class="tableMobile4">
                     <tr>
                         <td>  <b>Versicherungsnehmer: </b> </td>
                         <td>  {{investition.vpersonPrename}} {{investition.vpersonName}} </td>
@@ -37,7 +39,7 @@
                         <td>  {{investition.beschreibung}} </td>
                     </tr>
                     <tr>
-                        <td> <b> ausgezahlter Schaden: </b> </td>
+                        <td> <b> ausgezahlter Schaden:&nbsp </b> </td>
                         <td>  {{gesamtSchaden()}} </td>
                     </tr>
                     <tr ng-repeat= "status in investition.investitionsstatus">
@@ -45,13 +47,15 @@
                                     <td>  {{status}} </td>
                     </tr>
                 </table>
-            </ion-item>
+            </div>
         </div>
         <div id="investitionsdetails-card223" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionsdetails-markdown40">Investoren</p>
+            <ion-item> Investoren</ion-item>
+            <div  class=" ">
+                <ion-list class=" " id="Bersicht-list7">
             <a ng-click="showInvestor()" ng-repeat="investor in investoren">
-                <ion-item style="" id="investitionsdetails-list-item17" class="item-avatar  ">
-                    <table>
+                <ion-item>
+                    <table class="tableMobile3">
                         <tr>
                             <td>  <b>Name: </b> </td>
                             <td>  {{investor.prename}} {{investor.name}} </td>
@@ -61,12 +65,14 @@
                             <td>  {{investor.investitionshoehe}} </td>
                         </tr>
                         <tr>
-                            <td>  <b>Abschlusszeitpunkt: </b> </td>
+                            <td>  <b>Abschlusszeitpunkt:&nbsp </b> </td>
                             <td>  {{investor.abschlussZeitpunkt}} </td>
                         </tr>
                     </table>
                 </ion-item>
             </a>
+                </ion-list>
+            </div>
         </div>
         <div class=" button-bar " id="investitionsdetails-button-bar5">
             <button class=" button button-positive  button-block " id="investitionsdetails-button14" ng-click="showSchadensfaelle()">Schadensfälle</button>

@@ -1,9 +1,9 @@
 <ion-view style="" class=" " id="page8" title="Investition tätigen">
     <ion-content class="has-header" padding="true">
         <div id="investitionTTigen-card215" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionTTigen-markdown23">Versicherungsdetails:</p>
-            <ion-item style="" class="  " id="investitionTTigen-list-item19">
-                <table>
+            <ion-item style="" class="  " id="versicherungsdetails-list-item34"> Versicherungsdetails</ion-item>
+            <div  class="item item-body ">
+                <table class="tableMobile3">
                     <tr>
                         <td>  <b>Bezeichnung: </b> </td>
                         <td>  {{versicherung.name}} </td>
@@ -17,7 +17,7 @@
                         <td>  {{versicherung.versicherungshoehe}} </td>
                     </tr>
                     <tr>
-                        <td>  davon bereits gedeckt: </td>
+                        <td> <b>davon bereits gedeckt:&nbsp</b> </td>
                         <td>  {{investitionBetrag}} </td>
                     </tr>
                     <tr>
@@ -29,7 +29,7 @@
                         <td>  {{versicherung.beschreibung}} </td>
                     </tr>
                 </table>
-            </ion-item>
+            </div>
         </div>
         <div id="investitionTTigen-card216" class="list card ">
             <form class="list " id="investitionTTigen-form61" name="investitionAddForm">

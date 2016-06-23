@@ -1,43 +1,45 @@
 <ion-view style="" class=" " id="page1" title="Übersicht">
     <ion-content class="has-header" padding="true">
         <div id="Bersicht-card23" class="list card ">
+            <ion-item style="" class="  " ng-show="!(noInvestition || noVersicherung)">Zusammenfassung</ion-item>
             <div style="" id="Bersicht-list-item-container4" class="item item-body ">
-                <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="!(noInvestition || noVersicherung)" >Zusammenfassung</h2>
+                <!--<h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="!(noInvestition || noVersicherung)" >Zusammenfassung</h2>-->
                 <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="(noInvestition && noVersicherung)">Es liegen aktuelle weder Versicherungen noch Investitionen vor. </h2>
                 <ion-list class=" " id="Bersicht-list8">
                     <ion-item style="" class="  " id="Bersicht-list-item14">
                         <div ng-show="!(noVersicherung)">
                             <h2> Versicherung </h2>
-                            <p></p>
-                            <table>
+                            <table class="tableMobile">
                                 <tr>
-                                    <td>  <b>Anzahl Versicherungen: </b> </td>
+                                    <td class="linebreak">  <p>Versicherungsanzahl:&nbsp </p> </td>
                                     <td>  {{versicherungen.length}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Versicherungshöhe: </b> </td>
-                                    <td>  {{versicherungengesamt()}} </td>
+                                    <td class="linebreak"> <p> Versicherungshöhe: </p> </td>
+                                    <td> {{versicherungengesamt()}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Monatsbeitrag: </b> </td>
+                                    <td class="linebreak"> <p> Monatsbeitrag: </p> </td>
                                     <td>  {{monatsbeitraggesamt()}} </td>
                                 </tr>
                             </table>
                         </div>
                         <div ng-show="!(noInvestition)">
+                            <span class="input-label"></span>
+                            <span class="input-label"></span>
                             <h2> Investition </h2>
-                            <p></p>
-                            <table>
+
+                            <table class="tableMobile">
                                 <tr>
-                                    <td>  <b>Anzahl Investitionen: </b> </td>
-                                    <td>  {{investitionen.length}} </td>
+                                    <td class="linebreak">  <p>Investitionsanzahl: </p> </td>
+                                    <td> {{investitionen.length}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Investitionshöheshöhe: </b> </td>
-                                    <td>  {{investhoehegesamt()}} </td>
+                                    <td class="linebreak"> <p> Investitionshöhe: </p> </td>
+                                    <td> {{investhoehegesamt()}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Maximale Rendite: </b> </td>
+                                    <td class="linebreak"> <p> Maximale Rendite:&nbsp </p> </td>
                                     <td>  {{renditemax()}} </td>
                                 </tr>
                             </table>
@@ -51,24 +53,24 @@
             <div style="" id="Bersicht-list-item-container1" class="item item-body ">
                 <ion-list class=" " id="Bersicht-list6">
                     <a ng-click="versicherungShow({{versicherung.id}})" ng-repeat="versicherung in versicherungen">
-                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left  ">
+                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left">
                             <i class="icon ion-ionic"></i>
-                            <table>
+                            <table class="tableMobile2">
                                 <tr>
                                     <td>  <b>Bezeichnung: </b> </td>
-                                    <td>  {{versicherung.name}} </td>
+                                    <td class="linebreak"> <p>{{versicherung.name}}</p>  </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Versicherungshöhe: </b> </td>
-                                    <td>  {{versicherung.versicherungshoehe}} </td>
+                                    <td> <b> Versicherungs- <br> höhe: </b> </td>
+                                    <td> {{versicherung.versicherungshoehe}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Monatsbeitrag: </b> </td>
+                                    <td> <b> Monatsbeitrag:&nbsp </b> </td>
                                     <td>  {{versicherung.beitrag}} </td>
                                 </tr>
                                  <tr ng-repeat= "status in versicherung.versicherungsstatus">
                                     <td> <b> Status: </b> </td>
-                                    <td>  {{status}} </td>
+                                    <td class="linebreak"> <p> {{status}} </p> </td>
                                 </tr>
                             </table>
                         </ion-item>
@@ -84,24 +86,25 @@
                     <a ng-click="investitionShow({{investition.id}})" ng-show="!(noInvestition)" ng-repeat="investition in investitionen">
                         <ion-item style="" id="Bersicht-list-item11" class="item-icon-left  ">
                             <i class="icon ion-ios-baseball-outline"></i>
-                            <table>
+                            <table class="tableMobile2">
                                 <tr>
-                                    <td>  <b>Bezeichnung: </b> </td>
-                                    <td>  {{investition.name}} </td>
+                                    <td>  <b>Bezeichnung:&nbsp </b> </td>
+                                    <td class="linebreak"> <p>{{investition.name}} </p>  </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Investitionshöhe: </b> </td>
+                                    <td> <b> Investitions- <br> höhe: </b> </td>
                                     <td>  {{investition.investitionshoehe}} </td>
                                 </tr>
                                 <tr>
-                                    <td> <b> Maximale Rendite: </b> </td>
+                                    <td> <b> Maximale <br> Rendite: </b> </td>
                                     <td>  {{calculateRendite(investition)}} </td>
                                 </tr>
                                 <tr ng-repeat= "status in investition.investitionsstatus">
                                     <td> <b> Status: </b> </td>
-                                    <td>  {{status}} </td>
+                                    <td> <b>  {{status}} </b> </td>
                                 </tr>
                             </table>
+
                         </ion-item>
                     </a>
                     <p class=" " style="margin-top:0px;color:#000000;" id="Bersicht-markdown26" ng-show="noInvestition">Es liegen keine Investitionen vor.</p>
