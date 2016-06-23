@@ -328,6 +328,28 @@ exports.getProfilByID = function (req, res, next) {
     }
 };
 
+exports.changeProfil = function(req, res, next){
+  var personID = req.body.personID;
+  var name = req.body.name;
+  var prename = req.body.prename;
+  var email = req.body.email;
+  var iban = req.body.iban;
+  var bic = req.body.bic;
+  var bankinstitut = req.body.bankinstitut;
+  var birthday = req.body.birthday;
+  tdg.changeProfil(personID, name, prename, email, iban, bic, bankinstitut, birthday,
+      function(data){
+          logger.info('Profil der Person ' + personID + 'erfolgreich geaendert.');
+          res.status(201).send('Erfolgreich geandert');
+      },
+      function(err){
+          logger.error('Fehler beim Aendern des Profils der Person ' + pID + ' - ' + err);
+          res.status(500).send('Fehler beim Laden des Profils.');
+      }
+  );
+
+}
+
 exports.getKommentareByVID = function (req, res, next) {
     var versicherungID = req.params.versicherungID;
     tdg.getKommentareByVID(versicherungID,

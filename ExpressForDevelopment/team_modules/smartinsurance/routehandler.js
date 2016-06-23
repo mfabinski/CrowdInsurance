@@ -40,6 +40,8 @@ module.exports = function() {
 
   router.get('/profil/:profilID', [validate.profilID, ts.getProfilByID]);
 
+  router.post('/profil', validate.parameterProfilAendern, validate.obUserExistiert, ts.changeProfil);
+
   router.get('/schadensfaelle/:versicherungID', [validate.versicherungID, ts.getSchadensfaelleByVersicherung]);
 
   router.post('/schadensfallmelden', [validate.parameterSchadensfall, validate.obVersicherungExistiert, ts.erstelleSchadensfall]);
