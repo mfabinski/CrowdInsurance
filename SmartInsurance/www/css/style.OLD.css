@@ -1,0 +1,102 @@
+/* Empty. Add your own CSS if you like */
+td.linebreak p {
+    width: 120%;
+    font-size: inherit;
+    color: inherit;
+    font-weight: bold;
+}
+
+.styleTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+.styleData {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+
+    .displayBlock{
+        display: block;
+    }
+
+
+    .hideHeaders {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .rowBorder { border: 1px solid #ccc; }
+
+    .colLikeRow {
+
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .colLikeHeader:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    .tableMobile {
+        table-layout: fixed;
+        width: 118%;
+
+    }
+
+    .tableMobile2 {
+        table-layout: fixed;
+        width: 110%;
+
+    }
+
+    .tableMobile3 {
+        table-layout: fixed;
+        width: 111%;
+    }
+
+    .tableMobile4 {
+        table-layout: fixed;
+        width: 115%;
+    }
+
+    .tableMobile5 {
+        table-layout: fixed;
+        width: 90%;
+    }
+
+    .tableMobile6 {
+        table-layout: fixed;
+        width: 80%;
+    }
+
+    .tableMobile7 {
+        table-layout: fixed;
+        width: 85.5%;
+    }
+
+    .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
+    .labelData:nth-of-type(2):before { content: "Kategorie"; font-weight: bold;}
+    .labelData:nth-of-type(3):before { content: "Bewertung"; font-weight: bold;}
+    .labelData:nth-of-type(4):before { content: "Rendite"; font-weight: bold;}
+    .labelData:nth-of-type(5):before { content: "Versicherungshöhe"; font-weight: bold;}
+    .labelData:nth-of-type(6):before { content: "Anzahl Investoren"; font-weight: bold;}
+
+}
