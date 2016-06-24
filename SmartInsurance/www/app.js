@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('smartInsurance', ['ionic', 'smartInsurance.controllers', '720kb.socialshare', 'googlechart']);
+var app = angular.module('smartInsurance', ['ionic', 'smartInsurance.controllers', '720kb.socialshare']);
 
 app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -24,7 +24,9 @@ app.run(function($ionicPlatform) {
 
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+
     $stateProvider
+
         .state('app', {
             url: '/app',
             abstract: true,
@@ -247,26 +249,6 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
 
-        .state('app.login', {
-            url: '/login',
-            views: {
-                'menuContent': {
-                    templateUrl: 'Module/Allgemein/Views/login.html',
-                    controller: 'loginCtrl'
-                }
-            }
-        })
-
-        .state('app.signup', {
-            url: '/signup',
-            views: {
-                'menuContent': {
-                    templateUrl: 'Module/Allgemein/Views/signup.html',
-                    controller: 'signupCtrl'
-                }
-            }
-        })
-
         .state('app.investitionSocial', {
             url: '/investitionSocial/:id',
             views: {
@@ -303,3 +285,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(false).hashPrefix('!');
 
 });
+
+
+
+
+

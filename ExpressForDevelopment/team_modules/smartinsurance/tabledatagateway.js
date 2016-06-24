@@ -38,11 +38,6 @@ exports.filterVersicherung = function(kategorie, orderby, asc_desc, limit, skip,
 exports.orderVersicherung = function(orderby, asc_desc, limit, skip, onSuccess, onError){
     db.func('orderversicherung',[orderby, (asc_desc?"ASC":"DESC"), limit, skip]).then(onSuccess).catch(onError);
 };
-
-// Zaehlen von Versicherungen
-exports.filterVersicherungCount = function(kategorie, onSuccess, onError){
-  db.func('filterversicherungcount',[kategorie]).then(onSuccess).catch(onError);
-}
 //
 //1.2 Kategorien der Versicherungen
 //---------------------------------
@@ -158,7 +153,7 @@ exports.setinvestitionbewertung = function(investitionID, bewertung, onSuccess, 
 };
 
 
-//3.2 Kuendigungen
+//2.2 Kuendigungen
 //-----------------
 exports.updateVersicherungGekuendigt = function(onSuccess, onError){
     db.func('finalizeversicherungskuendigung').then(onSuccess).catch(onError);
@@ -169,49 +164,42 @@ exports.investitionKuendigungEinreichen = function(investitionID, onSuccess, onE
 };
 
 //
-//3.2 Schadensfall
+//2.2 Schadensfall
 //-----------------
 exports.updateSchadensfall = function(schadensfallID, bezeichnung, beschreibung, schadenshoehe, onSuccess, onError){
     db.func('updateschadensfall', [schadensfallID,bezeichnung,beschreibung,schadenshoehe]).then(onSuccess).catch(onError);
 };
 
 //
-//3.2.1 Schadensfall ausgezahlt = true
+//2.2.1 Schadensfall ausgezahlt = true
 exports.finalizeSchadensfall = function(onSuccess, onError){
     db.func('finalizeschadensfall').then(onSuccess).catch(onError);
 };
 
 //
-//3.2.2 Schaden auszahlen
+//2.2.2 Schaden auszahlen
 exports.paySchadensfaelle = function(onSuccess, onError){
     db.func('payschadensfaelle').then(onSuccess).catch(onError);
 };
 
 //
-//3.2.3 Schaden von den Investitionshoehen abziehen
+//2.2.3 Schaden von den Investitionshoehen abziehen
 exports.reduceInvestitionenWegenSchaden = function(onSuccess, onError){
     db.func('reduceinvestitionenwegenschaden').then(onSuccess).catch(onError);
 };
 
 //
-//3.3 Versicherung
+//2.3 Versicherung
 //-----------------
 exports.updateVersicherung = function(versicherungID, name, beschreibung, kategorie, onSuccess, onError){
     db.func('updateversicherung', [versicherungID,name,beschreibung,kategorie]).then(onSuccess).catch(onError);
 };
 
 //
-//3.4 Investition
+//2.4 Investition
 //-----------------
 exports.updateInvestition = function(investitionID, investitionshoehe, onSuccess, onError){
     db.func('updateinvestition', [investitionID,investitionshoehe]).then(onSuccess).catch(onError);
-};
-
-//
-//3.5 Profil bearbeiten
-//-----------------
-exports.changeProfil = function(personID, name, prename, email, iban, bic, bankinstitut, birthday, onSuccess, onError){
-    db.func('updateprofil', [personID, name, prename, email, iban, bic, bankinstitut, birthday]).then(onSuccess).catch(onError);
 };
 
 //

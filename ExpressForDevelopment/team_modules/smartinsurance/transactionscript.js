@@ -76,38 +76,6 @@ exports.getBewertungen = function (req, res, next) {
     );
 };
 
-exports.filterVersicherungCount = function (req, res, next) {
-    var kategorie = req.body.kategorie;
-    if (kategorie == undefined) {
-      tdg.filterVersicherungCount(null,
-          function(data){
-              if(data.length != 0) {
-                  res.status(200).json(data);
-              } else{
-                  res.status(404).send('Filter Count auf '  + kategorie +' fehlgeschlagen.')
-              }
-          },
-          function(err){
-              logger.info('Fehler beim Filter Count'+ ' - ' + err);
-              res.status(500).send('Fehler beim Filter Count');
-          }
-      );
-    } else {
-      tdg.filterVersicherungCount(kategorie,
-          function(data){
-              if(data.length != 0) {
-                  res.status(200).json(data);
-              } else{
-                  res.status(404).send('Filter Count auf '  + kategorie +' fehlgeschlagen.')
-              }
-          },
-          function(err){
-              logger.info('Fehler beim Filter Count'+ ' - ' + err);
-              res.status(500).send('Fehler beim Filter Count');
-          }
-      );
-    }
-}
 // Filtern und sortieren der Versicherungen
 exports.filterVersicherung = function (req, res, next) {
     var withFilter = true;
@@ -327,28 +295,6 @@ exports.getProfilByID = function (req, res, next) {
       );
     }
 };
-
-exports.changeProfil = function(req, res, next){
-  var personID = req.body.personID;
-  var name = req.body.name;
-  var prename = req.body.prename;
-  var email = req.body.email;
-  var iban = req.body.iban;
-  var bic = req.body.bic;
-  var bankinstitut = req.body.bankinstitut;
-  var birthday = req.body.birthday;
-  tdg.changeProfil(personID, name, prename, email, iban, bic, bankinstitut, birthday,
-      function(data){
-          logger.info('Profil der Person ' + personID + 'erfolgreich geaendert.');
-          res.status(201).send('Erfolgreich geandert');
-      },
-      function(err){
-          logger.error('Fehler beim Aendern des Profils der Person ' + pID + ' - ' + err);
-          res.status(500).send('Fehler beim Laden des Profils.');
-      }
-  );
-
-}
 
 exports.getKommentareByVID = function (req, res, next) {
     var versicherungID = req.params.versicherungID;

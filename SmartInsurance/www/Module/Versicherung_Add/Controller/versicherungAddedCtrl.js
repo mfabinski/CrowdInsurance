@@ -58,9 +58,6 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state,
             case "Übersicht":
                 $state.go('app.uebersicht');
                 break;
-            case "Detail":
-                $state.go('app.versicherungDetail',{id: $scope.versicherungId});
-                break;
         }
     };
 

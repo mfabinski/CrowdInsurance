@@ -18,8 +18,6 @@ module.exports = function() {
 
   router.post('/filter', ts.filterVersicherung);
 
-  router.post('/filter/count', ts.filterVersicherungCount);
-
   router.get('/kategorien', ts.getKategorien);
 
   router.post('/investieren', [validate.parameterZurInvestitionsErstellung, validate.obVersicherungGekuendigtIstOderWird, validate.obVersicherungSchonVollIst, ts.erstelleInvestition]);
@@ -39,8 +37,6 @@ module.exports = function() {
   router.get('/profil/', ts.getProfilByID); // Für das eigene (vorläufig). Sollte auch die eigene haben!
 
   router.get('/profil/:profilID', [validate.profilID, ts.getProfilByID]);
-
-  router.post('/profil', validate.parameterProfilAendern, validate.obUserExistiert, ts.changeProfil);
 
   router.get('/schadensfaelle/:versicherungID', [validate.versicherungID, ts.getSchadensfaelleByVersicherung]);
 

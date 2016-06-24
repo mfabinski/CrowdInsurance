@@ -7,9 +7,6 @@
                 <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="(noInvestition && noVersicherung)">Es liegen aktuelle weder Versicherungen noch Investitionen vor. </h2>
                 <ion-list class=" " id="Bersicht-list8">
                     <ion-item style="" class="  " id="Bersicht-list-item14">
-                        
-                        <div google-chart chart="chartObject3" style="{{cssStyle}}"></div>
-                        
                         <div ng-show="!(noVersicherung)">
                             <h2> Versicherung </h2>
                             <table class="tableMobile">
@@ -27,11 +24,6 @@
                                 </tr>
                             </table>
                         </div>
-                        
-                        
-<div google-chart chart="chartObject" style="{{cssStyle}}"></div>
-                      
-                        
                         <div ng-show="!(noInvestition)">
                             <span class="input-label"></span>
                             <span class="input-label"></span>
@@ -52,9 +44,6 @@
                                 </tr>
                             </table>
                         </div>
-                        
-<div google-chart chart="chartObject2" style="{{cssStyle}}"></div>  
-                        
                     </ion-item>
                 </ion-list>
             </div>

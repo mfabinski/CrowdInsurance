@@ -6,7 +6,6 @@
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet">
 
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -38,9 +37,9 @@
         }
     </style>
 
+
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -65,11 +64,6 @@
     <!-- Allgemein -->
     <script src="Module/Allgemein/Controller/uebersichtCtrl.js"></script>
     <script src="Module/Allgemein/Controller/errorCtrl.js"></script>
-
-    <!-- Allgemein - Login und Signup -->
-    <script src="Module/Allgemein/Controller/loginCtrl.js"></script>
-    <script src="Module/Allgemein/Controller/signupCtrl.js"></script>
-
     <!-- Investition_Add -->
     <script src="Module/Investition_Add/Controller/investitionSearchCtrl.js"></script>
     <script src="Module/Investition_Add/Controller/investitionInfoCtrl.js"></script>
@@ -82,9 +76,9 @@
     <script src="Module/Investition_Edit/Controller/investitionSocialCtrl.js"></script>
     <!-- Sonstige -->
     <script src="Module/Sonstiges/Controller/faqCtrl.js"></script>
-    <script src="Module/Sonstiges/Controller/profilCtrl.js"></script>
-    <script src="Module/Sonstiges/Controller/profilBearbeitenCtrl.js"></script>
-    <script src="Module/Sonstiges/Controller/profilFremdCtrl.js"></script>
+        <script src="Module/Sonstiges/Controller/profilCtrl.js"></script>
+       <script src="Module/Sonstiges/Controller/profilBearbeitenCtrl.js"></script>
+       <script src="Module/Sonstiges/Controller/profilFremdCtrl.js"></script>
     <!-- Versicherung_Add -->
     <script src="Module/Versicherung_Add/Controller/versicherungAddCtrl.js"></script>
     <script src="Module/Versicherung_Add/Controller/versicherungCheckCtrl.js"></script>
@@ -97,52 +91,6 @@
     <script src="Module/Versicherung_Edit/Controller/versicherungSocialCtrl.js"></script>
 
 
-    <!-- angularchart -->
-    <script src="lib/angular/angular.min.js"></script>
-    <script src="lib/Chart.js/dist/Chart.min.js"></script>
-    <script src="lib/angular-chart.js/dist/angular-chart.min.js"></script>
-
-
-    <script type="text/javascript" src="lib/angularjs/angular-fusioncharts.min.js"></script>
-
-    <script src="lib/angular-google-chart/ng-google-chart.js"></script>
-    <script src="lib/angular-google-chart/ng-google-chart.min.js"></script>
-
-
-
-    <script type="text/javascript">
-        function fileThumbnail(files)
-        {
-            var thumb = document.getElementById("thumbnail");
-
-            thumb.innerHTML = "";
-
-            if(!files)
-                return;
-
-            for(var i = 0; i < files.length; i++)
-            {
-                var file = files[i];
-
-                if(!file.type.match(/image.*/))
-                    continue;
-
-                var img = document.createElement("img");
-                var reader = new FileReader();
-
-                reader.onload = (function(tImg) {
-                    return function(e) {
-                        tImg.src = e.target.result;
-                    };
-                })(img);
-
-                reader.readAsDataURL(file);
-
-                img.width = 100;
-                thumb.appendChild(img);
-            }
-        }
-    </script>
 </head>
 
 <body ng-app="smartInsurance">
