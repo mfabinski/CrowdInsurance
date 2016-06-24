@@ -6,7 +6,7 @@
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet" />
+    <link href="lib/ionic-material/dist/ionic.material.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet">
 
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -40,7 +40,7 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+    <script src="lib/ionic-material/dist/ionic.material.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -126,6 +126,22 @@
 
                 if(!file.type.match(/image.*/))
                     continue;
+                    var img = document.createElement("img");
+            		var reader = new FileReader();
+
+            		reader.onload = (function(tImg) {
+            			return function(e) {
+            				tImg.src = e.target.result;
+            			};
+            		})(img);
+
+            		reader.readAsDataURL(file);
+
+            		img.width = 100;
+            		thumb.appendChild(img);
+            	}
+            }
+        </script>
 
                 var img = document.createElement("img");
                 var reader = new FileReader();
