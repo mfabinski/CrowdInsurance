@@ -20,15 +20,7 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
             return true;
         }
     };
-
- /*   $scope.isName = function(field) {
-
-
-        return truefield.$error.pattern && (field.$touched || $scope.submitted);
-    };
-
-*/
-
+    
     $scope.signup = function (signupform) {
 
         if (signupform.$valid && $scope.samePw) {
@@ -54,12 +46,12 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
 
                     };
                     http.post(url, data).then(function(response)
-                    {
-                        console.log("Profil erstellt");
-                    },
-                    function(error){
-                    console.log("Error beim Erstellen des Smartinsurance-Profils");
-                    }
+                        {
+                            console.log("Profil erstellt");
+                        },
+                        function(error){
+                            console.log("Error beim Erstellen des Smartinsurance-Profils");
+                        }
                     )
 
                     var alertPopup = $ionicPopup.alert({
@@ -80,30 +72,7 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
                     });
                     console.log("Registrierung ist fehlgeschlagen");
                 });
-
-
         }
-
-/*                 $http({
-                 method: "GET",
-                 url: apiendpoint.backend + userService.userContext.urlLocation.user.getUserData,
-                 params: {}
-                 })
-                 .then(function (result) {
-                 userService.userContext.saveUserData(result.data);
-                 userService.userContext.decide_between_redirect(result.data);
-                 }
-                 , function (error) {
-                 userService.userContext.wrongLoginData();
-                 })
-
-                 */
-
-
-
-
-
-
     }
 
 

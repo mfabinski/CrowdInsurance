@@ -50,6 +50,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
         };
 
         $scope.auth = function (provider) {
+            /*
                 if (provider === "google") {            // Signed in with Google.
                 $http({
                     method: "POST",
@@ -87,7 +88,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
                 })
 
             }
-
+             */
         }
     }
     );
