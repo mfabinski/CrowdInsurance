@@ -10,6 +10,6 @@
     "angular-chart.js": "^0.10.2",
     "ionic-material": "^0.4.2",
     "angular-google-chart": "^0.1.0",
-    "Chart.js": "^1.1.1"
+    "Chart.js": "^2.1.6"
   }
 }
