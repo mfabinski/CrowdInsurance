@@ -1,10 +1,9 @@
-appController.controller('loginCtrl', function($scope, $http, $state, $auth, moneyParser, moneyFormatter, apiendpoint) {
+appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $state, moneyParser, moneyFormatter, apiendpoint) {
 
         $scope.daten = {};
         $scope.daten.email = "example@mail.com";
-        $scope.daten.password = "1234";
+        $scope.daten.passwort = "1234";
         $scope.form = {};
-
 
 
 
@@ -12,27 +11,42 @@ appController.controller('loginCtrl', function($scope, $http, $state, $auth, mon
            $state.go('app.signup')
         };
 
+        $scope.isValidPw = function(field) {
+            if (field.$touched) {
+                if (($scope.daten.passwort.length < 4 || $scope.daten.passwort.length > 32)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+
+        };
 
 
         $scope.login = function () {
-/*
-            $http({method: "POST", url:apiendpoint.backend +"/api/smartbackend/auth/email/", params:{email:$scope.daten.email,password: $scope.daten.password}})
+
+            var url = apiendpoint.backend +"/api/smartbackend/auth/email/";
+            var data = {
+                email: $scope.daten.email,
+                password: $scope.daten.passwort
+            }
+                $http.post(url, data)
                 .then(function(result) {
     //                userService.userContext.saveToken(result.data);
+                    $scope.token = result.data;
                     $http.defaults.headers.common['Authorization'] = "Bearer "+ result.data;
-
-                    $http({method: "GET", url:apiendpoint +userService.userContext.urlLocation.user.getUserData, params:{}})
-                        .then(function(result) {
-                                userService.userContext.saveUserData(result.data);
-                                userService.userContext.decide_between_redirect(result.data);
-                            }
-                            ,function(error) {
-                                userService.userContext.wrongLoginData();
-                            })
                 },function(error) {
-                    userService.userContext.wrongLoginData();
+                    console.log("Login fehlgeschlagen");
+                    $ionicPopup.alert({
+                        title: 'Login',
+                        template: 'Sie haben eine ungültige Login Kombination eingegeben'
+
+                    });
                 })
- */
         };
 
         $scope.auth = function (provider) {
@@ -44,12 +58,12 @@ appController.controller('loginCtrl', function($scope, $http, $state, $auth, mon
                     .then(function (result) {
                         console.log(result.data);
                      //   userService.userContextdecide_between_redirect(result.data);
-                    }, error(function (error) {
+                    }, function (error) {
 
                         console.log('Error: ' + error);
-                    }));
+                    });
             }
-       /*     else { //FACEBOOK
+            else { //FACEBOOK
                 $auth.authenticate(provider).then(function (response) {
                     console.log($auth.getToken());
                     console.log($auth.getPayload());
@@ -72,7 +86,7 @@ appController.controller('loginCtrl', function($scope, $http, $state, $auth, mon
 
                 })
 
-            }  */
+            }
 
         }
     }
