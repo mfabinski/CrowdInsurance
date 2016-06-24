@@ -21,13 +21,13 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
         }
     };
 
-    $scope.isName = function(field) {
+ /*   $scope.isName = function(field) {
 
 
         return truefield.$error.pattern && (field.$touched || $scope.submitted);
     };
 
-
+*/
 
     $scope.signup = function (signupform) {
 
