@@ -1,4 +1,4 @@
-appController.controller('loginCtrl', function($scope, $http, $state, moneyParser, moneyFormatter, apiendpoint) {
+appController.controller('loginCtrl', function($scope, $http, $state, $auth, moneyParser, moneyFormatter, apiendpoint) {
 
         $scope.daten = {};
         $scope.daten.email = "example@mail.com";
@@ -36,20 +36,20 @@ appController.controller('loginCtrl', function($scope, $http, $state, moneyParse
         };
 
         $scope.auth = function (provider) {
-            /*    if (provider === "google") {            // Signed in with Google.
+                if (provider === "google") {            // Signed in with Google.
                 $http({
                     method: "POST",
                     url: "https://accounts.google.com/o/oauth2/auth?client_id=905287479418-n5ir9kdtmqc41urfo3adj0adk79dcjok.apps.googleusercontent.com&redirect_uri=905287479418-n5ir9kdtmqc41urfo3adj0adk79dcjok.apps.googleusercontent.com'&scope=profile,email&response_type=code&access_type=offline"
                 })
                     .then(function (result) {
                         console.log(result.data);
-                        userService.userContextdecide_between_redirect(result.data);
+                     //   userService.userContextdecide_between_redirect(result.data);
                     }, error(function (error) {
 
                         console.log('Error: ' + error);
                     }));
             }
-            else { //FACEBOOK
+       /*     else { //FACEBOOK
                 $auth.authenticate(provider).then(function (response) {
                     console.log($auth.getToken());
                     console.log($auth.getPayload());
@@ -72,8 +72,8 @@ appController.controller('loginCtrl', function($scope, $http, $state, moneyParse
 
                 })
 
-            }
-            */
+            }  */
+
         }
     }
     );
