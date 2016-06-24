@@ -46,7 +46,7 @@ build_android:
   only:
     - tags
     - master
-    - FixDependencies
+    - /^frontend.*$/i
   tags:
     - docker
 
