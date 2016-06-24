@@ -1,0 +1,46 @@
+<ion-view title="Login" id="page24" class=" ">
+    <ion-content padding="true" class="has-header">
+
+
+        <div id="investitionTTigen-card216" class="list card ">
+
+        <form id="login2-form66" class="list " name="loginform">
+
+
+            <ion-list id="login2-list13" class=" ">
+                <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown46">E-Mail:</p>
+                <label class="item item-input " id="login2-input20">
+                    <input type="email" placeholder="" ng-model="daten.email">
+                </label>
+
+
+                <p class=" " style="color:#000000;font-size:18px;" id="versicherungAnlegen-markdown47">Passwort:</p>
+                <label class="item item-input " id="login2-input25">
+                    <input name="passwort" type="password" placeholder="" ng-model="daten.passwort">
+                </label>
+                <div style="color:red">
+                    <span  ng-show="isValidPw(loginform.passwort)" >Bitte geben Sie ein gültiges Passwort an. (#Zeichen>4 und #Zeichen<32 </br> </span>
+                </div>
+            </ion-list>
+            <!--<div class="spacer" style="height: 40px;"></div>-->
+            <!--<button id="login2-button32" class=" button button-stable  button-block " ng-click="login()">Log in mit E-Mail</button>-->
+            <button class=" button button-positive  button-block" ng-click="login()"> Log in mit E-Mail
+            </button>
+
+            <div id="investitionTTigen-card217" class="list card ">
+                <div style="float:left; width: 49.5%">
+                    <button class=" button button-positive  button-block icon ion-social-facebook" ng-click="auth('facebook')"> Sign in with Facebook
+
+                    </button>
+                </div>
+                <div style="float:right; width: 49.5%">
+                    <button class=" button button-positive  button-block icon ion-social-googleplus" ng-click="auth('google')"> Sign in with Google+
+                    </button>
+                </div>
+            </div>
+
+            <a href="" ng-click= "register()" id="login2-button36" class=" button button-positive  button-block button-clear ">Account erstellen</a>
+        </form>
+            </div>
+    </ion-content>
+</ion-view>

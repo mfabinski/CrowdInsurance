@@ -24,9 +24,7 @@ app.run(function($ionicPlatform) {
 
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-
     $stateProvider
-
         .state('app', {
             url: '/app',
             abstract: true,
@@ -245,6 +243,26 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                 'menuContent': {
                     templateUrl: 'Module/Investition_Edit/Views/investitionEdit.html',
                     controller: 'investitionEditCtrl'
+                }
+            }
+        })
+
+        .state('app.login', {
+            url: '/login',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Allgemein/Views/login.html',
+                    controller: 'loginCtrl'
+                }
+            }
+        })
+
+        .state('app.signup', {
+            url: '/signup',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Allgemein/Views/signup.html',
+                    controller: 'signupCtrl'
                 }
             }
         })
