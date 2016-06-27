@@ -11,7 +11,7 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
             email: $scope.profil.email,
             iban: $scope.profil.iban,
             bic: $scope.profil.bic,
-            birthday: $scope.profil.birthday
+            birthday: "01.01.1999"
         }
     }).error(function(error, status) {
         CacheHistoryReseter.reset();
