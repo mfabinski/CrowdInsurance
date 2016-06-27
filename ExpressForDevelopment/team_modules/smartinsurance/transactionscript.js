@@ -295,7 +295,6 @@ exports.getProfilByID = function (req, res, next) {
       );
     }
 };
-};
 
 exports.changeProfil = function(req, res, next){
   var personID = req.body.personID;
