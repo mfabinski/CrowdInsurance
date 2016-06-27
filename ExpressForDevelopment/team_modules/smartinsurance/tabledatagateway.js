@@ -203,6 +203,13 @@ exports.updateInvestition = function(investitionID, investitionshoehe, onSuccess
 };
 
 //
+//3.5 Profil bearbeiten
+//-----------------
+exports.changeProfil = function(personID, name, prename, email, iban, bic, bankinstitut, birthday, onSuccess, onError){
+    db.func('updateprofil', [personID, name, prename, email, iban, bic, bankinstitut, birthday]).then(onSuccess).catch(onError);
+};
+
+//
 //4. Komplexe / Zusammengesetzte Abfragen
 //==========================================
 //4.1 Investition und Investitionszahlung eintragen
