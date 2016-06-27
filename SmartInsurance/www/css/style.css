@@ -18,7 +18,96 @@ td.linebreak p {
     text-align: left;
 }
 
+/* Override Ionic Button Color */
 
+.button.button-positive {
+  background-color: #293133;
+}
+
+/* Menu */
+.menu {
+  background-color: transparent; }
+
+.menu-bottom {
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  position: absolute;
+  font-size: 2em}
+
+.menu-top {
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  position: absolute; }
+
+.menu .avatar {
+  top: 16px;
+  left: 16px;
+  height: 65px;
+  width: 65px; }
+
+.menu .bar.bar-header.expanded {
+  box-shadow: none;
+  /*min-height: 150px;*/
+  color: #fff;
+  background-image: url('../img/material-graphite.jpg');
+  background-size: 120%;
+  background-position: 0%;
+  height: 18%;
+  transition: all .5s ease-in-out; }
+
+.menu-open .bar.bar-header.expanded {
+  background-position: 0;
+  background-size: 100%; }
+
+.has-expanded-header {
+  top: 150px !important; }
+
+.menu.menu-left * {
+    font-weight: bold;
+}
+
+.item-radio input:checked ~ .item-content {
+    background: transparent;
+}
+
+.menu-open .ion-navicon {
+    transform: rotate(-360deg);
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.menu-open .ion-navicon:before {
+    content: "\f2ca";
+}
+
+.item.item-radio .radio-icon {
+    opacity: 1;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.item.item-radio:active .radio-icon {
+    opacity: 0;
+    transform: scale(1.6);
+    -webkit-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.directions.button-bar {
+    margin: 0 auto;
+    width: 33.333%;
+}
+
+.directions.button-bar button {
+    line-height: 26px;
+}
+
+.menu .scroll-content {
+  top: 18%;
+  color: white;
+}
 
 @media
 only screen and (max-width: 760px),
