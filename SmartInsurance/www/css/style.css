@@ -18,6 +18,12 @@ td.linebreak p {
     text-align: left;
 }
 
+/* Override Ionic Button Color */
+
+.button.button-positive {
+  background-color: #293133;
+}
+
 /* Menu */
 .menu {
   background-color: transparent; }
