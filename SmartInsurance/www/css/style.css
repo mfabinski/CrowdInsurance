@@ -19,13 +19,44 @@ td.linebreak p {
 }
 
 /* Menu */
+.menu {
+  background-color: transparent; }
+
+.menu-bottom {
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  position: absolute;
+  font-size: 2em}
+
+.menu-top {
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  position: absolute; }
+
+.menu .avatar {
+  top: 16px;
+  left: 16px;
+  height: 65px;
+  width: 65px; }
 
 .menu .bar.bar-header.expanded {
-    background-image: url('../img/material-graphite.jpg');
-    background-size: 120%;
-    background-position: 0%;
-    transition: all .5s ease-in-out;
-}
+  box-shadow: none;
+  /*min-height: 150px;*/
+  color: #fff;
+  background-image: url('../img/material-graphite.jpg');
+  background-size: 120%;
+  background-position: 0%;
+  height: 18%;
+  transition: all .5s ease-in-out; }
+
+.menu-open .bar.bar-header.expanded {
+  background-position: 0;
+  background-size: 100%; }
+
+.has-expanded-header {
+  top: 150px !important; }
 
 .menu.menu-left * {
     font-weight: bold;
@@ -67,23 +98,10 @@ td.linebreak p {
     line-height: 26px;
 }
 
-.ion-arrow-right-c.top-left:before {
-    transform: rotate(-135deg);
+.menu .scroll-content {
+  top: 18%;
+  color: white;
 }
-
-.ion-arrow-right-c.top-right:before {
-    transform: rotate(-45deg);
-}
-
-.ion-arrow-right-c.bottom-left:before {
-    transform: rotate(-225deg);
-}
-
-.ion-arrow-right-c.bottom-right:before {
-    transform: rotate(45deg);
-}
-
-
 
 @media
 only screen and (max-width: 760px),
