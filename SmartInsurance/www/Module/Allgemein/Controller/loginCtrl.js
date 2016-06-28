@@ -67,7 +67,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
                         $http({
                             method: "GET",
                             url: url,
-                            params: {token: }
+                            
                         })
                             .then(function (result) {
                                     console.log('yes im ok');
