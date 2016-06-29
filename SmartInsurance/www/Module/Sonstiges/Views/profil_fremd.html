@@ -12,7 +12,7 @@
                 <table>
                     <tr> 
                         <td>  <b>Bewertung: </b> </td>  
-                        <td>  {{versicherungen[0].beschreibung}} </td>
+                        <td>  {{versicherungen[0].bewertungen}} </td>
                     </tr>
                     <tr> 
                         <td> <b> Versicherungen: </b> </td>
@@ -22,6 +22,43 @@
 
 
                 </table>
+                
+                
+        <div id="Bersicht-card21" class="list card " ng-show="!(noVersicherung)" >
+            <ion-item style="" class="  " id="Bersicht-list-item4">Versicherungen</ion-item>
+            <div style="" id="Bersicht-list-item-container1" class="item item-body ">
+                <ion-list class=" " id="Bersicht-list6">
+                    <a ng-click="versicherungShow({{versicherung.id}})" ng-repeat="versicherung in versicherungen">
+                        <ion-item style="" id="Bersicht-list-item10" class="item-icon-left">
+                            <i class="icon ion-ionic"></i>
+                            <table class="tableMobile2">
+                                <tr>
+                                    <td>  <b>Bezeichnung: </b> </td>
+                                    <td class="linebreak"> <p>{{versicherung.name}}</p>  </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Versicherungs- <br> höhe: </b> </td>
+                                    <td> {{versicherung.versicherungshoehe}} </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Monatsbeitrag:&nbsp </b> </td>
+                                    <td>  {{versicherung.beitrag}} </td>
+                                </tr>
+                                <tr>
+                                    <td> <b> Bewertung:&nbsp </b> </td>
+                                    <td>  {{versicherung.bewertungen}} </td>
+                                </tr>
+                                 <tr ng-repeat= "status in versicherung.versicherungsstatus">
+                                    <td> <b> Status: </b> </td>
+                                    <td class="linebreak"> <p> {{status}} </p> </td>
+                                </tr>
+                            </table>
+                        </ion-item>
+                    </a>
+                    <p class=" " style="margin-top:0px;color:#000000;" id="Bersicht-markdown26" ng-show="noVersicherung">Es liegen keine Versicherungen vor.</p>
+                </ion-list>
+            </div>
+        </div>
             
             
             

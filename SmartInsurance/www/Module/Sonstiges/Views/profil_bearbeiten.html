@@ -5,7 +5,7 @@
                 <h2>Item</h2>
             </ion-item>
             <button id="profilBearbeiten-button12" class=" button button-positive  button-block ">Bild hochladen</button>
-            <form id="profilBearbeiten-form63" class="list ">
+            <form id="profilBearbeiten-form63" name="profilBearbeitenForm" class="list">
                 <h1 id="profilBearbeiten-heading3" style="color:#000000;" class=" "></h1>
                 <p id="profilBearbeiten-markdown40" style="color:#000000;" class=" ">Vorname:</p>
                 <label class="item item-input " id="profilBearbeiten-input16">
@@ -31,13 +31,13 @@
                     <p id="profilBearbeiten-markdown55" style="color:#000000;" class=" ">Passwort bestätigen:</p>
                     <label class="item item-input " id="profilBearbeiten-input21">
                         
-                        <input type="text" placeholder="">
+                        <input type="text" placeholder="" >
                     </label>
                     <form id="profilBearbeiten-form65" class="list ">
                         <p id="profilBearbeiten-markdown57" style="color:#000000;" class=" ">Bankinstitut:</p>
                         <label class="item item-input " id="profilBearbeiten-input22">
                             
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" value={{profil.bankinstitut}}>
                         </label>
                         <p id="profilBearbeiten-markdown58" style="color:#000000;" class=" ">IBAN:</p>
                         <label class="item item-input " id="profilBearbeiten-input23">
@@ -50,7 +50,7 @@
                             <input type="text" placeholder="" value={{profil.bic}}>
                         </label>
                         
-                         <button id="profilBearbeiten-button14" class=" button button-positive  button-block ">Speichern</button>
+                         <button id="profilBearbeiten-button14" class=" button button-positive  button-block " ng-click="profilBearbeiten(profilBearbeitenForm)">Speichern</button>
                         
                     </form>
                 </form>

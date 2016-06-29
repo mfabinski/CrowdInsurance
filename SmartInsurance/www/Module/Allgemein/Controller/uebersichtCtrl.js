@@ -11,6 +11,142 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung').success(function(response) {
         $scope.versicherungen = Status.versicherung(response);
         $scope.noVersicherung = false;
+
+
+        
+        $scope.chartObject = {
+  "type": "PieChart",
+  "displayed": false,
+  "data": {
+    "cols": [
+      {
+        "id": "kategorie",
+        "label": "Kategorie",
+        "type": "string",
+        "p": {}
+      },
+      {
+        "id": "anzahl",
+        "label": "Anzahl",
+        "type": "number",
+        "p": {}
+      },
+    ],
+    "rows": [
+      {
+        "c": [
+          {
+            "v": "Autos"
+          },
+          {
+            "v": $scope.versicherungen.length
+              
+            
+          },
+        ]
+      },
+      {
+        "c": [
+          {
+            "v": "Schiff"
+          },
+          {
+            "v": 13
+          },
+        ]
+      },
+      {
+        "c": [
+          {
+            "v": "Flugzeug"
+          },
+          {
+            "v": 24
+          },
+        ]
+      },
+              {
+        "c": [
+          {
+            "v": "Haus"
+          },
+          {
+            "v": 13
+          },
+        ]
+      },
+              {
+        "c": [
+          {
+            "v": "Küchengeräte"
+          },
+          {
+            "v": 13
+          },
+        ]
+      },
+              {
+        "c": [
+          {
+            "v": "Möbel"
+          },
+          {
+            "v": 13
+          },
+        ]
+      },
+              {
+        "c": [
+          {
+            "v": "Maschinen"
+          },
+          {
+            "v": 13
+          },
+        ]
+      },
+              {
+        "c": [
+          {
+            "v": "Uhr"
+          },
+          {
+            "v": 13
+          },
+        ]
+      },
+              {
+        "c": [
+          {
+            "v": "Sonstiges"
+          },
+          {
+            "v": 13
+          },
+        ]
+      }
+    ]
+  },
+  "options": {
+    "title": "Versicherungsangebote pro Kategorie",
+    "isStacked": "true",
+    "fill": 20,
+    "displayExactValues": true,
+    "vAxis": {
+      "title": "Sales unit",
+      "gridlines": {
+        "count": 10
+      }
+    },
+    "hAxis": {
+      "title": "Date"
+    }
+  },
+  "formatters": {}
+}
+        
+        
+
     });
 
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {

@@ -1,4 +1,4 @@
-appController.controller('profilCtrl',function($scope, $http, $state, $stateParams, apiendpoint){
+appController.controller('profilCtrl',function($scope, $http, $state, $stateParams, apiendpoint, datumFormatter){
 
     
     
@@ -9,6 +9,8 @@ appController.controller('profilCtrl',function($scope, $http, $state, $statePara
          $scope.email = response[0].email;
          $scope.iban = response[0].iban;
          $scope.email = response[0].bic;
+         $scope.birthday = datumFormatter.formatDatum(response[0].birthday);
+        
     });
     
         $scope.navigate = function (to) {
