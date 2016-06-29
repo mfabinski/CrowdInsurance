@@ -11,6 +11,7 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
             email: $scope.profil.email,
             iban: $scope.profil.iban,
             bic: $scope.profil.bic,
+            bankinstitut: $scope.profil.bankinstitut,
             birthday: "01.01.1999"
         }
     }).error(function(error, status) {
@@ -53,7 +54,7 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
                         onTap: function(e) {
                             // Schnittstelle ist noch nicht implementiert
                             $http.post(apiendpoint.url + '/api/smartinsurance/profil', $scope.profilNeu).then(function(data) {
-                                CacheHistoryReseter.reset();
+                              //  CacheHistoryReseter.reset();
                                 $state.go('app.uebersicht');
                             });
                         }
