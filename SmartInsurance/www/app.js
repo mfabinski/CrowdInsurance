@@ -4,7 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('smartInsurance', ['ionic', 'smartInsurance.controllers', '720kb.socialshare']);
+var app = angular.module('smartInsurance', [ 'ionic','smartInsurance.controllers', '720kb.socialshare']);
+
+
 
 app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -21,6 +23,79 @@ app.run(function($ionicPlatform) {
         }
     });
 });
+
+
+
+
+
+
+
+app.run(['$rootScope', '$ionicPlatform', '$window',
+    function($ionicPlatform, $rootScope, $window, sAuth) {
+
+
+        $rootScope.user = {};
+
+        $window.fbAsyncInit = function() {
+            // Executed when the SDK is loaded
+            FB.init({
+                /*
+                 The app id of the web app;
+                 To register a new app visit Facebook App Dashboard
+                 ( https://developers.facebook.com/apps/ )
+                 */
+                appId: '313387092326143',
+                version: 'v2.6',
+                /*
+                 Adding a Channel File improves the performance
+                 of the javascript SDK, by addressing issues
+                 with cross-domain communication in certain browsers.
+                 */
+                /*   channelUrl: 'app/channel.html', */
+                /*
+                 Set if you want to check the authentication status
+                 at the start up of the app
+                 */
+                status: true,
+                /*
+                 Enable cookies to allow the server to access
+                 the session
+                 */
+                cookie: true,
+                /* Parse XFBML */
+                xfbml: true
+            });
+
+            //sAuth.watchAuthenticationStatusChange();
+
+        };
+
+        (function(d){
+            // load the Facebook javascript SDK
+            var js,
+                id = 'facebook-jssdk',
+                ref = d.getElementsByTagName('script')[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement('script');
+            js.id = id;
+            js.async = true;
+            js.src = "//connect.facebook.net/en_US/all.js";
+
+            ref.parentNode.insertBefore(js, ref);
+
+        }(document));
+
+    }]);
+
+
+
+
+
+
+
+
 
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -68,27 +143,27 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
 
-         .state('app.profilBearbeiten', {
-     url: '/profilBearbeiten',
-     views: {
-       'menuContent': {
-         templateUrl: 'Module/Sonstiges/Views/profil_bearbeiten.html',
-         controller: 'profilBearbeitenCtrl'
+        .state('app.profilBearbeiten', {
+            url: '/profilBearbeiten',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Sonstiges/Views/profil_bearbeiten.html',
+                    controller: 'profilBearbeitenCtrl'
 
-       }
-     }
-   })
+                }
+            }
+        })
 
-           .state('app.profilFremd', {
-     url: '/profilFremd',
-     views: {
-       'menuContent': {
-         templateUrl: 'Module/Sonstiges/Views/profil_fremd.html',
-         controller: 'profilFremdCtrl'
+        .state('app.profilFremd', {
+            url: '/profilFremd',
+            views: {
+                'menuContent': {
+                    templateUrl: 'Module/Sonstiges/Views/profil_fremd.html',
+                    controller: 'profilFremdCtrl'
 
-       }
-     }
-    })
+                }
+            }
+        })
 
 
 
@@ -305,8 +380,3 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(false).hashPrefix('!');
 
 });
-
-
-
-
-
