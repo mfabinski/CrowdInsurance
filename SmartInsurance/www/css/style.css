@@ -201,6 +201,12 @@ only screen and (max-width: 760px),
 
     }
 
+    .tableMobile9 {
+        table-layout: fixed;
+        width: 100%;
+
+    }
+
     hr {
         width:  110%;
     }
