@@ -4,8 +4,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
         $scope.daten.email = "example@mail.com";
         $scope.daten.passwort = "1234";
         $scope.form = {};
-        $scope.backend = "https://sb.pftclan.de:546/api/smartbackend/auth/";
-    $scope.token;
+        $scope.token;
 
 
 
@@ -31,7 +30,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
 
         $scope.login = function () {
 
-            var url = $scope.backend +"email/";
+            var url = apiendpoint.backend + "/api/smartbackend/auth/" +"email/";
             var data = {
                 email: $scope.daten.email,
                 password: $scope.daten.passwort
@@ -59,7 +58,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
                         console.log('Good to see you, ' + response.name + '.');
                         console.log(response);
 
-                        var url = $scope.backend +"facebook/";
+                        var url = apiendpoint.backend + "/api/smartbackend/auth/" +"facebook/";
                         var data = {
                             token: $scope.token
                         }
@@ -67,7 +66,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
                         $http({
                             method: "GET",
                             url: url,
-                            
+
                         })
                             .then(function (result) {
                                     console.log('yes im ok');
