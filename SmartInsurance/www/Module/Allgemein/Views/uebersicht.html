@@ -5,8 +5,6 @@
             <div style="" id="Bersicht-list-item-container4" class="item item-body ">
                 <!--<h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="!(noInvestition || noVersicherung)" >Zusammenfassung</h2>-->
                 <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="(noInvestition && noVersicherung)">Es liegen aktuelle weder Versicherungen noch Investitionen vor. </h2>
-                <ion-list class=" " id="Bersicht-list8">
-                    <ion-item style="" class="  " id="Bersicht-list-item14">
                         <div ng-show="!(noVersicherung)">
                             <table class="tableMobile">
                                 <tr>
@@ -14,33 +12,19 @@
                                 </tr>
                                 <tr>
                                     <td class="linebreak">  <p>Versicherungsanzahl:&nbsp </p> </td>
-                                    <td> &nbsp {{versicherungen.length}} </td>
+                                    <td>  {{versicherungen.length}} </td>
                                 </tr>
                                 <tr>
                                     <td class="linebreak"> <p> Versicherungshöhe: </p> </td>
-                                    <td> &nbsp {{versicherungengesamt()}} </td>
+                                    <td>  {{versicherungengesamt()}} </td>
                                 </tr>
                                 <tr>
                                     <td class="linebreak"> <p> Monatsbeitrag: </p> </td>
-                                    <td> &nbsp {{monatsbeitraggesamt()}} </td>
+                                    <td>  {{monatsbeitraggesamt()}} </td>
                                 </tr>
 
                             </table>
-                            <!--<h2> Versicherung </h2>
-                            <table class="tableMobile">
-                                <tr>
-                                    <td class="linebreak">  <p>Versicherungsanzahl:&nbsp </p> </td>
-                                    <td> &nbsp {{versicherungen.length}} </td>
-                                </tr>
-                                <tr>
-                                    <td class="linebreak"> <p> Versicherungshöhe: </p> </td>
-                                    <td> &nbsp {{versicherungengesamt()}} </td>
-                                </tr>
-                                <tr>
-                                    <td class="linebreak"> <p> Monatsbeitrag: </p> </td>
-                                    <td> &nbsp {{monatsbeitraggesamt()}} </td>
-                                </tr>
-                            </table>-->
+
                         </div>
                         <div ng-show="!(noInvestition)">
                             <span class="input-label"></span>
@@ -53,20 +37,19 @@
                                 </tr>
                                 <tr>
                                     <td class="linebreak">  <p>Investitionsanzahl: </p> </td>
-                                    <td> &nbsp {{investitionen.length}} </td>
+                                    <td>  {{investitionen.length}} </td>
                                 </tr>
                                 <tr>
                                     <td class="linebreak"> <p> Investitionshöhe: </p> </td>
-                                    <td> &nbsp {{investhoehegesamt()}} </td>
+                                    <td>  {{investhoehegesamt()}} </td>
                                 </tr>
                                 <tr>
                                     <td class="linebreak"> <p> Maximale Rendite:&nbsp </p> </td>
-                                    <td> &nbsp  {{renditemax()}} pro Monat </td>
+                                    <td>  {{renditemax()}} pro Monat </td>
                                 </tr>
                             </table>
                         </div>
-                    </ion-item>
-                </ion-list>
+                
             </div>
         </div>
         <div id="Bersicht-card21" class="list card " ng-show="!(noVersicherung)" >
