@@ -12,6 +12,8 @@ module.exports = function() {
 
   router.get('/versicherung/', ts.getVersicherungOf);
 
+  router.get('/versicherung/person/:personID', ts.getVersicherungOf);
+
   router.get('/versicherung/:versicherungID', [validate.versicherungID, ts.getVersicherung]);
 
   router.get('/versicherung/:versicherungID/bewertungen', [validate.versicherungID, ts.getBewertungen]);
@@ -23,6 +25,8 @@ module.exports = function() {
   router.post('/investieren', [validate.parameterZurInvestitionsErstellung, validate.obVersicherungGekuendigtIstOderWird, validate.obVersicherungSchonVollIst, ts.erstelleInvestition]);
 
   router.get('/investition', ts.getInvestitionOf);
+
+  router.get('/investition/person/:personID', ts.getInvestitionOf);
 
   router.get('/investitionVers/:versicherungID', [validate.versicherungID, ts.listOfInvestitionen]);
 
