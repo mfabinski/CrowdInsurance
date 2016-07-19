@@ -109,6 +109,20 @@ td.linebreak p {
   color: white;
 }
 
+hr {
+    width:  400%;
+}
+
+.tableMobile2 {
+    table-layout: fixed;
+    width: 40%;
+
+}
+
+.text_black {
+    color: black;
+}
+
 @media
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
@@ -179,6 +193,10 @@ only screen and (max-width: 760px),
     .tableMobile7 {
         table-layout: fixed;
         width: 85.5%;
+    }
+
+    hr {
+        width:  110%;
     }
 
     .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
