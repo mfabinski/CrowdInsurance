@@ -12,13 +12,17 @@ var internal = {};
 // Lade alle Versicherungen der Person, die die Anfrage stellt
 exports.getVersicherungOf = function (req, res, next) {
     logger.info('Versicherungen der Person ' + req.user.id + ' laden.');
-    tdg.selectVersicherungOf(req.user.id,
+    var user_id = req.params.personID;
+    if(user_id == undefined){
+        user_id = req.user.id
+    }
+    tdg.selectVersicherungOf(user_id,
         function(data){
-            logger.info('Versicherungen der Person ' + req.user.id + 'erfolgreich geladen.');
+            logger.info('Versicherungen der Person ' + user_id + 'erfolgreich geladen.');
             res.status(200).json(data);
         },
         function(err){
-            logger.error('Fehler beim Laden der Versicherungen der Person ' + req.user.id + ' - ' + err);
+            logger.error('Fehler beim Laden der Versicherungen der Person ' + user_id + ' - ' + err);
             res.status(500).send('Fehler beim Laden der Versicherungen.');
         }
     );
@@ -171,13 +175,17 @@ exports.getKategorien = function (req, res, next) {
 
 // Lade alle Investitionen der Person, die die Anfrage stellt
 exports.getInvestitionOf = function (req, res, next) {
-    tdg.selectInvestitionOf(req.user.id,
+    var user_id = req.params.personID;
+    if(user_id == undefined){
+        user_id = req.user.id
+    }
+    tdg.selectInvestitionOf(user_id,
         function(data){
-            logger.info('Investitionen der Person ' + req.user.id + 'erfolgreich geladen.');
+            logger.info('Investitionen der Person ' + user_id + 'erfolgreich geladen.');
             res.status(200).json(data);
         },
         function(err){
-            logger.error('Fehler beim Laden der Investitionen der Person ' + req.user.id + ' - ' + err);
+            logger.error('Fehler beim Laden der Investitionen der Person ' + user_id + ' - ' + err);
             res.status(500).send('Fehler beim Laden der Investitionen.');
         }
     );
