@@ -195,8 +195,18 @@ only screen and (max-width: 760px),
         width: 85.5%;
     }
 
+    .tableMobile8 {
+        table-layout: fixed;
+        width: 130%;
+
+    }
+
     hr {
         width:  110%;
+    }
+
+    .itemNew {
+        white-space: normal;
     }
 
     .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
