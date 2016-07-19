@@ -77,8 +77,9 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
             for (var i = 0; i < $scope.results.length; i++) {
                 $scope.results[i].rendite = Math.round($scope.results[i].rendite);
             }
-        }).error(function(response) {
-            console.log(response.status);
+        }).error(function(error, status) {
+            console.log(error);
+            console.log(status);
 
             var alertPopup = $ionicPopup.alert({
                 title: "Fehlermeldung",
@@ -90,6 +91,18 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
             });
 
         });
+
+        $http.post(apiendpoint.url + '/api/smartinsurance/filter/count', parameter).success(function(response) {
+            console.log("Count: " + response);
+        }).error(function(error, status) {
+            console.log(error);
+            console.log(status);
+
+
+
+
+        });
+
     };
 
     $scope.investitionShow = function(id) {
