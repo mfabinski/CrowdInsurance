@@ -40,7 +40,7 @@
             </div>
         </div>
         <div id="detailsZurVersicherung-card220" class="list card ">
-            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown11">Bewertungen:</p>
+            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown11"> &nbsp Bewertungen:</p>
             <div class = "row">
                 <div class = "col">
                     <b>positiv: </b> {{bewertung[1].count}}
@@ -54,9 +54,9 @@
             </div>
         </div>
         <div id="detailsZurVersicherung-card221" class="list card ">
-            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown44">Kommentare:</p>
-            <ion-item style="" id="detailsZurVersicherung-list-item28" class="item-avatar  " ng-repeat="comment in comments" ng-hide="noComment">
-                {{comment.prename}} {{comment.name}}:  {{comment.text}}
+            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown44"> &nbsp Kommentare:</p>
+            <ion-item style="" id="detailsZurVersicherung-list-item28" class="icon ion-person itemNew" ng-repeat="comment in comments" ng-hide="noComment">
+                {{comment.prename}} {{comment.name}}: <br> {{comment.text}}
             </ion-item>
             <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
         </div>

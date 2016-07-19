@@ -51,11 +51,11 @@
         </div>
         <div id="investitionsdetails-card223" class="list card ">
             <ion-item> Investoren</ion-item>
-            <div  class=" ">
-                <ion-list class=" " id="Bersicht-list7">
-            <a ng-click="showInvestor()" ng-repeat="investor in investoren">
-                <ion-item>
-                    <table class="tableMobile3">
+            <div  class="item item-body ">
+                <!--<ion-list class=" " id="Bersicht-list7">-->
+            <a class="text_black" ng-click="showInvestor()" ng-repeat="investor in investoren">
+                <!--<ion-item>-->
+                    <table class="tableMobile2">
                         <tr>
                             <td>  <b>Name: </b> </td>
                             <td>  {{investor.prename}} {{investor.name}} </td>
@@ -68,10 +68,14 @@
                             <td>  <b>Abschlusszeitpunkt:&nbsp </b> </td>
                             <td>  {{investor.abschlussZeitpunkt}} </td>
                         </tr>
+                        <tr>
+                            <td><hr></td>
+                            <td><hr></td>
+                        </tr>
                     </table>
-                </ion-item>
+                <!--</ion-item>-->
             </a>
-                </ion-list>
+                <!--</ion-list>-->
             </div>
         </div>
         <div class=" button-bar " id="investitionsdetails-button-bar5">

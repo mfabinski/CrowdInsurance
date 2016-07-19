@@ -8,35 +8,35 @@
                 <table class="tableMobile3">
                     <tr>
                         <td>  <b>Bezeichnung: </b> </td>
-                        <td> {{versicherung.name}} </td>
+                        <td> &nbsp {{versicherung.name}} </td>
                     </tr>
                     <tr>
                         <td> <b> Kategorie: </b> </td>
-                        <td>  {{versicherung.kategorie}} </td>
+                        <td> &nbsp {{versicherung.kategorie}} </td>
                     </tr>
                    <tr>
                         <td> <b> Versicherungshöhe: </b> </td>
-                        <td>  {{versicherung.versicherungshoehe}} </td>
+                        <td> &nbsp {{versicherung.versicherungshoehe}} </td>
                     </tr>
                     <tr>
                         <td>  davon gedeckt: </td>
-                        <td>  {{versicherung.suminvestition}} </td>
+                        <td> &nbsp {{versicherung.suminvestition}} </td>
                     </tr>
                     <tr>
                         <td> <b> Monatsbeitrag: </b> </td>
-                        <td>  {{versicherung.beitrag}} </td>
+                        <td> &nbsp {{versicherung.beitrag}} </td>
                     </tr>
                     <tr>
                         <td> <b> Beschreibung: </b> </td>
-                        <td>  {{versicherung.beschreibung}} </td>
+                        <td> &nbsp {{versicherung.beschreibung}} </td>
                     </tr>
                     <tr>
                         <td> <b> ausgezahlter Schaden:&nbsp </b> </td>
-                        <td>  {{gesamtSchaden()}} </td>
+                        <td> &nbsp {{gesamtSchaden()}} </td>
                     </tr>
                     <tr ng-repeat= "status in versicherung.versicherungsstatus">
                                     <td> <b> Status: </b> </td>
-                                    <td>  {{status}} </td>
+                                    <td>  &nbsp {{status}} </td>
                     </tr>
 
                 </table>
@@ -48,12 +48,12 @@
 
         <div id="versicherungsdetails-card29" class="list card ">
             <ion-item> Investoren</ion-item>
-            <div  class=" ">
-                <ion-list class=" " id="Bersicht-list7">
-            <a ng-click="showInvestor()" ng-repeat="investor in investoren" ng-hide="noInvestor">
-                <ion-item style="" id="Bersicht-list-item11">
+            <div  class="item item-body ">
+                <!--<ion-list class=" " id="Bersicht-list7">-->
+            <a class="text_black" ng-click="showInvestor()" ng-repeat="investor in investoren" ng-hide="noInvestor">
+                <!--<ion-item style="" id="Bersicht-list-item11">-->
 
-                     <table class="tableMobile3">
+                     <table class="tableMobile2">
                         <tr>
                             <td>  <b>Name: </b> </td>
                             <td>  {{investor.prename}} {{investor.name}} </td>
@@ -64,12 +64,16 @@
                         </tr>
                         <tr>
                             <td>  <b>Abschlusszeitpunkt:&nbsp </b> </td>
-                            <td>{{investor.abschlussZeitpunkt}} </td>
+                            <td>{{investor.abschlussZeitpunkt}}</td>
                         </tr>
+                         <tr>
+                             <td><hr></td>
+                             <td><hr></td>
+                         </tr>
                     </table>
-                </ion-item>
+                <!--</ion-item>-->
             </a>
-                </ion-list>
+                <!--</ion-list>-->
             </div>
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungsdetails-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert</p>
         </div>

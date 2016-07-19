@@ -1,38 +1,28 @@
 <ion-view title="Profil" id="page17" class=" ">
     <ion-content padding="true" class="has-header">
-        <ion-list id="profil-list11" class=" ">
             <ion-item class="item-avatar  " id="profil-list-item25">
                 <h2>{{profil.prename}} {{profil.name}}</h2>
                 <p>{{profil.email}}</p>
             </ion-item>
-        </ion-list>
-        <ion-list id="profil-list9" class=" ">
-            <ion-item id="profil-list-item12" class="  ">
 
-                <table class="tableMobile7">
-                                        <tr>
-             <!--       <td> <b> Geburtstag: </b> </td>
-                        <td>  {{profil.birthday}} </td>
-                    </tr> -->
-                    <tr>
-                        <td> <b> Bankinstitut: </b> </td>
-                        <td>  {{profil.bankinstitut}} </td>
-                    </tr>
-                   <tr>
-                        <td> <b> IBAN: </b> </td>
-                        <td>  {{profil.iban}} </td>
-                    </tr>
-                    <tr>
-                        <td>  <b> BIC: </b> </td>
-                        <td>  {{profil.bic}} </td>
-                    </tr>
-
-                </table>
-
-
-
-            </ion-item>
-        </ion-list>
+        <div  class="item item-body ">
+            <table class="tableMobile4">
+                <tr>
+                    <td> <b> Bankinstitut: </b> </td>
+                    <td>  {{profil.bankinstitut}} </td>
+                </tr>
+                <tr>
+                    <td> <b> IBAN: </b> </td>
+                    <td>  {{profil.iban}} </td>
+                </tr>
+                <tr>
+                    <td>  <b> BIC: </b> </td>
+                    <td>  {{profil.bic}} </td>
+                </tr>
+            </table>
+        </div>
         <button id="profil-button27" class=" button button-positive  button-block " ng-click="navigate('bearbeiten')">Profil bearbeiten</button>
     </ion-content>
 </ion-view>
+
+

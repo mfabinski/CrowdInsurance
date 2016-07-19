@@ -1,10 +1,10 @@
 <ion-view style="" class=" " id="page24" title="Investition Social">
     <ion-content class="has-header" padding="true">
         <div id="investitionSocial-card226" class="list card ">
-            <ion-item style="" class="  " id="investitionSocial-list-item20">
-                <table class="tableMobile6">
+            <div  class="item item-body ">
+                <table class="tableMobile4">
                     <tr>
-                        <td>  <b>Versicherungs- <br> nehmer:&nbsp </b>   </td>
+                        <td>  <b>Versicherungsnehmer:&nbsp </b>   </td>
                         <td>
                             <a ng-click="showProfil({{investition.vpersonID}})"> {{investition.vpersonPrename}} {{investition.vpersonName}}  </a>
                         </td>
@@ -15,10 +15,10 @@
                         <td>  {{investition.name}} </td>
                     </tr>
                 </table>
-            </ion-item>
+            </div>
         </div>
         <div id="investitionSocial-card227" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown54">Investoren</p>
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown54">&nbsp Investoren</p>
             <div class = "row" ng-repeat="investor in investoren">
                 <div class = "col">
                     <i class="icon ion-ionic"></i> </br>
@@ -42,7 +42,7 @@
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungSocial-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert.</p>
         </div>
         <div id="investitionSocial-card228" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown55">Bewertung</p>
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown55">&nbsp Bewertung</p>
             <div class = "row">
                 <div class = "col">
                     <button class=" button button-positive  button-block icon ion-thumbsup"  ng-click="bewerten('up')"> {{bewertung[1].count}} Likes</button>
@@ -54,10 +54,10 @@
             </div>
         </div>
         <div id="investitionSocial-card229" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">Kommentare</p>
+            <p class=" " style="color:#000000;font-size:18px;" id="investitionSocial-markdown56">&nbsp Kommentare</p>
             <ion-list class=" " id="investitionSocial-list12">
-                <ion-item style="" id="investitionSocial-list-item33" class="icon ion-person  "ng-repeat="comment in comments" ng-hide="noComment">
-                    {{comment.prename}} {{comment.name}}:  {{comment.text}}
+                <ion-item style="" id="investitionSocial-list-item33" class="icon ion-person  itemNew"ng-repeat="comment in comments" ng-hide="noComment">
+                    {{comment.prename}} {{comment.name}}: <br> {{comment.text}}
                 </ion-item>
                 <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
             </ion-list>
