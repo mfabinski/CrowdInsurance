@@ -8,7 +8,25 @@
                 <ion-list class=" " id="Bersicht-list8">
                     <ion-item style="" class="  " id="Bersicht-list-item14">
                         <div ng-show="!(noVersicherung)">
-                            <h2> Versicherung </h2>
+                            <table class="tableMobile">
+                                <tr>
+                                    <td><h2> Versicherung </h2> </td>
+                                </tr>
+                                <tr>
+                                    <td class="linebreak">  <p>Versicherungsanzahl:&nbsp </p> </td>
+                                    <td> &nbsp {{versicherungen.length}} </td>
+                                </tr>
+                                <tr>
+                                    <td class="linebreak"> <p> Versicherungshöhe: </p> </td>
+                                    <td> &nbsp {{versicherungengesamt()}} </td>
+                                </tr>
+                                <tr>
+                                    <td class="linebreak"> <p> Monatsbeitrag: </p> </td>
+                                    <td> &nbsp {{monatsbeitraggesamt()}} </td>
+                                </tr>
+
+                            </table>
+                            <!--<h2> Versicherung </h2>
                             <table class="tableMobile">
                                 <tr>
                                     <td class="linebreak">  <p>Versicherungsanzahl:&nbsp </p> </td>
@@ -22,14 +40,17 @@
                                     <td class="linebreak"> <p> Monatsbeitrag: </p> </td>
                                     <td> &nbsp {{monatsbeitraggesamt()}} </td>
                                 </tr>
-                            </table>
+                            </table>-->
                         </div>
                         <div ng-show="!(noInvestition)">
                             <span class="input-label"></span>
                             <span class="input-label"></span>
-                            <h2> Investition </h2>
+
 
                             <table class="tableMobile">
+                                <tr>
+                                    <td><h2> Investition </h2> </td>
+                                </tr>
                                 <tr>
                                     <td class="linebreak">  <p>Investitionsanzahl: </p> </td>
                                     <td> &nbsp {{investitionen.length}} </td>
@@ -39,8 +60,8 @@
                                     <td> &nbsp {{investhoehegesamt()}} </td>
                                 </tr>
                                 <tr>
-                                    <td class="linebreak"> <p> Maximale monatliche Rendite:&nbsp </p> </td>
-                                    <td> &nbsp {{renditemax()}} </td>
+                                    <td class="linebreak"> <p> Maximale Rendite:&nbsp </p> </td>
+                                    <td> &nbsp  {{renditemax()}} pro Monat </td>
                                 </tr>
                             </table>
                         </div>
