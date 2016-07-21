@@ -41,13 +41,14 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         {entries: 25, value: false}
     ];
 
+
     $scope.search = function(kategorienFilter, sorterList, sorterOrder, paging) {
 
         var kategorie = selectFormatter.formatSelect(kategorienFilter.text);
         var sorterText = selectFormatter.formatSelect(sorterList.text);
         var orderText = selectFormatter.formatSelect(sorterOrder.text);
         var entryCount = selectFormatter.formatSelect(paging.entries);
-        console.log("Counts: " + entryCount);
+
 
         var sorterValue = "";
         if (sorterText !== "Keine") {
@@ -67,6 +68,26 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
             }
         }
 
+        var parameterCount = {};
+        if (kategorie !== "Alle") {
+            parameterCount.kategorie = kategorie;
+        }
+        if (sorterValue !== "") {
+            parameterCount.orderby = sorterValue;
+        }
+        parameterCount.ascending = orderValue;
+
+        $http.post(apiendpoint.url + '/api/smartinsurance/filter/count', parameterCount).success(function(response) {
+            $scope.count = response[0].filterversicherungcount;
+            $scope.currentPage = 0;
+            $scope.pageSize = selectFormatter.formatSelect(paging.entries);
+            $scope.numberOfPages = Math.ceil($scope.count / entryCount);
+            console.log("COUNT: " + $scope.count);
+            console.log($scope.numberOfPages);
+        });
+
+
+
         /*
          * Setup search parameter for search
          */
@@ -79,6 +100,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         }
         parameterFilter.ascending = orderValue;
         parameterFilter.entrycount =  entryCount;
+       // parameterFilter.page =  "2";
 
         /*
          * Execute search and display the results / show error popup if no results
@@ -103,28 +125,6 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
         });
 
-        var parameterCount = {};
-        if (kategorie !== "Alle") {
-            parameterCount.kategorie = kategorie;
-        }
-        if (sorterValue !== "") {
-            parameterCount.orderby = sorterValue;
-        }
-        parameterCount.ascending = orderValue;
-
-
-        //'/api/smartinsurance/filter/count'
-
-        $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameterCount).success(function(response) {
-            console.log("Count: " + response.length);
-        }).error(function(error, status) {
-            console.log(error);
-            console.log(status);
-
-
-
-
-        });
 
     };
 

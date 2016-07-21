@@ -79,7 +79,7 @@
             </tr>
             </thead>
             <tbody class="displayBlock" ng-click="investitionShow({{item.id}})" id="4" ng-repeat="item in results">
-            <tr class="rowBorder displayBlock">
+            <tr class="rowBorder displayBlock" >
                 <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.name}}</td>
                 <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.kategorie}}</td>
                 <td class="styleData labelData colLikeHeader colLikeRow displayBlock">{{item.bewertung}}</td>
@@ -90,6 +90,10 @@
             </tr>
             </tbody>
         </table>
+
+        <button  ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1"><<</button>
+        <button  ng-disabled="currentPage >= numberOfPages" ng-click="currentPage=currentPage+1">>></button>
+        Seite {{currentPage+1}} von {{numberOfPages}}
 
     </ion-content>
 </ion-view>
