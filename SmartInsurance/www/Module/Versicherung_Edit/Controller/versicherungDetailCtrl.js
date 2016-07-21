@@ -1,4 +1,4 @@
-appController.controller('versicherungDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, CacheHistoryReseter, Status){
+appController.controller('versicherungDetailCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, datumFormatter, apiendpoint, CacheHistoryReseter, Status){
 
 
     $scope.versicherungId = $stateParams.id;
@@ -53,8 +53,23 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
         $state.go('app.profilFremd',{investor: investor});
     };
 
-    $scope.editVersicherung = function () {
-        $state.go("app.versicherungEdit", {id: $scope.versicherung.id});
+     $scope.cancelVersicherung = function () {
+        $ionicPopup.show({
+            title: 'Bestätigung',
+            template: 'Wollen Sie die Änderung speichern?',
+            buttons: [
+              { text: 'Cancel' },
+              {
+                text: '<b>Speichern</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                    $http.post(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/kuendigen').then(function(data) {
+                        $state.go('app.versicherungDetail',{id: $scope.versicherungId});
+                    });
+                }
+              }
+            ]
+        });
     };
 
     $scope.showSchadensfaelle = function() {

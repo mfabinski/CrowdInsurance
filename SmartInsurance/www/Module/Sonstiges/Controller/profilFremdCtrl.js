@@ -1,12 +1,11 @@
 appController.controller('profilFremdCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter){
-    console.log($stateParams);
+
    if ($stateParams.investor == null) {
         CacheHistoryReseter.reset();
         $state.go("app.error", {error: {message: "Fehler beim erneuten Laden der Seite.", status: "404"}});
     } else {
 
         $scope.profilID = $stateParams.investor.personID;
-        console.log($scope.profilID);
 
         $http.get(apiendpoint.url + '/api/smartinsurance/profil/' + $scope.profilID).success(function(response) {
              $scope.profil = response[0];
@@ -16,13 +15,17 @@ appController.controller('profilFremdCtrl',function($scope, $http, $state, $stat
         $scope.bewertungen = [];
         $scope.avgBewertung = 0;
         $scope.noVersicherung = true;
+        $scope.countVersicherung = 0;
+        $scope.countInvestition = 0;
 
             $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/person/' + $scope.profilID).success(function(response) {
                 $scope.versicherungen = response;
                 $scope.noVersicherung = false;
 
+                $scope.countVersicherung = $scope.versicherungen.length;
+
                 var getBewertung = function(i){
-                  $http.get(apiendpoint.url + '/api/smartinsurance/versicherung' + $scope.versicherungen[i].id + '/bewertungen').success(function(response) {
+                  $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungen[i].id + '/bewertungen').success(function(response) {
                         if(angular.isDefined(response[0])) {
 
                             $scope.bewertungen.push(response);
@@ -50,6 +53,11 @@ appController.controller('profilFremdCtrl',function($scope, $http, $state, $stat
                   getBewertung(i);
                 }
             });
+
+         $http.get(apiendpoint.url + '/api/smartinsurance/investition/person/' + $scope.profilID).success(function(response) {
+                $scope.countInvestition = response.length;
+        });
+
 
          $scope.versicherungShow = function(id) {
             $state.go("app.investitionInfo",{id: id});

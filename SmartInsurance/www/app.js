@@ -189,17 +189,6 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
 
-        .state('app.versicherungEdit', {
-            url: '/versicherungEdit/:id',
-            params: {id : null},
-            views: {
-                'menuContent': {
-                    templateUrl: 'Module/Versicherung_Edit/Views/versicherungEdit.html',
-                    controller: 'versicherungEditCtrl'
-                }
-            }
-        })
-
         .state('app.versicherungAdd', {
             url: '/versicherungAdd',
             views: {
