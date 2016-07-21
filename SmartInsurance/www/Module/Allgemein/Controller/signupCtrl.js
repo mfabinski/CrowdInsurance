@@ -20,7 +20,7 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
             return true;
         }
     };
-    
+
     $scope.signup = function (signupform) {
 
         if (signupform.$valid && $scope.samePw) {
@@ -31,44 +31,38 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
             var url = apiendpoint.backend + "/api/smartbackend/auth/signup";
             $http.post(url, data)
                 .then(function (response) {
-                    console.log("erfolgreich");
-                    $scope.token = response.data;
-                    $http.defaults.headers.common['Authorization'] = "Bearer " + response.data;
+                    console.log("Signup erfolgreich");
+                    $scope.token = response.data.token;
+                  //  $http.defaults.headers.common['Authorization'] = "Bearer " + $scope.token;
                     url = apiendpoint.url + "/api/smartinsurance/profil";
                     data = {
-                        personID: "TODO",
+                        personID: response.data.id,
                         name: $scope.form.nachname,
                         prename: $scope.form.vorname,
                         email: $scope.form.email,
                         iban : $scope.form.iban,
                         bic : $scope.form.bic,
-                        bankinstitut : $scope.form.bank
-
+                        bankinstitut : $scope.form.bank,
+                        birthday: "01.01.1999"
                     };
-                    http.post(url, data).then(function(response)
+                    $http.post(url, data).then(function(response)
                         {
                             console.log("Profil erstellt");
+                            $ionicPopup.alert({
+                                title: 'Registrierung',
+                                template: 'Sie haben sich erfolgreich registriert.'
+                            });
+                                console.log('Thank you for not eating my delicious ice cream cone');
+                                $state.go('app.uebersicht')
                         },
                         function(error){
                             console.log("Error beim Erstellen des Smartinsurance-Profils");
                         }
                     )
-
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Registrierung',
-                        template: 'Sie haben sich erfolgreich registriert.'
-
-                    });
-
-                    alertPopup.then(function(res) {
-                        console.log('Thank you for not eating my delicious ice cream cone');
-                        $state.go('app.uebersicht')
-                    });
-
                 }, function (error) {
                     $ionicPopup.alert({
                         title: 'Registrierung',
-                        template: 'Sie haben sich erfolgreich registriert.'
+                        template: 'Der Nutzer existiert bereits'
                     });
                     console.log("Registrierung ist fehlgeschlagen");
                 });
