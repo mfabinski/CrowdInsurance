@@ -77,11 +77,11 @@
             </div>
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungsdetails-markdown26" ng-show="noInvestor">Bisher hat niemand in dieses Versicherungsangebot investiert</p>
         </div>
-        <button class=" button button-positive  button-block " id="versicherungsdetails-button4" ng-disabled="versicherung.istGekuendigt" ng-click="editVersicherung()">Bearbeiten</button>
         <div class=" button-bar " id="versicherungsdetails-button-bar1">
             <button class=" button button-positive  button-block " id="versicherungsdetails-button8" ng-click="showSchadensfaelle()">Schadensfälle</button>
             <button class=" button button-positive  button-block " id="versicherungsdetails-button9" ng-disabled="versicherung.istGekuendigt" ng-click="addSchadensfall()">+</button>
             <button class=" button button-positive  button-block " id="versicherungsdetails-button19" ng-click="showSocial()">Social</button>
         </div>
+        <button class=" button button-positive  button-block " id="versicherungsdetails-button4" ng-disabled="versicherung.istGekuendigt" ng-click="cancelVersicherung()">Kündigen</button>
     </ion-content>
 </ion-view>
