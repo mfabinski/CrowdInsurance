@@ -1,11 +1,13 @@
 appController.controller('investitionSearchCtrl',function($scope, $http, apiendpoint, selectFormatter, $ionicPopup, $state){
 
+    /* LAden der Investitionen */
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
 
         $scope.investitionen = response.data;
 
     });
 
+    /* Laden der Kategorien */
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
 
         var kat = [];
@@ -19,7 +21,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         text: "Alle"
     };
 
-
+    /* Liste der Sortierkategorien */
     $scope.sorterList = [
         {text: "Bezeichnung", value: "name"},
         {text: "Bewertung", value: "bewertung"},
@@ -28,6 +30,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         {text: "Anzahl der Investoren", value: "anzahl_investoren"}
     ];
 
+    /* Liste der Sortierreihnfolge */
     $scope.sorterOrder = [
         {text: "Aufsteigend", value: true},
         {text: "Absteigend", value: false}
@@ -42,6 +45,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
     ];
 
 
+    /* Absenden der Sortierabfrage abhängig von der Eingabe des Users */
     $scope.search = function(kategorienFilter, sorterList, sorterOrder, paging) {
 
         var kategorie = selectFormatter.formatSelect(kategorienFilter.text);
@@ -128,12 +132,10 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
     };
 
+    /* Verweis auf die ausgewählte Investition */
     $scope.investitionShow = function(id) {
-        console.log(id);
         $state.go("app.investitionInfo",{id: id});
     };
 
-    $scope.investitionSearch = function() {
 
-    }
 });

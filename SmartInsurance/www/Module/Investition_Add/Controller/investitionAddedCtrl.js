@@ -1,7 +1,9 @@
 appController.controller('investitionAddedCtrl',function($scope, $http, $state, $stateParams, $location, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter){
 
+    /* ID der erstellten Investition */
     $scope.investitionID = $stateParams.id;
 
+    /* Social-Provider */
     $scope.provider = [
         [
             {
@@ -38,9 +40,10 @@ appController.controller('investitionAddedCtrl',function($scope, $http, $state, 
             }
         ]
     ];
-    $scope.text = "Mit der App geteilt";
+    $scope.text = "Ich habe eine Investition getätigt";
     $scope.url = $location.absUrl();
 
+    /* Laden der Investition */
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
         $scope.investition = response[0];
     }).error(function(error, status) {
@@ -50,8 +53,8 @@ appController.controller('investitionAddedCtrl',function($scope, $http, $state, 
 
 
 
-
-$scope.navigate = function (to) {
+    /* Navigation abhängig davon, welcher Button getätigt wurde */
+    $scope.navigate = function (to) {
         CacheHistoryReseter.reset();
         switch (to) {
             case "suchen":
