@@ -42,7 +42,8 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
                         email: $scope.form.email,
                         iban : $scope.form.iban,
                         bic : $scope.form.bic,
-                        bankinstitut : $scope.form.bank
+                        bankinstitut : $scope.form.bank,
+                        birthday: "01.01.1999"
                     };
                     $http.post(url, data).then(function(response)
                         {
