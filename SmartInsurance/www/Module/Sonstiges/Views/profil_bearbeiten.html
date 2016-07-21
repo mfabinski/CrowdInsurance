@@ -6,55 +6,61 @@
             </ion-item>
             <button id="profilBearbeiten-button12" class=" button button-positive  button-block ">Bild hochladen</button>
             <form id="profilBearbeiten-form63" name="profilBearbeitenForm" class="list">
-                <h1 id="profilBearbeiten-heading3" style="color:#000000;" class=" "></h1>
+
                 <p id="profilBearbeiten-markdown40" style="color:#000000;" class=" ">Vorname:</p>
                 <label class="item item-input " id="profilBearbeiten-input16">
-                    
-                    <input type="text" placeholder="" value={{profil.prename}}>
+                    <input type="text" placeholder="" ng-model="profilNeu.prename" name="prename" required>
                 </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(profilBearbeitenForm.prename)" >Bitte geben Sie Ihren Vornamen an.</span>
+                </div>
+
                 <p id="profilBearbeiten-markdown51" style="color:#000000;" class=" ">Nachname:</p>
                 <label class="item item-input " id="profilBearbeiten-input17">
-                   
-                    <input type="text" placeholder="" value={{profil.name}}>
+                    <input type="text" placeholder="" ng-model="profilNeu.name" name="name" required>
                 </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(profilBearbeitenForm.name)" >Bitte geben Sie Ihren Nachnamen an.</span>
+                </div>
+
                 <p id="profilBearbeiten-markdown53" style="color:#000000;" class=" ">E-Mail:</p>
                 <label class="item item-input " id="profilBearbeiten-input18">
-                    
-                    <input type="text" placeholder="" value={{profil.email}}>
+                    <input type="email" placeholder="" ng-model="profilNeu.email" name="email" ng-pattern="checkEMail" required>
                 </label>
-                <form id="profilBearbeiten-form64" class="list ">
-                    <p id="profilBearbeiten-markdown54" style="color:#000000;" class=" ">Neues Passwort:</p>
-                    <label class="item item-input " id="profilBearbeiten-input19">
-                        
-                        <input type="text" placeholder="">
-                    </label>
-                    <p id="profilBearbeiten-markdown55" style="color:#000000;" class=" ">Passwort bestätigen:</p>
-                    <label class="item item-input " id="profilBearbeiten-input21">
-                        
-                        <input type="text" placeholder="" >
-                    </label>
-                    <form id="profilBearbeiten-form65" class="list ">
-                        <p id="profilBearbeiten-markdown57" style="color:#000000;" class=" ">Bankinstitut:</p>
-                        <label class="item item-input " id="profilBearbeiten-input22">
-                            
-                            <input type="text" placeholder="" value={{profil.bankinstitut}}>
-                        </label>
-                        <p id="profilBearbeiten-markdown58" style="color:#000000;" class=" ">IBAN:</p>
-                        <label class="item item-input " id="profilBearbeiten-input23">
-                            
-                            <input type="text" placeholder="" value={{profil.iban}}>
-                        </label>
-                        <p id="profilBearbeiten-markdown59" style="color:#000000;" class=" ">BIC:</p>
-                        <label class="item item-input " id="profilBearbeiten-input24">
-                            
-                            <input type="text" placeholder="" value={{profil.bic}}>
-                        </label>
-                        
-                         <button id="profilBearbeiten-button14" class=" button button-positive  button-block " ng-click="profilBearbeiten(profilBearbeitenForm)">Speichern</button>
-                        
-                    </form>
-                </form>
+                <div style="color:red">
+                    <span ng-show="isInvalid(profilBearbeitenForm.email)" >Bitte geben Sie Ihre E-Mail-Adresse an.</span>
+                    <span ng-show="check(profilBearbeitenForm.email)" >Bitte geben Sie eine gültige E-Mail-Adresse an.</span>
+                </div>
+
+                <p id="profilBearbeiten-markdown57" style="color:#000000;" class=" ">Bankinstitut:</p>
+                <label class="item item-input " id="profilBearbeiten-input22">
+                    <input type="text" placeholder="" ng-model="profilNeu.bankinstitut" name="bankinstitut" required>
+                </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(profilBearbeitenForm.bankinstitut)" >Bitte geben Sie Ihr Bankinstitut an.</span>
+                </div>
+
+                <p id="profilBearbeiten-markdown58" style="color:#000000;" class=" ">IBAN:</p>
+                <label class="item item-input " id="profilBearbeiten-input23">
+                    <input type="text" placeholder="" ng-model="profilNeu.iban" ng-pattern="checkIBAN" name="iban" required>
+                </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(profilBearbeitenForm.iban)" >Bitte geben Sie Ihre IBAN an.</span>
+                    <span ng-show="check(profilBearbeitenForm.iban)" >Bitte geben Sie eine gültige IBAN an.</span>
+                </div>
+
+                <p id="profilBearbeiten-markdown59" style="color:#000000;" class=" ">BIC:</p>
+                <label class="item item-input " id="profilBearbeiten-input24">
+                    <input type="text" placeholder="" ng-model="profilNeu.bic" name="bic" required>
+                </label>
+                <div style="color:red">
+                    <span ng-show="isInvalid(profilBearbeitenForm.bic)" >Bitte geben Sie Ihre BIC an.</span>
+                </div>
+
+                <button id="profilBearbeiten-button14" class=" button button-positive  button-block " ng-click="profilBearbeiten(profilBearbeitenForm)">Speichern</button>
+
             </form>
+
         </div>
     </ion-content>
 </ion-view>

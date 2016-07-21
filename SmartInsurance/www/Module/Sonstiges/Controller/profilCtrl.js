@@ -1,7 +1,7 @@
 appController.controller('profilCtrl',function($scope, $http, $state, $stateParams, apiendpoint, datumFormatter){
 
-    
-    
+
+
     $http.get(apiendpoint.url + '/api/smartinsurance/profil').success(function(response) {
          $scope.profil = response[0];
          $scope.prename = response[0].prename;
@@ -10,17 +10,13 @@ appController.controller('profilCtrl',function($scope, $http, $state, $statePara
          $scope.iban = response[0].iban;
          $scope.email = response[0].bic;
          $scope.birthday = datumFormatter.formatDatum(response[0].birthday);
-        
+
     });
-    
-        $scope.navigate = function (to) {
-        switch (to) {
-            case "bearbeiten":
-                $state.go('app.profilBearbeiten');
-               
-        };
+
+    $scope.editProfil = function () {
+        $state.go('app.profilBearbeiten');
     };
-    
+
 
 
 });
