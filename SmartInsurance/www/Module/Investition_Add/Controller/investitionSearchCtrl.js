@@ -33,11 +33,21 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         {text: "Absteigend", value: false}
     ];
 
-    $scope.search = function(kategorienFilter, sorterList, sorterOrder) {
+    $scope.paging = [
+        {entries: 5, value: false},
+        {entries: 10, value: true},
+        {entries: 15, value: false},
+        {entries: 20, value: false},
+        {entries: 25, value: false}
+    ];
+
+    $scope.search = function(kategorienFilter, sorterList, sorterOrder, paging) {
 
         var kategorie = selectFormatter.formatSelect(kategorienFilter.text);
         var sorterText = selectFormatter.formatSelect(sorterList.text);
         var orderText = selectFormatter.formatSelect(sorterOrder.text);
+        var entryCount = selectFormatter.formatSelect(paging.entries);
+        console.log("Counts: " + entryCount);
 
         var sorterValue = "";
         if (sorterText !== "Keine") {
@@ -68,7 +78,7 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
             parameterFilter.orderby = sorterValue;
         }
         parameterFilter.ascending = orderValue;
-        parameterFilter.entrycount =  10;
+        parameterFilter.entrycount =  entryCount;
 
         /*
          * Execute search and display the results / show error popup if no results
@@ -102,7 +112,10 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         }
         parameterCount.ascending = orderValue;
 
-        $http.post(apiendpoint.url + '/api/smartinsurance/filter/count', parameterCount).success(function(response) {
+
+        //'/api/smartinsurance/filter/count'
+
+        $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameterCount).success(function(response) {
             console.log("Count: " + response.length);
         }).error(function(error, status) {
             console.log(error);
