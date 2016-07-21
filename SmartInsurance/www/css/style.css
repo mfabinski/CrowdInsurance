@@ -215,6 +215,7 @@ only screen and (max-width: 760px),
         white-space: normal;
     }
 
+
     .labelData:nth-of-type(1):before { content: "Bezeichnung"; font-weight: bold; }
     .labelData:nth-of-type(2):before { content: "Kategorie"; font-weight: bold;}
     .labelData:nth-of-type(3):before { content: "Bewertung"; font-weight: bold;}

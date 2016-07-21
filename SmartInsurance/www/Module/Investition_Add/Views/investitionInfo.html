@@ -40,7 +40,7 @@
             </div>
         </div>
         <div id="detailsZurVersicherung-card220" class="list card ">
-            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown11"> &nbsp Bewertungen:</p>
+            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown11"> &nbsp Bewertungen</p>
             <div class = "row">
                 <div class = "col">
                     <b>positiv: </b> {{bewertung[1].count}}
@@ -54,11 +54,15 @@
             </div>
         </div>
         <div id="detailsZurVersicherung-card221" class="list card ">
-            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown44"> &nbsp Kommentare:</p>
-            <ion-item style="" id="detailsZurVersicherung-list-item28" class="icon ion-person itemNew" ng-repeat="comment in comments" ng-hide="noComment">
-                {{comment.prename}} {{comment.name}}: <br> {{comment.text}}
+            <p class=" " style="margin-top:0px;color:#000000;font-size:18px;" id="detailsZurVersicherung-markdown44"> &nbsp Kommentare</p>
+            <ion-list class=" " id="versicherungSocial-list10">
+            <ion-item style="font-weight:bold;" id="detailsZurVersicherung-list-item28" class="icon ion-person itemNew" ng-repeat="comment in comments" ng-hide="noComment">
+                {{comment.prename}} {{comment.name}}: <br>
+                <p  style="color:black;font-size:16px;font-weight:normal;" id="versicherungSocial-markdown390">{{comment.text}} <br></p>
+                <p  style="color:grey;font-size:13px;font-weight:normal;" id="versicherungSocial-markdown390">Am {{comment.zeitpunkt}}</p>
             </ion-item>
             <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
+            </ion-list>
         </div>
         <button class=" button button-positive  button-block " id="detailsZurVersicherung-button10" ng-click="becomeInvestor()">Als Investor einsteigen</button>
         <button class=" button button-positive  button-block " id="detailsZurVersicherung-button11" ng-click="showSchadensfaelle()">Schadensfälle einsehen</button>

@@ -43,7 +43,7 @@
             <p class=" " style="margin-top:0px;color:#000000;" id="versicherungSocial-markdown26" ng-show="noInvestor"> Bisher hat niemand in dieses Versicherungsangebot investiert.</p>
         </div>
         <div id="versicherungSocial-card213" class="list card ">
-            <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown37"> &nbsp Bewertung: </p>
+            <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown37"> &nbsp Bewertung </p>
             <div class = "row">
                 <div class = "col">
                     <b>positiv: </b> {{bewertung[1].count}}
@@ -59,9 +59,12 @@
         <div id="versicherungSocial-card214" class="list card ">
             <p class=" " style="color:#000000;font-size:18px;" id="versicherungSocial-markdown39">&nbsp Kommentare</p>
             <ion-list class=" " id="versicherungSocial-list10">
-                <ion-item id="versicherungSocial-list-item16" class="icon ion-person itemNew" ng-repeat="comment in comments" ng-hide="noComment">
-                    {{comment.prename}} {{comment.name}}: <br> {{comment.text}}
+                <ion-item style="font-weight:bold;" id="versicherungSocial-list-item16" class="icon ion-person itemNew" ng-repeat="comment in comments" ng-hide="noComment">
+                    {{comment.prename}} {{comment.name}}: <br>
+                    <p  style="color:black;font-size:16px;font-weight:normal;" id="versicherungSocial-markdown390">{{comment.text}} <br></p>
+                    <p  style="color:grey;font-size:13px;font-weight:normal;" id="versicherungSocial-markdown390">Am {{comment.zeitpunkt}}</p>
                 </ion-item>
+
                 <span ng-show="noComment">Bisher hat niemand diese Versicherung kommentiert.</span>
             </ion-list>
         </div>
