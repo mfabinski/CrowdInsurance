@@ -1,4 +1,4 @@
-appController.controller('investitionSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter){
+appController.controller('investitionSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter, datumFormatter){
 
     $scope.investitionId = $stateParams.id;
 
@@ -49,6 +49,9 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
             if (angular.isDefined(response[0])) {
                 $scope.comments = response;
                 $scope.noComment= false;
+                for (var i = 0; i < $scope.comments.length; i++) {
+                    $scope.comments[i].zeitpunkt = datumFormatter.formatDatum($scope.comments[i].zeitpunkt);
+                }
             }
         });
     }).error(function(error, status) {

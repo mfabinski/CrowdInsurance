@@ -1,4 +1,4 @@
-appController.controller('investitionInfoCtrl',function($scope, $http, $state, $stateParams, $location, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter){
+appController.controller('investitionInfoCtrl',function($scope, $http, $state, $stateParams, $location, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter, datumFormatter){
 
     $scope.versicherungID = $stateParams.id;
 
@@ -82,6 +82,10 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
         if (angular.isDefined(response[0])) {
             $scope.comments = response;
             $scope.noComment= false;
+
+            for (var i = 0; i < $scope.comments.length; i++) {
+                $scope.comments[i].zeitpunkt = datumFormatter.formatDatum($scope.comments[i].zeitpunkt);
+            }
         }
     });
 

@@ -1,4 +1,4 @@
-appController.controller('versicherungSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter){
+appController.controller('versicherungSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter, datumFormatter){
 
     $scope.versicherungId = $stateParams.id;
 
@@ -54,8 +54,13 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
 
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungId).success(function(response) {
             if (angular.isDefined(response[0])) {
+
                 $scope.comments = response;
                 $scope.noComment= false;
+
+                for (var i = 0; i < $scope.comments.length; i++) {
+                    $scope.comments[i].zeitpunkt = datumFormatter.formatDatum($scope.comments[i].zeitpunkt);
+                }
             }
     });
 
