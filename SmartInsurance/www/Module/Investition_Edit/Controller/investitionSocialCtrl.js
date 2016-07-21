@@ -86,13 +86,19 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         return true;
     };
 
-    $scope.showInvestor = function (id) {
-        // Verweis auf Investor personID übergeben
+    $scope.showInvestor = function (investor) {
+        $state.go('app.profilFremd',{investor: investor});
     };
 
-    $scope.showProfil = function (id) {
-        // Verweis auf Versicherungsnehmer personID übergeben
+    $scope.showVersicherer = function () {
+        var investor = {
+            personID: $scope.investition.vpersonID
+        }
+        $state.go('app.profilFremd',{investor: investor});
     };
+
+
+
     $scope.bewerten = function(thumb){
         var data = {};
         data.bewertung = thumb;

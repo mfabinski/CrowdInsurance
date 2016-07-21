@@ -8,7 +8,7 @@
                 <table class="tableMobile4">
                     <tr>
                         <td>  <b>Versicherungsnehmer: </b> </td>
-                        <td>  {{investition.vpersonPrename}} {{investition.vpersonName}} </td>
+                        <td> <a ng-click="showVersicherer()"> {{investition.vpersonPrename}} {{investition.vpersonName}} </a> </td>
                     </tr>
                     <tr>
                         <td>  <b>Bezeichnung: </b> </td>
@@ -53,7 +53,7 @@
             <ion-item> Investoren</ion-item>
             <div  class="item item-body ">
                 <!--<ion-list class=" " id="Bersicht-list7">-->
-            <a class="text_black" ng-click="showInvestor()" ng-repeat="investor in investoren">
+            <a class="text_black" ng-click="showInvestor({{investor}})" ng-repeat="investor in investoren">
                 <!--<ion-item>-->
                     <table class="tableMobile2">
                         <tr>

@@ -1,5 +1,5 @@
 appController.controller('profilFremdCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter){
-
+    console.log($stateParams);
    if ($stateParams.investor == null) {
         CacheHistoryReseter.reset();
         $state.go("app.error", {error: {message: "Fehler beim erneuten Laden der Seite.", status: "404"}});
