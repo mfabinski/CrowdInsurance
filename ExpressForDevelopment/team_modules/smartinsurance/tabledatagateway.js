@@ -34,6 +34,11 @@ exports.filterVersicherung = function(kategorie, orderby, asc_desc, limit, skip,
     db.func('filterversicherung',[kategorie, orderby,(asc_desc?"ASC":"DESC"), limit, skip]).then(onSuccess).catch(onError);
 };
 
+// Filtern und sortieren von Versicherungen
+exports.filterVersicherungCount = function(kategorie, orderby, asc_desc, limit, skip, onSuccess, onError){
+    db.func('filterversicherungcount',[kategorie, orderby,(asc_desc?"ASC":"DESC"), limit, skip]).then(onSuccess).catch(onError);
+};
+
 // Sortieren von Versicherungen
 exports.orderVersicherung = function(orderby, asc_desc, limit, skip, onSuccess, onError){
     db.func('orderversicherung',[orderby, (asc_desc?"ASC":"DESC"), limit, skip]).then(onSuccess).catch(onError);
