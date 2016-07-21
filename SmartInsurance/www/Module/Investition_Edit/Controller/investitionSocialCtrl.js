@@ -75,6 +75,8 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
                 $scope.comments.splice(0, 0, data[0]);
                 $scope.comment.text= "";
                 $scope.noComment=false;
+
+                $scope.comments[0].zeitpunkt = datumFormatter.formatDatum($scope.comments[0].zeitpunkt);
             });
             $scope.submitted = false;
         } else {
