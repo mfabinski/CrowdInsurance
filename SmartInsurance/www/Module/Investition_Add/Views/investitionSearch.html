@@ -41,9 +41,24 @@
                 </select>
             </label>
 
+            <ion-item  class="item-divider ">Anzahl der Suchergebnisse pro Seite</ion-item>
+            <label  class="item item-select ">
+                <span class="input-label"></span>
+                <select ng-model="paging.entries" ng-init="paging.entries='10'" name="anzahl" required>
+                    <option value="5">5</option>
+                    <option ng-selected="true" value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <!--<option ng-repeat = "item in sorterOrder" >
+                      {{item.text}}
+                    </option>-->
+                </select>
+            </label>
+
 
             <!--<ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
-            <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, sorterList, sorterOrder)" id="investitionSuchen-button34">Investition suchen</a>
+            <a class=" button button-positive  button-block "  ng-click="search(kategorienFilter, sorterList, sorterOrder, paging)" id="investitionSuchen-button34">Investition suchen</a>
         </form>
 
 
