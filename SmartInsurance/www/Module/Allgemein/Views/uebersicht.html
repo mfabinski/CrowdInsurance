@@ -1,14 +1,14 @@
-<ion-view style="" class=" " id="page1" title="Übersicht">
+<ion-view style="" class="icon ion-ios-home" id="page1" title="Übersicht">
     <ion-content class="has-header" padding="true">
         <div id="Bersicht-card23" class="list card ">
-            <ion-item style="" class="  " ng-show="!(noInvestition || noVersicherung)">Zusammenfassung</ion-item>
+            <ion-item style="" class=" icon ion-clipboard " ng-show="!(noInvestition || noVersicherung)"> Zusammenfassung</ion-item>
             <div style="" id="Bersicht-list-item-container4" class="item item-body ">
                 <!--<h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="!(noInvestition || noVersicherung)" >Zusammenfassung</h2>-->
                 <h2 class=" " style="color: rgb(0, 0, 0);" id="Bersicht-heading2" ng-show="(noInvestition && noVersicherung)">Es liegen aktuelle weder Versicherungen noch Investitionen vor. </h2>
                         <div ng-show="!(noVersicherung)">
                             <table class="tableMobile">
                                 <tr>
-                                    <td><h2> Versicherung </h2> </td>
+                                    <td><h2 class="icon ion-umbrella"> Versicherung </h2> </td>
                                 </tr>
                                 <tr>
                                     <td class="linebreak">  <p>Versicherungsanzahl:&nbsp </p> </td>
@@ -33,7 +33,7 @@
 
                             <table class="tableMobile">
                                 <tr>
-                                    <td><h2> Investition </h2> </td>
+                                    <td><h2 class="icon ion-ios-pricetag"> Investition </h2> </td>
                                 </tr>
                                 <tr>
                                     <td class="linebreak">  <p>Investitionsanzahl: </p> </td>
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div id="Bersicht-card21" class="list card " ng-show="!(noVersicherung)" >
-            <ion-item style="" class="  " id="Bersicht-list-item4">Versicherungen</ion-item>
+            <ion-item style="" class="icon ion-umbrella" id="Bersicht-list-item4"> Versicherungen</ion-item>
             <div style="" id="Bersicht-list-item-container1" class="item item-body ">
                 <!--<ion-list class=" " id="Bersicht-list6">-->
                     <a class="text_black" ng-click="versicherungShow({{versicherung.id}})" ng-repeat="versicherung in versicherungen">
@@ -90,7 +90,7 @@
             </div>
         </div>
         <div id="Bersicht-card22" class="list card " ng-show="!(noInvestition)">
-            <ion-item style="" class="  " id="Bersicht-list-item7">Investition</ion-item>
+            <ion-item style="" class="icon ion-ios-pricetag " id="Bersicht-list-item7"> Investition</ion-item>
             <div style="" id="Bersicht-list-item-container2" class="item item-body ">
                 <!--<ion-list class=" " id="Bersicht-list7">-->
                     <a class="text_black" ng-click="investitionShow({{investition.id}})" ng-show="!(noInvestition)" ng-repeat="investition in investitionen">
