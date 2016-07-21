@@ -155,6 +155,46 @@ exports.filterVersicherung = function (req, res, next) {
     }
 };
 
+// Filtern und sortieren der Versicherungen
+exports.filterVersicherungCount = function (req, res, next) {
+    var withFilter = true;
+    var kategorie = req.body.kategorie;
+    var orderby = req.body.orderby;
+    if (orderby == undefined) orderby = "id";
+    var asc_desc = req.body.ascending;
+    if (asc_desc == undefined) asc_desc = true;
+    var limit = 0;
+    if (req.body.entrycount) {
+      limit = req.body.entrycount
+    }
+    var skip = 0;
+    if (req.body.page) {
+      skip = req.body.page * entrycount;
+    }
+    // var orderbyindex = 1;
+
+    // Mit oder ohne where Bedingung?
+    if (kategorie == undefined) {
+        withFilter = false;
+    }
+
+    tdg.filterVersicherungCount(kategorie, orderby, asc_desc, limit, skip,
+        function(data){
+            logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
+            if(data.length != 0) {
+                res.status(200).json(data);
+            } else{
+                res.status(404).send('Filter Kategorie auf '  + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend fehlgeschlagen.')
+            }
+        },
+        function(err){
+            logger.info('Fehler beim Filtern'+ ' - ' + err);
+            res.status(500).send('Fehler beim Filtern');
+        }
+    );
+};
+
+
 // Lade alle Kategorien
 exports.getKategorien = function (req, res, next) {
     tdg.selectKategorien(
