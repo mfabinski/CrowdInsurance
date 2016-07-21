@@ -105,4 +105,8 @@ appController.controller('investitionInfoCtrl',function($scope, $http, $state, $
         $state.go("app.investitionAdd", {id: $scope.versicherungID});
     };
 
+    $scope.showVersicherungsnehmer = function (investor) {
+        $state.go('app.profilFremd',{investor: investor});
+    };
+
 });

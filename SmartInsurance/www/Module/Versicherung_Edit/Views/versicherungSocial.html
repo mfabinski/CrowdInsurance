@@ -6,7 +6,7 @@
                     <tr>
                         <td>  <b>Versicherungsnehmer:</b>   </td>
                         <td>
-                                <a ng-click="showProfil({{versicherung.personID}})"> &nbsp {{versicherung.personPrename}} {{versicherung.personName}}  </a>
+                                <a ng-click="showProfil()"> {{versicherung.personPrename}} {{versicherung.personName}}  </a>
                         </td>
                     </tr>
 
@@ -23,19 +23,19 @@
                 <div class = "row" ng-repeat="investor in investoren">
                     <div class = "col">
                          <i class="icon ion-ionic"></i> </br>
-                        <a ng-click="showInvestor({{investor[0].personID}})">
+                        <a ng-click="showInvestor({{investor[0]}})">
                             {{investor[0].prename}} {{investor[0].name}}
                         </a>
                     </div>
                     <div class = "col">
                         <i class="icon ion-ionic" ng-show="showPicture({{investor[1]}})"></i> </br>
-                        <a ng-click="showInvestor({{investor[1].personID}})">
+                        <a ng-click="showInvestor({{investor[1]}})">
                             {{investor[1].prename}} {{investor[1].name}}
                         </a>
                     </div>
                     <div class = "col">
                         <i class="icon ion-ionic" ng-show="showPicture({{investor[2]}})"></i> </br>
-                        <a ng-click="showInvestor({{investor[2].personID}})">
+                        <a ng-click="showInvestor({{investor[2]}})">
                             {{investor[2].prename}} {{investor[2].name}}
                         </a>
                     </div>

@@ -156,6 +156,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
         .state('app.profilFremd', {
             url: '/profilFremd',
+            params: {investor: null},
             views: {
                 'menuContent': {
                     templateUrl: 'Module/Sonstiges/Views/profil_fremd.html',

@@ -8,22 +8,16 @@
         </ion-list>
         <ion-list id="profil-list9" class=" ">
             <ion-item id="profil-list-item12" class="  ">
-            
-                <table>
-                    <tr> 
-                        <td>  <b>Bewertung: </b> </td>  
-                        <td>  {{versicherungen[0].bewertungen}} </td>
-                    </tr>
-                    <tr> 
-                        <td> <b> Versicherungen: </b> </td>
-                        <td>  {{versicherungen[0].name}}, {{versicherungen[1].name}} </td>
-                        
-                    </tr>
 
+                <table>
+                    <tr>
+                        <td>  <b>Gesamtbewertung: </b> </td>
+                        <td>  {{avgBewertung}} </td>
+                    </tr>
 
                 </table>
-                
-                
+
+
         <div id="Bersicht-card21" class="list card " ng-show="!(noVersicherung)" >
             <ion-item style="" class="  " id="Bersicht-list-item4">Versicherungen</ion-item>
             <div style="" id="Bersicht-list-item-container1" class="item item-body ">
@@ -46,7 +40,7 @@
                                 </tr>
                                 <tr>
                                     <td> <b> Bewertung:&nbsp </b> </td>
-                                    <td>  {{versicherung.bewertungen}} </td>
+                                    <td>  {{versicherung.bewertung}} </td>
                                 </tr>
                                  <tr ng-repeat= "status in versicherung.versicherungsstatus">
                                     <td> <b> Status: </b> </td>
@@ -55,15 +49,14 @@
                             </table>
                         </ion-item>
                     </a>
-                    <p class=" " style="margin-top:0px;color:#000000;" id="Bersicht-markdown26" ng-show="noVersicherung">Es liegen keine Versicherungen vor.</p>
                 </ion-list>
             </div>
         </div>
-            
-            
-            
+
+
+
             </ion-item>
         </ion-list>
-       
+
     </ion-content>
 </ion-view>

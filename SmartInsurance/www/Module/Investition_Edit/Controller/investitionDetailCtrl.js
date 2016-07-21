@@ -56,8 +56,15 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
     };
 
 
-    $scope.showInvestor = function () {
-        // Verweis auf die Seite des Investors
+   $scope.showInvestor = function (investor) {
+        $state.go('app.profilFremd',{investor: investor});
+    };
+
+    $scope.showVersicherer = function () {
+        var investor = {
+            personID: $scope.investition.vpersonID
+        }
+        $state.go('app.profilFremd',{investor: investor});
     };
 
     $scope.editInvestition = function () {
