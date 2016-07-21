@@ -2,11 +2,12 @@ appController.controller('versicherungAddCtrl',function($scope, $http, $state, m
 
     $scope.submitted = false;
 
+    /* Laden der Kategorien  */
     $http.get(apiendpoint.url + '/api/smartinsurance/kategorien').success(function(response) {
         $scope.kategorien = response;
     });
 
-
+    /* Erstellen eines Versicherungsobjekts  */
     $scope.versicherung = {
         name: "",
         versicherungshoehe: "",
@@ -18,19 +19,19 @@ appController.controller('versicherungAddCtrl',function($scope, $http, $state, m
 
     $scope.checkCurrency = checkCurrencyFormat;
 
-
+    /* Validierung der Pflichtfelder  */
     $scope.isInvalid = function(field){
         return field.$error.required && (field.$touched || $scope.submitted);
     };
 
-
+    /* Validierung der Währungsfeldern  */
     $scope.isNaN = function(field) {
         return field.$error.pattern && (field.$touched || $scope.submitted);
     };
 
 
 
-
+    /* Verweis auf die Überprüfungsseite  */
     $scope.versicherungAdd = function(form) {
 
         $scope.submitted = true;

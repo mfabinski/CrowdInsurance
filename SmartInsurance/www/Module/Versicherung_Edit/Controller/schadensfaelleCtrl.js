@@ -3,7 +3,7 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
     $scope.versicherungId = $stateParams.id;
 
 
-
+    /* Laden der Versicherung */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
          $scope.versicherung = response[0];
     }).error(function(error, status) {
@@ -11,7 +11,7 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
-
+    /* Laden der Schadensfälle  */
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungId).success(function(response) {
         if(angular.isDefined(response[0])){
             $scope.schaeden = response;
@@ -24,15 +24,13 @@ appController.controller('schadensfaelleCtrl',function($scope, $http, $state, $s
         }
     });
 
-
+    /* Verweis auf die Bearbeiten-Seite  */
     $scope.schadensfallShow = function (id) {
-        // eigene ID muss bekannt sein
-        if(true) {
-            for (var i = 0; i < $scope.schaeden.length; i++){
-                if ($scope.schaeden[i].id == id) {
-                    $state.go("app.schadensfallMelden", {schaden: $scope.schaeden[i]});
-                    break;
-                }
+
+        for (var i = 0; i < $scope.schaeden.length; i++){
+            if ($scope.schaeden[i].id == id) {
+                $state.go("app.schadensfallMelden", {schaden: $scope.schaeden[i]});
+                break;
             }
         }
     };

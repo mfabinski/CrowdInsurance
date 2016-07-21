@@ -1,9 +1,9 @@
 appController.controller('investitionDetailCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, datumFormatter, apiendpoint, Status, CacheHistoryReseter){
 
-
+    /* ID der Investition */
     $scope.investitionID = $stateParams.id;
 
-
+    /* Laden der Investition, dann die Investoren, Schadensfälle und den gedeckten Betrag  */
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
         $scope.investition = Status.investition(response)[0];
 
@@ -33,7 +33,7 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
-
+    /* Berechnung des Gesamtschadens */
     $scope.gesamtSchaden = function () {
         var gesamtSchaden = 0;
         if (angular.isDefined($scope.schadensfaelle)) {
@@ -44,6 +44,7 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         return moneyFormatter.formatMoney(gesamtSchaden);
     };
 
+    /* Berechnung der maximalen monatlichen Rendite */
     $scope.calculateRendite = function(investitionshoehe) {
         var gesamtbetrag = 0;
         if(angular.isDefined($scope.investition)){
@@ -55,11 +56,12 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
-
+    /* Verweis auf das Profil des Investors */
    $scope.showInvestor = function (investor) {
         $state.go('app.profilFremd',{investor: investor});
     };
 
+    /* Verweis auf das Profil des Versicherungsnehmers */
     $scope.showVersicherer = function () {
         var investor = {
             personID: $scope.investition.vpersonID
@@ -67,18 +69,22 @@ appController.controller('investitionDetailCtrl',function($scope, $http, $state,
         $state.go('app.profilFremd',{investor: investor});
     };
 
+    /* Verweis auf das Profil des Investors */
     $scope.editInvestition = function () {
         $state.go("app.investitionEdit", {id: $scope.investition.id});
     };
 
+    /* Verweis auf die Schadensfälle */
     $scope.showSchadensfaelle = function() {
         $state.go("app.schadensfaelle", {id: $scope.investition.versicherungID});
     };
 
+    /* Verweis auf den Social-Bereich */
     $scope.showSocial = function () {
         $state.go("app.investitionSocial", {id: $scope.investition.id});
     };
 
+    /* Verweis auf die InvestitionAdd-Page */
     $scope.invest = function () {
         $state.go("app.investitionAdd", {id: $scope.investition.versicherungID});
     }

@@ -1,7 +1,7 @@
 appController.controller('versicherungCheckCtrl',function($scope, $http, $state, $stateParams, moneyParser, moneyFormatter, apiendpoint, CacheHistoryReseter){
 
-
-     if ($stateParams.versicherung == null) {
+    /* Weiterleitung auf die Error-Page beim erneuten Laden der Seite */
+    if ($stateParams.versicherung == null) {
         CacheHistoryReseter.reset();
         $state.go("app.error", {error: {message: "Fehler beim erneuten Laden der Seite.", status: "404"}});
     } else {
@@ -9,7 +9,7 @@ appController.controller('versicherungCheckCtrl',function($scope, $http, $state,
 
         $scope.disable = true;
 
-
+        /* Anlegen der Versicherung und Verweis auf die Abschlussseite */
         $scope.versicherungCheck = function (){
             $http.post(apiendpoint.url + '/api/smartinsurance/versicherung', $scope.versicherung).success(function(response) {
                 CacheHistoryReseter.reset();

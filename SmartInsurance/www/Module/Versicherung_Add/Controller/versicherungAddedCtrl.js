@@ -1,8 +1,10 @@
 appController.controller('versicherungAddedCtrl',function($scope, $http, $state, $stateParams, $location, apiendpoint, CacheHistoryReseter) {
 
+    /* Speichern der übergebenen VersicherungsID */
     $scope.versicherungId = $stateParams.id;
 
-     $scope.provider = [
+    /*Social-Porvider */
+    $scope.provider = [
         [
             {
                 provider: "facebook",
@@ -38,9 +40,10 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state,
             }
         ]
     ];
-    $scope.text = "Mit der App geteilt";
+    $scope.text = "Ich suche Investoren für meine Versicherung";
     $scope.url = $location.absUrl();
 
+    /* Laden der Versicherung  */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/'+$scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
     }).error(function(error, status) {
@@ -48,7 +51,7 @@ appController.controller('versicherungAddedCtrl',function($scope, $http, $state,
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
-
+    /* Navigation abhängig von dem getätigten Button  */
     $scope.navigate = function (to) {
         CacheHistoryReseter.reset();
         switch (to) {

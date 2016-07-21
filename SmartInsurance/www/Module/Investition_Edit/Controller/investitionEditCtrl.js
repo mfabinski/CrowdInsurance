@@ -4,7 +4,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
     $scope.submitted = false;
 
-
+    /* Laden der Investition und des gedeckten Betrages  */
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionID).success(function(response) {
         $scope.investition = response[0];
         $scope.investitionNeu = {
@@ -26,7 +26,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
-
+    /* Speichern der Investitionshöhenänderung  */
     $scope.save = function(form) {
 
         $scope.submitted = true;
@@ -57,6 +57,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
         }
     };
 
+    /* Kündigen der Investition */
     $scope.cancelInvestition = function () {
         $ionicPopup.show({
             title: 'Bestätigung',
@@ -79,12 +80,13 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
 
     $scope.checkCurrency = checkCurrencyFormat;
 
+    /* Validierung des Betragsfeldes */
     $scope.isNaN = function(field) {
         return (field.$error.required || field.$error.pattern) && (field.$touched || $scope.submitted);
     };
 
 
-
+    /* Berechnung der maximalen monatlichen Rendite */
     $scope.calculateRendite = function(investitionshoehe) {
         var gesamtbetrag = 0;
         if(angular.isDefined($scope.investition)){
@@ -96,6 +98,7 @@ appController.controller('investitionEditCtrl',function($scope, $http, $state, $
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
+    /* Berechnung der neuen maximalen monatlichen Rendite */
     $scope.calculateNewRendite = function(field) {
         if($scope.investitionNeu.investitionshoehe != "" && !(field.$error.pattern)){
             $scope.rendite = $scope.calculateRendite($scope.investitionNeu.investitionshoehe);
