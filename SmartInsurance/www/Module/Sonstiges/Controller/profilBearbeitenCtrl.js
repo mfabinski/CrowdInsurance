@@ -40,6 +40,8 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
     $scope.profilBearbeiten = function(form) {
 
         $scope.submitted = true;
+        
+        $rootScope.eProfilBild = document.getElementById("eProfil");
 
         if (form.$valid) {
 

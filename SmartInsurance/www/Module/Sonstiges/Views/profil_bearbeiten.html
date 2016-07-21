@@ -1,10 +1,24 @@
 <ion-view title="Profil bearbeiten" id="page22" class=" ">
     <ion-content padding="true" class="has-header">
         <div class="list card " id="profilBearbeiten-card222">
-            <ion-item class="item-avatar  " id="profilBearbeiten-list-item15">
-                <h2>Item</h2>
-            </ion-item>
-            <button id="profilBearbeiten-button12" class=" button button-positive  button-block icon ion-ios-cloud-upload-outline "> Bild hochladen</button>
+
+             <div flow-init="{target: '/upload'}"
+            flow-files-submitted="$flow.upload()"
+            flow-file-success="$file.msg = $message"
+                  flow-name="obj.flow">
+          <!--  <ion-item class="item-avatar  " id="profilBearbeiten-list-item15"> -->
+                <img flow-img="$flow.files[0]" width="150" height="150"/>
+                <h2></h2>
+        <!--    </ion-item> -->
+         <!--   <button id="profilBearbeiten-button12" class=" button button-positive  button-block ">Bild hochladen</button> -->
+                     
+                 <br></br>
+                 
+            <p id="profilBearbeiten_profilbild" style="color:#000000;" class=" ">Bild hochladen:</p>
+            <input type="file" flow-btn/>       
+            </div>       
+            
+
             <form id="profilBearbeiten-form63" name="profilBearbeitenForm" class="list">
 
                 <p id="profilBearbeiten-markdown40" style="color:#000000;" class=" ">Vorname:</p>
