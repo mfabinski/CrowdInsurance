@@ -97,7 +97,7 @@ app.run(['$rootScope', '$ionicPlatform', '$window',
 
 
 
-
+/* Die Routen zu den einzelnen Pages */
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $stateProvider
