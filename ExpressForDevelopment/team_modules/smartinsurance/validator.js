@@ -364,7 +364,6 @@ exports.obUserExistiert = function(req,res,next){
 }
 
 exports.parameterProfilAendern = function(req,res,next){
-  logger.consoleInfo("validate.parameterProfilAendern noch nicht implementiert");
   var personID = req.body.personID;
   var name = req.body.name;
   var prename = req.body.prename;
