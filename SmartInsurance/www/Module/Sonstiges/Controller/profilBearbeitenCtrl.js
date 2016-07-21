@@ -1,7 +1,7 @@
 appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, $stateParams, CacheHistoryReseter, apiendpoint, $ionicPopup){
 
 
-
+    /* Laden des Profils und Anlegen eines neuen Profil-Objekts */
     $http.get(apiendpoint.url + '/api/smartinsurance/profil').success(function(response) {
         $scope.profil = response[0];
         $scope.profilNeu = {
@@ -20,24 +20,23 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
     });
 
 
+    /* Regex IBAN */
+    $scope.checkIBAN = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/;
 
+    /* Regex EMail */
+    $scope.checkEMail =/.{1,}@[_a-z0-9A-Z]+(\.[a-z0-9A-Z]+)+/;
 
+    /* Überprüfung der Regex-Ausdrücke */
+    $scope.check = function(field){
+        return field.$error.pattern && (field.$touched || $scope.submitted);
+    }
 
-        $scope.checkIBAN = /[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}/;
+    /* Validierung */
+    $scope.isInvalid = function(field){
+        return field.$error.required && (field.$touched || $scope.submitted);
+    };
 
-        $scope.checkEMail =/.{1,}@[_a-z0-9A-Z]+(\.[a-z0-9A-Z]+)+/;
-
-         $scope.check = function(field){
-            return field.$error.pattern && (field.$touched || $scope.submitted);
-        }
-
-        $scope.isInvalid = function(field){
-            return field.$error.required && (field.$touched || $scope.submitted);
-        };
-
-
-
-
+    /* Speicherung der Bearbeitung */
     $scope.profilBearbeiten = function(form) {
 
         $scope.submitted = true;

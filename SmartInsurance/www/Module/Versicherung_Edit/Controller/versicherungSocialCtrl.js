@@ -1,5 +1,6 @@
 appController.controller('versicherungSocialCtrl',function($scope, $http, $state, $stateParams, apiendpoint, CacheHistoryReseter, datumFormatter){
 
+    /* Übergabe der Versicherungsid */
     $scope.versicherungId = $stateParams.id;
 
     $scope.comment = {
@@ -23,7 +24,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
                 {count: 0}
     ];
 
-
+    /* Laden der Versicherung  */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
         $scope.versicherung = response[0];
     }).error(function(error, status) {
@@ -31,7 +32,8 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
-     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
+    /* Laden der Investoren  */
+    $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
         $scope.investorhelper = response;
         if(angular.isDefined($scope.investorhelper[0])) {
 
@@ -45,13 +47,14 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
         }
     });
 
+    /* Laden der Bewertungen  */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId + '/bewertungen').success(function(response) {
          if(angular.isDefined(response[0])) {
             $scope.bewertung = response;
         }
     });
 
-
+    /* Laden der Kommentare  */
     $http.get(apiendpoint.url + '/api/smartinsurance/kommentare/' + $scope.versicherungId).success(function(response) {
             if (angular.isDefined(response[0])) {
 
@@ -64,6 +67,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
             }
     });
 
+    /* Entscheidung, ob das Bild zu dem Investor angezeigt wird  */
     $scope.showPicture = function(investor) {
         if(angular.isDefined(investor)){
             return true;
@@ -71,6 +75,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
         return false;
     };
 
+    /* Kommentar schreiben */
     $scope.writeComment = function(form) {
         if (form.$valid) {
             $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).success(function(data) {
@@ -87,6 +92,7 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
         }
     };
 
+    /* Überprüfung, ob das Kommentarfeld gefüllt ist  */
     $scope.isFilled = function (field) {
         if(field.$error.required && $scope.submitted) {
             return false;
@@ -94,13 +100,14 @@ appController.controller('versicherungSocialCtrl',function($scope, $http, $state
         return true;
     };
 
+    /* Verweis auf das Profil des Investors */
     $scope.showInvestor = function (investor) {
         $state.go('app.profilFremd',{investor: investor});
     };
 
-     $scope.showProfil = function () {
-
-         $state.go('app.profil');
+    /* Verweis auf das eigene Profil */
+    $scope.showProfil = function () {
+        $state.go('app.profil');
     }
 
 

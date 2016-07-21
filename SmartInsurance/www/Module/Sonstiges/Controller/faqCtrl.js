@@ -1,5 +1,6 @@
 appController.controller('faqCtrl',function($scope){
 
+    /* Array mit den Fragen und Antworten */
     $scope.faqs = [
         {
             question: "Wie kann ich eine Versicherung abschließen?",

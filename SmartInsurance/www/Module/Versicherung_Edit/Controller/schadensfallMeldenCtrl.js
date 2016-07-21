@@ -1,5 +1,6 @@
 appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
 
+    /* Weiterleitung auf die Error-Page beim erneuten Laden der Seite */
     if ($stateParams.schaden == null) {
         CacheHistoryReseter.reset();
         $state.go("app.error", {error: {message: "Fehler beim erneuten Laden der Seite.", status: ""}});
@@ -9,10 +10,12 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
 
         $scope.submitted = false;
 
+        /* Laden der Versicherung  */
         $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.schaden.versicherungID).success(function(response) {
             $scope.versicherung = response[0];
         });
 
+        /* Unterscheidung, ob ein Schadensfall bearbeitet wird oder ein neuer Schadensfall erstellt wird  */
        $scope.edit = function() {
            if (angular.isDefined($scope.schaden.id)){
                return true;
@@ -23,16 +26,17 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
 
         $scope.checkCurrency = checkCurrencyFormat;
 
+        /* Validierung Pflichtfeld */
         $scope.isInvalid = function(field){
             return field.$error.required && (field.$touched || $scope.submitted);
          };
 
-
+        /* Validierung Währungsfeld */
         $scope.isNaN = function(field) {
             return field.$error.pattern && (field.$touched || $scope.submitted);
         };
 
-
+        /* Neuen Schaden melden */
         $scope.reportSchaden = function (form) {
 
             $scope.submitted = true;
@@ -65,6 +69,7 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
             }
         };
 
+        /* Schaden bearbeiten */
         $scope.editSchaden = function (form) {
 
             $scope.submitted = true;
