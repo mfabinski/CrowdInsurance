@@ -26,6 +26,7 @@ describe("Test API:", function(){
 
   //Erstellen der Schemen vor allen Tests in diesem Block
   before(function(done){
+    this.timeout(30000); // 30 sekunden timeout, weil (neuerdings) alle Schemas geladen werden muessen
     var query = fs.readFileSync('test/data/general/createSchemas.sql').toString();
     db.any(query).then(function() {
       done();
@@ -34,7 +35,7 @@ describe("Test API:", function(){
       logger.info("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err);
       done(err);
     });
-}).timeout(30000); // 30 sekunden timeout, weil (neuerdings) alle Schemas geladen werden muessen
+  });
 
   // Lege Testdaten an!
   beforeEach(function(done){
