@@ -45,13 +45,23 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
     ];
 
 
+
+    var parameterFilter = {};
+    var kategorie;
+    var sorterText;
+    var orderText;
+    var entryCount;
+
+
     /* Absenden der Sortierabfrage abhängig von der Eingabe des Users */
     $scope.search = function(kategorienFilter, sorterList, sorterOrder, paging) {
 
-        var kategorie = selectFormatter.formatSelect(kategorienFilter.text);
-        var sorterText = selectFormatter.formatSelect(sorterList.text);
-        var orderText = selectFormatter.formatSelect(sorterOrder.text);
-        var entryCount = selectFormatter.formatSelect(paging.entries);
+        $scope.currentPage = 0;
+
+        kategorie = selectFormatter.formatSelect(kategorienFilter.text);
+        sorterText = selectFormatter.formatSelect(sorterList.text);
+        orderText = selectFormatter.formatSelect(sorterOrder.text);
+        entryCount = selectFormatter.formatSelect(paging.entries);
 
 
         var sorterValue = "";
@@ -83,7 +93,6 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
 
         $http.post(apiendpoint.url + '/api/smartinsurance/filter/count', parameterCount).success(function(response) {
             $scope.count = response[0].filterversicherungcount;
-            $scope.currentPage = 0;
             $scope.pageSize = selectFormatter.formatSelect(paging.entries);
             $scope.numberOfPages = Math.ceil($scope.count / entryCount);
             console.log("COUNT: " + $scope.count);
@@ -95,16 +104,21 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         /*
          * Setup search parameter for search
          */
-        var parameterFilter = {};
+
         if (kategorie !== "Alle") {
             parameterFilter.kategorie = kategorie;
+        } else {
+            delete parameterFilter.kategorie;
+            console.log(parameterFilter);
         }
         if (sorterValue !== "") {
             parameterFilter.orderby = sorterValue;
         }
         parameterFilter.ascending = orderValue;
         parameterFilter.entrycount =  entryCount;
-       // parameterFilter.page =  "2";
+        parameterFilter.page =  0;
+
+        $scope.currentPage = 0;
 
         /*
          * Execute search and display the results / show error popup if no results
@@ -137,5 +151,27 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         $state.go("app.investitionInfo",{id: id});
     };
 
+    /* Paginator vorherige Seite */
+    $scope.goPageBack = function(currentPage) {
+        alert(currentPage);
+    };
+
+    /* Paginator nächste Seite */
+    $scope.goToPage = function(currentPage) {
+
+        parameterFilter.page =  currentPage;
+
+        $http.post(apiendpoint.url + '/api/smartinsurance/filter', parameterFilter).success(function(response) {
+            $scope.results = response;
+            for (var i = 0; i < $scope.results.length; i++) {
+                $scope.results[i].rendite = Math.round($scope.results[i].rendite);
+            }
+        });
+
+
+      // console.log(parameterFilter);
+
+        //alert(currentPage);
+    };
 
 });

@@ -125,11 +125,11 @@ exports.filterVersicherung = function (req, res, next) {
     if (withFilter) {
         tdg.filterVersicherung(kategorie, orderby, asc_desc, limit, skip,
             function(data){
-                logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
+                logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'aufsteigend.':'absteigend.');
                 if(data.length != 0) {
                     res.status(200).json(data);
                 } else{
-                    res.status(404).send('Filter Kategorie auf '  + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend fehlgeschlagen.')
+                    res.status(404).send('Filter Kategorie auf '  + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'aufsteigend.':'absteigend fehlgeschlagen.')
                 }
             },
             function(err){
@@ -140,11 +140,11 @@ exports.filterVersicherung = function (req, res, next) {
     } else {
         tdg.orderVersicherung(orderby, asc_desc, limit, skip,
             function(data){
-                logger.info('Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
+                logger.info('Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'aufsteigend.':'absteigend.');
                 if(data.length != 0) {
                     res.status(200).json(data);
                 } else{
-                    res.status(404).send('Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend fehlgeschlagen.')
+                    res.status(404).send('Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'aufsteigend.':'absteigend fehlgeschlagen.')
                 }
             },
             function(err){
@@ -180,11 +180,11 @@ exports.filterVersicherungCount = function (req, res, next) {
 
     tdg.filterVersicherungCount(kategorie, orderby, asc_desc, limit, skip,
         function(data){
-            logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend.');
+            logger.info('Filter Kategorie auf ' + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'aufsteigend.':'absteigend.');
             if(data.length != 0) {
                 res.status(200).json(data);
             } else{
-                res.status(404).send('Filter Kategorie auf '  + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'austeigend.':'absteigend fehlgeschlagen.')
+                res.status(404).send('Filter Kategorie auf '  + kategorie + ' Sortierunger nach ' + orderby + ' ' + (asc_desc==="ascending")?'aufsteigend.':'absteigend fehlgeschlagen.')
             }
         },
         function(err){
