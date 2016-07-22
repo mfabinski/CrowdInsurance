@@ -7,13 +7,13 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
     $scope.noVersicherung = true;
     $scope.noInvestition = true;
 
-
+    /* Laden aller Versicherungen der Person */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung').success(function(response) {
         $scope.versicherungen = Status.versicherung(response);
         $scope.noVersicherung = false;
 
 
-        
+
         $scope.chartObject = {
   "type": "PieChart",
   "displayed": false,
@@ -40,8 +40,8 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
           },
           {
             "v": $scope.versicherungen.length
-              
-            
+
+
           },
         ]
       },
@@ -144,24 +144,28 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
   },
   "formatters": {}
 }
-        
-        
+
+
 
     });
 
+    /* Laden aller Investitionen der Person */
     $http.get(apiendpoint.url + '/api/smartinsurance/investition').success(function(response) {
         $scope.investitionen = Status.investition(response);
         $scope.noInvestition = false;
     });
 
+    /* Link zu Detailseite einer Versicherung */
     $scope.versicherungShow = function(id) {
         $state.go("app.versicherungDetail",{id: id});
     };
 
+    /* Link zu Detailseite einer Investition */
     $scope.investitionShow = function(id) {
         $state.go("app.investitionDetail",{id: id});
     };
 
+    /* Berechnung des gesamten Versicherungsvolumens der Person */
     $scope.versicherungengesamt = function() {
         var gesamtbetrag=0;
         var versicherungshoehe = 0;
@@ -172,6 +176,7 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
+    /* Berechnung des gesamten Monatsbeitrags der Person */
     $scope.monatsbeitraggesamt = function() {
         var gesamtbetrag=0;
         for (var i = 0; i < $scope.versicherungen.length; i++){
@@ -180,6 +185,7 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
+    /* Berechnung des gesamten Investitionsvolumens der Person */
     $scope.investhoehegesamt = function() {
         var gesamtbetrag=0;
         for (var i = 0; i < $scope.investitionen.length; i++){
@@ -188,6 +194,7 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
+    /* Berechnung der maximalen monatlichen Rendite der Person */
     $scope.renditemax = function() {
         var gesamtbetrag=0;
         var monatsbeitrag = 0;
@@ -202,6 +209,7 @@ appController.controller('uebersichtCtrl', function($scope, $http, $state, money
         return moneyFormatter.formatMoney(gesamtbetrag);
     };
 
+    /* Berechnung der monatlichen Rendite einer Investition */
     $scope.calculateRendite = function (investition) {
         var monatsbeitrag =  moneyParser.moneyparsen(investition.beitrag);
         var investitionshoehe = moneyParser.moneyparsen(investition.investitionshoehe);

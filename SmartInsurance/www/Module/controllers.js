@@ -1,5 +1,7 @@
 var appController = angular.module('smartInsurance.controllers',  []);
 
+
+/* Service zur Konvertierung zum Datentyp Float */
 appController.service('moneyParser', [function(){
     this.moneyparsen = function(betrag) {
         if(angular.isDefined(betrag)){
@@ -15,6 +17,7 @@ appController.service('moneyParser', [function(){
     }
 }]);
 
+/* Service zur Konvertierung in einen Euro-Betrag */
 appController.service('moneyFormatter', [ function(){
     this.formatMoney = function(zahl){
         var n = zahl,
@@ -28,6 +31,7 @@ appController.service('moneyFormatter', [ function(){
     }
 }]);
 
+/* Service zur Konvertierung von Werten eines Drop-Down */
 appController.service('selectFormatter', [ function(){
     this.formatSelect = function (select) {
         select.replace("/n","");
@@ -37,11 +41,12 @@ appController.service('selectFormatter', [ function(){
 }]);
 
 
-
+/* Regex zur Überprüfung deines Euro-Betrags */
 appController.factory("checkCurrencyFormat",function(){
     return /^(([1-9]{1}[0-9]{0,2}(\.{0,1}[0-9]{3})*,{0,1}[0-9]{0,2}|[0][,][0-9][1-9]|[0][,][1-9][0-9]{0,1})(€| €){0,1})$/;
 });
 
+/* Formatierung eines Datums */
 appController.service('datumFormatter', [ function(){
     this.formatDatum = function (zeitstempel) {
         var datum = zeitstempel.substr(8,2) +'.' + zeitstempel.substr(5,2) + '.' + zeitstempel.substr(0,4);
@@ -51,6 +56,7 @@ appController.service('datumFormatter', [ function(){
 
 }]);
 
+/* Service zum Zurücksetzen des Caches, um die Back-Funktion auszuschalten */
 appController.service('CacheHistoryReseter', ['$ionicHistory', function($ionicHistory){
     this.reset = function () {
         $ionicHistory.clearCache();
@@ -60,6 +66,7 @@ appController.service('CacheHistoryReseter', ['$ionicHistory', function($ionicHi
 
 }]);
 
+/* Service zur Erkennung des Statuses einer Versicherung/Investition */
 appController.service('Status', function(){
     this.versicherung = function (versicherungen) {
         var versicherungsstatus = [];
@@ -103,45 +110,3 @@ appController.service('Status', function(){
 });
 
 
-//Beispiel-Code für ein Login-Modul kann noch entfernt werden
-
-/*app.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-
- // With the new view caching in Ionic, Controllers are only called
- // when they are recreated or on app start, instead of every page change.
- // To listen for when this page is active (for example, to refresh data),
- // listen for the $ionicView.enter event:
- //$scope.$on('$ionicView.enter', function(e) {
- //});
-
- // Form data for the login modal
- $scope.loginData = {};
-
- // Create the login modal that we will use later
- $ionicModal.fromTemplateUrl('templates/login.html', {
- scope: $scope
- }).then(function(modal) {
- $scope.modal = modal;
- });
-
- // Triggered in the login modal to close it
- $scope.closeLogin = function() {
- $scope.modal.hide();
- };
-
- // Open the login modal
- $scope.login = function() {
- $scope.modal.show();
- };
-
- // Perform the login action when the user submits the login form
- $scope.doLogin = function() {
- console.log('Doing login', $scope.loginData);
-
- // Simulate a login delay. Remove this and replace with your login
- // code if using a login system
- $timeout(function() {
- $scope.closeLogin();
- }, 1000);
- }
- });*/

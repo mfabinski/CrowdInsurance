@@ -4,15 +4,18 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
 
     $scope.submitted = false;
 
+    /* Laden der Versicherung */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID).success(function(response) {
         $scope.versicherung = response[0];
     });
 
+    /* Erstellung eines Investitionsobjekts */
     $scope.investition = {
         versicherungID: $stateParams.id,
         investitionshoehe:""
     };
 
+    /* Laden des bereits gedeckten Betrags */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungID + '/invest')
         .success(function(response) {
             if(angular.isDefined(response[0])) {
@@ -22,14 +25,15 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
             }
         });
 
+    /* Regex für die Währung wird als Service geholt */
     $scope.checkCurrency = checkCurrencyFormat;
 
+    /* Validierung der Felder */
     $scope.isNaN = function(field) {
         return (field.$error.required || field.$error.pattern) && (field.$touched || $scope.submitted);
     };
 
-    // Validierung, dass der investitionshoehe geringer als der versicherungswert ist
-
+    /* Berechnung der Rendite */
     $scope.calculateRendite = function(field) {
         var gesamtbetrag = 0;
         if($scope.investition.investitionshoehe != "" && angular.isDefined($scope.versicherung) && !(field.$error.pattern)){
@@ -41,6 +45,7 @@ appController.controller('investitionAddCtrl',function($scope, $http, $state, $s
         $scope.rendite = moneyFormatter.formatMoney(gesamtbetrag);
     };
 
+    /* Link zu Überprüfungsseite */
     $scope.save = function(form) {
 
         $scope.submitted = true;
