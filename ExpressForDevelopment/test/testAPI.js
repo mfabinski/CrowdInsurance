@@ -39,6 +39,7 @@ describe("Test API:", function(){
 
   // Lege Testdaten an!
   beforeEach(function(done){
+    this.timeout(30000); // 30 sekunden timeout, weil (neuerdings) alle Schemas geladen werden muessen
     var query = fs.readFileSync('test/data/general/testdatenEinfuegen.sql').toString();
     db.any(query).then(function(){
       logger.info("Testdaten eingefuegt");
@@ -1115,6 +1116,7 @@ describe("Test API:", function(){
 
   // Leere die Tabellen
   afterEach(function(done){
+    this.timeout(30000); // 30 sekunden timeout, weil (neuerdings) alle Schemas geladen werden muessen
     var query = fs.readFileSync('test/data/general/truncateTables.sql').toString();
     server.close(); // app.close() wurde rausgepatcht: https://github.com/expressjs/express/issues/1366
     logger.info('App stoppt - Test Modus');
@@ -1128,6 +1130,7 @@ describe("Test API:", function(){
 
   // Drop Schemas nach allen Tests in diesem Block
   after(function(done){
+    this.timeout(30000); // 30 sekunden timeout, weil (neuerdings) alle Schemas geladen werden muessen
     var query = fs.readFileSync('test/data/general/dropSchemas.sql').toString();
     db.any(query).then(function(){
       done()
