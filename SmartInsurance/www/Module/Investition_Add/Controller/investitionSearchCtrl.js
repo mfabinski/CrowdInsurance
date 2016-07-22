@@ -151,12 +151,8 @@ appController.controller('investitionSearchCtrl',function($scope, $http, apiendp
         $state.go("app.investitionInfo",{id: id});
     };
 
-    /* Paginator vorherige Seite */
-    $scope.goPageBack = function(currentPage) {
-        alert(currentPage);
-    };
 
-    /* Paginator nächste Seite */
+    /* Paginator nächste und vorherige Seite */
     $scope.goToPage = function(currentPage) {
 
         parameterFilter.page =  currentPage;
