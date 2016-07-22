@@ -1,11 +1,11 @@
 appController.controller('versicherungDetailCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, datumFormatter, apiendpoint, CacheHistoryReseter, Status){
 
-
+    /* Übergabe der Versicherungsid */
     $scope.versicherungId = $stateParams.id;
 
     $scope.noInvestor = true;
 
-
+    /* Laden der Versicherung  */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId).success(function(response) {
          $scope.versicherung = Status.versicherung(response)[0];
     }).error(function(error, status) {
@@ -13,7 +13,7 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
         $state.go("app.error", {error: {message: error, status: status}});
     });
 
-
+    /* Laden der Investoren  */
     $http.get(apiendpoint.url + '/api/smartinsurance/versicherung/' + $scope.versicherungId +'/person').success(function(response) {
         if(angular.isDefined(response[0])) {
             $scope.investoren = response;
@@ -24,13 +24,13 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
         }
     });
 
-
+    /* Laden der Schadensfälle  */
     $http.get(apiendpoint.url + '/api/smartinsurance/schadensfaelle/' + $scope.versicherungId).success(function(response) {
          $scope.schadensfaelle = response;
 
     });
 
-
+    /* Berechnung des Gesamtschaden */
     $scope.gesamtSchaden = function () {
         var gesamtSchaden = 0;
         if (angular.isDefined($scope.schadensfaelle)) {
@@ -41,6 +41,7 @@ appController.controller('versicherungDetailCtrl',function($scope, $http, $state
       return moneyFormatter.formatMoney(gesamtSchaden);
     };
 
+    /* Versicherung kündigen */
     $scope.wirdGekuendigt = function (gekuendigt) {
         if (gekuendigt == true) {
             return "ja"

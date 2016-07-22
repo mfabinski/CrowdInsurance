@@ -16,7 +16,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         {count: 0}
     ];
 
-
+    /* Laden der Investition, der Investoren, der Bewertungen und der Kommentare  */
     $http.get(apiendpoint.url + '/api/smartinsurance/investition/' + $scope.investitionId).success(function(response) {
         $scope.investition = response[0];
 
@@ -61,7 +61,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
 
 
 
-
+    /* Entscheidung, ob das Bild zu dem Investor angezeigt wird  */
     $scope.showPicture = function(investor) {
         if(angular.isDefined(investor)){
             return true;
@@ -69,6 +69,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         return false;
     };
 
+    /* Kommentar schreiben */
     $scope.writeComment = function(form) {
         if (form.$valid) {
             $http.post(apiendpoint.url + '/api/smartinsurance/kommentieren' , $scope.comment).success(function(data) {
@@ -84,6 +85,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         }
     };
 
+    /* Überprüfung, ob das Kommentarfeld gefüllt ist  */
     $scope.isFilled = function (field) {
         if(field.$error.required && $scope.submitted) {
             return false;
@@ -91,10 +93,12 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
         return true;
     };
 
+    /* Verweis auf das Profil des Investors */
     $scope.showInvestor = function (investor) {
         $state.go('app.profilFremd',{investor: investor});
     };
 
+    /* Verweis auf das Profil des Versicherungsnehmers */
     $scope.showVersicherer = function () {
         var investor = {
             personID: $scope.investition.vpersonID
@@ -103,7 +107,7 @@ appController.controller('investitionSocialCtrl',function($scope, $http, $state,
     };
 
 
-
+    /* Bewertung der Versicherung */
     $scope.bewerten = function(thumb){
         var data = {};
         data.bewertung = thumb;
