@@ -34,7 +34,7 @@ describe("Test API:", function(){
       logger.info("Fehler in der Erstellung der Schemen in der Datenbank\n"+ err);
       done(err);
     });
-  });
+}).timeout(30000); // 30 sekunden timeout, weil (neuerdings) alle Schemas geladen werden muessen
 
   // Lege Testdaten an!
   beforeEach(function(done){
