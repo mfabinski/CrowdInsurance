@@ -94,7 +94,7 @@ exports.filterVersicherung = function (req, res, next) {
     }
     var skip = 0;
     if (req.body.page) {
-      skip = req.body.page * entrycount;
+      skip = req.body.page * limit;
     }
     // var orderbyindex = 1;
 
@@ -169,7 +169,7 @@ exports.filterVersicherungCount = function (req, res, next) {
     }
     var skip = 0;
     if (req.body.page) {
-      skip = req.body.page * entrycount;
+      skip = req.body.page * limit;
     }
     // var orderbyindex = 1;
 
