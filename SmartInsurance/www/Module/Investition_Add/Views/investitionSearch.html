@@ -59,7 +59,7 @@
 
             <!--<ion-radio  ng-repeat = "item in sorterOrder" ng-value="item.value" ng-model="dataOrder.value" name="reihenfolge"  id="investitionSuchen-radio2">{{item.text}}</ion-radio>-->
 
-            <a class=" button button-positive  button-block icon ion-search"  ng-click="search(kategorienFilter, sorterList, sorterOrder, paging)" id="investitionSuchen-button34">Investition suchen</a>
+            <a class=" button button-positive  button-block icon ion-search"  ng-click="currentPage=0; search(kategorienFilter, sorterList, sorterOrder, paging)" id="investitionSuchen-button34">Investition suchen</a>
 
         </form>
 
@@ -90,10 +90,12 @@
             </tr>
             </tbody>
         </table>
-
-        <button  ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1"><<</button>
-        <button  ng-disabled="currentPage >= numberOfPages" ng-click="currentPage=currentPage+1">>></button>
-        Seite {{currentPage+1}} von {{numberOfPages}}
+        <div ng-app="" ng-init="currentPage=0">
+        <p>
+        <button  ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1; goToPage(currentPage)"><<</button>
+        <button  ng-disabled="currentPage >= numberOfPages-1" ng-click="currentPage=currentPage+1; goToPage(currentPage)">>></button>
+         Seite {{currentPage+1}} von {{numberOfPages}} </p>
+        </div>
 
     </ion-content>
 </ion-view>
