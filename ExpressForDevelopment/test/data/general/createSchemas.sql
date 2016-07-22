@@ -134,7 +134,7 @@ CREATE FUNCTION createinvestition(integer, uuid, money) RETURNS integer
        ("versicherungID", "personID", betrag)
        VALUES ($1, $2, $3);
     INSERT INTO smartinsurance."Investition"
-       (id, "versicherungID", "personID", investitionshoehe)
+       (id, "versicherungID", "personID", investitionshoehe) 
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -160,7 +160,7 @@ CREATE FUNCTION createschadensfall(integer, text, money) RETURNS integer
     LANGUAGE sql
     AS $_$
     INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", beschreibung, schadenshoehe)
+       (id, "versicherungID", beschreibung, schadenshoehe) 
        VALUES (DEFAULT, $1, $2, $3) RETURNING id;
 $_$;
 
@@ -173,7 +173,7 @@ CREATE FUNCTION createschadensfall(integer, text, text, money) RETURNS integer
     LANGUAGE sql
     AS $_$
     INSERT INTO smartinsurance."Schadensfall"
-       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe)
+       (id, "versicherungID", bezeichnung, beschreibung, schadenshoehe) 
        VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id;
 $_$;
 
@@ -343,7 +343,7 @@ CREATE FUNCTION filterversicherung(kategorie, text, text, integer DEFAULT 0, int
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-if $4 > 0 then
+if $4 > 0 then 
     RETURN QUERY EXECUTE 'SELECT "id",
        "name",
        "versicherungshoehe",
@@ -357,10 +357,10 @@ if $4 > 0 then
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
-    FROM smartinsurance."VersicherungFilter"
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
     WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
-    || quote_ident($2) || ' ' || $3 ||
+    || quote_ident($2) || ' ' || $3 || 
     ' LIMIT  $4
      OFFSET $5
     ;' USING $1,$2,$3,$4,$5;
@@ -378,12 +378,33 @@ else
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
-    FROM smartinsurance."VersicherungFilter"
+       "rendite" 
+    FROM smartinsurance."VersicherungFilter" 
     WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false ORDER BY '
-    || quote_ident($2) || ' ' || $3 ||
+    || quote_ident($2) || ' ' || $3 || 
     ';' USING $1,$2,$3;
 end if;
+END;
+$_$;
+
+
+--
+-- Name: filterversicherungcount(kategorie, text, text, integer, integer); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION filterversicherungcount(kategorie DEFAULT NULL::kategorie, text DEFAULT ''::text, text DEFAULT ''::text, integer DEFAULT 0, integer DEFAULT 0) RETURNS bigint
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+ if $1 is null then
+    RETURN (SELECT count(*)
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false);
+ else
+    RETURN (SELECT count(*)
+    FROM smartinsurance."VersicherungFilter" 
+    WHERE "kategorie" = $1 AND "istGekuendigt"=false AND "wirdGekuendigt"=false);
+ end if;
 END;
 $_$;
 
@@ -396,11 +417,11 @@ CREATE FUNCTION finalizeinvestitionskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     INSERT INTO smartinsurance."Zahlungsstrom"("versicherungID", "personID", betrag)
-      SELECT "versicherungID", "personID", investitionshoehe * (-1)
-      FROM smartinsurance."Investition"
+      SELECT "versicherungID", "personID", investitionshoehe * (-1) 
+      FROM smartinsurance."Investition" 
       WHERE smartinsurance."Investition"."wirdGekuendigt"=true;
     UPDATE smartinsurance."Investition"
-      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
+      SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
       WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -439,7 +460,7 @@ CREATE FUNCTION finalizeversicherungskuendigung() RETURNS void
     LANGUAGE sql
     AS $$
     UPDATE smartinsurance."Versicherung"
-    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now()
+    SET "istGekuendigt"=true, "wirdGekuendigt"=false, "kuendigungsZeitpunkt"=now() 
     WHERE "wirdGekuendigt"=true;
 $$;
 
@@ -580,15 +601,15 @@ CREATE FUNCTION getinvestitionssummebyvid(integer) RETURNS money
     AS $_$
 /*    SELECT sum(smartinsurance."Investition"."investitionshoehe") as suminvestition
      FROM smartinsurance."Versicherung" INNER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
      WHERE smartinsurance."Versicherung".id=$1
      AND smartinsurance."Investition"."istGekuendigt"=false; */
 /*
      SELECT COALESCE(sum(smartinsurance."Investition"."investitionshoehe"), '0.00 €') as suminvestition
      FROM smartinsurance."Versicherung" LEFT OUTER JOIN smartinsurance."Investition"
-     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID"
+     ON smartinsurance."Versicherung".id=smartinsurance."Investition"."versicherungID" 
      AND smartinsurance."Investition"."istGekuendigt"=false;*/
-     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM
+     SELECT COALESCE(sum(i."investitionshoehe"), '0.00 €') as suminvestition FROM 
             (SELECT * FROM "Versicherung") v
         LEFT OUTER JOIN
             (SELECT * FROM "Investition" WHERE "istGekuendigt"=false) i
@@ -965,7 +986,7 @@ CREATE FUNCTION orderversicherung(text, text, integer DEFAULT 0, integer DEFAULT
     LANGUAGE plpgsql
     AS $_$
 BEGIN
-if $3 > 0 then
+if $3 > 0 then 
     RETURN QUERY EXECUTE 'SELECT "id",
        "name",
        "versicherungshoehe",
@@ -979,11 +1000,11 @@ if $3 > 0 then
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
+       "rendite" 
     FROM smartinsurance."VersicherungFilter" '
     || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
     || 'ORDER BY '
-    || quote_ident($1) || ' ' || $2 ||
+    || quote_ident($1) || ' ' || $2 || 
     ' LIMIT  $3
       OFFSET $4
     ;' USING $1,$2,$3,$4;
@@ -1001,7 +1022,7 @@ else
        "kategorie",
        "anzahl_investoren",
        "bewertung",
-       "rendite"
+       "rendite" 
     FROM smartinsurance."VersicherungFilter" '
     || 'WHERE "istGekuendigt"=false AND "wirdGekuendigt"=false '
     || 'ORDER BY '
@@ -1031,7 +1052,7 @@ $$;
 CREATE FUNCTION reduceinvestitionenwegenschaden() RETURNS void
     LANGUAGE sql
     AS $$
-    UPDATE "Investition"
+    UPDATE "Investition" 
     SET investitionshoehe = (SELECT s."neueInvestitionshoehe"
 	FROM "SchadensfallAbzugDerInvestition" s
 	WHERE "Investition".id = s."investitionID")
@@ -1047,7 +1068,7 @@ $$;
 
 CREATE FUNCTION setinvestitionbewertung("investitionID" integer, "Bewertung" bewertung) RETURNS void
     LANGUAGE sql
-    AS $_$Update "Investition"
+    AS $_$Update "Investition" 
 set bewertung =$2
 where id=$1;$_$;
 
@@ -1073,8 +1094,8 @@ CREATE FUNCTION submitversicherungskuendigung(integer) RETURNS void
     AS $_$
     UPDATE smartinsurance."Versicherung"
       SET "wirdGekuendigt"=true WHERE id=$1;
-    UPDATE smartinsurance."Investition"
-      SET "wirdGekuendigt"=true
+    UPDATE smartinsurance."Investition" 
+      SET "wirdGekuendigt"=true 
       WHERE "versicherungID"=$1 AND "istGekuendigt"=false;
 $_$;
 
@@ -1109,6 +1130,44 @@ $_$;
 
 
 --
+-- Name: updateprofil(uuid, text, text, text, text, text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text) RETURNS void
+    LANGUAGE sql
+    AS $_$
+    UPDATE smartbackend.user 
+	SET name=$2, prename=$3, email=$4
+	WHERE id=$1;
+    UPDATE smartinsurance.userbank
+        SET iban=$5, bic=$6, bankinstitut=$7
+        WHERE id=$1;
+    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
+	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
+		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
+$_$;
+
+
+--
+-- Name: updateprofil(uuid, text, text, text, text, text, text, date); Type: FUNCTION; Schema: smartinsurance; Owner: -
+--
+
+CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text, date) RETURNS void
+    LANGUAGE sql
+    AS $_$
+    UPDATE smartbackend.user 
+	SET name=$2, prename=$3, email=$4, birthday=$8
+	WHERE id=$1;
+    UPDATE smartinsurance.userbank
+        SET iban=$5, bic=$6, bankinstitut=$7
+        WHERE id=$1;
+    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
+	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
+		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
+$_$;
+
+
+--
 -- Name: updateschadensfall(integer, text, text, money); Type: FUNCTION; Schema: smartinsurance; Owner: -
 --
 
@@ -1133,44 +1192,6 @@ CREATE FUNCTION updateversicherung(integer, text, text, kategorie) RETURNS void
       WHERE id=$1;
 $_$;
 
---
--- Name: updateprofil(uuid, text, text, text, text, text, text); Type: FUNCTION; Schema: smartinsurance; Owner: -
---
-
-CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text) RETURNS void
-    LANGUAGE sql
-    AS $_$
-    UPDATE smartbackend.user
-	SET name=$2, prename=$3, email=$4
-	WHERE id=$1;
-    UPDATE smartinsurance.userbank
-        SET iban=$5, bic=$6, bankinstitut=$7
-        WHERE id=$1;
-    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
-	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
-		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
-$_$;
-
-
---
--- Name: updateprofil(uuid, text, text, text, text, text, text, date); Type: FUNCTION; Schema: smartinsurance; Owner: -
---
-
-CREATE FUNCTION updateprofil(uuid, text, text, text, text, text, text, date) RETURNS void
-    LANGUAGE sql
-    AS $_$
-    UPDATE smartbackend.user
-	SET name=$2, prename=$3, email=$4, birthday=$8
-	WHERE id=$1;
-    UPDATE smartinsurance.userbank
-        SET iban=$5, bic=$6, bankinstitut=$7
-        WHERE id=$1;
-    INSERT INTO smartinsurance.userbank (id, iban, bic, bankinstitut)
-	SELECT $1,$5,$6,$7 FROM smartinsurance.userbank
-		WHERE NOT EXISTS (SELECT 1 FROM smartinsurance.userbank WHERE id=$1);
-$_$;
-
-
 
 --
 -- Name: uuid_generate_v1mc(); Type: FUNCTION; Schema: smartinsurance; Owner: -
@@ -1182,6 +1203,19 @@ CREATE FUNCTION uuid_generate_v1mc() RETURNS uuid
 
 
 SET search_path = smartbackend, pg_catalog;
+
+--
+-- Name: rating; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE rating (
+    userid uuid NOT NULL,
+    rating numeric NOT NULL,
+    ratingid integer NOT NULL,
+    creationdate date NOT NULL,
+    CONSTRAINT rating_rating_check CHECK (((rating >= (1)::numeric) AND (rating <= (5)::numeric)))
+);
+
 
 --
 -- Name: address; Type: TABLE; Schema: smartbackend; Owner: -
@@ -1230,7 +1264,21 @@ CREATE TABLE chat_room (
 CREATE TABLE chat_room_user (
     roomid uuid DEFAULT uuid_generate_v1mc() NOT NULL,
     isadmin boolean DEFAULT false NOT NULL,
-    user_id integer NOT NULL
+    user_id uuid NOT NULL
+);
+
+
+--
+-- Name: fileupload; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE fileupload (
+    id uuid DEFAULT uuid_generate_v1mc() NOT NULL,
+    "creationDate" timestamp(0) without time zone DEFAULT now(),
+    url text NOT NULL,
+    "accessType" integer,
+    deleted boolean,
+    "userId" uuid
 );
 
 
@@ -1253,6 +1301,25 @@ CREATE TABLE push_user_device (
     userid uuid NOT NULL,
     deviceid text NOT NULL
 );
+
+
+--
+-- Name: rating_ratingid_seq; Type: SEQUENCE; Schema: smartbackend; Owner: -
+--
+
+CREATE SEQUENCE rating_ratingid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: rating_ratingid_seq; Type: SEQUENCE OWNED BY; Schema: smartbackend; Owner: -
+--
+
+ALTER SEQUENCE rating_ratingid_seq OWNED BY rating.ratingid;
 
 
 --
@@ -1290,6 +1357,128 @@ CREATE TABLE user_password (
     salt text,
     password text
 );
+
+
+--
+-- Name: user_accesstoken_password; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_accesstoken_password AS
+ SELECT "user".id,
+    user_token.access_token,
+    user_password.password,
+    "user".email
+   FROM "user",
+    user_token,
+    user_password
+  WHERE (("user".id = user_token.fk_user) AND ("user".id = user_password.id));
+
+
+--
+-- Name: user_friends; Type: TABLE; Schema: smartbackend; Owner: -
+--
+
+CREATE TABLE user_friends (
+    userid uuid NOT NULL,
+    friendid uuid NOT NULL,
+    isfriend boolean DEFAULT false,
+    requestdate date,
+    acceptdate date
+);
+
+
+--
+-- Name: user_getfriends_view; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_getfriends_view AS
+ SELECT user_friends.userid,
+    user_friends.friendid,
+    user_friends.isfriend,
+    user_friends.acceptdate,
+    (json_build_object('name', "user".name, 'prename', "user".prename, 'email', "user".email, 'birthday', "user".birthday))::jsonb AS friend
+   FROM user_friends,
+    "user"
+  WHERE (("user".id = user_friends.friendid) AND (user_friends.isfriend = true));
+
+
+--
+-- Name: user_getfriendsrequests_view; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_getfriendsrequests_view AS
+ SELECT user_friends.userid,
+    user_friends.friendid,
+    user_friends.isfriend,
+    user_friends.requestdate,
+    (json_build_object('name', "user".name, 'prename', "user".prename, 'email', "user".email, 'birthday', "user".birthday))::jsonb AS friend
+   FROM user_friends,
+    "user"
+  WHERE (("user".id = user_friends.friendid) AND (user_friends.isfriend = false));
+
+
+SET search_path = smartinsurance, pg_catalog;
+
+--
+-- Name: rating; Type: TABLE; Schema: smartinsurance; Owner: -
+--
+
+CREATE TABLE rating (
+)
+INHERITS (smartbackend.rating);
+
+
+SET search_path = smartbackend, pg_catalog;
+
+--
+-- Name: user_globalrating; Type: VIEW; Schema: smartbackend; Owner: -
+--
+
+CREATE VIEW user_globalrating AS
+ SELECT round(avg(rating.rating), 2) AS rating,
+    count(rating.ratingid) AS ratingcount,
+    rating.userid,
+    rating.source
+   FROM ( SELECT "user".id AS userid,
+            rating_1.ratingid,
+            rating_1.rating,
+            rating_1.creationdate,
+            'smarthandwerk'::text AS source
+           FROM ("user"
+             JOIN smarthandwerk.rating rating_1 ON ((rating_1.userid = "user".id)))
+        UNION
+         SELECT "user".id AS userid,
+            rating_1.ratingid,
+            rating_1.rating,
+            rating_1.creationdate,
+            'smartinsurance'::text AS source
+           FROM ("user"
+             JOIN smartinsurance.rating rating_1 ON ((rating_1.userid = "user".id)))
+        UNION
+         SELECT "user".id AS userid,
+            rating_1.ratingid,
+            rating_1.rating,
+            rating_1.creationdate,
+            'smarttourismus'::text AS source
+           FROM ("user"
+             JOIN smarttourismus.rating rating_1 ON ((rating_1.userid = "user".id)))
+        UNION
+         SELECT "user".id AS userid,
+            rating_1.ratingid,
+            rating_1.rating,
+            rating_1.creationdate,
+            'smarttransport'::text AS source
+           FROM ("user"
+             JOIN smarttransport.rating rating_1 ON ((rating_1.userid = "user".id)))
+        UNION
+         SELECT "user".id AS userid,
+            rating_1.ratingid,
+            rating_1.rating,
+            rating_1.creationdate,
+            'borrowit'::text AS source
+           FROM ("user"
+             JOIN borrowit.rating rating_1 ON ((rating_1.userid = "user".id)))) rating
+  GROUP BY rating.userid, rating.source;
 
 
 --
@@ -1657,6 +1846,17 @@ CREATE SEQUENCE "Zahlungsstrom_versicherungID_seq"
 ALTER SEQUENCE "Zahlungsstrom_versicherungID_seq" OWNED BY "Zahlungsstrom"."versicherungID";
 
 
+SET search_path = smartbackend, pg_catalog;
+
+--
+-- Name: ratingid; Type: DEFAULT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY rating ALTER COLUMN ratingid SET DEFAULT nextval('rating_ratingid_seq'::regclass);
+
+
+SET search_path = smartinsurance, pg_catalog;
+
 --
 -- Name: id; Type: DEFAULT; Schema: smartinsurance; Owner: -
 --
@@ -1734,6 +1934,13 @@ ALTER TABLE ONLY "Zahlungsstrom" ALTER COLUMN id SET DEFAULT nextval('"Zahlungss
 ALTER TABLE ONLY "Zahlungsstrom" ALTER COLUMN "versicherungID" SET DEFAULT nextval('"Zahlungsstrom_versicherungID_seq"'::regclass);
 
 
+--
+-- Name: ratingid; Type: DEFAULT; Schema: smartinsurance; Owner: -
+--
+
+ALTER TABLE ONLY rating ALTER COLUMN ratingid SET DEFAULT nextval('smartbackend.rating_ratingid_seq'::regclass);
+
+
 SET search_path = smartbackend, pg_catalog;
 
 --
@@ -1753,11 +1960,35 @@ ALTER TABLE ONLY chat_room
 
 
 --
+-- Name: chat_room_user_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY chat_room_user
+    ADD CONSTRAINT chat_room_user_pkey PRIMARY KEY (roomid, user_id);
+
+
+--
+-- Name: fileupload_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY fileupload
+    ADD CONSTRAINT fileupload_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: id_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
 ALTER TABLE ONLY push_notification
     ADD CONSTRAINT id_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rating_pkey; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY rating
+    ADD CONSTRAINT rating_pkey PRIMARY KEY (ratingid);
 
 
 --
@@ -1774,6 +2005,14 @@ ALTER TABLE ONLY push_user_device
 
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_email_key UNIQUE (email);
+
+
+--
+-- Name: user_friends_pkey2; Type: CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_friends
+    ADD CONSTRAINT user_friends_pkey2 PRIMARY KEY (userid, friendid);
 
 
 --
@@ -1851,6 +2090,14 @@ ALTER TABLE ONLY "Zahlungsstrom"
 
 
 --
+-- Name: rating_pkey; Type: CONSTRAINT; Schema: smartinsurance; Owner: -
+--
+
+ALTER TABLE ONLY rating
+    ADD CONSTRAINT rating_pkey PRIMARY KEY (ratingid);
+
+
+--
 -- Name: userbank_pkey; Type: CONSTRAINT; Schema: smartinsurance; Owner: -
 --
 
@@ -1924,11 +2171,59 @@ ALTER TABLE ONLY chat_message
 
 
 --
+-- Name: chat_room_user_roomid_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY chat_room_user
+    ADD CONSTRAINT chat_room_user_roomid_fkey FOREIGN KEY (roomid) REFERENCES chat_room(id) ON DELETE CASCADE;
+
+
+--
+-- Name: chat_room_user_user_id_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY chat_room_user
+    ADD CONSTRAINT chat_room_user_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: fileupload_userId_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY fileupload
+    ADD CONSTRAINT "fileupload_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"(id);
+
+
+--
+-- Name: rating_userid_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY rating
+    ADD CONSTRAINT rating_userid_fkey FOREIGN KEY (userid) REFERENCES "user"(id);
+
+
+--
 -- Name: user_fkey; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
 --
 
 ALTER TABLE ONLY push_user_device
     ADD CONSTRAINT user_fkey FOREIGN KEY (userid) REFERENCES "user"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_friends_friendid_fkey2; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_friends
+    ADD CONSTRAINT user_friends_friendid_fkey2 FOREIGN KEY (friendid) REFERENCES "user"(id);
+
+
+--
+-- Name: user_friends_userid_fkey2; Type: FK CONSTRAINT; Schema: smartbackend; Owner: -
+--
+
+ALTER TABLE ONLY user_friends
+    ADD CONSTRAINT user_friends_userid_fkey2 FOREIGN KEY (userid) REFERENCES "user"(id);
 
 
 --
@@ -2022,6 +2317,14 @@ ALTER TABLE ONLY "Zahlungsstrom"
 
 
 --
+-- Name: rating_userid_fkey; Type: FK CONSTRAINT; Schema: smartinsurance; Owner: -
+--
+
+ALTER TABLE ONLY rating
+    ADD CONSTRAINT rating_userid_fkey FOREIGN KEY (userid) REFERENCES smartbackend."user"(id);
+
+
+--
 -- Name: userbank_id_fkey; Type: FK CONSTRAINT; Schema: smartinsurance; Owner: -
 --
 
@@ -2032,3 +2335,4 @@ ALTER TABLE ONLY userbank
 --
 -- PostgreSQL database dump complete
 --
+
