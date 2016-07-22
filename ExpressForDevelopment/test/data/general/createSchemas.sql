@@ -55,6 +55,18 @@ CREATE SCHEMA smarttourismus;
 CREATE SCHEMA smarttransport;
 
 
+SET search_path = public, pg_catalog;
+
+--
+-- Name: requestuserpreferencemode; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE requestuserpreferencemode AS ENUM (
+    'favorite',
+    'ignore'
+);
+
+
 SET search_path = smartbackend, pg_catalog;
 
 --
@@ -171,6 +183,63 @@ SET search_path = borrowit, pg_catalog;
 CREATE FUNCTION uuid_generate_v1mc() RETURNS uuid
     LANGUAGE c STRICT
     AS '$libdir/uuid-ossp', 'uuid_generate_v1mc';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: db_to_csv(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION db_to_csv(path text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+declare
+  tables RECORD;
+  statement TEXT;
+begin
+  FOR tables IN 
+    SELECT (table_schema || '.' || table_name) AS schema_table
+    FROM information_schema.tables t INNER JOIN information_schema.schemata s 
+    ON s.schema_name = t.table_schema 
+    WHERE t.table_schema NOT IN ('pg_catalog', 'information_schema', 'configuration')
+    ORDER BY schema_table
+  LOOP
+    statement := 'COPY ' || tables.schema_table || ' TO ''' || path || '/' || tables.schema_table || '.csv' ||''' DELIMITER '';'' CSV HEADER';
+    EXECUTE statement;
+  END LOOP;
+  return;  
+end;
+$$;
+
+
+--
+-- Name: insert_smartbackend_user(integer, text, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION insert_smartbackend_user(email integer, prename text, name text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    LOOP
+        -- first try to update the key
+        -- note that "a" must be unique
+        UPDATE smartbackend.user SET email = email WHERE email = email;
+        IF found THEN
+            RETURN;
+        END IF;
+        -- not there, so try to insert the key
+        -- if someone else inserts the same key concurrently,
+        -- we could get a unique-key failure
+        BEGIN
+            INSERT INTO smartbackend.user(email,prename,name) VALUES (email,prename,name);
+            RETURN;
+        EXCEPTION WHEN unique_violation THEN
+            -- do nothing, and loop to try the UPDATE again
+        END;
+    END LOOP;
+END;
+$$;
 
 
 SET search_path = smartbackend, pg_catalog;
@@ -1418,6 +1487,18 @@ CREATE TABLE "user" (
     push boolean DEFAULT true,
     location boolean DEFAULT true,
     currentlocation text
+);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: rating; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE rating (
+    userid uuid,
+    rating numeric
 );
 
 
