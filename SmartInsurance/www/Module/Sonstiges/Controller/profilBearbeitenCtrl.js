@@ -1,8 +1,4 @@
-<<<<<<< 878372cedf8bca9743c3e484557ac6e0108dbb91
-appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, $stateParams, CacheHistoryReseter, apiendpoint, $ionicPopup){
-=======
 appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, $stateParams, apiendpoint, $ionicPopup,CacheHistoryReseter){
->>>>>>> bilder preview, etc
 
 
     /* Laden des Profils und Anlegen eines neuen Profil-Objekts */

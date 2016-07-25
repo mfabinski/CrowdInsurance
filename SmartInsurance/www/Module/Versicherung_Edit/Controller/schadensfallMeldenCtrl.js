@@ -73,6 +73,11 @@ appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state
         $scope.editSchaden = function (form) {
 
             $scope.submitted = true;
+            
+             $rootScope.sBild1 = document.getElementById("sBild1");
+             $rootScope.sBild2 = document.getElementById("sBild2");
+             $rootScope.sBild3 = document.getElementById("sBild3");
+             $rootScope.sBild4 = document.getElementById("sBild4");
 
             $scope.schaden.schadenshoehe = moneyFormatter.formatMoney(moneyParser.moneyparsen($scope.schaden.schadenshoehe));
             if(form.$valid && $scope.schaden.versicherungID != null){

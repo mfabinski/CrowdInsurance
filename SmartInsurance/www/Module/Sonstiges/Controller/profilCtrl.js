@@ -1,4 +1,4 @@
-appController.controller('profilCtrl',function($scope, $http, $state, $stateParams, apiendpoint, datumFormatter){
+appController.controller('profilCtrl',function($scope, $http, $state, $stateParams, apiendpoint, datumFormatter,$rootScope){
 
 
     /* Laden des Profils */

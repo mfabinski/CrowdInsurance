@@ -2,27 +2,16 @@
     <ion-content padding="true" class="has-header">
         <div class="list card " id="profilBearbeiten-card222">
 
-             <div flow-init="{target: 'sb.pftclan.de:546/api/smartbackend/fileupload/savefile /api/smarbackend/fileupload/updatefile/131'}"
-
+             <div flow-init="{target: 'https://sb.pftclan.de:546/api/smartbackend/fileupload/savefile/c1a0241a-3d53-11e6-8d26-f77bd1132585'}"
             flow-files-submitted="$flow.upload()"
             flow-file-success="$file.msg = $message"
                   flow-name="obj.flow">
-          <!--  <ion-item class="item-avatar  " id="profilBearbeiten-list-item15"> -->
-                <img flow-img="$flow.files[0]" width="150" height="150"/>
+  
+               <object data={{eProfilBild.flow-img}} type="image/*">
+                <img id="eProfil" "picFile[0] != null" src="http://www.clipartbest.com/cliparts/KTn/M5o/KTnM5oMjc.jpeg" width="150" height="150" flow-img="$flow.files[0]" width="150" height="150"/>
+                </object>   
+                
                 <h2></h2>
-        <!--    </ion-item> -->
-         <!--   <button id="profilBearbeiten-button12" class=" button button-positive  button-block ">Bild hochladen</button> -->
-                     
-                 
-                 
-         <!--   <p id="profilBearbeiten_profilbild" style="color:#000000;" class=" ">Bild hochladen:</p>
-            <input type="file" flow-btn/>  -->     
-                 
-        
-         <!--   <div class="thumbnail ng-hide" ng-show="$flow.files.length">
-                <img flow-img="$flow.files[0]">
-            </div> -->
-    
         
             <span class="button button-positive  button-block"  flow-btn="">Profilbild auswählen<input type="file" style="visibility: hidden;position: absolute;"></span>
             
