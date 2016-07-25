@@ -1,4 +1,4 @@
-appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $state, moneyParser, moneyFormatter, apiendpoint) {
+appController.controller('signupCtrl', function($scope,  CacheHistoryReseter, $http, $ionicPopup, $state, moneyParser, moneyFormatter, apiendpoint) {
     $scope.form = {};
     $scope.token;
     $scope.submitted = false;
@@ -23,7 +23,7 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
 
     $scope.signup = function (signupform) {
 
-        if (signupform.$valid && $scope.samePw) {
+        if (signupform.$valid && $scope.samePw && $scope.form.iban.length<35 && $scope.form.iban.length> 13 && $scope.form.bic.length>7 && $scope.form.bic.length<12) {
             var data = {
                 email: $scope.form.email,
                 password: $scope.form.passwort
@@ -43,7 +43,7 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
                         iban : $scope.form.iban,
                         bic : $scope.form.bic,
                         bankinstitut : $scope.form.bank,
-                        birthday: "01.01.1999"
+                        birthday:"01.01.1999"
                     };
                     $http.post(url, data).then(function(response)
                         {
@@ -54,6 +54,7 @@ appController.controller('signupCtrl', function($scope,  $http, $ionicPopup, $st
                             });
                                 console.log('Thank you for not eating my delicious ice cream cone');
                                 $state.go('app.uebersicht')
+                            CacheHistoryReseter.reset();
                         },
                         function(error){
                             console.log("Error beim Erstellen des Smartinsurance-Profils");

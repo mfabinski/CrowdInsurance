@@ -66,7 +66,6 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
                         $http({
                             method: "GET",
                             url: url,
-
                         })
                             .then(function (result) {
                                     console.log('yes im ok');
@@ -77,10 +76,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
                                 }
                             )
                             .catch(function (response) {
-
                             });
-
-
                     });
                 } else {
                     console.log('User cancelled login or did not fully authorize.');
