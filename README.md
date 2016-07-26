@@ -4,6 +4,8 @@
 
 ## Installation instructions
 
+### Run locally
+
 1. Clone this repository
 ```
 git clone https://gitlab.cloudf.de/matthias/crowdinsurance.git
@@ -24,7 +26,7 @@ enter the following line with the database connection string:
 ```
 exports.url = 'postgres://user:password@server:port/dbname?ssl=true';
 ```
-5. load database schema from
+5. load database schema into the database from
 ```
 ExpressForDevelopment/test/data/general/createSchemas.sql
 ```
@@ -34,8 +36,71 @@ npm start
 ```
 6. Access the server on localhost
 
+### Run with docker
+
+1. Prepare a _bare metal_ database or use a docker postgres database
+```
+docker pull registry.cloudf.de/matthias/depostgresdocker:9.5
+```
+2. load database schema into the database from
+```
+ExpressForDevelopment/test/data/general/createSchemas.sql
+```
+3. Pull the latest database
+```
+docker pull registry.cloudf.de/matthias/crowdinsurance:latest
+```
+4. Start the docker container manually
+
+Set the following environment variables to the prepared postgres database when starting the container...
+
+```
+ DB_USER
+ DB_PASSWORD
+ DB_HOST
+ DB_PORT
+ DB_DATABASENAME
+ DB_SSL
+```
+
+...or use a docker-compose.yml file and docker-compose to start your server.
+
+Create a `docker-compose.yml` file:
+
+```
+crowdinsurance:
+ image: registry.cloudf.de/matthias/crowdinsurance:latest
+ ports:
+   - 3000:3000
+ environment:
+   - DB_USER=user
+   - DB_PASSWORD=password
+   - DB_HOST=databasehost
+   - DB_PORT=portnumber
+   - DB_DATABASENAME=databasename
+   - DB_SSL=true
+```
+
+Start it with
+
+```
+docker-compose up -d
+```
+
+Congratulations, you have now a running SmartInsurance server with database.
+
+## Live Demo
+
+You can see a video about SmartInsurance on YouTube.
+
+## Interested? Try it out
+
+Or register for a free account on http://crowdinsurance.cloudf.de/
+
 
 ## Contribution Guide
+
+Interested in contribution to our project. Feel free to request developer access and contribute to SmartInsurance.
 
 ### Getting started
 
@@ -99,4 +164,4 @@ Hi Kids, ich bin Carlo.
 
 Die Architektur ist in der folgenden Grafik dargestellt:
 
-[![build status](http://www.datamation.com/img/2010/10/software-project2.jpg)
+![build status](https://gitlab.cloudf.de/matthias/crowdinsurance/raw/master/architektur.png)
