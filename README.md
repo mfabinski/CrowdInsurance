@@ -52,7 +52,7 @@ docker pull registry.cloudf.de/matthias/crowdinsurance:latest
 ```
 4. Start the docker container manually
 
-Set the following environment variables to the prepared postgres database when starting the container:
+Set the following environment variables to the prepared postgres database when starting the container...
 
 ```
  DB_USER
@@ -63,7 +63,7 @@ Set the following environment variables to the prepared postgres database when s
  DB_SSL
 ```
 
-5. or use a docker-compose.yml file and docker-compose
+...or use a docker-compose.yml file and docker-compose to start your server.
 
 Create a `docker-compose.yml` file:
 
@@ -91,13 +91,16 @@ Congratulations, you have now a running SmartInsurance server with database.
 
 ## Live Demo
 
-You can see our video about SmartInsurance on YouTube.
+You can see a video about SmartInsurance on YouTube.
 
 ## Interested? Try it out
 
 Or register for a free account on http://crowdinsurance.cloudf.de/
 
+
 ## Contribution Guide
+
+Interested in contribution to our project. Feel free to request developer access and contribute to SmartInsurance.
 
 ### Getting started
 
