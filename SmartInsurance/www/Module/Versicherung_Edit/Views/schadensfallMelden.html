@@ -31,6 +31,47 @@
                 <span ng-show="isInvalid(reportSchadenForm.beschreibung)" >Bitte geben Sie eine Beschreibung an. </br></span>
             </div>
 
+
+             <br></br>
+
+            <div flow-init="{target: '/upload'}"
+            flow-files-submitted="$flow.upload()"
+            flow-file-success="$file.msg = $message">
+                
+                <img id="sBild1" flow-img="$flow.files[0]" width="150" height="150"/>
+                <img id = "sBild2" flow-img="$flow.files[1]" width="150" height="150"/>
+                <img id="sBild3" flow-img="$flow.files[2]" width="150" height="150"/>
+                <img id=sBild4" flow-img="$flow.files[3]" width="150" height="150"/>
+                
+                
+                <br></br>
+
+           <!-- <input type="file"  flow-btn/> -->
+
+            <span class="button button-positive  button-block"  flow-btn="">Bilder hinzufügen<input type="file" style="visibility: hidden;position: absolute;"></span>
+            
+            <span class="btn" flow-btn></span> 
+                
+                
+                
+           <!-- <table>
+                <tr ng-repeat="file in $flow.files">
+                    <td>{{$index+1}}</td> 
+                    <td>{{file.name}}</td> 
+                    <td>{{file.msg}}</td> 
+                </tr>
+            </table> -->
+                
+            </div>
+
+
+
+
+
+
+            
+
+
             <button class=" button button-positive  button-block " id="schadensfallMelden-button25" ng-click="reportSchaden(reportSchadenForm)" ng-hide="edit()">Schaden melden</button>
             <button class=" button button-positive  button-block " id="schadensfallMelden-button25" ng-click="editSchaden(reportSchadenForm)" ng-show="edit()">Änderung speichern</button>
 

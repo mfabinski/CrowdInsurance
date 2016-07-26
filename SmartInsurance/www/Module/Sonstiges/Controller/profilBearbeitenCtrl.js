@@ -1,4 +1,4 @@
-appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, $stateParams, CacheHistoryReseter, apiendpoint, $ionicPopup){
+appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, $stateParams, apiendpoint, $ionicPopup,CacheHistoryReseter, $rootScope){
 
 
     /* Laden des Profils und Anlegen eines neuen Profil-Objekts */
@@ -40,6 +40,8 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
     $scope.profilBearbeiten = function(form) {
 
         $scope.submitted = true;
+        
+        $rootScope.eProfilBild = document.getElementById("eProfil");
 
         if (form.$valid) {
 
@@ -57,6 +59,8 @@ appController.controller('profilBearbeitenCtrl',function($scope, $http, $state, 
                                 CacheHistoryReseter.reset();
                                 $state.go('app.uebersicht');
                             });
+                            
+                            
                         }
                       }
                     ]
