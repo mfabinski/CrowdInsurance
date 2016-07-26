@@ -38,7 +38,7 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
             $http.post(url, data)
                 .then(function(result) {
                     //                userService.userContext.saveToken(result.data);
-                    $scope.token = result.data.token;
+                    $scope.token = result.data.access_token;
                     $http.defaults.headers.common['Authorization'] = "Bearer "+ $scope.token;
                     localStorage.setItem("authToken", $scope.token);
                 },function(error) {

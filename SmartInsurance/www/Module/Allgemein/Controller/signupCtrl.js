@@ -32,8 +32,9 @@ appController.controller('signupCtrl', function($scope,  CacheHistoryReseter, $h
             $http.post(url, data)
                 .then(function (response) {
                     console.log("Signup erfolgreich");
-                    $scope.token = response.data.token;
+                    $scope.token = response.data.access_token;
                     $http.defaults.headers.common['Authorization'] = "Bearer " + $scope.token;
+                    localStorage.setItem("authToken", $scope.token);
                     url = apiendpoint.url + "/api/smartinsurance/profil";
                     data = {
                         personID: response.data.id,
