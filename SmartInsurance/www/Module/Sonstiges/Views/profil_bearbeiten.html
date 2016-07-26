@@ -1,23 +1,10 @@
 <ion-view title="Profil bearbeiten" id="page22" class=" ">
     <ion-content padding="true" class="has-header">
         <div class="list card " id="profilBearbeiten-card222">
-
-             <div flow-init="{target: 'https://sb.pftclan.de:546/api/smartbackend/fileupload/savefile/c1a0241a-3d53-11e6-8d26-f77bd1132585'}"
-            flow-files-submitted="$flow.upload()"
-            flow-file-success="$file.msg = $message"
-                  flow-name="obj.flow">
-  
-               <object data={{eProfilBild.flow-img}} type="image/*">
-                <img id="eProfil" "picFile[0] != null" src="http://www.clipartbest.com/cliparts/KTn/M5o/KTnM5oMjc.jpeg" width="150" height="150" flow-img="$flow.files[0]" width="150" height="150"/>
-                </object>   
-                
-                <h2></h2>
-        
-            <span class="button button-positive  button-block"  flow-btn="">Profilbild auswählen<input type="file" style="visibility: hidden;position: absolute;"></span>
-            
-            </div>
-            
-
+            <ion-item class="item-avatar  " id="profilBearbeiten-list-item15">
+                <h2>Item</h2>
+            </ion-item>
+            <button id="profilBearbeiten-button12" class=" button button-positive  button-block icon ion-ios-cloud-upload-outline "> Bild hochladen</button>
             <form id="profilBearbeiten-form63" name="profilBearbeitenForm" class="list">
 
                 <p id="profilBearbeiten-markdown40" style="color:#000000;" class=" ">Vorname:</p>
