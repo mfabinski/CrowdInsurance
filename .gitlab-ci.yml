@@ -33,7 +33,7 @@ build_android:
     - bower install --allow-root
     - echo "change api-endpoint to server"
     - grep -m 1 "^\s*service\.url.*=.*;" www/Module/apiendpoint.js
-    - sed -i 's|^\s*service\.url.*=.*;|service.url = "http://crowdinsurance.cloudf.de";|' www/Module/apiendpoint.js
+    - sed -i 's|^\s*service\.url.*=.*;|service.url = "http://smartbackend.cloudf.de";|' www/Module/apiendpoint.js
     - grep -m 1 "^\s*service\.url.*=.*;" www/Module/apiendpoint.js
     - chmod +x hooks/after_prepare/010_add_platform_class.js
     - ionic config build
