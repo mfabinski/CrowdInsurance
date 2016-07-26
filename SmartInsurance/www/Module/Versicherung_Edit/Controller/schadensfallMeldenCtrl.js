@@ -1,4 +1,4 @@
-appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter){
+appController.controller('schadensfallMeldenCtrl',function($scope, $http, $state, $stateParams, $ionicPopup, moneyParser, moneyFormatter, checkCurrencyFormat, apiendpoint, CacheHistoryReseter,$rootScope){
 
     /* Weiterleitung auf die Error-Page beim erneuten Laden der Seite */
     if ($stateParams.schaden == null) {
