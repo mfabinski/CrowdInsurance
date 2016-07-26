@@ -91,7 +91,13 @@ app.run(['$rootScope', '$ionicPlatform', '$window',
 
 
 
+app.run(function($ionicPlatform, $http) {
 
+    if (localStorage.getItem("authToken")!=null){
+
+        $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("authToken");
+    }
+});
 
 
 
