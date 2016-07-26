@@ -1,4 +1,4 @@
-appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $state, moneyParser, moneyFormatter, apiendpoint) {
+appController.controller('loginCtrl', function(CacheHistoryReseter, $scope, $ionicPopup, $http, $state, moneyParser, moneyFormatter, apiendpoint) {
 
         $scope.daten = {};
         $scope.daten.email = "example@mail.com";
@@ -38,8 +38,15 @@ appController.controller('loginCtrl', function($scope, $ionicPopup, $http, $stat
             $http.post(url, data)
                 .then(function(result) {
                     //                userService.userContext.saveToken(result.data);
-                    $scope.token = result.data;
-                    $http.defaults.headers.common['Authorization'] = "Bearer "+ result.data;
+                    $scope.token = result.data.access_token;
+                    $http.defaults.headers.common['Authorization'] = "Bearer "+ $scope.token;
+                    localStorage.setItem("authToken", $scope.token);
+                    $ionicPopup.alert({
+                        title: 'Login',
+                        template: 'Sie haben sich erfolgreich eingeloggt.'
+                    });
+                    $state.go('app.uebersicht')
+                    CacheHistoryReseter.reset();
                 },function(error) {
                     console.log("Login fehlgeschlagen");
                     $ionicPopup.alert({

@@ -8,6 +8,7 @@ var app = angular.module('smartInsurance', [ 'ionic','smartInsurance.controllers
 
 
 
+
 app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -91,11 +92,20 @@ app.run(['$rootScope', '$ionicPlatform', '$window',
 
 
 
+app.run(function($ionicPlatform, $http, $state, $timeout) {
+    localStorage.clear();
+    if (localStorage.getItem("authToken")!=null){
+
+        $http.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("authToken");
+    } else
+    {
+        $timeout(function() {
+            $state.go('app.login');
+        });
+    }
 
 
-
-
-
+});
 
 /* Die Routen zu den einzelnen Pages */
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
