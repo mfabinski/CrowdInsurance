@@ -2,6 +2,10 @@
 
 [![build status](https://gitlab.cloudf.de/matthias/crowdinsurance/badges/master/build.svg)](https://gitlab.cloudf.de/matthias/crowdinsurance/commits/master)
 
+## What is CrowdInsurance
+
+There is a video on YouTube: https://youtu.be/jNl52UbTiHQ
+
 ## Installation instructions
 
 ### Run locally
@@ -91,7 +95,7 @@ Congratulations, you have now a running SmartInsurance server with database.
 
 ## Live Demo
 
-You can see a video about SmartInsurance on YouTube.
+You can see a video about SmartInsurance on [YouTube](https://youtu.be/jNl52UbTiHQ).
 
 ## Interested? Try it out
 
